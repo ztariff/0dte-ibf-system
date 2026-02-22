@@ -1,0 +1,801 @@
+================================================================================================================================================================
+  TRANCHE ANALYSIS — 573 TRADES
+  2023-11-06 to 2026-02-20
+================================================================================================================================================================
+
+================================================================================================================================================================
+  SECTION 1: TRANCHE SWEEP — ALL 573 TRADES (unfiltered)
+  Testing 1-12 tranches × 30m/60m intervals × multiple mechanics
+================================================================================================================================================================
+
+  ── Mechanics: 50%/3:30 ──
+    Config               Trades        Total $      WR      PF         MaxDD     Avg/Trd  AvgTranches
+    ──────────────────────────────────────────────────────────────────────────────────────────────────────────────
+     1T  30m | tgt=50% ts= 1530 |  573 trades | $     -480,082 | WR= 51.8% | PF= 0.83 | DD=$    -547,436 | Avg=$     -838 | AvgTr=1.0
+     2T  30m | tgt=50% ts= 1530 |  573 trades | $   -1,044,979 | WR= 51.1% | PF= 0.81 | DD=$  -1,167,403 | Avg=$   -1,824 | AvgTr=2.0
+     3T  30m | tgt=50% ts= 1530 |  573 trades | $   -1,554,830 | WR= 50.6% | PF= 0.81 | DD=$  -1,722,956 | Avg=$   -2,713 | AvgTr=3.0
+     4T  30m | tgt=50% ts= 1530 |  573 trades | $   -2,057,682 | WR= 49.4% | PF= 0.81 | DD=$  -2,248,388 | Avg=$   -3,591 | AvgTr=3.9
+     5T  30m | tgt=50% ts= 1530 |  573 trades | $   -2,583,190 | WR= 50.1% | PF= 0.80 | DD=$  -2,792,766 | Avg=$   -4,508 | AvgTr=4.9
+     6T  30m | tgt=50% ts= 1530 |  573 trades | $   -3,073,424 | WR= 49.9% | PF= 0.80 | DD=$  -3,328,427 | Avg=$   -5,364 | AvgTr=5.8
+     8T  30m | tgt=50% ts= 1530 |  573 trades | $   -3,960,027 | WR= 50.1% | PF= 0.79 | DD=$  -4,348,687 | Avg=$   -6,911 | AvgTr=7.6
+    10T  30m | tgt=50% ts= 1530 |  573 trades | $   -4,703,827 | WR= 49.4% | PF= 0.77 | DD=$  -5,201,395 | Avg=$   -8,209 | AvgTr=9.1
+    12T  30m | tgt=50% ts= 1530 |  573 trades | $   -4,915,386 | WR= 48.7% | PF= 0.77 | DD=$  -5,415,752 | Avg=$   -8,578 | AvgTr=9.6
+
+     1T  60m | tgt=50% ts= 1530 |  573 trades | $     -480,082 | WR= 51.8% | PF= 0.83 | DD=$    -547,436 | Avg=$     -838 | AvgTr=1.0
+     2T  60m | tgt=50% ts= 1530 |  573 trades | $     -989,933 | WR= 50.6% | PF= 0.82 | DD=$  -1,102,989 | Avg=$   -1,728 | AvgTr=2.0
+     3T  60m | tgt=50% ts= 1530 |  573 trades | $   -1,515,441 | WR= 50.4% | PF= 0.81 | DD=$  -1,639,641 | Avg=$   -2,645 | AvgTr=2.9
+     4T  60m | tgt=50% ts= 1530 |  573 trades | $   -1,978,924 | WR= 49.7% | PF= 0.80 | DD=$  -2,166,919 | Avg=$   -3,454 | AvgTr=3.8
+     5T  60m | tgt=50% ts= 1530 |  573 trades | $   -2,450,630 | WR= 49.7% | PF= 0.78 | DD=$  -2,697,325 | Avg=$   -4,277 | AvgTr=4.6
+     6T  60m | tgt=50% ts= 1530 |  573 trades | $   -2,662,189 | WR= 49.2% | PF= 0.77 | DD=$  -2,911,682 | Avg=$   -4,646 | AvgTr=5.2
+     8T  60m | tgt=50% ts= 1530 |  573 trades | $   -2,662,189 | WR= 49.2% | PF= 0.77 | DD=$  -2,911,682 | Avg=$   -4,646 | AvgTr=5.2
+    10T  60m | tgt=50% ts= 1530 |  573 trades | $   -2,662,189 | WR= 49.2% | PF= 0.77 | DD=$  -2,911,682 | Avg=$   -4,646 | AvgTr=5.2
+    12T  60m | tgt=50% ts= 1530 |  573 trades | $   -2,662,189 | WR= 49.2% | PF= 0.77 | DD=$  -2,911,682 | Avg=$   -4,646 | AvgTr=5.2
+
+
+  ── Mechanics: 50%/close ──
+    Config               Trades        Total $      WR      PF         MaxDD     Avg/Trd  AvgTranches
+    ──────────────────────────────────────────────────────────────────────────────────────────────────────────────
+     1T  30m | tgt=50% ts=close |  573 trades | $     -299,669 | WR= 51.0% | PF= 0.91 | DD=$    -453,301 | Avg=$     -523 | AvgTr=1.0
+     2T  30m | tgt=50% ts=close |  573 trades | $     -684,153 | WR= 51.1% | PF= 0.89 | DD=$    -971,362 | Avg=$   -1,194 | AvgTr=2.0
+     3T  30m | tgt=50% ts=close |  573 trades | $   -1,010,781 | WR= 51.1% | PF= 0.89 | DD=$  -1,449,414 | Avg=$   -1,764 | AvgTr=3.0
+     4T  30m | tgt=50% ts=close |  573 trades | $   -1,330,410 | WR= 51.5% | PF= 0.89 | DD=$  -1,925,448 | Avg=$   -2,322 | AvgTr=3.9
+     5T  30m | tgt=50% ts=close |  573 trades | $   -1,675,505 | WR= 52.2% | PF= 0.89 | DD=$  -2,449,755 | Avg=$   -2,924 | AvgTr=4.9
+     6T  30m | tgt=50% ts=close |  573 trades | $   -1,985,326 | WR= 51.7% | PF= 0.88 | DD=$  -2,910,473 | Avg=$   -3,465 | AvgTr=5.8
+     8T  30m | tgt=50% ts=close |  573 trades | $   -2,511,103 | WR= 51.5% | PF= 0.88 | DD=$  -3,725,675 | Avg=$   -4,382 | AvgTr=7.6
+    10T  30m | tgt=50% ts=close |  573 trades | $   -2,894,077 | WR= 51.5% | PF= 0.88 | DD=$  -4,418,942 | Avg=$   -5,051 | AvgTr=9.1
+    12T  30m | tgt=50% ts=close |  573 trades | $   -3,015,910 | WR= 51.8% | PF= 0.88 | DD=$  -4,974,955 | Avg=$   -5,263 | AvgTr=10.2
+
+     1T  60m | tgt=50% ts=close |  573 trades | $     -299,669 | WR= 51.0% | PF= 0.91 | DD=$    -453,301 | Avg=$     -523 | AvgTr=1.0
+     2T  60m | tgt=50% ts=close |  573 trades | $     -626,297 | WR= 51.8% | PF= 0.90 | DD=$    -931,353 | Avg=$   -1,093 | AvgTr=2.0
+     3T  60m | tgt=50% ts=close |  573 trades | $     -971,392 | WR= 52.2% | PF= 0.89 | DD=$  -1,454,859 | Avg=$   -1,695 | AvgTr=2.9
+     4T  60m | tgt=50% ts=close |  573 trades | $   -1,254,462 | WR= 51.1% | PF= 0.89 | DD=$  -1,875,477 | Avg=$   -2,189 | AvgTr=3.8
+     5T  60m | tgt=50% ts=close |  573 trades | $   -1,545,755 | WR= 51.1% | PF= 0.88 | DD=$  -2,267,516 | Avg=$   -2,698 | AvgTr=4.6
+     6T  60m | tgt=50% ts=close |  573 trades | $   -1,576,901 | WR= 51.7% | PF= 0.88 | DD=$  -2,532,634 | Avg=$   -2,752 | AvgTr=5.2
+     8T  60m | tgt=50% ts=close |  573 trades | $   -1,576,901 | WR= 51.7% | PF= 0.88 | DD=$  -2,532,634 | Avg=$   -2,752 | AvgTr=5.2
+    10T  60m | tgt=50% ts=close |  573 trades | $   -1,576,901 | WR= 51.7% | PF= 0.88 | DD=$  -2,532,634 | Avg=$   -2,752 | AvgTr=5.2
+    12T  60m | tgt=50% ts=close |  573 trades | $   -1,576,901 | WR= 51.7% | PF= 0.88 | DD=$  -2,532,634 | Avg=$   -2,752 | AvgTr=5.2
+
+
+  ── Mechanics: 70%/3:45 ──
+    Config               Trades        Total $      WR      PF         MaxDD     Avg/Trd  AvgTranches
+    ──────────────────────────────────────────────────────────────────────────────────────────────────────────────
+     1T  30m | tgt=70% ts= 1545 |  573 trades | $     -280,679 | WR= 50.8% | PF= 0.90 | DD=$    -471,085 | Avg=$     -490 | AvgTr=1.0
+     2T  30m | tgt=70% ts= 1545 |  573 trades | $     -646,173 | WR= 50.3% | PF= 0.89 | DD=$  -1,002,964 | Avg=$   -1,128 | AvgTr=2.0
+     3T  30m | tgt=70% ts= 1545 |  573 trades | $     -946,511 | WR= 50.4% | PF= 0.89 | DD=$  -1,449,791 | Avg=$   -1,652 | AvgTr=3.0
+     4T  30m | tgt=70% ts= 1545 |  573 trades | $   -1,239,850 | WR= 50.3% | PF= 0.89 | DD=$  -1,870,102 | Avg=$   -2,164 | AvgTr=3.9
+     5T  30m | tgt=70% ts= 1545 |  573 trades | $   -1,565,955 | WR= 49.6% | PF= 0.88 | DD=$  -2,320,735 | Avg=$   -2,733 | AvgTr=4.9
+     6T  30m | tgt=70% ts= 1545 |  573 trades | $   -1,856,786 | WR= 49.7% | PF= 0.88 | DD=$  -2,688,915 | Avg=$   -3,240 | AvgTr=5.8
+     8T  30m | tgt=70% ts= 1545 |  573 trades | $   -2,350,883 | WR= 48.7% | PF= 0.88 | DD=$  -3,294,224 | Avg=$   -4,103 | AvgTr=7.6
+    10T  30m | tgt=70% ts= 1545 |  573 trades | $   -2,788,245 | WR= 47.6% | PF= 0.87 | DD=$  -3,799,032 | Avg=$   -4,866 | AvgTr=9.2
+    12T  30m | tgt=70% ts= 1545 |  573 trades | $   -3,125,707 | WR= 47.8% | PF= 0.86 | DD=$  -4,129,773 | Avg=$   -5,455 | AvgTr=10.8
+
+     1T  60m | tgt=70% ts= 1545 |  573 trades | $     -280,679 | WR= 50.8% | PF= 0.90 | DD=$    -471,085 | Avg=$     -490 | AvgTr=1.0
+     2T  60m | tgt=70% ts= 1545 |  573 trades | $     -581,017 | WR= 51.3% | PF= 0.90 | DD=$    -917,912 | Avg=$   -1,014 | AvgTr=2.0
+     3T  60m | tgt=70% ts= 1545 |  573 trades | $     -907,122 | WR= 49.4% | PF= 0.89 | DD=$  -1,363,826 | Avg=$   -1,583 | AvgTr=2.9
+     4T  60m | tgt=70% ts= 1545 |  573 trades | $   -1,171,202 | WR= 49.2% | PF= 0.88 | DD=$  -1,679,392 | Avg=$   -2,044 | AvgTr=3.8
+     5T  60m | tgt=70% ts= 1545 |  573 trades | $   -1,471,604 | WR= 47.3% | PF= 0.87 | DD=$  -1,995,216 | Avg=$   -2,568 | AvgTr=4.7
+     6T  60m | tgt=70% ts= 1545 |  573 trades | $   -1,576,798 | WR= 47.5% | PF= 0.87 | DD=$  -2,094,621 | Avg=$   -2,752 | AvgTr=5.4
+     8T  60m | tgt=70% ts= 1545 |  573 trades | $   -1,576,798 | WR= 47.5% | PF= 0.87 | DD=$  -2,094,621 | Avg=$   -2,752 | AvgTr=5.4
+    10T  60m | tgt=70% ts= 1545 |  573 trades | $   -1,576,798 | WR= 47.5% | PF= 0.87 | DD=$  -2,094,621 | Avg=$   -2,752 | AvgTr=5.4
+    12T  60m | tgt=70% ts= 1545 |  573 trades | $   -1,576,798 | WR= 47.5% | PF= 0.87 | DD=$  -2,094,621 | Avg=$   -2,752 | AvgTr=5.4
+
+
+  ── Mechanics: 70%/close ──
+    Config               Trades        Total $      WR      PF         MaxDD     Avg/Trd  AvgTranches
+    ──────────────────────────────────────────────────────────────────────────────────────────────────────────────
+     1T  30m | tgt=70% ts=close |  573 trades | $     -163,316 | WR= 47.8% | PF= 0.95 | DD=$    -421,871 | Avg=$     -285 | AvgTr=1.0
+     2T  30m | tgt=70% ts=close |  573 trades | $     -411,447 | WR= 48.0% | PF= 0.94 | DD=$    -907,955 | Avg=$     -718 | AvgTr=2.0
+     3T  30m | tgt=70% ts=close |  573 trades | $     -601,722 | WR= 48.0% | PF= 0.94 | DD=$  -1,353,052 | Avg=$   -1,050 | AvgTr=3.0
+     4T  30m | tgt=70% ts=close |  573 trades | $     -784,998 | WR= 48.2% | PF= 0.94 | DD=$  -1,799,586 | Avg=$   -1,370 | AvgTr=3.9
+     5T  30m | tgt=70% ts=close |  573 trades | $     -993,740 | WR= 48.9% | PF= 0.93 | DD=$  -2,296,183 | Avg=$   -1,734 | AvgTr=4.9
+     6T  30m | tgt=70% ts=close |  573 trades | $   -1,167,208 | WR= 48.2% | PF= 0.93 | DD=$  -2,729,467 | Avg=$   -2,037 | AvgTr=5.8
+     8T  30m | tgt=70% ts=close |  573 trades | $   -1,426,579 | WR= 47.6% | PF= 0.94 | DD=$  -3,427,921 | Avg=$   -2,490 | AvgTr=7.6
+    10T  30m | tgt=70% ts=close |  573 trades | $   -1,629,215 | WR= 47.3% | PF= 0.94 | DD=$  -3,947,577 | Avg=$   -2,843 | AvgTr=9.2
+    12T  30m | tgt=70% ts=close |  573 trades | $   -1,731,951 | WR= 46.8% | PF= 0.94 | DD=$  -4,460,924 | Avg=$   -3,023 | AvgTr=10.8
+
+     1T  60m | tgt=70% ts=close |  573 trades | $     -163,316 | WR= 47.8% | PF= 0.95 | DD=$    -421,871 | Avg=$     -285 | AvgTr=1.0
+     2T  60m | tgt=70% ts=close |  573 trades | $     -353,591 | WR= 48.5% | PF= 0.94 | DD=$    -866,968 | Avg=$     -617 | AvgTr=2.0
+     3T  60m | tgt=70% ts=close |  573 trades | $     -562,333 | WR= 48.9% | PF= 0.94 | DD=$  -1,363,565 | Avg=$     -981 | AvgTr=2.9
+     4T  60m | tgt=70% ts=close |  573 trades | $     -709,050 | WR= 47.8% | PF= 0.94 | DD=$  -1,740,607 | Avg=$   -1,237 | AvgTr=3.8
+     5T  60m | tgt=70% ts=close |  573 trades | $     -892,089 | WR= 47.1% | PF= 0.93 | DD=$  -2,031,322 | Avg=$   -1,557 | AvgTr=4.7
+     6T  60m | tgt=70% ts=close |  573 trades | $     -879,920 | WR= 46.9% | PF= 0.94 | DD=$  -2,243,716 | Avg=$   -1,536 | AvgTr=5.4
+     8T  60m | tgt=70% ts=close |  573 trades | $     -879,920 | WR= 46.9% | PF= 0.94 | DD=$  -2,243,716 | Avg=$   -1,536 | AvgTr=5.4
+    10T  60m | tgt=70% ts=close |  573 trades | $     -879,920 | WR= 46.9% | PF= 0.94 | DD=$  -2,243,716 | Avg=$   -1,536 | AvgTr=5.4
+    12T  60m | tgt=70% ts=close |  573 trades | $     -879,920 | WR= 46.9% | PF= 0.94 | DD=$  -2,243,716 | Avg=$   -1,536 | AvgTr=5.4
+
+
+  ── Mechanics: 40%/3:30 ──
+    Config               Trades        Total $      WR      PF         MaxDD     Avg/Trd  AvgTranches
+    ──────────────────────────────────────────────────────────────────────────────────────────────────────────────
+     1T  30m | tgt=40% ts= 1530 |  573 trades | $     -521,781 | WR= 54.1% | PF= 0.81 | DD=$    -644,131 | Avg=$     -911 | AvgTr=1.0
+     2T  30m | tgt=40% ts= 1530 |  573 trades | $   -1,128,377 | WR= 53.2% | PF= 0.79 | DD=$  -1,347,464 | Avg=$   -1,969 | AvgTr=2.0
+     3T  30m | tgt=40% ts= 1530 |  573 trades | $   -1,683,837 | WR= 52.9% | PF= 0.79 | DD=$  -1,984,445 | Avg=$   -2,939 | AvgTr=3.0
+     4T  30m | tgt=40% ts= 1530 |  573 trades | $   -2,232,298 | WR= 51.8% | PF= 0.78 | DD=$  -2,594,401 | Avg=$   -3,896 | AvgTr=3.9
+     5T  30m | tgt=40% ts= 1530 |  573 trades | $   -2,799,505 | WR= 52.5% | PF= 0.78 | DD=$  -3,212,758 | Avg=$   -4,886 | AvgTr=4.9
+     6T  30m | tgt=40% ts= 1530 |  573 trades | $   -3,331,438 | WR= 52.4% | PF= 0.77 | DD=$  -3,771,671 | Avg=$   -5,814 | AvgTr=5.8
+     8T  30m | tgt=40% ts= 1530 |  573 trades | $   -4,250,753 | WR= 52.5% | PF= 0.76 | DD=$  -4,707,695 | Avg=$   -7,418 | AvgTr=7.5
+    10T  30m | tgt=40% ts= 1530 |  573 trades | $   -4,868,082 | WR= 52.5% | PF= 0.75 | DD=$  -5,409,733 | Avg=$   -8,496 | AvgTr=8.7
+    12T  30m | tgt=40% ts= 1530 |  573 trades | $   -5,041,175 | WR= 52.0% | PF= 0.75 | DD=$  -5,593,280 | Avg=$   -8,798 | AvgTr=9.1
+
+     1T  60m | tgt=40% ts= 1530 |  573 trades | $     -521,781 | WR= 54.1% | PF= 0.81 | DD=$    -644,131 | Avg=$     -911 | AvgTr=1.0
+     2T  60m | tgt=40% ts= 1530 |  573 trades | $   -1,077,241 | WR= 52.7% | PF= 0.80 | DD=$  -1,281,112 | Avg=$   -1,880 | AvgTr=2.0
+     3T  60m | tgt=40% ts= 1530 |  573 trades | $   -1,644,448 | WR= 52.9% | PF= 0.78 | DD=$  -1,899,469 | Avg=$   -2,870 | AvgTr=2.9
+     4T  60m | tgt=40% ts= 1530 |  573 trades | $   -2,139,830 | WR= 52.2% | PF= 0.77 | DD=$  -2,407,064 | Avg=$   -3,734 | AvgTr=3.8
+     5T  60m | tgt=40% ts= 1530 |  573 trades | $   -2,553,947 | WR= 52.7% | PF= 0.75 | DD=$  -2,822,946 | Avg=$   -4,457 | AvgTr=4.4
+     6T  60m | tgt=40% ts= 1530 |  573 trades | $   -2,727,040 | WR= 52.4% | PF= 0.75 | DD=$  -3,006,493 | Avg=$   -4,759 | AvgTr=4.9
+     8T  60m | tgt=40% ts= 1530 |  573 trades | $   -2,727,040 | WR= 52.4% | PF= 0.75 | DD=$  -3,006,493 | Avg=$   -4,759 | AvgTr=4.9
+    10T  60m | tgt=40% ts= 1530 |  573 trades | $   -2,727,040 | WR= 52.4% | PF= 0.75 | DD=$  -3,006,493 | Avg=$   -4,759 | AvgTr=4.9
+    12T  60m | tgt=40% ts= 1530 |  573 trades | $   -2,727,040 | WR= 52.4% | PF= 0.75 | DD=$  -3,006,493 | Avg=$   -4,759 | AvgTr=4.9
+
+
+  ── Mechanics: 40%/close ──
+    Config               Trades        Total $      WR      PF         MaxDD     Avg/Trd  AvgTranches
+    ──────────────────────────────────────────────────────────────────────────────────────────────────────────────
+     1T  30m | tgt=40% ts=close |  573 trades | $     -400,619 | WR= 54.1% | PF= 0.87 | DD=$    -536,758 | Avg=$     -699 | AvgTr=1.0
+     2T  30m | tgt=40% ts=close |  573 trades | $     -886,053 | WR= 54.5% | PF= 0.85 | DD=$  -1,135,022 | Avg=$   -1,546 | AvgTr=2.0
+     3T  30m | tgt=40% ts=close |  573 trades | $   -1,320,351 | WR= 54.6% | PF= 0.85 | DD=$  -1,703,095 | Avg=$   -2,304 | AvgTr=3.0
+     4T  30m | tgt=40% ts=close |  573 trades | $   -1,747,650 | WR= 55.1% | PF= 0.85 | DD=$  -2,275,992 | Avg=$   -3,050 | AvgTr=3.9
+     5T  30m | tgt=40% ts=close |  573 trades | $   -2,193,695 | WR= 56.0% | PF= 0.84 | DD=$  -2,892,937 | Avg=$   -3,828 | AvgTr=4.9
+     6T  30m | tgt=40% ts=close |  573 trades | $   -2,604,466 | WR= 55.7% | PF= 0.84 | DD=$  -3,455,271 | Avg=$   -4,545 | AvgTr=5.8
+     8T  30m | tgt=40% ts=close |  573 trades | $   -3,281,457 | WR= 55.8% | PF= 0.83 | DD=$  -4,411,793 | Avg=$   -5,727 | AvgTr=7.5
+    10T  30m | tgt=40% ts=close |  573 trades | $   -3,656,462 | WR= 56.2% | PF= 0.84 | DD=$  -5,111,226 | Avg=$   -6,381 | AvgTr=8.7
+    12T  30m | tgt=40% ts=close |  573 trades | $   -3,798,031 | WR= 56.7% | PF= 0.84 | DD=$  -5,676,859 | Avg=$   -6,628 | AvgTr=9.5
+
+     1T  60m | tgt=40% ts=close |  573 trades | $     -400,619 | WR= 54.1% | PF= 0.87 | DD=$    -536,758 | Avg=$     -699 | AvgTr=1.0
+     2T  60m | tgt=40% ts=close |  573 trades | $     -834,917 | WR= 55.3% | PF= 0.86 | DD=$  -1,104,469 | Avg=$   -1,457 | AvgTr=2.0
+     3T  60m | tgt=40% ts=close |  573 trades | $   -1,280,962 | WR= 56.2% | PF= 0.85 | DD=$  -1,718,178 | Avg=$   -2,236 | AvgTr=2.9
+     4T  60m | tgt=40% ts=close |  573 trades | $   -1,655,182 | WR= 55.5% | PF= 0.84 | DD=$  -2,233,672 | Avg=$   -2,889 | AvgTr=3.8
+     5T  60m | tgt=40% ts=close |  573 trades | $   -1,948,137 | WR= 55.8% | PF= 0.83 | DD=$  -2,624,399 | Avg=$   -3,400 | AvgTr=4.4
+     6T  60m | tgt=40% ts=close |  573 trades | $   -2,000,068 | WR= 56.5% | PF= 0.84 | DD=$  -2,905,691 | Avg=$   -3,491 | AvgTr=4.9
+     8T  60m | tgt=40% ts=close |  573 trades | $   -2,000,068 | WR= 56.5% | PF= 0.84 | DD=$  -2,905,691 | Avg=$   -3,491 | AvgTr=4.9
+    10T  60m | tgt=40% ts=close |  573 trades | $   -2,000,068 | WR= 56.5% | PF= 0.84 | DD=$  -2,905,691 | Avg=$   -3,491 | AvgTr=4.9
+    12T  60m | tgt=40% ts=close |  573 trades | $   -2,000,068 | WR= 56.5% | PF= 0.84 | DD=$  -2,905,691 | Avg=$   -3,491 | AvgTr=4.9
+
+
+================================================================================================================================================================
+  SECTION 2: TRANCHE SWEEP WITH BEST FILTERS
+================================================================================================================================================================
+
+  ── Filter: VP≤1.3 + !RISING + 5dRet>0 (58 trades) ──
+
+    Mechanics: 70%/close
+    Config               Trades        Total $      WR      PF         MaxDD     Avg/Trd  AvgTranches
+    ──────────────────────────────────────────────────────────────────────────────────────────────────────────────
+     1T  30m | tgt=70% ts=close |   58 trades | $     +396,440 | WR= 65.5% | PF= 2.68 | DD=$     -48,841 | Avg=$   +6,835 | AvgTr=1.0
+     2T  30m | tgt=70% ts=close |   58 trades | $     +769,222 | WR= 65.5% | PF= 2.59 | DD=$     -93,702 | Avg=$  +13,262 | AvgTr=2.0
+     3T  30m | tgt=70% ts=close |   58 trades | $   +1,126,862 | WR= 65.5% | PF= 2.55 | DD=$    -147,256 | Avg=$  +19,429 | AvgTr=3.0
+     4T  30m | tgt=70% ts=close |   58 trades | $   +1,486,403 | WR= 62.1% | PF= 2.54 | DD=$    -195,422 | Avg=$  +25,628 | AvgTr=4.0
+     5T  30m | tgt=70% ts=close |   58 trades | $   +1,837,416 | WR= 63.8% | PF= 2.54 | DD=$    -245,172 | Avg=$  +31,680 | AvgTr=4.9
+     6T  30m | tgt=70% ts=close |   58 trades | $   +2,212,368 | WR= 63.8% | PF= 2.62 | DD=$    -282,361 | Avg=$  +38,144 | AvgTr=5.9
+     8T  30m | tgt=70% ts=close |   58 trades | $   +2,883,438 | WR= 65.5% | PF= 2.70 | DD=$    -352,997 | Avg=$  +49,714 | AvgTr=7.8
+    10T  30m | tgt=70% ts=close |   58 trades | $   +3,348,773 | WR= 67.2% | PF= 2.71 | DD=$    -410,041 | Avg=$  +57,737 | AvgTr=9.5
+
+     1T  60m | tgt=70% ts=close |   58 trades | $     +396,440 | WR= 65.5% | PF= 2.68 | DD=$     -48,841 | Avg=$   +6,835 | AvgTr=1.0
+     2T  60m | tgt=70% ts=close |   58 trades | $     +754,080 | WR= 65.5% | PF= 2.58 | DD=$    -102,395 | Avg=$  +13,001 | AvgTr=2.0
+     3T  60m | tgt=70% ts=close |   58 trades | $   +1,105,093 | WR= 63.8% | PF= 2.57 | DD=$    -152,145 | Avg=$  +19,053 | AvgTr=3.0
+     4T  60m | tgt=70% ts=close |   58 trades | $   +1,461,378 | WR= 67.2% | PF= 2.68 | DD=$    -184,861 | Avg=$  +25,196 | AvgTr=3.9
+     5T  60m | tgt=70% ts=close |   58 trades | $   +1,721,816 | WR= 67.2% | PF= 2.72 | DD=$    -219,788 | Avg=$  +29,686 | AvgTr=4.8
+     6T  60m | tgt=70% ts=close |   58 trades | $   +1,915,543 | WR= 67.2% | PF= 2.75 | DD=$    -214,384 | Avg=$  +33,027 | AvgTr=5.7
+     8T  60m | tgt=70% ts=close |   58 trades | $   +1,915,543 | WR= 67.2% | PF= 2.75 | DD=$    -214,384 | Avg=$  +33,027 | AvgTr=5.7
+    10T  60m | tgt=70% ts=close |   58 trades | $   +1,915,543 | WR= 67.2% | PF= 2.75 | DD=$    -214,384 | Avg=$  +33,027 | AvgTr=5.7
+
+
+    Mechanics: 50%/close
+    Config               Trades        Total $      WR      PF         MaxDD     Avg/Trd  AvgTranches
+    ──────────────────────────────────────────────────────────────────────────────────────────────────────────────
+     1T  30m | tgt=50% ts=close |   58 trades | $     +331,231 | WR= 67.2% | PF= 2.52 | DD=$     -38,445 | Avg=$   +5,711 | AvgTr=1.0
+     2T  30m | tgt=50% ts=close |   58 trades | $     +638,804 | WR= 67.2% | PF= 2.43 | DD=$     -83,624 | Avg=$  +11,014 | AvgTr=2.0
+     3T  30m | tgt=50% ts=close |   58 trades | $     +931,235 | WR= 67.2% | PF= 2.40 | DD=$    -125,673 | Avg=$  +16,056 | AvgTr=3.0
+     4T  30m | tgt=50% ts=close |   58 trades | $   +1,225,567 | WR= 63.8% | PF= 2.39 | DD=$    -167,823 | Avg=$  +21,130 | AvgTr=4.0
+     5T  30m | tgt=50% ts=close |   58 trades | $   +1,511,371 | WR= 65.5% | PF= 2.39 | DD=$    -199,813 | Avg=$  +26,058 | AvgTr=4.9
+     6T  30m | tgt=50% ts=close |   58 trades | $   +1,821,114 | WR= 65.5% | PF= 2.48 | DD=$    -227,059 | Avg=$  +31,399 | AvgTr=5.9
+     8T  30m | tgt=50% ts=close |   58 trades | $   +2,363,466 | WR= 67.2% | PF= 2.57 | DD=$    -270,585 | Avg=$  +40,749 | AvgTr=7.7
+    10T  30m | tgt=50% ts=close |   58 trades | $   +2,712,124 | WR= 69.0% | PF= 2.60 | DD=$    -295,596 | Avg=$  +46,761 | AvgTr=9.3
+
+     1T  60m | tgt=50% ts=close |   58 trades | $     +331,231 | WR= 67.2% | PF= 2.52 | DD=$     -38,445 | Avg=$   +5,711 | AvgTr=1.0
+     2T  60m | tgt=50% ts=close |   58 trades | $     +623,662 | WR= 67.2% | PF= 2.43 | DD=$     -80,494 | Avg=$  +10,753 | AvgTr=2.0
+     3T  60m | tgt=50% ts=close |   58 trades | $     +909,466 | WR= 65.5% | PF= 2.42 | DD=$    -116,613 | Avg=$  +15,680 | AvgTr=3.0
+     4T  60m | tgt=50% ts=close |   58 trades | $   +1,200,542 | WR= 69.0% | PF= 2.55 | DD=$    -142,037 | Avg=$  +20,699 | AvgTr=3.9
+     5T  60m | tgt=50% ts=close |   58 trades | $   +1,400,844 | WR= 69.0% | PF= 2.61 | DD=$    -153,321 | Avg=$  +24,152 | AvgTr=4.7
+     6T  60m | tgt=50% ts=close |   58 trades | $   +1,541,409 | WR= 69.0% | PF= 2.63 | DD=$    -161,770 | Avg=$  +26,576 | AvgTr=5.3
+     8T  60m | tgt=50% ts=close |   58 trades | $   +1,541,409 | WR= 69.0% | PF= 2.63 | DD=$    -161,770 | Avg=$  +26,576 | AvgTr=5.3
+    10T  60m | tgt=50% ts=close |   58 trades | $   +1,541,409 | WR= 69.0% | PF= 2.63 | DD=$    -161,770 | Avg=$  +26,576 | AvgTr=5.3
+
+
+    Mechanics: 50%/3:30
+    Config               Trades        Total $      WR      PF         MaxDD     Avg/Trd  AvgTranches
+    ──────────────────────────────────────────────────────────────────────────────────────────────────────────────
+     1T  30m | tgt=50% ts= 1530 |   58 trades | $     +235,619 | WR= 65.5% | PF= 2.23 | DD=$     -32,291 | Avg=$   +4,062 | AvgTr=1.0
+     2T  30m | tgt=50% ts= 1530 |   58 trades | $     +447,580 | WR= 63.8% | PF= 2.15 | DD=$     -66,244 | Avg=$   +7,717 | AvgTr=2.0
+     3T  30m | tgt=50% ts= 1530 |   58 trades | $     +644,399 | WR= 63.8% | PF= 2.10 | DD=$     -99,603 | Avg=$  +11,110 | AvgTr=3.0
+     4T  30m | tgt=50% ts= 1530 |   58 trades | $     +843,119 | WR= 63.8% | PF= 2.09 | DD=$    -133,826 | Avg=$  +14,537 | AvgTr=4.0
+     5T  30m | tgt=50% ts= 1530 |   58 trades | $   +1,033,311 | WR= 63.8% | PF= 2.10 | DD=$    -171,386 | Avg=$  +17,816 | AvgTr=4.9
+     6T  30m | tgt=50% ts= 1530 |   58 trades | $   +1,247,442 | WR= 65.5% | PF= 2.18 | DD=$    -203,871 | Avg=$  +21,508 | AvgTr=5.9
+     8T  30m | tgt=50% ts= 1530 |   58 trades | $   +1,598,570 | WR= 65.5% | PF= 2.25 | DD=$    -240,969 | Avg=$  +27,562 | AvgTr=7.7
+    10T  30m | tgt=50% ts= 1530 |   58 trades | $   +1,756,004 | WR= 67.2% | PF= 2.25 | DD=$    -258,736 | Avg=$  +30,276 | AvgTr=9.3
+
+     1T  60m | tgt=50% ts= 1530 |   58 trades | $     +235,619 | WR= 65.5% | PF= 2.23 | DD=$     -32,291 | Avg=$   +4,062 | AvgTr=1.0
+     2T  60m | tgt=50% ts= 1530 |   58 trades | $     +432,438 | WR= 63.8% | PF= 2.12 | DD=$     -68,167 | Avg=$   +7,456 | AvgTr=2.0
+     3T  60m | tgt=50% ts= 1530 |   58 trades | $     +622,630 | WR= 65.5% | PF= 2.13 | DD=$    -105,231 | Avg=$  +10,735 | AvgTr=3.0
+     4T  60m | tgt=50% ts= 1530 |   58 trades | $     +818,094 | WR= 65.5% | PF= 2.23 | DD=$    -127,309 | Avg=$  +14,105 | AvgTr=3.9
+     5T  60m | tgt=50% ts= 1530 |   58 trades | $     +922,784 | WR= 67.2% | PF= 2.25 | DD=$    -140,178 | Avg=$  +15,910 | AvgTr=4.7
+     6T  60m | tgt=50% ts= 1530 |   58 trades | $     +967,737 | WR= 67.2% | PF= 2.26 | DD=$    -138,126 | Avg=$  +16,685 | AvgTr=5.3
+     8T  60m | tgt=50% ts= 1530 |   58 trades | $     +967,737 | WR= 67.2% | PF= 2.26 | DD=$    -138,126 | Avg=$  +16,685 | AvgTr=5.3
+    10T  60m | tgt=50% ts= 1530 |   58 trades | $     +967,737 | WR= 67.2% | PF= 2.26 | DD=$    -138,126 | Avg=$  +16,685 | AvgTr=5.3
+
+
+    Mechanics: 70%/3:45
+    Config               Trades        Total $      WR      PF         MaxDD     Avg/Trd  AvgTranches
+    ──────────────────────────────────────────────────────────────────────────────────────────────────────────────
+     1T  30m | tgt=70% ts= 1545 |   58 trades | $     +295,291 | WR= 65.5% | PF= 2.36 | DD=$     -59,848 | Avg=$   +5,091 | AvgTr=1.0
+     2T  30m | tgt=70% ts= 1545 |   58 trades | $     +566,924 | WR= 65.5% | PF= 2.28 | DD=$    -115,716 | Avg=$   +9,775 | AvgTr=2.0
+     3T  30m | tgt=70% ts= 1545 |   58 trades | $     +823,415 | WR= 65.5% | PF= 2.24 | DD=$    -180,277 | Avg=$  +14,197 | AvgTr=3.0
+     4T  30m | tgt=70% ts= 1545 |   58 trades | $   +1,081,807 | WR= 65.5% | PF= 2.23 | DD=$    -239,450 | Avg=$  +18,652 | AvgTr=4.0
+     5T  30m | tgt=70% ts= 1545 |   58 trades | $   +1,331,671 | WR= 63.8% | PF= 2.24 | DD=$    -300,207 | Avg=$  +22,960 | AvgTr=4.9
+     6T  30m | tgt=70% ts= 1545 |   58 trades | $   +1,605,474 | WR= 65.5% | PF= 2.31 | DD=$    -349,323 | Avg=$  +27,681 | AvgTr=5.9
+     8T  30m | tgt=70% ts= 1545 |   58 trades | $   +2,074,246 | WR= 65.5% | PF= 2.39 | DD=$    -443,581 | Avg=$  +35,763 | AvgTr=7.8
+    10T  30m | tgt=70% ts= 1545 |   58 trades | $   +2,337,283 | WR= 69.0% | PF= 2.39 | DD=$    -523,431 | Avg=$  +40,298 | AvgTr=9.5
+
+     1T  60m | tgt=70% ts= 1545 |   58 trades | $     +295,291 | WR= 65.5% | PF= 2.36 | DD=$     -59,848 | Avg=$   +5,091 | AvgTr=1.0
+     2T  60m | tgt=70% ts= 1545 |   58 trades | $     +551,782 | WR= 65.5% | PF= 2.27 | DD=$    -124,409 | Avg=$   +9,513 | AvgTr=2.0
+     3T  60m | tgt=70% ts= 1545 |   58 trades | $     +801,646 | WR= 63.8% | PF= 2.26 | DD=$    -185,838 | Avg=$  +13,821 | AvgTr=3.0
+     4T  60m | tgt=70% ts= 1545 |   58 trades | $   +1,056,782 | WR= 67.2% | PF= 2.37 | DD=$    -230,233 | Avg=$  +18,220 | AvgTr=3.9
+     5T  60m | tgt=70% ts= 1545 |   58 trades | $   +1,216,071 | WR= 69.0% | PF= 2.40 | DD=$    -278,423 | Avg=$  +20,967 | AvgTr=4.8
+     6T  60m | tgt=70% ts= 1545 |   58 trades | $   +1,308,649 | WR= 69.0% | PF= 2.42 | DD=$    -280,890 | Avg=$  +22,563 | AvgTr=5.7
+     8T  60m | tgt=70% ts= 1545 |   58 trades | $   +1,308,649 | WR= 69.0% | PF= 2.42 | DD=$    -280,890 | Avg=$  +22,563 | AvgTr=5.7
+    10T  60m | tgt=70% ts= 1545 |   58 trades | $   +1,308,649 | WR= 69.0% | PF= 2.42 | DD=$    -280,890 | Avg=$  +22,563 | AvgTr=5.7
+
+
+  ── Filter: VP≤1.3 + PrDayDn + 5dRet>0 (33 trades) ──
+
+    Mechanics: 70%/close
+    Config               Trades        Total $      WR      PF         MaxDD     Avg/Trd  AvgTranches
+    ──────────────────────────────────────────────────────────────────────────────────────────────────────────────
+     1T  30m | tgt=70% ts=close |   33 trades | $     +265,214 | WR= 69.7% | PF= 3.59 | DD=$     -36,631 | Avg=$   +8,037 | AvgTr=1.0
+     2T  30m | tgt=70% ts=close |   33 trades | $     +526,743 | WR= 69.7% | PF= 3.59 | DD=$     -71,837 | Avg=$  +15,962 | AvgTr=2.0
+     3T  30m | tgt=70% ts=close |   33 trades | $     +773,611 | WR= 69.7% | PF= 3.61 | DD=$    -106,553 | Avg=$  +23,443 | AvgTr=2.9
+     4T  30m | tgt=70% ts=close |   33 trades | $   +1,028,260 | WR= 66.7% | PF= 3.70 | DD=$    -140,049 | Avg=$  +31,159 | AvgTr=3.9
+     5T  30m | tgt=70% ts=close |   33 trades | $   +1,291,499 | WR= 69.7% | PF= 3.89 | DD=$    -167,797 | Avg=$  +39,136 | AvgTr=4.8
+     6T  30m | tgt=70% ts=close |   33 trades | $   +1,563,075 | WR= 69.7% | PF= 4.16 | DD=$    -196,882 | Avg=$  +47,366 | AvgTr=5.7
+     8T  30m | tgt=70% ts=close |   33 trades | $   +2,003,591 | WR= 69.7% | PF= 4.37 | DD=$    -256,242 | Avg=$  +60,715 | AvgTr=7.4
+    10T  30m | tgt=70% ts=close |   33 trades | $   +2,297,783 | WR= 66.7% | PF= 4.17 | DD=$    -321,572 | Avg=$  +69,630 | AvgTr=9.1
+
+     1T  60m | tgt=70% ts=close |   33 trades | $     +265,214 | WR= 69.7% | PF= 3.59 | DD=$     -36,631 | Avg=$   +8,037 | AvgTr=1.0
+     2T  60m | tgt=70% ts=close |   33 trades | $     +512,082 | WR= 69.7% | PF= 3.62 | DD=$     -71,347 | Avg=$  +15,518 | AvgTr=1.9
+     3T  60m | tgt=70% ts=close |   33 trades | $     +775,321 | WR= 69.7% | PF= 4.00 | DD=$     -99,095 | Avg=$  +23,495 | AvgTr=2.9
+     4T  60m | tgt=70% ts=close |   33 trades | $   +1,016,431 | WR= 72.7% | PF= 4.32 | DD=$    -127,355 | Avg=$  +30,801 | AvgTr=3.7
+     5T  60m | tgt=70% ts=close |   33 trades | $   +1,185,480 | WR= 66.7% | PF= 4.22 | DD=$    -161,605 | Avg=$  +35,924 | AvgTr=4.5
+     6T  60m | tgt=70% ts=close |   33 trades | $   +1,302,485 | WR= 66.7% | PF= 4.14 | DD=$    -185,655 | Avg=$  +39,469 | AvgTr=5.4
+     8T  60m | tgt=70% ts=close |   33 trades | $   +1,302,485 | WR= 66.7% | PF= 4.14 | DD=$    -185,655 | Avg=$  +39,469 | AvgTr=5.4
+    10T  60m | tgt=70% ts=close |   33 trades | $   +1,302,485 | WR= 66.7% | PF= 4.14 | DD=$    -185,655 | Avg=$  +39,469 | AvgTr=5.4
+
+
+    Mechanics: 50%/close
+    Config               Trades        Total $      WR      PF         MaxDD     Avg/Trd  AvgTranches
+    ──────────────────────────────────────────────────────────────────────────────────────────────────────────────
+     1T  30m | tgt=50% ts=close |   33 trades | $     +255,959 | WR= 72.7% | PF= 4.04 | DD=$     -20,482 | Avg=$   +7,756 | AvgTr=1.0
+     2T  30m | tgt=50% ts=close |   33 trades | $     +508,233 | WR= 72.7% | PF= 4.08 | DD=$     -41,020 | Avg=$  +15,401 | AvgTr=2.0
+     3T  30m | tgt=50% ts=close |   33 trades | $     +745,846 | WR= 72.7% | PF= 4.17 | DD=$     -65,576 | Avg=$  +22,601 | AvgTr=2.9
+     4T  30m | tgt=50% ts=close |   33 trades | $     +991,240 | WR= 69.7% | PF= 4.35 | DD=$     -89,334 | Avg=$  +30,038 | AvgTr=3.9
+     5T  30m | tgt=50% ts=close |   33 trades | $   +1,245,224 | WR= 72.7% | PF= 4.69 | DD=$    -111,272 | Avg=$  +37,734 | AvgTr=4.8
+     6T  30m | tgt=50% ts=close |   33 trades | $   +1,507,545 | WR= 72.7% | PF= 5.19 | DD=$    -127,666 | Avg=$  +45,683 | AvgTr=5.7
+     8T  30m | tgt=50% ts=close |   33 trades | $   +1,930,451 | WR= 72.7% | PF= 5.82 | DD=$    -150,388 | Avg=$  +58,499 | AvgTr=7.4
+    10T  30m | tgt=50% ts=close |   33 trades | $   +2,220,868 | WR= 72.7% | PF= 6.03 | DD=$    -150,388 | Avg=$  +67,299 | AvgTr=8.8
+
+     1T  60m | tgt=50% ts=close |   33 trades | $     +255,959 | WR= 72.7% | PF= 4.04 | DD=$     -20,482 | Avg=$   +7,756 | AvgTr=1.0
+     2T  60m | tgt=50% ts=close |   33 trades | $     +493,572 | WR= 72.7% | PF= 4.19 | DD=$     -45,038 | Avg=$  +14,957 | AvgTr=1.9
+     3T  60m | tgt=50% ts=close |   33 trades | $     +747,556 | WR= 72.7% | PF= 4.84 | DD=$     -66,976 | Avg=$  +22,653 | AvgTr=2.9
+     4T  60m | tgt=50% ts=close |   33 trades | $     +979,411 | WR= 75.8% | PF= 5.58 | DD=$     -78,512 | Avg=$  +29,679 | AvgTr=3.7
+     5T  60m | tgt=50% ts=close |   33 trades | $   +1,144,938 | WR= 72.7% | PF= 5.95 | DD=$     -78,512 | Avg=$  +34,695 | AvgTr=4.5
+     6T  60m | tgt=50% ts=close |   33 trades | $   +1,255,771 | WR= 72.7% | PF= 6.40 | DD=$     -78,512 | Avg=$  +38,054 | AvgTr=5.0
+     8T  60m | tgt=50% ts=close |   33 trades | $   +1,255,771 | WR= 72.7% | PF= 6.40 | DD=$     -78,512 | Avg=$  +38,054 | AvgTr=5.0
+    10T  60m | tgt=50% ts=close |   33 trades | $   +1,255,771 | WR= 72.7% | PF= 6.40 | DD=$     -78,512 | Avg=$  +38,054 | AvgTr=5.0
+
+
+    Mechanics: 50%/3:30
+    Config               Trades        Total $      WR      PF         MaxDD     Avg/Trd  AvgTranches
+    ──────────────────────────────────────────────────────────────────────────────────────────────────────────────
+     1T  30m | tgt=50% ts= 1530 |   33 trades | $     +188,896 | WR= 69.7% | PF= 3.02 | DD=$     -20,482 | Avg=$   +5,724 | AvgTr=1.0
+     2T  30m | tgt=50% ts= 1530 |   33 trades | $     +374,107 | WR= 69.7% | PF= 3.06 | DD=$     -41,020 | Avg=$  +11,337 | AvgTr=2.0
+     3T  30m | tgt=50% ts= 1530 |   33 trades | $     +544,657 | WR= 69.7% | PF= 3.08 | DD=$     -65,576 | Avg=$  +16,505 | AvgTr=2.9
+     4T  30m | tgt=50% ts= 1530 |   33 trades | $     +722,988 | WR= 69.7% | PF= 3.16 | DD=$     -89,334 | Avg=$  +21,909 | AvgTr=3.9
+     5T  30m | tgt=50% ts= 1530 |   33 trades | $     +909,909 | WR= 69.7% | PF= 3.37 | DD=$    -111,272 | Avg=$  +27,573 | AvgTr=4.8
+     6T  30m | tgt=50% ts= 1530 |   33 trades | $   +1,105,167 | WR= 69.7% | PF= 3.71 | DD=$    -127,666 | Avg=$  +33,490 | AvgTr=5.7
+     8T  30m | tgt=50% ts= 1530 |   33 trades | $   +1,393,947 | WR= 69.7% | PF= 4.09 | DD=$    -150,388 | Avg=$  +42,241 | AvgTr=7.4
+    10T  30m | tgt=50% ts= 1530 |   33 trades | $   +1,550,238 | WR= 72.7% | PF= 4.21 | DD=$    -150,388 | Avg=$  +46,977 | AvgTr=8.8
+
+     1T  60m | tgt=50% ts= 1530 |   33 trades | $     +188,896 | WR= 69.7% | PF= 3.02 | DD=$     -20,482 | Avg=$   +5,724 | AvgTr=1.0
+     2T  60m | tgt=50% ts= 1530 |   33 trades | $     +359,446 | WR= 69.7% | PF= 3.06 | DD=$     -45,038 | Avg=$  +10,892 | AvgTr=1.9
+     3T  60m | tgt=50% ts= 1530 |   33 trades | $     +546,367 | WR= 69.7% | PF= 3.44 | DD=$     -66,976 | Avg=$  +16,557 | AvgTr=2.9
+     4T  60m | tgt=50% ts= 1530 |   33 trades | $     +711,159 | WR= 69.7% | PF= 3.98 | DD=$     -78,512 | Avg=$  +21,550 | AvgTr=3.7
+     5T  60m | tgt=50% ts= 1530 |   33 trades | $     +809,623 | WR= 72.7% | PF= 4.21 | DD=$     -78,512 | Avg=$  +24,534 | AvgTr=4.5
+     6T  60m | tgt=50% ts= 1530 |   33 trades | $     +853,393 | WR= 72.7% | PF= 4.28 | DD=$     -78,512 | Avg=$  +25,860 | AvgTr=5.0
+     8T  60m | tgt=50% ts= 1530 |   33 trades | $     +853,393 | WR= 72.7% | PF= 4.28 | DD=$     -78,512 | Avg=$  +25,860 | AvgTr=5.0
+    10T  60m | tgt=50% ts= 1530 |   33 trades | $     +853,393 | WR= 72.7% | PF= 4.28 | DD=$     -78,512 | Avg=$  +25,860 | AvgTr=5.0
+
+
+    Mechanics: 70%/3:45
+    Config               Trades        Total $      WR      PF         MaxDD     Avg/Trd  AvgTranches
+    ──────────────────────────────────────────────────────────────────────────────────────────────────────────────
+     1T  30m | tgt=70% ts= 1545 |   33 trades | $     +221,306 | WR= 69.7% | PF= 3.30 | DD=$     -28,831 | Avg=$   +6,706 | AvgTr=1.0
+     2T  30m | tgt=70% ts= 1545 |   33 trades | $     +438,927 | WR= 69.7% | PF= 3.30 | DD=$     -56,237 | Avg=$  +13,301 | AvgTr=2.0
+     3T  30m | tgt=70% ts= 1545 |   33 trades | $     +641,887 | WR= 69.7% | PF= 3.32 | DD=$     -83,153 | Avg=$  +19,451 | AvgTr=2.9
+     4T  30m | tgt=70% ts= 1545 |   33 trades | $     +852,628 | WR= 69.7% | PF= 3.40 | DD=$    -108,849 | Avg=$  +25,837 | AvgTr=3.9
+     5T  30m | tgt=70% ts= 1545 |   33 trades | $   +1,071,959 | WR= 66.7% | PF= 3.62 | DD=$    -128,797 | Avg=$  +32,484 | AvgTr=4.8
+     6T  30m | tgt=70% ts= 1545 |   33 trades | $   +1,299,627 | WR= 72.7% | PF= 3.91 | DD=$    -150,082 | Avg=$  +39,383 | AvgTr=5.7
+     8T  30m | tgt=70% ts= 1545 |   33 trades | $   +1,652,327 | WR= 69.7% | PF= 4.13 | DD=$    -193,842 | Avg=$  +50,071 | AvgTr=7.4
+    10T  30m | tgt=70% ts= 1545 |   33 trades | $   +1,858,703 | WR= 72.7% | PF= 4.07 | DD=$    -243,572 | Avg=$  +56,324 | AvgTr=9.1
+
+     1T  60m | tgt=70% ts= 1545 |   33 trades | $     +221,306 | WR= 69.7% | PF= 3.30 | DD=$     -28,831 | Avg=$   +6,706 | AvgTr=1.0
+     2T  60m | tgt=70% ts= 1545 |   33 trades | $     +424,266 | WR= 69.7% | PF= 3.32 | DD=$     -55,747 | Avg=$  +12,857 | AvgTr=1.9
+     3T  60m | tgt=70% ts= 1545 |   33 trades | $     +643,597 | WR= 66.7% | PF= 3.70 | DD=$     -75,695 | Avg=$  +19,503 | AvgTr=2.9
+     4T  60m | tgt=70% ts= 1545 |   33 trades | $     +840,799 | WR= 72.7% | PF= 4.12 | DD=$     -96,155 | Avg=$  +25,479 | AvgTr=3.7
+     5T  60m | tgt=70% ts= 1545 |   33 trades | $     +965,940 | WR= 72.7% | PF= 4.11 | DD=$    -122,605 | Avg=$  +29,271 | AvgTr=4.5
+     6T  60m | tgt=70% ts= 1545 |   33 trades | $   +1,039,037 | WR= 72.7% | PF= 4.19 | DD=$    -138,855 | Avg=$  +31,486 | AvgTr=5.4
+     8T  60m | tgt=70% ts= 1545 |   33 trades | $   +1,039,037 | WR= 72.7% | PF= 4.19 | DD=$    -138,855 | Avg=$  +31,486 | AvgTr=5.4
+    10T  60m | tgt=70% ts= 1545 |   33 trades | $   +1,039,037 | WR= 72.7% | PF= 4.19 | DD=$    -138,855 | Avg=$  +31,486 | AvgTr=5.4
+
+
+  ── Filter: VP≤1.5 + !RISING + 5dRet>0 (105 trades) ──
+
+    Mechanics: 70%/close
+    Config               Trades        Total $      WR      PF         MaxDD     Avg/Trd  AvgTranches
+    ──────────────────────────────────────────────────────────────────────────────────────────────────────────────
+     1T  30m | tgt=70% ts=close |  105 trades | $     +397,420 | WR= 61.0% | PF= 1.76 | DD=$     -91,198 | Avg=$   +3,785 | AvgTr=1.0
+     2T  30m | tgt=70% ts=close |  105 trades | $     +765,831 | WR= 61.0% | PF= 1.72 | DD=$    -179,736 | Avg=$   +7,294 | AvgTr=2.0
+     3T  30m | tgt=70% ts=close |  105 trades | $   +1,133,760 | WR= 61.0% | PF= 1.72 | DD=$    -257,817 | Avg=$  +10,798 | AvgTr=3.0
+     4T  30m | tgt=70% ts=close |  105 trades | $   +1,530,129 | WR= 59.0% | PF= 1.75 | DD=$    -323,470 | Avg=$  +14,573 | AvgTr=3.9
+     5T  30m | tgt=70% ts=close |  105 trades | $   +1,928,340 | WR= 59.0% | PF= 1.78 | DD=$    -394,908 | Avg=$  +18,365 | AvgTr=4.9
+     6T  30m | tgt=70% ts=close |  105 trades | $   +2,354,603 | WR= 59.0% | PF= 1.83 | DD=$    -459,763 | Avg=$  +22,425 | AvgTr=5.9
+     8T  30m | tgt=70% ts=close |  105 trades | $   +3,250,648 | WR= 61.0% | PF= 1.96 | DD=$    -543,099 | Avg=$  +30,959 | AvgTr=7.6
+    10T  30m | tgt=70% ts=close |  105 trades | $   +3,916,154 | WR= 61.0% | PF= 2.03 | DD=$    -628,840 | Avg=$  +37,297 | AvgTr=9.3
+
+     1T  60m | tgt=70% ts=close |  105 trades | $     +397,420 | WR= 61.0% | PF= 1.76 | DD=$     -91,198 | Avg=$   +3,785 | AvgTr=1.0
+     2T  60m | tgt=70% ts=close |  105 trades | $     +765,349 | WR= 61.0% | PF= 1.74 | DD=$    -169,279 | Avg=$   +7,289 | AvgTr=2.0
+     3T  60m | tgt=70% ts=close |  105 trades | $   +1,163,560 | WR= 59.0% | PF= 1.80 | DD=$    -240,391 | Avg=$  +11,082 | AvgTr=2.9
+     4T  60m | tgt=70% ts=close |  105 trades | $   +1,618,949 | WR= 61.0% | PF= 1.92 | DD=$    -290,653 | Avg=$  +15,419 | AvgTr=3.8
+     5T  60m | tgt=70% ts=close |  105 trades | $   +1,975,909 | WR= 61.0% | PF= 2.00 | DD=$    -323,444 | Avg=$  +18,818 | AvgTr=4.7
+     6T  60m | tgt=70% ts=close |  105 trades | $   +2,198,724 | WR= 61.0% | PF= 2.02 | DD=$    -364,673 | Avg=$  +20,940 | AvgTr=5.5
+     8T  60m | tgt=70% ts=close |  105 trades | $   +2,198,724 | WR= 61.0% | PF= 2.02 | DD=$    -364,673 | Avg=$  +20,940 | AvgTr=5.5
+    10T  60m | tgt=70% ts=close |  105 trades | $   +2,198,724 | WR= 61.0% | PF= 2.02 | DD=$    -364,673 | Avg=$  +20,940 | AvgTr=5.5
+
+
+    Mechanics: 50%/close
+    Config               Trades        Total $      WR      PF         MaxDD     Avg/Trd  AvgTranches
+    ──────────────────────────────────────────────────────────────────────────────────────────────────────────────
+     1T  30m | tgt=50% ts=close |  105 trades | $     +291,172 | WR= 62.9% | PF= 1.58 | DD=$     -58,994 | Avg=$   +2,773 | AvgTr=1.0
+     2T  30m | tgt=50% ts=close |  105 trades | $     +553,335 | WR= 62.9% | PF= 1.54 | DD=$    -115,328 | Avg=$   +5,270 | AvgTr=2.0
+     3T  30m | tgt=50% ts=close |  105 trades | $     +815,016 | WR= 62.9% | PF= 1.54 | DD=$    -173,785 | Avg=$   +7,762 | AvgTr=3.0
+     4T  30m | tgt=50% ts=close |  105 trades | $   +1,105,137 | WR= 61.0% | PF= 1.57 | DD=$    -235,411 | Avg=$  +10,525 | AvgTr=3.9
+     5T  30m | tgt=50% ts=close |  105 trades | $   +1,397,100 | WR= 61.9% | PF= 1.60 | DD=$    -287,254 | Avg=$  +13,306 | AvgTr=4.9
+     6T  30m | tgt=50% ts=close |  105 trades | $   +1,717,115 | WR= 61.9% | PF= 1.65 | DD=$    -324,409 | Avg=$  +16,353 | AvgTr=5.9
+     8T  30m | tgt=50% ts=close |  105 trades | $   +2,402,364 | WR= 63.8% | PF= 1.78 | DD=$    -401,431 | Avg=$  +22,880 | AvgTr=7.6
+    10T  30m | tgt=50% ts=close |  105 trades | $   +2,872,003 | WR= 63.8% | PF= 1.83 | DD=$    -468,510 | Avg=$  +27,352 | AvgTr=9.1
+
+     1T  60m | tgt=50% ts=close |  105 trades | $     +291,172 | WR= 62.9% | PF= 1.58 | DD=$     -58,994 | Avg=$   +2,773 | AvgTr=1.0
+     2T  60m | tgt=50% ts=close |  105 trades | $     +552,853 | WR= 62.9% | PF= 1.56 | DD=$    -111,864 | Avg=$   +5,265 | AvgTr=2.0
+     3T  60m | tgt=50% ts=close |  105 trades | $     +844,816 | WR= 61.9% | PF= 1.62 | DD=$    -163,707 | Avg=$   +8,046 | AvgTr=2.9
+     4T  60m | tgt=50% ts=close |  105 trades | $   +1,193,957 | WR= 63.8% | PF= 1.74 | DD=$    -199,964 | Avg=$  +11,371 | AvgTr=3.8
+     5T  60m | tgt=50% ts=close |  105 trades | $   +1,451,242 | WR= 63.8% | PF= 1.81 | DD=$    -228,482 | Avg=$  +13,821 | AvgTr=4.6
+     6T  60m | tgt=50% ts=close |  105 trades | $   +1,591,927 | WR= 63.8% | PF= 1.82 | DD=$    -266,373 | Avg=$  +15,161 | AvgTr=5.2
+     8T  60m | tgt=50% ts=close |  105 trades | $   +1,591,927 | WR= 63.8% | PF= 1.82 | DD=$    -266,373 | Avg=$  +15,161 | AvgTr=5.2
+    10T  60m | tgt=50% ts=close |  105 trades | $   +1,591,927 | WR= 63.8% | PF= 1.82 | DD=$    -266,373 | Avg=$  +15,161 | AvgTr=5.2
+
+
+    Mechanics: 50%/3:30
+    Config               Trades        Total $      WR      PF         MaxDD     Avg/Trd  AvgTranches
+    ──────────────────────────────────────────────────────────────────────────────────────────────────────────────
+     1T  30m | tgt=50% ts= 1530 |  105 trades | $     +177,662 | WR= 61.0% | PF= 1.39 | DD=$     -74,716 | Avg=$   +1,692 | AvgTr=1.0
+     2T  30m | tgt=50% ts= 1530 |  105 trades | $     +326,315 | WR= 61.0% | PF= 1.36 | DD=$    -146,772 | Avg=$   +3,108 | AvgTr=2.0
+     3T  30m | tgt=50% ts= 1530 |  105 trades | $     +474,486 | WR= 60.0% | PF= 1.35 | DD=$    -208,371 | Avg=$   +4,519 | AvgTr=3.0
+     4T  30m | tgt=50% ts= 1530 |  105 trades | $     +651,097 | WR= 60.0% | PF= 1.38 | DD=$    -251,706 | Avg=$   +6,201 | AvgTr=3.9
+     5T  30m | tgt=50% ts= 1530 |  105 trades | $     +829,550 | WR= 60.0% | PF= 1.40 | DD=$    -312,316 | Avg=$   +7,900 | AvgTr=4.9
+     6T  30m | tgt=50% ts= 1530 |  105 trades | $   +1,036,055 | WR= 61.0% | PF= 1.45 | DD=$    -367,707 | Avg=$   +9,867 | AvgTr=5.9
+     8T  30m | tgt=50% ts= 1530 |  105 trades | $   +1,494,284 | WR= 61.0% | PF= 1.55 | DD=$    -435,899 | Avg=$  +14,231 | AvgTr=7.6
+    10T  30m | tgt=50% ts= 1530 |  105 trades | $   +1,736,903 | WR= 61.9% | PF= 1.60 | DD=$    -469,753 | Avg=$  +16,542 | AvgTr=9.1
+
+     1T  60m | tgt=50% ts= 1530 |  105 trades | $     +177,662 | WR= 61.0% | PF= 1.39 | DD=$     -74,716 | Avg=$   +1,692 | AvgTr=1.0
+     2T  60m | tgt=50% ts= 1530 |  105 trades | $     +325,833 | WR= 60.0% | PF= 1.37 | DD=$    -136,315 | Avg=$   +3,103 | AvgTr=2.0
+     3T  60m | tgt=50% ts= 1530 |  105 trades | $     +504,286 | WR= 61.0% | PF= 1.41 | DD=$    -191,727 | Avg=$   +4,803 | AvgTr=2.9
+     4T  60m | tgt=50% ts= 1530 |  105 trades | $     +739,917 | WR= 61.0% | PF= 1.52 | DD=$    -233,097 | Avg=$   +7,047 | AvgTr=3.8
+     5T  60m | tgt=50% ts= 1530 |  105 trades | $     +883,692 | WR= 61.9% | PF= 1.57 | DD=$    -259,990 | Avg=$   +8,416 | AvgTr=4.6
+     6T  60m | tgt=50% ts= 1530 |  105 trades | $     +910,867 | WR= 61.9% | PF= 1.57 | DD=$    -242,043 | Avg=$   +8,675 | AvgTr=5.2
+     8T  60m | tgt=50% ts= 1530 |  105 trades | $     +910,867 | WR= 61.9% | PF= 1.57 | DD=$    -242,043 | Avg=$   +8,675 | AvgTr=5.2
+    10T  60m | tgt=50% ts= 1530 |  105 trades | $     +910,867 | WR= 61.9% | PF= 1.57 | DD=$    -242,043 | Avg=$   +8,675 | AvgTr=5.2
+
+
+    Mechanics: 70%/3:45
+    Config               Trades        Total $      WR      PF         MaxDD     Avg/Trd  AvgTranches
+    ──────────────────────────────────────────────────────────────────────────────────────────────────────────────
+     1T  30m | tgt=70% ts= 1545 |  105 trades | $     +241,909 | WR= 61.0% | PF= 1.49 | DD=$     -92,848 | Avg=$   +2,304 | AvgTr=1.0
+     2T  30m | tgt=70% ts= 1545 |  105 trades | $     +454,809 | WR= 61.0% | PF= 1.46 | DD=$    -180,182 | Avg=$   +4,332 | AvgTr=2.0
+     3T  30m | tgt=70% ts= 1545 |  105 trades | $     +667,227 | WR= 61.0% | PF= 1.46 | DD=$    -263,077 | Avg=$   +6,355 | AvgTr=3.0
+     4T  30m | tgt=70% ts= 1545 |  105 trades | $     +908,085 | WR= 60.0% | PF= 1.48 | DD=$    -339,294 | Avg=$   +8,648 | AvgTr=3.9
+     5T  30m | tgt=70% ts= 1545 |  105 trades | $   +1,150,785 | WR= 59.0% | PF= 1.51 | DD=$    -419,969 | Avg=$  +10,960 | AvgTr=4.9
+     6T  30m | tgt=70% ts= 1545 |  105 trades | $   +1,421,537 | WR= 60.0% | PF= 1.55 | DD=$    -495,057 | Avg=$  +13,538 | AvgTr=5.9
+     8T  30m | tgt=70% ts= 1545 |  105 trades | $   +2,006,560 | WR= 59.0% | PF= 1.66 | DD=$    -605,699 | Avg=$  +19,110 | AvgTr=7.6
+    10T  30m | tgt=70% ts= 1545 |  105 trades | $   +2,361,044 | WR= 61.0% | PF= 1.71 | DD=$    -681,733 | Avg=$  +22,486 | AvgTr=9.3
+
+     1T  60m | tgt=70% ts= 1545 |  105 trades | $     +241,909 | WR= 61.0% | PF= 1.49 | DD=$     -92,848 | Avg=$   +2,304 | AvgTr=1.0
+     2T  60m | tgt=70% ts= 1545 |  105 trades | $     +454,327 | WR= 61.0% | PF= 1.47 | DD=$    -175,743 | Avg=$   +4,327 | AvgTr=2.0
+     3T  60m | tgt=70% ts= 1545 |  105 trades | $     +697,027 | WR= 59.0% | PF= 1.52 | DD=$    -255,402 | Avg=$   +6,638 | AvgTr=2.9
+     4T  60m | tgt=70% ts= 1545 |  105 trades | $     +996,905 | WR= 61.0% | PF= 1.63 | DD=$    -317,997 | Avg=$   +9,494 | AvgTr=3.8
+     5T  60m | tgt=70% ts= 1545 |  105 trades | $   +1,198,354 | WR= 61.0% | PF= 1.69 | DD=$    -367,115 | Avg=$  +11,413 | AvgTr=4.7
+     6T  60m | tgt=70% ts= 1545 |  105 trades | $   +1,265,658 | WR= 61.9% | PF= 1.67 | DD=$    -363,406 | Avg=$  +12,054 | AvgTr=5.5
+     8T  60m | tgt=70% ts= 1545 |  105 trades | $   +1,265,658 | WR= 61.9% | PF= 1.67 | DD=$    -363,406 | Avg=$  +12,054 | AvgTr=5.5
+    10T  60m | tgt=70% ts= 1545 |  105 trades | $   +1,265,658 | WR= 61.9% | PF= 1.67 | DD=$    -363,406 | Avg=$  +12,054 | AvgTr=5.5
+
+
+  ── Filter: VP≤1.7 + !RISING + 5dRet>0 (154 trades) ──
+
+    Mechanics: 70%/close
+    Config               Trades        Total $      WR      PF         MaxDD     Avg/Trd  AvgTranches
+    ──────────────────────────────────────────────────────────────────────────────────────────────────────────────
+     1T  30m | tgt=70% ts=close |  154 trades | $     +403,736 | WR= 57.8% | PF= 1.53 | DD=$    -100,747 | Avg=$   +2,622 | AvgTr=1.0
+     2T  30m | tgt=70% ts=close |  154 trades | $     +743,861 | WR= 57.8% | PF= 1.48 | DD=$    -198,241 | Avg=$   +4,830 | AvgTr=2.0
+     3T  30m | tgt=70% ts=close |  154 trades | $   +1,121,563 | WR= 58.4% | PF= 1.50 | DD=$    -268,539 | Avg=$   +7,283 | AvgTr=3.0
+     4T  30m | tgt=70% ts=close |  154 trades | $   +1,544,395 | WR= 57.8% | PF= 1.53 | DD=$    -319,576 | Avg=$  +10,029 | AvgTr=3.9
+     5T  30m | tgt=70% ts=close |  154 trades | $   +1,958,929 | WR= 58.4% | PF= 1.55 | DD=$    -378,988 | Avg=$  +12,720 | AvgTr=4.9
+     6T  30m | tgt=70% ts=close |  154 trades | $   +2,398,308 | WR= 57.1% | PF= 1.59 | DD=$    -439,153 | Avg=$  +15,573 | AvgTr=5.9
+     8T  30m | tgt=70% ts=close |  154 trades | $   +3,349,451 | WR= 58.4% | PF= 1.68 | DD=$    -531,379 | Avg=$  +21,750 | AvgTr=7.7
+    10T  30m | tgt=70% ts=close |  154 trades | $   +4,095,320 | WR= 58.4% | PF= 1.73 | DD=$    -593,933 | Avg=$  +26,593 | AvgTr=9.4
+
+     1T  60m | tgt=70% ts=close |  154 trades | $     +403,736 | WR= 57.8% | PF= 1.53 | DD=$    -100,747 | Avg=$   +2,622 | AvgTr=1.0
+     2T  60m | tgt=70% ts=close |  154 trades | $     +781,438 | WR= 59.1% | PF= 1.53 | DD=$    -171,045 | Avg=$   +5,074 | AvgTr=2.0
+     3T  60m | tgt=70% ts=close |  154 trades | $   +1,195,972 | WR= 58.4% | PF= 1.57 | DD=$    -228,702 | Avg=$   +7,766 | AvgTr=2.9
+     4T  60m | tgt=70% ts=close |  154 trades | $   +1,674,903 | WR= 58.4% | PF= 1.65 | DD=$    -281,619 | Avg=$  +10,876 | AvgTr=3.9
+     5T  60m | tgt=70% ts=close |  154 trades | $   +2,061,829 | WR= 59.1% | PF= 1.71 | DD=$    -317,536 | Avg=$  +13,388 | AvgTr=4.7
+     6T  60m | tgt=70% ts=close |  154 trades | $   +2,353,947 | WR= 59.1% | PF= 1.75 | DD=$    -311,915 | Avg=$  +15,285 | AvgTr=5.5
+     8T  60m | tgt=70% ts=close |  154 trades | $   +2,353,947 | WR= 59.1% | PF= 1.75 | DD=$    -311,915 | Avg=$  +15,285 | AvgTr=5.5
+    10T  60m | tgt=70% ts=close |  154 trades | $   +2,353,947 | WR= 59.1% | PF= 1.75 | DD=$    -311,915 | Avg=$  +15,285 | AvgTr=5.5
+
+
+    Mechanics: 50%/close
+    Config               Trades        Total $      WR      PF         MaxDD     Avg/Trd  AvgTranches
+    ──────────────────────────────────────────────────────────────────────────────────────────────────────────────
+     1T  30m | tgt=50% ts=close |  154 trades | $     +284,596 | WR= 59.1% | PF= 1.39 | DD=$     -73,352 | Avg=$   +1,848 | AvgTr=1.0
+     2T  30m | tgt=50% ts=close |  154 trades | $     +505,581 | WR= 59.1% | PF= 1.34 | DD=$    -150,224 | Avg=$   +3,283 | AvgTr=2.0
+     3T  30m | tgt=50% ts=close |  154 trades | $     +764,143 | WR= 59.7% | PF= 1.35 | DD=$    -215,157 | Avg=$   +4,962 | AvgTr=3.0
+     4T  30m | tgt=50% ts=close |  154 trades | $   +1,067,835 | WR= 59.1% | PF= 1.38 | DD=$    -268,002 | Avg=$   +6,934 | AvgTr=3.9
+     5T  30m | tgt=50% ts=close |  154 trades | $   +1,363,229 | WR= 60.4% | PF= 1.40 | DD=$    -325,467 | Avg=$   +8,852 | AvgTr=4.9
+     6T  30m | tgt=50% ts=close |  154 trades | $   +1,683,468 | WR= 59.1% | PF= 1.43 | DD=$    -379,471 | Avg=$  +10,932 | AvgTr=5.9
+     8T  30m | tgt=50% ts=close |  154 trades | $   +2,398,031 | WR= 60.4% | PF= 1.51 | DD=$    -463,457 | Avg=$  +15,572 | AvgTr=7.6
+    10T  30m | tgt=50% ts=close |  154 trades | $   +2,926,113 | WR= 60.4% | PF= 1.56 | DD=$    -504,152 | Avg=$  +19,001 | AvgTr=9.2
+
+     1T  60m | tgt=50% ts=close |  154 trades | $     +284,596 | WR= 59.1% | PF= 1.39 | DD=$     -73,352 | Avg=$   +1,848 | AvgTr=1.0
+     2T  60m | tgt=50% ts=close |  154 trades | $     +543,158 | WR= 60.4% | PF= 1.38 | DD=$    -136,988 | Avg=$   +3,527 | AvgTr=2.0
+     3T  60m | tgt=50% ts=close |  154 trades | $     +838,552 | WR= 60.4% | PF= 1.42 | DD=$    -194,453 | Avg=$   +5,445 | AvgTr=2.9
+     4T  60m | tgt=50% ts=close |  154 trades | $   +1,198,343 | WR= 60.4% | PF= 1.49 | DD=$    -245,478 | Avg=$   +7,781 | AvgTr=3.9
+     5T  60m | tgt=50% ts=close |  154 trades | $   +1,473,502 | WR= 61.0% | PF= 1.54 | DD=$    -273,706 | Avg=$   +9,568 | AvgTr=4.7
+     6T  60m | tgt=50% ts=close |  154 trades | $   +1,673,196 | WR= 61.7% | PF= 1.58 | DD=$    -275,565 | Avg=$  +10,865 | AvgTr=5.3
+     8T  60m | tgt=50% ts=close |  154 trades | $   +1,673,196 | WR= 61.7% | PF= 1.58 | DD=$    -275,565 | Avg=$  +10,865 | AvgTr=5.3
+    10T  60m | tgt=50% ts=close |  154 trades | $   +1,673,196 | WR= 61.7% | PF= 1.58 | DD=$    -275,565 | Avg=$  +10,865 | AvgTr=5.3
+
+
+    Mechanics: 50%/3:30
+    Config               Trades        Total $      WR      PF         MaxDD     Avg/Trd  AvgTranches
+    ──────────────────────────────────────────────────────────────────────────────────────────────────────────────
+     1T  30m | tgt=50% ts= 1530 |  154 trades | $      +79,694 | WR= 58.4% | PF= 1.11 | DD=$    -108,871 | Avg=$     +517 | AvgTr=1.0
+     2T  30m | tgt=50% ts= 1530 |  154 trades | $      +95,777 | WR= 58.4% | PF= 1.07 | DD=$    -221,043 | Avg=$     +622 | AvgTr=2.0
+     3T  30m | tgt=50% ts= 1530 |  154 trades | $     +149,437 | WR= 55.8% | PF= 1.07 | DD=$    -303,374 | Avg=$     +970 | AvgTr=3.0
+     4T  30m | tgt=50% ts= 1530 |  154 trades | $     +248,227 | WR= 55.8% | PF= 1.09 | DD=$    -347,513 | Avg=$   +1,612 | AvgTr=3.9
+     5T  30m | tgt=50% ts= 1530 |  154 trades | $     +338,719 | WR= 55.8% | PF= 1.11 | DD=$    -383,435 | Avg=$   +2,199 | AvgTr=4.9
+     6T  30m | tgt=50% ts= 1530 |  154 trades | $     +454,056 | WR= 56.5% | PF= 1.12 | DD=$    -436,894 | Avg=$   +2,948 | AvgTr=5.9
+     8T  30m | tgt=50% ts= 1530 |  154 trades | $     +758,815 | WR= 56.5% | PF= 1.18 | DD=$    -538,403 | Avg=$   +4,927 | AvgTr=7.6
+    10T  30m | tgt=50% ts= 1530 |  154 trades | $     +877,093 | WR= 57.1% | PF= 1.19 | DD=$    -626,097 | Avg=$   +5,695 | AvgTr=9.2
+
+     1T  60m | tgt=50% ts= 1530 |  154 trades | $      +79,694 | WR= 58.4% | PF= 1.11 | DD=$    -108,871 | Avg=$     +517 | AvgTr=1.0
+     2T  60m | tgt=50% ts= 1530 |  154 trades | $     +133,354 | WR= 55.8% | PF= 1.10 | DD=$    -191,202 | Avg=$     +866 | AvgTr=2.0
+     3T  60m | tgt=50% ts= 1530 |  154 trades | $     +223,846 | WR= 56.5% | PF= 1.12 | DD=$    -227,753 | Avg=$   +1,454 | AvgTr=2.9
+     4T  60m | tgt=50% ts= 1530 |  154 trades | $     +378,735 | WR= 57.1% | PF= 1.17 | DD=$    -280,261 | Avg=$   +2,459 | AvgTr=3.9
+     5T  60m | tgt=50% ts= 1530 |  154 trades | $     +448,992 | WR= 57.1% | PF= 1.18 | DD=$    -332,581 | Avg=$   +2,916 | AvgTr=4.7
+     6T  60m | tgt=50% ts= 1530 |  154 trades | $     +443,784 | WR= 57.1% | PF= 1.17 | DD=$    -333,488 | Avg=$   +2,882 | AvgTr=5.3
+     8T  60m | tgt=50% ts= 1530 |  154 trades | $     +443,784 | WR= 57.1% | PF= 1.17 | DD=$    -333,488 | Avg=$   +2,882 | AvgTr=5.3
+    10T  60m | tgt=50% ts= 1530 |  154 trades | $     +443,784 | WR= 57.1% | PF= 1.17 | DD=$    -333,488 | Avg=$   +2,882 | AvgTr=5.3
+
+
+    Mechanics: 70%/3:45
+    Config               Trades        Total $      WR      PF         MaxDD     Avg/Trd  AvgTranches
+    ──────────────────────────────────────────────────────────────────────────────────────────────────────────────
+     1T  30m | tgt=70% ts= 1545 |  154 trades | $     +200,924 | WR= 59.7% | PF= 1.28 | DD=$    -123,903 | Avg=$   +1,305 | AvgTr=1.0
+     2T  30m | tgt=70% ts= 1545 |  154 trades | $     +338,237 | WR= 59.7% | PF= 1.23 | DD=$    -244,553 | Avg=$   +2,196 | AvgTr=2.0
+     3T  30m | tgt=70% ts= 1545 |  154 trades | $     +513,127 | WR= 59.7% | PF= 1.24 | DD=$    -338,007 | Avg=$   +3,332 | AvgTr=3.0
+     4T  30m | tgt=70% ts= 1545 |  154 trades | $     +733,147 | WR= 59.1% | PF= 1.27 | DD=$    -407,270 | Avg=$   +4,761 | AvgTr=3.9
+     5T  30m | tgt=70% ts= 1545 |  154 trades | $     +944,869 | WR= 57.1% | PF= 1.29 | DD=$    -482,631 | Avg=$   +6,136 | AvgTr=4.9
+     6T  30m | tgt=70% ts= 1545 |  154 trades | $   +1,181,436 | WR= 57.8% | PF= 1.31 | DD=$    -567,117 | Avg=$   +7,672 | AvgTr=5.9
+     8T  30m | tgt=70% ts= 1545 |  154 trades | $   +1,726,955 | WR= 57.1% | PF= 1.38 | DD=$    -707,547 | Avg=$  +11,214 | AvgTr=7.7
+    10T  30m | tgt=70% ts= 1545 |  154 trades | $   +2,067,200 | WR= 58.4% | PF= 1.41 | DD=$    -836,051 | Avg=$  +13,423 | AvgTr=9.4
+
+     1T  60m | tgt=70% ts= 1545 |  154 trades | $     +200,924 | WR= 59.7% | PF= 1.28 | DD=$    -123,903 | Avg=$   +1,305 | AvgTr=1.0
+     2T  60m | tgt=70% ts= 1545 |  154 trades | $     +375,814 | WR= 60.4% | PF= 1.27 | DD=$    -217,357 | Avg=$   +2,440 | AvgTr=2.0
+     3T  60m | tgt=70% ts= 1545 |  154 trades | $     +587,536 | WR= 57.1% | PF= 1.30 | DD=$    -292,718 | Avg=$   +3,815 | AvgTr=2.9
+     4T  60m | tgt=70% ts= 1545 |  154 trades | $     +863,655 | WR= 59.1% | PF= 1.37 | DD=$    -364,833 | Avg=$   +5,608 | AvgTr=3.9
+     5T  60m | tgt=70% ts= 1545 |  154 trades | $   +1,047,769 | WR= 58.4% | PF= 1.40 | DD=$    -440,096 | Avg=$   +6,804 | AvgTr=4.7
+     6T  60m | tgt=70% ts= 1545 |  154 trades | $   +1,137,075 | WR= 60.4% | PF= 1.41 | DD=$    -453,680 | Avg=$   +7,384 | AvgTr=5.5
+     8T  60m | tgt=70% ts= 1545 |  154 trades | $   +1,137,075 | WR= 60.4% | PF= 1.41 | DD=$    -453,680 | Avg=$   +7,384 | AvgTr=5.5
+    10T  60m | tgt=70% ts= 1545 |  154 trades | $   +1,137,075 | WR= 60.4% | PF= 1.41 | DD=$    -453,680 | Avg=$   +7,384 | AvgTr=5.5
+
+
+  ── Filter: VP≤1.3 + STABLE + 5dRet>0 (35 trades) ──
+
+    Mechanics: 70%/close
+    Config               Trades        Total $      WR      PF         MaxDD     Avg/Trd  AvgTranches
+    ──────────────────────────────────────────────────────────────────────────────────────────────────────────────
+     1T  30m | tgt=70% ts=close |   35 trades | $     +154,632 | WR= 57.1% | PF= 1.97 | DD=$     -44,496 | Avg=$   +4,418 | AvgTr=1.0
+     2T  30m | tgt=70% ts=close |   35 trades | $     +302,626 | WR= 57.1% | PF= 1.92 | DD=$     -85,179 | Avg=$   +8,646 | AvgTr=2.0
+     3T  30m | tgt=70% ts=close |   35 trades | $     +447,888 | WR= 57.1% | PF= 1.90 | DD=$    -136,920 | Avg=$  +12,797 | AvgTr=3.0
+     4T  30m | tgt=70% ts=close |   35 trades | $     +592,326 | WR= 54.3% | PF= 1.89 | DD=$    -190,476 | Avg=$  +16,924 | AvgTr=4.0
+     5T  30m | tgt=70% ts=close |   35 trades | $     +740,405 | WR= 57.1% | PF= 1.91 | DD=$    -242,291 | Avg=$  +21,154 | AvgTr=5.0
+     6T  30m | tgt=70% ts=close |   35 trades | $     +916,422 | WR= 57.1% | PF= 1.98 | DD=$    -280,244 | Avg=$  +26,183 | AvgTr=6.0
+     8T  30m | tgt=70% ts=close |   35 trades | $   +1,188,165 | WR= 57.1% | PF= 2.00 | DD=$    -366,483 | Avg=$  +33,948 | AvgTr=7.8
+    10T  30m | tgt=70% ts=close |   35 trades | $   +1,341,905 | WR= 60.0% | PF= 1.95 | DD=$    -455,961 | Avg=$  +38,340 | AvgTr=9.7
+
+     1T  60m | tgt=70% ts=close |   35 trades | $     +154,632 | WR= 57.1% | PF= 1.97 | DD=$     -44,496 | Avg=$   +4,418 | AvgTr=1.0
+     2T  60m | tgt=70% ts=close |   35 trades | $     +299,894 | WR= 57.1% | PF= 1.92 | DD=$     -96,237 | Avg=$   +8,568 | AvgTr=2.0
+     3T  60m | tgt=70% ts=close |   35 trades | $     +447,973 | WR= 57.1% | PF= 1.94 | DD=$    -148,052 | Avg=$  +12,799 | AvgTr=3.0
+     4T  60m | tgt=70% ts=close |   35 trades | $     +585,996 | WR= 60.0% | PF= 1.97 | DD=$    -190,158 | Avg=$  +16,743 | AvgTr=3.9
+     5T  60m | tgt=70% ts=close |   35 trades | $     +681,307 | WR= 60.0% | PF= 1.95 | DD=$    -239,743 | Avg=$  +19,466 | AvgTr=4.8
+     6T  60m | tgt=70% ts=close |   35 trades | $     +721,884 | WR= 60.0% | PF= 1.91 | DD=$    -260,267 | Avg=$  +20,625 | AvgTr=5.7
+     8T  60m | tgt=70% ts=close |   35 trades | $     +721,884 | WR= 60.0% | PF= 1.91 | DD=$    -260,267 | Avg=$  +20,625 | AvgTr=5.7
+    10T  60m | tgt=70% ts=close |   35 trades | $     +721,884 | WR= 60.0% | PF= 1.91 | DD=$    -260,267 | Avg=$  +20,625 | AvgTr=5.7
+
+
+    Mechanics: 50%/close
+    Config               Trades        Total $      WR      PF         MaxDD     Avg/Trd  AvgTranches
+    ──────────────────────────────────────────────────────────────────────────────────────────────────────────────
+     1T  30m | tgt=50% ts=close |   35 trades | $     +162,247 | WR= 60.0% | PF= 2.15 | DD=$     -28,876 | Avg=$   +4,636 | AvgTr=1.0
+     2T  30m | tgt=50% ts=close |   35 trades | $     +317,856 | WR= 60.0% | PF= 2.09 | DD=$     -66,457 | Avg=$   +9,082 | AvgTr=2.0
+     3T  30m | tgt=50% ts=close |   35 trades | $     +470,733 | WR= 60.0% | PF= 2.08 | DD=$     -98,638 | Avg=$  +13,450 | AvgTr=3.0
+     4T  30m | tgt=50% ts=close |   35 trades | $     +622,786 | WR= 57.1% | PF= 2.08 | DD=$    -120,878 | Avg=$  +17,794 | AvgTr=4.0
+     5T  30m | tgt=50% ts=close |   35 trades | $     +778,480 | WR= 60.0% | PF= 2.10 | DD=$    -149,620 | Avg=$  +22,242 | AvgTr=5.0
+     6T  30m | tgt=50% ts=close |   35 trades | $     +962,112 | WR= 60.0% | PF= 2.21 | DD=$    -178,520 | Avg=$  +27,489 | AvgTr=6.0
+     8T  30m | tgt=50% ts=close |   35 trades | $   +1,249,085 | WR= 60.0% | PF= 2.26 | DD=$    -234,642 | Avg=$  +35,688 | AvgTr=7.8
+    10T  30m | tgt=50% ts=close |   35 trades | $   +1,419,285 | WR= 62.9% | PF= 2.24 | DD=$    -274,645 | Avg=$  +40,551 | AvgTr=9.5
+
+     1T  60m | tgt=50% ts=close |   35 trades | $     +162,247 | WR= 60.0% | PF= 2.15 | DD=$     -28,876 | Avg=$   +4,636 | AvgTr=1.0
+     2T  60m | tgt=50% ts=close |   35 trades | $     +315,124 | WR= 60.0% | PF= 2.11 | DD=$     -61,057 | Avg=$   +9,004 | AvgTr=2.0
+     3T  60m | tgt=50% ts=close |   35 trades | $     +470,818 | WR= 60.0% | PF= 2.14 | DD=$     -88,671 | Avg=$  +13,452 | AvgTr=3.0
+     4T  60m | tgt=50% ts=close |   35 trades | $     +616,456 | WR= 62.9% | PF= 2.20 | DD=$    -118,127 | Avg=$  +17,613 | AvgTr=3.9
+     5T  60m | tgt=50% ts=close |   35 trades | $     +720,382 | WR= 62.9% | PF= 2.22 | DD=$    -140,565 | Avg=$  +20,582 | AvgTr=4.8
+     6T  60m | tgt=50% ts=close |   35 trades | $     +770,111 | WR= 62.9% | PF= 2.20 | DD=$    -164,233 | Avg=$  +22,003 | AvgTr=5.5
+     8T  60m | tgt=50% ts=close |   35 trades | $     +770,111 | WR= 62.9% | PF= 2.20 | DD=$    -164,233 | Avg=$  +22,003 | AvgTr=5.5
+    10T  60m | tgt=50% ts=close |   35 trades | $     +770,111 | WR= 62.9% | PF= 2.20 | DD=$    -164,233 | Avg=$  +22,003 | AvgTr=5.5
+
+
+    Mechanics: 50%/3:30
+    Config               Trades        Total $      WR      PF         MaxDD     Avg/Trd  AvgTranches
+    ──────────────────────────────────────────────────────────────────────────────────────────────────────────────
+     1T  30m | tgt=50% ts= 1530 |   35 trades | $     +123,573 | WR= 62.9% | PF= 2.05 | DD=$     -28,191 | Avg=$   +3,531 | AvgTr=1.0
+     2T  30m | tgt=50% ts= 1530 |   35 trades | $     +240,508 | WR= 60.0% | PF= 1.99 | DD=$     -56,152 | Avg=$   +6,872 | AvgTr=2.0
+     3T  30m | tgt=50% ts= 1530 |   35 trades | $     +354,711 | WR= 60.0% | PF= 1.97 | DD=$     -83,929 | Avg=$  +10,135 | AvgTr=3.0
+     4T  30m | tgt=50% ts= 1530 |   35 trades | $     +468,090 | WR= 60.0% | PF= 1.96 | DD=$    -112,306 | Avg=$  +13,374 | AvgTr=4.0
+     5T  30m | tgt=50% ts= 1530 |   35 trades | $     +585,110 | WR= 60.0% | PF= 2.01 | DD=$    -139,757 | Avg=$  +16,717 | AvgTr=5.0
+     6T  30m | tgt=50% ts= 1530 |   35 trades | $     +730,068 | WR= 62.9% | PF= 2.15 | DD=$    -159,313 | Avg=$  +20,859 | AvgTr=6.0
+     8T  30m | tgt=50% ts= 1530 |   35 trades | $     +939,693 | WR= 62.9% | PF= 2.23 | DD=$    -205,109 | Avg=$  +26,848 | AvgTr=7.8
+    10T  30m | tgt=50% ts= 1530 |   35 trades | $   +1,032,545 | WR= 65.7% | PF= 2.23 | DD=$    -232,924 | Avg=$  +29,501 | AvgTr=9.5
+
+     1T  60m | tgt=50% ts= 1530 |   35 trades | $     +123,573 | WR= 62.9% | PF= 2.05 | DD=$     -28,191 | Avg=$   +3,531 | AvgTr=1.0
+     2T  60m | tgt=50% ts= 1530 |   35 trades | $     +237,776 | WR= 60.0% | PF= 2.00 | DD=$     -55,422 | Avg=$   +6,794 | AvgTr=2.0
+     3T  60m | tgt=50% ts= 1530 |   35 trades | $     +354,796 | WR= 62.9% | PF= 2.06 | DD=$     -82,873 | Avg=$  +10,137 | AvgTr=3.0
+     4T  60m | tgt=50% ts= 1530 |   35 trades | $     +461,760 | WR= 62.9% | PF= 2.16 | DD=$    -106,793 | Avg=$  +13,193 | AvgTr=3.9
+     5T  60m | tgt=50% ts= 1530 |   35 trades | $     +527,012 | WR= 65.7% | PF= 2.20 | DD=$    -127,748 | Avg=$  +15,057 | AvgTr=4.8
+     6T  60m | tgt=50% ts= 1530 |   35 trades | $     +538,067 | WR= 65.7% | PF= 2.17 | DD=$    -128,978 | Avg=$  +15,373 | AvgTr=5.5
+     8T  60m | tgt=50% ts= 1530 |   35 trades | $     +538,067 | WR= 65.7% | PF= 2.17 | DD=$    -128,978 | Avg=$  +15,373 | AvgTr=5.5
+    10T  60m | tgt=50% ts= 1530 |   35 trades | $     +538,067 | WR= 65.7% | PF= 2.17 | DD=$    -128,978 | Avg=$  +15,373 | AvgTr=5.5
+
+
+    Mechanics: 70%/3:45
+    Config               Trades        Total $      WR      PF         MaxDD     Avg/Trd  AvgTranches
+    ──────────────────────────────────────────────────────────────────────────────────────────────────────────────
+     1T  30m | tgt=70% ts= 1545 |   35 trades | $     +105,924 | WR= 57.1% | PF= 1.72 | DD=$     -47,471 | Avg=$   +3,026 | AvgTr=1.0
+     2T  30m | tgt=70% ts= 1545 |   35 trades | $     +205,210 | WR= 57.1% | PF= 1.68 | DD=$     -91,129 | Avg=$   +5,863 | AvgTr=2.0
+     3T  30m | tgt=70% ts= 1545 |   35 trades | $     +301,764 | WR= 57.1% | PF= 1.66 | DD=$    -145,845 | Avg=$   +8,622 | AvgTr=3.0
+     4T  30m | tgt=70% ts= 1545 |   35 trades | $     +397,494 | WR= 57.1% | PF= 1.65 | DD=$    -202,376 | Avg=$  +11,357 | AvgTr=4.0
+     5T  30m | tgt=70% ts= 1545 |   35 trades | $     +496,865 | WR= 54.3% | PF= 1.67 | DD=$    -257,166 | Avg=$  +14,196 | AvgTr=5.0
+     6T  30m | tgt=70% ts= 1545 |   35 trades | $     +624,174 | WR= 57.1% | PF= 1.73 | DD=$    -298,094 | Avg=$  +17,834 | AvgTr=6.0
+     8T  30m | tgt=70% ts= 1545 |   35 trades | $     +798,501 | WR= 57.1% | PF= 1.75 | DD=$    -390,283 | Avg=$  +22,814 | AvgTr=7.8
+    10T  30m | tgt=70% ts= 1545 |   35 trades | $     +854,825 | WR= 62.9% | PF= 1.69 | DD=$    -485,711 | Avg=$  +24,424 | AvgTr=9.7
+
+     1T  60m | tgt=70% ts= 1545 |   35 trades | $     +105,924 | WR= 57.1% | PF= 1.72 | DD=$     -47,471 | Avg=$   +3,026 | AvgTr=1.0
+     2T  60m | tgt=70% ts= 1545 |   35 trades | $     +202,478 | WR= 57.1% | PF= 1.68 | DD=$    -102,187 | Avg=$   +5,785 | AvgTr=2.0
+     3T  60m | tgt=70% ts= 1545 |   35 trades | $     +301,849 | WR= 54.3% | PF= 1.69 | DD=$    -156,977 | Avg=$   +8,624 | AvgTr=3.0
+     4T  60m | tgt=70% ts= 1545 |   35 trades | $     +391,164 | WR= 60.0% | PF= 1.72 | DD=$    -202,058 | Avg=$  +11,176 | AvgTr=3.9
+     5T  60m | tgt=70% ts= 1545 |   35 trades | $     +437,767 | WR= 62.9% | PF= 1.69 | DD=$    -254,618 | Avg=$  +12,508 | AvgTr=4.8
+     6T  60m | tgt=70% ts= 1545 |   35 trades | $     +429,636 | WR= 62.9% | PF= 1.62 | DD=$    -278,117 | Avg=$  +12,275 | AvgTr=5.7
+     8T  60m | tgt=70% ts= 1545 |   35 trades | $     +429,636 | WR= 62.9% | PF= 1.62 | DD=$    -278,117 | Avg=$  +12,275 | AvgTr=5.7
+    10T  60m | tgt=70% ts= 1545 |   35 trades | $     +429,636 | WR= 62.9% | PF= 1.62 | DD=$    -278,117 | Avg=$  +12,275 | AvgTr=5.7
+
+
+  ── Filter: ALL (no filter) (573 trades) ──
+
+    Mechanics: 70%/close
+    Config               Trades        Total $      WR      PF         MaxDD     Avg/Trd  AvgTranches
+    ──────────────────────────────────────────────────────────────────────────────────────────────────────────────
+     1T  30m | tgt=70% ts=close |  573 trades | $     -163,316 | WR= 47.8% | PF= 0.95 | DD=$    -421,871 | Avg=$     -285 | AvgTr=1.0
+     2T  30m | tgt=70% ts=close |  573 trades | $     -411,447 | WR= 48.0% | PF= 0.94 | DD=$    -907,955 | Avg=$     -718 | AvgTr=2.0
+     3T  30m | tgt=70% ts=close |  573 trades | $     -601,722 | WR= 48.0% | PF= 0.94 | DD=$  -1,353,052 | Avg=$   -1,050 | AvgTr=3.0
+     4T  30m | tgt=70% ts=close |  573 trades | $     -784,998 | WR= 48.2% | PF= 0.94 | DD=$  -1,799,586 | Avg=$   -1,370 | AvgTr=3.9
+     5T  30m | tgt=70% ts=close |  573 trades | $     -993,740 | WR= 48.9% | PF= 0.93 | DD=$  -2,296,183 | Avg=$   -1,734 | AvgTr=4.9
+     6T  30m | tgt=70% ts=close |  573 trades | $   -1,167,208 | WR= 48.2% | PF= 0.93 | DD=$  -2,729,467 | Avg=$   -2,037 | AvgTr=5.8
+     8T  30m | tgt=70% ts=close |  573 trades | $   -1,426,579 | WR= 47.6% | PF= 0.94 | DD=$  -3,427,921 | Avg=$   -2,490 | AvgTr=7.6
+    10T  30m | tgt=70% ts=close |  573 trades | $   -1,629,215 | WR= 47.3% | PF= 0.94 | DD=$  -3,947,577 | Avg=$   -2,843 | AvgTr=9.2
+
+     1T  60m | tgt=70% ts=close |  573 trades | $     -163,316 | WR= 47.8% | PF= 0.95 | DD=$    -421,871 | Avg=$     -285 | AvgTr=1.0
+     2T  60m | tgt=70% ts=close |  573 trades | $     -353,591 | WR= 48.5% | PF= 0.94 | DD=$    -866,968 | Avg=$     -617 | AvgTr=2.0
+     3T  60m | tgt=70% ts=close |  573 trades | $     -562,333 | WR= 48.9% | PF= 0.94 | DD=$  -1,363,565 | Avg=$     -981 | AvgTr=2.9
+     4T  60m | tgt=70% ts=close |  573 trades | $     -709,050 | WR= 47.8% | PF= 0.94 | DD=$  -1,740,607 | Avg=$   -1,237 | AvgTr=3.8
+     5T  60m | tgt=70% ts=close |  573 trades | $     -892,089 | WR= 47.1% | PF= 0.93 | DD=$  -2,031,322 | Avg=$   -1,557 | AvgTr=4.7
+     6T  60m | tgt=70% ts=close |  573 trades | $     -879,920 | WR= 46.9% | PF= 0.94 | DD=$  -2,243,716 | Avg=$   -1,536 | AvgTr=5.4
+     8T  60m | tgt=70% ts=close |  573 trades | $     -879,920 | WR= 46.9% | PF= 0.94 | DD=$  -2,243,716 | Avg=$   -1,536 | AvgTr=5.4
+    10T  60m | tgt=70% ts=close |  573 trades | $     -879,920 | WR= 46.9% | PF= 0.94 | DD=$  -2,243,716 | Avg=$   -1,536 | AvgTr=5.4
+
+
+    Mechanics: 50%/close
+    Config               Trades        Total $      WR      PF         MaxDD     Avg/Trd  AvgTranches
+    ──────────────────────────────────────────────────────────────────────────────────────────────────────────────
+     1T  30m | tgt=50% ts=close |  573 trades | $     -299,669 | WR= 51.0% | PF= 0.91 | DD=$    -453,301 | Avg=$     -523 | AvgTr=1.0
+     2T  30m | tgt=50% ts=close |  573 trades | $     -684,153 | WR= 51.1% | PF= 0.89 | DD=$    -971,362 | Avg=$   -1,194 | AvgTr=2.0
+     3T  30m | tgt=50% ts=close |  573 trades | $   -1,010,781 | WR= 51.1% | PF= 0.89 | DD=$  -1,449,414 | Avg=$   -1,764 | AvgTr=3.0
+     4T  30m | tgt=50% ts=close |  573 trades | $   -1,330,410 | WR= 51.5% | PF= 0.89 | DD=$  -1,925,448 | Avg=$   -2,322 | AvgTr=3.9
+     5T  30m | tgt=50% ts=close |  573 trades | $   -1,675,505 | WR= 52.2% | PF= 0.89 | DD=$  -2,449,755 | Avg=$   -2,924 | AvgTr=4.9
+     6T  30m | tgt=50% ts=close |  573 trades | $   -1,985,326 | WR= 51.7% | PF= 0.88 | DD=$  -2,910,473 | Avg=$   -3,465 | AvgTr=5.8
+     8T  30m | tgt=50% ts=close |  573 trades | $   -2,511,103 | WR= 51.5% | PF= 0.88 | DD=$  -3,725,675 | Avg=$   -4,382 | AvgTr=7.6
+    10T  30m | tgt=50% ts=close |  573 trades | $   -2,894,077 | WR= 51.5% | PF= 0.88 | DD=$  -4,418,942 | Avg=$   -5,051 | AvgTr=9.1
+
+     1T  60m | tgt=50% ts=close |  573 trades | $     -299,669 | WR= 51.0% | PF= 0.91 | DD=$    -453,301 | Avg=$     -523 | AvgTr=1.0
+     2T  60m | tgt=50% ts=close |  573 trades | $     -626,297 | WR= 51.8% | PF= 0.90 | DD=$    -931,353 | Avg=$   -1,093 | AvgTr=2.0
+     3T  60m | tgt=50% ts=close |  573 trades | $     -971,392 | WR= 52.2% | PF= 0.89 | DD=$  -1,454,859 | Avg=$   -1,695 | AvgTr=2.9
+     4T  60m | tgt=50% ts=close |  573 trades | $   -1,254,462 | WR= 51.1% | PF= 0.89 | DD=$  -1,875,477 | Avg=$   -2,189 | AvgTr=3.8
+     5T  60m | tgt=50% ts=close |  573 trades | $   -1,545,755 | WR= 51.1% | PF= 0.88 | DD=$  -2,267,516 | Avg=$   -2,698 | AvgTr=4.6
+     6T  60m | tgt=50% ts=close |  573 trades | $   -1,576,901 | WR= 51.7% | PF= 0.88 | DD=$  -2,532,634 | Avg=$   -2,752 | AvgTr=5.2
+     8T  60m | tgt=50% ts=close |  573 trades | $   -1,576,901 | WR= 51.7% | PF= 0.88 | DD=$  -2,532,634 | Avg=$   -2,752 | AvgTr=5.2
+    10T  60m | tgt=50% ts=close |  573 trades | $   -1,576,901 | WR= 51.7% | PF= 0.88 | DD=$  -2,532,634 | Avg=$   -2,752 | AvgTr=5.2
+
+
+    Mechanics: 50%/3:30
+    Config               Trades        Total $      WR      PF         MaxDD     Avg/Trd  AvgTranches
+    ──────────────────────────────────────────────────────────────────────────────────────────────────────────────
+     1T  30m | tgt=50% ts= 1530 |  573 trades | $     -480,082 | WR= 51.8% | PF= 0.83 | DD=$    -547,436 | Avg=$     -838 | AvgTr=1.0
+     2T  30m | tgt=50% ts= 1530 |  573 trades | $   -1,044,979 | WR= 51.1% | PF= 0.81 | DD=$  -1,167,403 | Avg=$   -1,824 | AvgTr=2.0
+     3T  30m | tgt=50% ts= 1530 |  573 trades | $   -1,554,830 | WR= 50.6% | PF= 0.81 | DD=$  -1,722,956 | Avg=$   -2,713 | AvgTr=3.0
+     4T  30m | tgt=50% ts= 1530 |  573 trades | $   -2,057,682 | WR= 49.4% | PF= 0.81 | DD=$  -2,248,388 | Avg=$   -3,591 | AvgTr=3.9
+     5T  30m | tgt=50% ts= 1530 |  573 trades | $   -2,583,190 | WR= 50.1% | PF= 0.80 | DD=$  -2,792,766 | Avg=$   -4,508 | AvgTr=4.9
+     6T  30m | tgt=50% ts= 1530 |  573 trades | $   -3,073,424 | WR= 49.9% | PF= 0.80 | DD=$  -3,328,427 | Avg=$   -5,364 | AvgTr=5.8
+     8T  30m | tgt=50% ts= 1530 |  573 trades | $   -3,960,027 | WR= 50.1% | PF= 0.79 | DD=$  -4,348,687 | Avg=$   -6,911 | AvgTr=7.6
+    10T  30m | tgt=50% ts= 1530 |  573 trades | $   -4,703,827 | WR= 49.4% | PF= 0.77 | DD=$  -5,201,395 | Avg=$   -8,209 | AvgTr=9.1
+
+     1T  60m | tgt=50% ts= 1530 |  573 trades | $     -480,082 | WR= 51.8% | PF= 0.83 | DD=$    -547,436 | Avg=$     -838 | AvgTr=1.0
+     2T  60m | tgt=50% ts= 1530 |  573 trades | $     -989,933 | WR= 50.6% | PF= 0.82 | DD=$  -1,102,989 | Avg=$   -1,728 | AvgTr=2.0
+     3T  60m | tgt=50% ts= 1530 |  573 trades | $   -1,515,441 | WR= 50.4% | PF= 0.81 | DD=$  -1,639,641 | Avg=$   -2,645 | AvgTr=2.9
+     4T  60m | tgt=50% ts= 1530 |  573 trades | $   -1,978,924 | WR= 49.7% | PF= 0.80 | DD=$  -2,166,919 | Avg=$   -3,454 | AvgTr=3.8
+     5T  60m | tgt=50% ts= 1530 |  573 trades | $   -2,450,630 | WR= 49.7% | PF= 0.78 | DD=$  -2,697,325 | Avg=$   -4,277 | AvgTr=4.6
+     6T  60m | tgt=50% ts= 1530 |  573 trades | $   -2,662,189 | WR= 49.2% | PF= 0.77 | DD=$  -2,911,682 | Avg=$   -4,646 | AvgTr=5.2
+     8T  60m | tgt=50% ts= 1530 |  573 trades | $   -2,662,189 | WR= 49.2% | PF= 0.77 | DD=$  -2,911,682 | Avg=$   -4,646 | AvgTr=5.2
+    10T  60m | tgt=50% ts= 1530 |  573 trades | $   -2,662,189 | WR= 49.2% | PF= 0.77 | DD=$  -2,911,682 | Avg=$   -4,646 | AvgTr=5.2
+
+
+    Mechanics: 70%/3:45
+    Config               Trades        Total $      WR      PF         MaxDD     Avg/Trd  AvgTranches
+    ──────────────────────────────────────────────────────────────────────────────────────────────────────────────
+     1T  30m | tgt=70% ts= 1545 |  573 trades | $     -280,679 | WR= 50.8% | PF= 0.90 | DD=$    -471,085 | Avg=$     -490 | AvgTr=1.0
+     2T  30m | tgt=70% ts= 1545 |  573 trades | $     -646,173 | WR= 50.3% | PF= 0.89 | DD=$  -1,002,964 | Avg=$   -1,128 | AvgTr=2.0
+     3T  30m | tgt=70% ts= 1545 |  573 trades | $     -946,511 | WR= 50.4% | PF= 0.89 | DD=$  -1,449,791 | Avg=$   -1,652 | AvgTr=3.0
+     4T  30m | tgt=70% ts= 1545 |  573 trades | $   -1,239,850 | WR= 50.3% | PF= 0.89 | DD=$  -1,870,102 | Avg=$   -2,164 | AvgTr=3.9
+     5T  30m | tgt=70% ts= 1545 |  573 trades | $   -1,565,955 | WR= 49.6% | PF= 0.88 | DD=$  -2,320,735 | Avg=$   -2,733 | AvgTr=4.9
+     6T  30m | tgt=70% ts= 1545 |  573 trades | $   -1,856,786 | WR= 49.7% | PF= 0.88 | DD=$  -2,688,915 | Avg=$   -3,240 | AvgTr=5.8
+     8T  30m | tgt=70% ts= 1545 |  573 trades | $   -2,350,883 | WR= 48.7% | PF= 0.88 | DD=$  -3,294,224 | Avg=$   -4,103 | AvgTr=7.6
+    10T  30m | tgt=70% ts= 1545 |  573 trades | $   -2,788,245 | WR= 47.6% | PF= 0.87 | DD=$  -3,799,032 | Avg=$   -4,866 | AvgTr=9.2
+
+     1T  60m | tgt=70% ts= 1545 |  573 trades | $     -280,679 | WR= 50.8% | PF= 0.90 | DD=$    -471,085 | Avg=$     -490 | AvgTr=1.0
+     2T  60m | tgt=70% ts= 1545 |  573 trades | $     -581,017 | WR= 51.3% | PF= 0.90 | DD=$    -917,912 | Avg=$   -1,014 | AvgTr=2.0
+     3T  60m | tgt=70% ts= 1545 |  573 trades | $     -907,122 | WR= 49.4% | PF= 0.89 | DD=$  -1,363,826 | Avg=$   -1,583 | AvgTr=2.9
+     4T  60m | tgt=70% ts= 1545 |  573 trades | $   -1,171,202 | WR= 49.2% | PF= 0.88 | DD=$  -1,679,392 | Avg=$   -2,044 | AvgTr=3.8
+     5T  60m | tgt=70% ts= 1545 |  573 trades | $   -1,471,604 | WR= 47.3% | PF= 0.87 | DD=$  -1,995,216 | Avg=$   -2,568 | AvgTr=4.7
+     6T  60m | tgt=70% ts= 1545 |  573 trades | $   -1,576,798 | WR= 47.5% | PF= 0.87 | DD=$  -2,094,621 | Avg=$   -2,752 | AvgTr=5.4
+     8T  60m | tgt=70% ts= 1545 |  573 trades | $   -1,576,798 | WR= 47.5% | PF= 0.87 | DD=$  -2,094,621 | Avg=$   -2,752 | AvgTr=5.4
+    10T  60m | tgt=70% ts= 1545 |  573 trades | $   -1,576,798 | WR= 47.5% | PF= 0.87 | DD=$  -2,094,621 | Avg=$   -2,752 | AvgTr=5.4
+
+
+================================================================================================================================================================
+  SECTION 3: TOP OVERALL COMBOS (filter + mechanics + tranches)
+================================================================================================================================================================
+
+  Top 20 by Profit Factor (min 15 trades):
+    Filter                                   Config               Trades        Total $      WR      PF         MaxDD     Avg/Trd  AvgTr
+    ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+    VP≤1.3 + PrDayDn + 5dRet>0               6T/60m tgt=50%/ts=close     33 $   +1,255,771   72.7%   6.40 $     -78,512 $   +38,054   5.0
+    VP≤1.3 + PrDayDn + 5dRet>0               8T/60m tgt=50%/ts=close     33 $   +1,255,771   72.7%   6.40 $     -78,512 $   +38,054   5.0
+    VP≤1.3 + PrDayDn + 5dRet>0               10T/60m tgt=50%/ts=close     33 $   +1,255,771   72.7%   6.40 $     -78,512 $   +38,054   5.0
+    VP≤1.3 + PrDayDn + 5dRet>0               6T/60m tgt=40%/ts=close     33 $   +1,104,482   75.8%   6.09 $     -78,512 $   +33,469   4.7
+    VP≤1.3 + PrDayDn + 5dRet>0               8T/60m tgt=40%/ts=close     33 $   +1,104,482   75.8%   6.09 $     -78,512 $   +33,469   4.7
+    VP≤1.3 + PrDayDn + 5dRet>0               10T/60m tgt=40%/ts=close     33 $   +1,104,482   75.8%   6.09 $     -78,512 $   +33,469   4.7
+    VP≤1.3 + PrDayDn + 5dRet>0               10T/30m tgt=50%/ts=close     33 $   +2,220,868   72.7%   6.03 $    -150,388 $   +67,299   8.8
+    VP≤1.3 + PrDayDn + 5dRet>0               5T/60m tgt=50%/ts=close     33 $   +1,144,938   72.7%   5.95 $     -78,512 $   +34,695   4.5
+    VP≤1.3 + PrDayDn + 5dRet>0               8T/30m tgt=50%/ts=close     33 $   +1,930,451   72.7%   5.82 $    -150,388 $   +58,499   7.4
+    VP≤1.3 + PrDayDn + 5dRet>0               10T/30m tgt=40%/ts=close     33 $   +1,957,639   75.8%   5.72 $    -150,388 $   +59,322   8.4
+    VP≤1.3 + PrDayDn + 5dRet>0               5T/60m tgt=40%/ts=close     33 $   +1,007,109   75.8%   5.60 $     -78,512 $   +30,518   4.3
+    VP≤1.3 + PrDayDn + 5dRet>0               4T/60m tgt=50%/ts=close     33 $     +979,411   75.8%   5.58 $     -78,512 $   +29,679   3.7
+    VP≤1.3 + PrDayDn + 5dRet>0               8T/30m tgt=40%/ts=close     33 $   +1,693,135   75.8%   5.37 $    -150,388 $   +51,307   7.3
+    VP≤1.3 + PrDayDn + 5dRet>0               6T/30m tgt=50%/ts=close     33 $   +1,507,545   72.7%   5.19 $    -127,666 $   +45,683   5.7
+    VP≤1.3 + PrDayDn + 5dRet>0               4T/60m tgt=40%/ts=close     33 $     +858,903   78.8%   5.12 $     -78,512 $   +26,027   3.7
+    VP≤1.3 + PrDayDn + 5dRet>0               3T/60m tgt=50%/ts=close     33 $     +747,556   72.7%   4.84 $     -66,976 $   +22,653   2.9
+    VP≤1.3 + PrDayDn + 5dRet>0               6T/30m tgt=40%/ts=close     33 $   +1,326,783   75.8%   4.73 $    -127,666 $   +40,206   5.7
+    VP≤1.3 + PrDayDn + 5dRet>0               5T/30m tgt=50%/ts=close     33 $   +1,245,224   72.7%   4.69 $    -111,272 $   +37,734   4.8
+    VP≤1.3 + PrDayDn + 5dRet>0               3T/60m tgt=40%/ts=close     33 $     +657,175   75.8%   4.41 $     -66,976 $   +19,914   2.9
+    VP≤1.3 + PrDayDn + 5dRet>0               8T/30m tgt=70%/ts=close     33 $   +2,003,591   69.7%   4.37 $    -256,242 $   +60,715   7.4
+
+  Top 20 by Total $ (min 15 trades):
+    Filter                                   Config               Trades        Total $      WR      PF         MaxDD     Avg/Trd  AvgTr
+    ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+    VP≤1.7 + !RISING + 5dRet>0               10T/30m tgt=70%/ts=close    154 $   +4,095,320   58.4%   1.73 $    -593,933 $   +26,593   9.4
+    VP≤1.5 + !RISING + 5dRet>0               10T/30m tgt=70%/ts=close    105 $   +3,916,154   61.0%   2.03 $    -628,840 $   +37,297   9.3
+    VP≤1.7 + !RISING + 5dRet>0               8T/30m tgt=70%/ts=close    154 $   +3,349,451   58.4%   1.68 $    -531,379 $   +21,750   7.7
+    VP≤1.3 + !RISING + 5dRet>0               10T/30m tgt=70%/ts=close     58 $   +3,348,773   67.2%   2.71 $    -410,041 $   +57,737   9.5
+    VP≤1.5 + !RISING + 5dRet>0               8T/30m tgt=70%/ts=close    105 $   +3,250,648   61.0%   1.96 $    -543,099 $   +30,959   7.6
+    VP≤1.7 + !RISING + 5dRet>0               10T/30m tgt=50%/ts=close    154 $   +2,926,113   60.4%   1.56 $    -504,152 $   +19,001   9.2
+    VP≤1.3 + !RISING + 5dRet>0               8T/30m tgt=70%/ts=close     58 $   +2,883,438   65.5%   2.70 $    -352,997 $   +49,714   7.8
+    VP≤1.5 + !RISING + 5dRet>0               10T/30m tgt=50%/ts=close    105 $   +2,872,003   63.8%   1.83 $    -468,510 $   +27,352   9.1
+    VP≤1.3 + !RISING + 5dRet>0               10T/30m tgt=50%/ts=close     58 $   +2,712,124   69.0%   2.60 $    -295,596 $   +46,761   9.3
+    VP≤1.5 + !RISING + 5dRet>0               8T/30m tgt=50%/ts=close    105 $   +2,402,364   63.8%   1.78 $    -401,431 $   +22,880   7.6
+    VP≤1.7 + !RISING + 5dRet>0               6T/30m tgt=70%/ts=close    154 $   +2,398,308   57.1%   1.59 $    -439,153 $   +15,573   5.9
+    VP≤1.7 + !RISING + 5dRet>0               8T/30m tgt=50%/ts=close    154 $   +2,398,031   60.4%   1.51 $    -463,457 $   +15,572   7.6
+    VP≤1.3 + !RISING + 5dRet>0               8T/30m tgt=50%/ts=close     58 $   +2,363,466   67.2%   2.57 $    -270,585 $   +40,749   7.7
+    VP≤1.5 + !RISING + 5dRet>0               10T/30m tgt=70%/ts=1545     105 $   +2,361,044   61.0%   1.71 $    -681,733 $   +22,486   9.3
+    VP≤1.5 + !RISING + 5dRet>0               6T/30m tgt=70%/ts=close    105 $   +2,354,603   59.0%   1.83 $    -459,763 $   +22,425   5.9
+    VP≤1.7 + !RISING + 5dRet>0               6T/60m tgt=70%/ts=close    154 $   +2,353,947   59.1%   1.75 $    -311,915 $   +15,285   5.5
+    VP≤1.7 + !RISING + 5dRet>0               8T/60m tgt=70%/ts=close    154 $   +2,353,947   59.1%   1.75 $    -311,915 $   +15,285   5.5
+    VP≤1.7 + !RISING + 5dRet>0               10T/60m tgt=70%/ts=close    154 $   +2,353,947   59.1%   1.75 $    -311,915 $   +15,285   5.5
+    VP≤1.3 + !RISING + 5dRet>0               10T/30m tgt=70%/ts=1545      58 $   +2,337,283   69.0%   2.39 $    -523,431 $   +40,298   9.5
+    VP≤1.3 + PrDayDn + 5dRet>0               10T/30m tgt=70%/ts=close     33 $   +2,297,783   66.7%   4.17 $    -321,572 $   +69,630   9.1
+
+  Top 20 by Calmar ratio (total$/maxDD, min 15 trades):
+    Filter                                   Config               Trades        Total $   Calmar      PF         MaxDD  AvgTr
+    ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+    VP≤1.3 + PrDayDn + 5dRet>0               6T/60m tgt=50%/ts=close     33 $   +1,255,771   15.99   6.40 $     -78,512   5.0
+    VP≤1.3 + PrDayDn + 5dRet>0               8T/60m tgt=50%/ts=close     33 $   +1,255,771   15.99   6.40 $     -78,512   5.0
+    VP≤1.3 + PrDayDn + 5dRet>0               10T/60m tgt=50%/ts=close     33 $   +1,255,771   15.99   6.40 $     -78,512   5.0
+    VP≤1.3 + PrDayDn + 5dRet>0               10T/30m tgt=50%/ts=close     33 $   +2,220,868   14.77   6.03 $    -150,388   8.8
+    VP≤1.3 + PrDayDn + 5dRet>0               5T/60m tgt=50%/ts=close     33 $   +1,144,938   14.58   5.95 $     -78,512   4.5
+    VP≤1.3 + PrDayDn + 5dRet>0               6T/60m tgt=40%/ts=close     33 $   +1,104,482   14.07   6.09 $     -78,512   4.7
+    VP≤1.3 + PrDayDn + 5dRet>0               8T/60m tgt=40%/ts=close     33 $   +1,104,482   14.07   6.09 $     -78,512   4.7
+    VP≤1.3 + PrDayDn + 5dRet>0               10T/60m tgt=40%/ts=close     33 $   +1,104,482   14.07   6.09 $     -78,512   4.7
+    VP≤1.3 + PrDayDn + 5dRet>0               10T/30m tgt=40%/ts=close     33 $   +1,957,639   13.02   5.72 $    -150,388   8.4
+    VP≤1.3 + PrDayDn + 5dRet>0               8T/30m tgt=50%/ts=close     33 $   +1,930,451   12.84   5.82 $    -150,388   7.4
+    VP≤1.3 + PrDayDn + 5dRet>0               5T/60m tgt=40%/ts=close     33 $   +1,007,109   12.83   5.60 $     -78,512   4.3
+    VP≤1.3 + PrDayDn + 5dRet>0               1T/30m tgt=50%/ts=close     33 $     +255,959   12.50   4.04 $     -20,482   1.0
+    VP≤1.3 + PrDayDn + 5dRet>0               1T/60m tgt=50%/ts=close     33 $     +255,959   12.50   4.04 $     -20,482   1.0
+    VP≤1.3 + PrDayDn + 5dRet>0               4T/60m tgt=50%/ts=close     33 $     +979,411   12.47   5.58 $     -78,512   3.7
+    VP≤1.3 + PrDayDn + 5dRet>0               2T/30m tgt=50%/ts=close     33 $     +508,233   12.39   4.08 $     -41,020   2.0
+    VP≤1.3 + PrDayDn + 5dRet>0               6T/30m tgt=50%/ts=close     33 $   +1,507,545   11.81   5.19 $    -127,666   5.7
+    VP≤1.3 + PrDayDn + 5dRet>0               3T/30m tgt=50%/ts=close     33 $     +745,846   11.37   4.17 $     -65,576   2.9
+    VP≤1.3 + PrDayDn + 5dRet>0               8T/30m tgt=40%/ts=close     33 $   +1,693,135   11.26   5.37 $    -150,388   7.3
+    VP≤1.3 + PrDayDn + 5dRet>0               5T/30m tgt=50%/ts=close     33 $   +1,245,224   11.19   4.69 $    -111,272   4.8
+    VP≤1.3 + PrDayDn + 5dRet>0               3T/60m tgt=50%/ts=close     33 $     +747,556   11.16   4.84 $     -66,976   2.9
+
+================================================================================================================================================================
+  SECTION 4: ROBUSTNESS — Split-half test on top 15 combos
+================================================================================================================================================================
+  H1: 2023-11-06 to 2024-12-26 (287 trades)
+  H2: 2024-12-27 to 2026-02-20 (286 trades)
+
+  Filter                                   Config                                         H1                             H2  Robust
+  ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+  VP≤1.3 + PrDayDn + 5dRet>0               6T/60m 50%/close          13t $  +551,628 PF=5.57 |        20t $  +704,143 PF=7.30  ✓
+  VP≤1.3 + PrDayDn + 5dRet>0               8T/60m 50%/close          13t $  +551,628 PF=5.57 |        20t $  +704,143 PF=7.30  ✓
+  VP≤1.3 + PrDayDn + 5dRet>0               10T/60m 50%/close         13t $  +551,628 PF=5.57 |        20t $  +704,143 PF=7.30  ✓
+  VP≤1.3 + PrDayDn + 5dRet>0               6T/60m 40%/close          13t $  +484,829 PF=5.61 |        20t $  +619,653 PF=6.54  ✓
+  VP≤1.3 + PrDayDn + 5dRet>0               8T/60m 40%/close          13t $  +484,829 PF=5.61 |        20t $  +619,653 PF=6.54  ✓
+  VP≤1.3 + PrDayDn + 5dRet>0               10T/60m 40%/close         13t $  +484,829 PF=5.61 |        20t $  +619,653 PF=6.54  ✓
+  VP≤1.3 + PrDayDn + 5dRet>0               10T/30m 50%/close         13t $  +965,670 PF=5.31 |        20t $+1,255,198 PF=6.77  ✓
+  VP≤1.3 + PrDayDn + 5dRet>0               5T/60m 50%/close          13t $  +497,256 PF=5.23 |        20t $  +647,682 PF=6.69  ✓
+  VP≤1.3 + PrDayDn + 5dRet>0               8T/30m 50%/close          13t $  +830,663 PF=4.96 |        20t $+1,099,788 PF=6.78  ✓
+  VP≤1.3 + PrDayDn + 5dRet>0               10T/30m 40%/close         13t $  +850,093 PF=5.31 |        20t $+1,107,546 PF=6.09  ✓
+  VP≤1.3 + PrDayDn + 5dRet>0               5T/60m 40%/close          13t $  +435,897 PF=5.14 |        20t $  +571,212 PF=6.01  ✓
+  VP≤1.3 + PrDayDn + 5dRet>0               4T/60m 50%/close          13t $  +420,122 PF=4.79 |        20t $  +559,289 PF=6.42  ✓
+  VP≤1.3 + PrDayDn + 5dRet>0               8T/30m 40%/close          13t $  +721,019 PF=4.65 |        20t $  +972,116 PF=6.11  ✓
+  VP≤1.3 + PrDayDn + 5dRet>0               6T/30m 50%/close          13t $  +673,338 PF=4.77 |        20t $  +834,207 PF=5.61  ✓
+  VP≤1.3 + PrDayDn + 5dRet>0               4T/60m 40%/close          13t $  +363,950 PF=4.46 |        20t $  +494,953 PF=5.80  ✓
+
+================================================================================================================================================================
+  DONE
+================================================================================================================================================================

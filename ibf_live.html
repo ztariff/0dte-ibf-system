@@ -1,0 +1,2014 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IBF Live — SPX 0DTE Iron Butterfly</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap');
+:root {
+  --bg:#040a10; --s1:#081420; --s2:#0c1a2a; --border:#0f2233;
+  --green:#00e5a0; --red:#ff3d5a; --yellow:#ffc94d; --blue:#3d9bff;
+  --orange:#ff7a2f; --purple:#b06aff;
+  --text:#b8ccd8; --dim:#2d4a60; --muted:#4a6a80;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bg);color:var(--text);font-family:'IBM Plex Sans',sans-serif;font-size:13px;padding:20px;min-height:100vh}
+
+/* ── Header ─────────────────────────────────────── */
+.hdr{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;padding-bottom:14px;border-bottom:1px solid var(--border)}
+.hdr-left{display:flex;align-items:baseline;gap:16px}
+.hdr .eye{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:3px;color:var(--muted)}
+.hdr h1{font-size:20px;font-weight:600;letter-spacing:1px}
+.hdr h1 em{color:var(--green);font-style:normal}
+.hdr-right{display:flex;align-items:center;gap:20px}
+.clock{font-family:'IBM Plex Mono',monospace;font-size:22px;font-weight:300;color:var(--blue)}
+.status-badge{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:2px;padding:5px 12px;border-radius:5px;border:1px solid}
+.status-badge.pre{color:var(--muted);border-color:var(--dim);background:rgba(45,74,96,0.1)}
+.status-badge.scoring{color:var(--yellow);border-color:rgba(255,201,77,0.4);background:rgba(255,201,77,0.08);animation:pulse 2s infinite}
+.status-badge.trading{color:var(--green);border-color:rgba(0,229,160,0.4);background:rgba(0,229,160,0.08)}
+.status-badge.closed{color:var(--muted);border-color:var(--dim);background:rgba(45,74,96,0.1)}
+.countdown{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--dim)}
+
+/* ── Connection Status ───────────────────────── */
+.conn-status{display:flex;align-items:center;gap:7px;font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:1px;padding:5px 12px;border-radius:5px;border:1px solid var(--border);background:var(--s1)}
+.conn-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;transition:background 0.3s, box-shadow 0.3s}
+.conn-dot.checking{background:var(--yellow);box-shadow:0 0 6px rgba(255,201,77,0.5);animation:pulse 1.5s infinite}
+.conn-dot.ok{background:var(--green);box-shadow:0 0 8px rgba(0,229,160,0.5)}
+.conn-dot.fail{background:var(--red);box-shadow:0 0 8px rgba(255,61,90,0.5)}
+.conn-label{color:var(--muted)}
+.conn-label.ok{color:var(--green)}
+.conn-label.fail{color:var(--red)}
+
+/* ── Refresh Button ──────────────────────────── */
+.refresh-btn{display:none;align-items:center;gap:5px;padding:5px 12px;border-radius:5px;border:1px solid var(--border);
+  background:var(--s1);color:var(--muted);font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:1px;cursor:pointer;transition:all 0.2s}
+.refresh-btn:hover{border-color:var(--blue);color:var(--blue);background:rgba(61,155,255,0.06)}
+.refresh-btn:active{background:rgba(61,155,255,0.12)}
+.refresh-btn.spinning .refresh-icon{animation:spin 0.8s linear infinite}
+.refresh-btn .refresh-icon{display:inline-block;font-size:11px;transition:transform 0.2s}
+.refresh-btn .refresh-sub{font-size:8px;color:var(--dim);margin-left:4px}
+@keyframes spin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.5}}
+
+/* ── API Key Modal ──────────────────────────────── */
+.modal-overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(4,10,16,0.92);display:flex;align-items:center;justify-content:center;z-index:100}
+.modal{background:var(--s1);border:1px solid var(--border);border-radius:12px;padding:32px;width:420px;text-align:center}
+.modal h2{font-size:16px;margin-bottom:6px}
+.modal p{font-size:11px;color:var(--muted);margin-bottom:20px}
+.modal input{width:100%;padding:10px 14px;background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text);font-family:'IBM Plex Mono',monospace;font-size:12px;outline:none}
+.modal input:focus{border-color:var(--green)}
+.modal button{margin-top:14px;padding:8px 24px;background:rgba(0,229,160,0.15);border:1px solid var(--green);border-radius:6px;color:var(--green);font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:2px;cursor:pointer}
+.modal button:hover{background:rgba(0,229,160,0.25)}
+
+/* ── Panels ─────────────────────────────────────── */
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px}
+.grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:12px}
+.grid-pos{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:12px}
+.card{background:var(--s1);border:1px solid var(--border);border-radius:9px;padding:16px}
+.ct{font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:2px;color:var(--dim);margin-bottom:10px}
+
+/* ── KPI row ────────────────────────────────────── */
+.kpi-row{display:grid;grid-template-columns:repeat(6,1fr);gap:8px;margin-bottom:12px}
+.kpi{background:var(--s1);border:1px solid var(--border);border-radius:7px;padding:10px 12px}
+.kpi.g{border-color:rgba(0,229,160,0.2);background:rgba(0,229,160,0.03)}
+.kpi.r{border-color:rgba(255,61,90,0.2);background:rgba(255,61,90,0.03)}
+.kpi.y{border-color:rgba(255,201,77,0.2);background:rgba(255,201,77,0.03)}
+.kpi.b{border-color:rgba(61,155,255,0.2);background:rgba(61,155,255,0.03)}
+.kl{font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:2px;color:var(--dim);margin-bottom:3px}
+.kv{font-family:'IBM Plex Mono',monospace;font-size:18px;font-weight:500}
+.ks{font-size:10px;color:var(--muted);margin-top:2px}
+.cg{color:var(--green)}.cr{color:var(--red)}.cy{color:var(--yellow)}.cb{color:var(--blue)}.co{color:var(--orange)}.cp{color:var(--purple)}
+
+/* ── Score bar ──────────────────────────────────── */
+.score-section{margin-bottom:12px}
+.score-bar-wrap{position:relative;height:32px;background:var(--s1);border:1px solid var(--border);border-radius:6px;overflow:hidden;margin-bottom:8px}
+.score-bar{height:100%;border-radius:5px;transition:width 0.6s ease, background 0.3s}
+.score-bar.skip{background:linear-gradient(90deg,rgba(255,61,90,0.3),rgba(255,61,90,0.15))}
+.score-bar.wait{background:linear-gradient(90deg,rgba(255,201,77,0.3),rgba(255,201,77,0.15))}
+.score-bar.go{background:linear-gradient(90deg,rgba(0,229,160,0.3),rgba(0,229,160,0.15))}
+.score-val{position:absolute;top:50%;right:12px;transform:translateY(-50%);font-family:'IBM Plex Mono',monospace;font-size:14px;font-weight:600}
+.score-thresh{position:absolute;top:0;bottom:0;width:2px;opacity:0.5}
+.score-thresh.mod{background:var(--green)}
+.score-thresh.con{background:var(--orange)}
+.score-thresh-label{position:absolute;top:2px;font-family:'IBM Plex Mono',monospace;font-size:7px;letter-spacing:1px}
+.score-components{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}
+.sc-item{background:var(--s2);border:1px solid var(--border);border-radius:5px;padding:8px 10px;text-align:center}
+.sc-label{font-family:'IBM Plex Mono',monospace;font-size:7px;letter-spacing:1px;color:var(--dim);margin-bottom:4px}
+.sc-val{font-family:'IBM Plex Mono',monospace;font-size:14px;font-weight:500}
+.sc-max{font-size:9px;color:var(--dim)}
+
+/* ── Gate indicators ────────────────────────────── */
+.gates{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:12px}
+.gate{background:var(--s2);border:1px solid var(--border);border-radius:6px;padding:10px 12px;display:flex;align-items:center;gap:10px}
+.gate-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+.gate-dot.pass{background:var(--green);box-shadow:0 0 8px rgba(0,229,160,0.4)}
+.gate-dot.fail{background:var(--red);box-shadow:0 0 8px rgba(255,61,90,0.4)}
+.gate-dot.pending{background:var(--dim)}
+.gate-label{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:1px;color:var(--muted)}
+.gate-val{font-family:'IBM Plex Mono',monospace;font-size:11px;margin-top:2px}
+
+/* ── Dual Verdict ─────────────────────────────────── */
+.dual-verdict{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px}
+.verdict-card{padding:16px 20px;border-radius:8px;font-family:'IBM Plex Mono',monospace;position:relative;border:1px solid var(--border);background:var(--s1)}
+.verdict-card .vc-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
+.verdict-card .vc-label{font-size:9px;letter-spacing:2px;color:var(--muted)}
+.verdict-card .vc-badge{font-size:8px;letter-spacing:1px;padding:2px 8px;border-radius:3px;border:1px solid}
+.verdict-card .vc-badge.higher{color:var(--orange);border-color:rgba(255,122,47,0.3);background:rgba(255,122,47,0.08)}
+.verdict-card .vc-badge.wider{color:var(--blue);border-color:rgba(61,155,255,0.3);background:rgba(61,155,255,0.08)}
+.verdict-card .vc-signal{font-size:18px;font-weight:600;letter-spacing:3px;margin-bottom:4px}
+.verdict-card .vc-detail{font-size:10px;color:var(--muted)}
+.verdict-card .vc-gates{font-size:9px;color:var(--dim);margin-top:8px;display:flex;gap:12px}
+.verdict-card .vc-gate{display:flex;align-items:center;gap:4px}
+.verdict-card .vc-gate-dot{width:6px;height:6px;border-radius:50%;display:inline-block}
+.verdict-card .vc-gate-dot.pass{background:var(--green)}.verdict-card .vc-gate-dot.fail{background:var(--red)}.verdict-card .vc-gate-dot.pending{background:var(--dim)}
+.verdict-card.go{border-color:rgba(0,229,160,0.3);background:rgba(0,229,160,0.04)}
+.verdict-card.go .vc-signal{color:var(--green)}
+.verdict-card.wait{border-color:rgba(255,201,77,0.2);background:rgba(255,201,77,0.03)}
+.verdict-card.wait .vc-signal{color:var(--yellow)}
+.verdict-card.skip{border-color:rgba(255,61,90,0.2);background:rgba(255,61,90,0.03)}
+.verdict-card.skip .vc-signal{color:var(--red)}
+.verdict-card.pending .vc-signal{color:var(--dim)}
+
+/* ── Position cards ────────────────────────────────── */
+.pos-card{background:var(--s1);border:1px solid var(--border);border-radius:9px;padding:16px;position:relative}
+.pos-card.active{border-color:rgba(0,229,160,0.3)}
+.pos-card.closed-win{border-color:rgba(0,229,160,0.2);opacity:0.85}
+.pos-card.closed-loss{border-color:rgba(255,61,90,0.2);opacity:0.85}
+.pos-card.empty{border-style:dashed;opacity:0.4}
+.pos-tag{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:2px;color:var(--muted);margin-bottom:8px}
+.pos-strikes{font-family:'IBM Plex Mono',monospace;font-size:16px;font-weight:500;margin-bottom:4px}
+.pos-strikes .wing{color:var(--dim)}
+.pos-strikes .center{color:var(--blue)}
+.pos-detail{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--muted);margin-bottom:10px}
+.pos-pnl{font-family:'IBM Plex Mono',monospace;font-size:22px;font-weight:600;margin-bottom:6px}
+.pos-pnl.pos{color:var(--green)}.pos-pnl.neg{color:var(--red)}
+.pos-progress{height:6px;background:var(--bg);border-radius:3px;overflow:hidden;margin-bottom:8px;position:relative}
+.pos-progress-bar{height:100%;border-radius:3px;transition:width 0.3s}
+.pos-progress-bar.pos{background:var(--green)}.pos-progress-bar.neg{background:var(--red)}
+.pos-exit{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:1px;padding:3px 8px;border-radius:4px;display:inline-block}
+.pos-exit.target{background:rgba(0,229,160,0.12);color:var(--green)}
+.pos-exit.time{background:rgba(255,201,77,0.12);color:var(--yellow)}
+.pos-exit.wing{background:rgba(255,61,90,0.12);color:var(--red)}
+
+/* ── System Thinking Panel ─────────────────────── */
+.thinking-panel{background:var(--s1);border:1px solid var(--border);border-radius:9px;padding:16px;margin-bottom:12px}
+.thinking-panel .ct{margin-bottom:10px}
+.think-items{display:flex;flex-direction:column;gap:6px}
+.think-item{display:flex;align-items:flex-start;gap:10px;padding:8px 10px;background:var(--s2);border:1px solid var(--border);border-radius:6px;font-family:'IBM Plex Mono',monospace;font-size:11px}
+.think-icon{flex-shrink:0;width:18px;height:18px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:9px;margin-top:1px}
+.think-icon.active{background:rgba(61,155,255,0.2);color:var(--blue);border:1px solid rgba(61,155,255,0.4);animation:pulse 2s infinite}
+.think-icon.done{background:rgba(0,229,160,0.15);color:var(--green);border:1px solid rgba(0,229,160,0.3)}
+.think-icon.blocked{background:rgba(255,61,90,0.12);color:var(--red);border:1px solid rgba(255,61,90,0.3)}
+.think-icon.waiting{background:rgba(255,201,77,0.12);color:var(--yellow);border:1px solid rgba(255,201,77,0.3)}
+.think-text{flex:1;color:var(--text);line-height:1.5}
+.think-text .th-label{color:var(--muted);font-size:9px;letter-spacing:1px;display:block;margin-bottom:2px}
+.think-text .th-value{font-size:12px}
+.think-text .th-sub{color:var(--dim);font-size:10px;margin-top:2px}
+.think-progress{height:3px;background:var(--bg);border-radius:2px;margin-top:5px;overflow:hidden}
+.think-progress-bar{height:100%;border-radius:2px;transition:width 1s linear}
+.think-progress-bar.blue{background:var(--blue)}
+.think-progress-bar.green{background:var(--green)}
+.think-progress-bar.yellow{background:var(--yellow)}
+
+/* ── Alert feed ─────────────────────────────────── */
+.alert-feed{max-height:280px;overflow-y:auto}
+.alert-item{display:flex;gap:10px;padding:8px 0;border-bottom:1px solid rgba(15,34,51,0.5);font-family:'IBM Plex Mono',monospace;font-size:11px}
+.alert-time{color:var(--dim);white-space:nowrap;min-width:60px}
+.alert-icon{width:8px;height:8px;border-radius:50%;margin-top:4px;flex-shrink:0}
+.alert-icon.entry{background:var(--green)}.alert-icon.add{background:var(--blue)}
+.alert-icon.exit-win{background:var(--green)}.alert-icon.exit-loss{background:var(--red)}
+.alert-icon.info{background:var(--muted)}.alert-icon.warn{background:var(--yellow)}
+
+/* ── Chart ──────────────────────────────────────── */
+canvas{max-height:180px}
+
+/* ── Day summary ────────────────────────────────── */
+.summary{display:none}
+.summary.visible{display:block}
+.summary-total{font-family:'IBM Plex Mono',monospace;font-size:28px;font-weight:600;text-align:center;padding:20px}
+
+/* ── Action Banner ──────────────────────────────── */
+.action-banner{display:none;position:fixed;top:0;left:0;right:0;z-index:90;padding:16px 24px;
+  font-family:'IBM Plex Mono',monospace;text-align:center;animation:bannerPulse 1.5s infinite;
+  border-bottom:2px solid}
+.action-banner.visible{display:block}
+.action-banner.enter{background:rgba(0,229,160,0.12);border-color:var(--green);color:var(--green)}
+.action-banner.add{background:rgba(61,155,255,0.12);border-color:var(--blue);color:var(--blue)}
+.action-banner.exit-target{background:rgba(0,229,160,0.12);border-color:var(--green);color:var(--green)}
+.action-banner.exit-wing{background:rgba(255,61,90,0.15);border-color:var(--red);color:var(--red)}
+.action-banner.exit-time{background:rgba(255,201,77,0.12);border-color:var(--yellow);color:var(--yellow)}
+.action-banner .ab-title{font-size:16px;font-weight:600;letter-spacing:3px;margin-bottom:4px}
+.action-banner .ab-detail{font-size:12px;opacity:0.8;margin-bottom:10px}
+.action-banner .ab-dismiss{padding:5px 16px;border:1px solid currentColor;border-radius:4px;background:transparent;
+  color:currentColor;cursor:pointer;font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:2px;margin:0 4px}
+.action-banner .ab-dismiss:hover{background:rgba(255,255,255,0.05)}
+@keyframes bannerPulse{0%,100%{opacity:1}50%{opacity:0.85}}
+
+/* ── Fill Price Modal ───────────────────────────── */
+.fill-modal{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(4,10,16,0.88);
+  display:none;align-items:center;justify-content:center;z-index:110}
+.fill-modal.visible{display:flex}
+.fill-box{background:var(--s1);border:1px solid var(--border);border-radius:12px;padding:28px;width:440px}
+.fill-box h3{font-size:14px;font-weight:600;margin-bottom:4px}
+.fill-box .fill-sub{font-size:10px;color:var(--muted);margin-bottom:16px}
+.fill-box .fill-row{display:flex;align-items:center;gap:12px;margin-bottom:12px}
+.fill-box .fill-label{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--dim);width:120px;letter-spacing:1px}
+.fill-box input{flex:1;padding:8px 12px;background:var(--bg);border:1px solid var(--border);border-radius:5px;
+  color:var(--text);font-family:'IBM Plex Mono',monospace;font-size:13px;outline:none;text-align:right}
+.fill-box input:focus{border-color:var(--green)}
+.fill-box .fill-hint{font-size:10px;color:var(--dim);text-align:right;margin-bottom:16px}
+.fill-box .fill-actions{display:flex;gap:8px;justify-content:flex-end}
+.fill-box .fill-btn{padding:7px 20px;border-radius:5px;cursor:pointer;font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:2px}
+.fill-box .fill-btn.primary{background:rgba(0,229,160,0.15);border:1px solid var(--green);color:var(--green)}
+.fill-box .fill-btn.secondary{background:transparent;border:1px solid var(--border);color:var(--muted)}
+.fill-box .fill-btn:hover{opacity:0.8}
+</style>
+</head>
+<body>
+
+<!-- API Key Modal -->
+<div class="modal-overlay" id="keyModal">
+  <div class="modal">
+    <h2>Polygon API Key</h2>
+    <p>Required for live SPX, VIX, and VIX9D data. Stored in memory only.</p>
+    <input type="text" id="keyInput" placeholder="Enter your Polygon API key" autofocus>
+    <br>
+    <button onclick="startApp()">CONNECT</button>
+  </div>
+</div>
+
+<!-- Header -->
+<div class="hdr">
+  <div class="hdr-left">
+    <div>
+      <div class="eye">SPX 0DTE · IRON BUTTERFLY · LIVE</div>
+      <h1>IBF <em>LIVE</em></h1>
+    </div>
+    <span id="statusBadge" class="status-badge pre">PRE-MARKET</span>
+  </div>
+  <div class="hdr-right">
+    <button class="refresh-btn" id="refreshBtn" onclick="manualRefresh()">
+      <span class="refresh-icon">↻</span> REFRESH
+      <span class="refresh-sub" id="refreshAge"></span>
+    </button>
+    <div class="conn-status" id="connStatus" style="display:none">
+      <div class="conn-dot checking" id="connDot"></div>
+      <span class="conn-label" id="connLabel">CHECKING...</span>
+    </div>
+    <div>
+      <div class="clock" id="clock">--:--:--</div>
+      <div class="countdown" id="countdown"></div>
+    </div>
+  </div>
+</div>
+
+<!-- Live Market Data -->
+<div class="kpi-row" id="marketKPIs">
+  <div class="kpi b"><div class="kl">SPX</div><div class="kv cb" id="kpi-spx">—</div><div class="ks" id="kpi-spx-chg"></div></div>
+  <div class="kpi"><div class="kl">VIX</div><div class="kv" id="kpi-vix">—</div><div class="ks" id="kpi-vix-sub"></div></div>
+  <div class="kpi"><div class="kl">REALIZED VOL</div><div class="kv" id="kpi-rv">—</div><div class="ks" id="kpi-rv-slope"></div></div>
+  <div class="kpi"><div class="kl">VP RATIO</div><div class="kv" id="kpi-vp">—</div><div class="ks">VIX / RV</div></div>
+  <div class="kpi"><div class="kl">TERM STRUCTURE</div><div class="kv" id="kpi-ts">—</div><div class="ks" id="kpi-ts-sub"></div></div>
+  <div class="kpi"><div class="kl">VWAP SLOPE</div><div class="kv" id="kpi-vwap">—</div><div class="ks">10-bar trend</div></div>
+</div>
+
+<!-- Score Section -->
+<div class="score-section">
+  <div class="card">
+    <div class="ct">ENTRY SCORE</div>
+    <div class="score-bar-wrap">
+      <div class="score-bar pending" id="scoreBar" style="width:0%"></div>
+      <!-- Two threshold lines -->
+      <div class="score-thresh mod" id="threshMod" style="left:57.3%"></div><!-- 55/96 -->
+      <div class="score-thresh con" id="threshCon" style="left:72.9%"></div><!-- 70/96 -->
+      <div class="score-val" id="scoreVal">—</div>
+    </div>
+    <div class="score-components">
+      <div class="sc-item"><div class="sc-label">VOL PREMIUM</div><div class="sc-val" id="sc-vp">—</div><div class="sc-max">/ 30</div></div>
+      <div class="sc-item"><div class="sc-label">SKEW (VIX)</div><div class="sc-val" id="sc-skew">—</div><div class="sc-max">/ 16</div></div>
+      <div class="sc-item"><div class="sc-label">REGIME</div><div class="sc-val" id="sc-regime">—</div><div class="sc-max">/ 20</div></div>
+      <div class="sc-item"><div class="sc-label">TERM STRUCT</div><div class="sc-val" id="sc-ts">—</div><div class="sc-max">/ 20</div></div>
+      <div class="sc-item"><div class="sc-label">TIMING</div><div class="sc-val" id="sc-timing">—</div><div class="sc-max">/ 10</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- Dual Verdict: Moderate + Conservative side by side -->
+<div class="dual-verdict">
+  <div class="verdict-card pending" id="vcMod">
+    <div class="vc-header">
+      <span class="vc-label">OPTIMIZED SIGNAL</span>
+      <span class="vc-badge wider">PRIMARY · VP≤1.4 · VIX≤18</span>
+    </div>
+    <div class="vc-signal" id="vcModSignal">WAITING</div>
+    <div class="vc-detail" id="vcModDetail">VP [1.0-1.4] · VIX ≤ 18 · No RISING</div>
+    <div class="vc-gates">
+      <div class="vc-gate"><span class="vc-gate-dot pending" id="vcModScoreDot"></span> Score <span id="vcModScoreVal"></span></div>
+      <div class="vc-gate"><span class="vc-gate-dot pending" id="vcModVpDot"></span> VP≤1.4 <span id="vcModVpVal"></span></div>
+      <div class="vc-gate"><span class="vc-gate-dot pending" id="vcModVixDot"></span> VIX≤18 <span id="vcModVixVal"></span></div>
+      <div class="vc-gate"><span class="vc-gate-dot pending" id="vcModSlopesDot"></span> Slopes</div>
+    </div>
+  </div>
+  <div class="verdict-card pending" id="vcCon">
+    <div class="vc-header">
+      <span class="vc-label">TIGHT SIGNAL</span>
+      <span class="vc-badge higher">FEWER TRADES · 5x PF</span>
+    </div>
+    <div class="vc-signal" id="vcConSignal">WAITING</div>
+    <div class="vc-detail" id="vcConDetail">VP ≤ 1.30 · VIX ≤ 17</div>
+    <div class="vc-gates">
+      <div class="vc-gate"><span class="vc-gate-dot pending" id="vcConScoreDot"></span> Score <span id="vcConScoreVal"></span></div>
+      <div class="vc-gate"><span class="vc-gate-dot pending" id="vcConVpDot"></span> VP≤1.3 <span id="vcConVpVal"></span></div>
+      <div class="vc-gate"><span class="vc-gate-dot pending" id="vcConVixDot"></span> VIX≤17 <span id="vcConVixVal"></span></div>
+      <div class="vc-gate"><span class="vc-gate-dot pending" id="vcConSlopesDot"></span> Slopes</div>
+    </div>
+  </div>
+</div>
+
+<!-- Positions -->
+<div class="grid-pos" id="posGrid">
+  <div class="pos-card empty" id="pos-0">
+    <div class="pos-tag">T1 — ENTRY</div>
+    <div class="pos-strikes"><span class="wing">—</span> / <span class="center">—</span> / <span class="wing">—</span></div>
+    <div class="pos-detail">Waiting for entry signal</div>
+    <div class="pos-pnl">—</div>
+    <div class="pos-progress"><div class="pos-progress-bar" style="width:0%"></div></div>
+  </div>
+  <div class="pos-card empty" id="pos-1">
+    <div class="pos-tag">T2 — PINNING ADD OR DRIFT</div>
+    <div class="pos-strikes"><span class="wing">—</span> / <span class="center">—</span> / <span class="wing">—</span></div>
+    <div class="pos-detail">Pinning add at 45min OR 15pt drift</div>
+    <div class="pos-pnl">—</div>
+    <div class="pos-progress"><div class="pos-progress-bar" style="width:0%"></div></div>
+  </div>
+  <div class="pos-card empty" id="pos-2">
+    <div class="pos-tag">T3 — DRIFT ADD</div>
+    <div class="pos-strikes"><span class="wing">—</span> / <span class="center">—</span> / <span class="wing">—</span></div>
+    <div class="pos-detail">Triggers on 15pt drift only</div>
+    <div class="pos-pnl">—</div>
+    <div class="pos-progress"><div class="pos-progress-bar" style="width:0%"></div></div>
+  </div>
+</div>
+
+<!-- System Thinking Panel -->
+<div class="thinking-panel" id="thinkingPanel">
+  <div class="ct">SYSTEM THINKING</div>
+  <div class="think-items" id="thinkItems">
+    <div class="think-item">
+      <div class="think-icon waiting">○</div>
+      <div class="think-text">
+        <span class="th-label">STATUS</span>
+        <span class="th-value">Waiting for market open. Scoring begins at 9:30am, entry decision at 10:00am.</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Bottom: Chart + Alerts -->
+<div class="grid-2">
+  <div class="card">
+    <div class="ct">INTRADAY P&L</div>
+    <canvas id="pnlChart" height="160"></canvas>
+  </div>
+  <div class="card">
+    <div class="ct">ALERT FEED</div>
+    <div class="alert-feed" id="alertFeed">
+      <div class="alert-item">
+        <div class="alert-time">—</div>
+        <div class="alert-icon info"></div>
+        <div class="alert-msg">Waiting for connection...</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Day Summary (hidden until close) -->
+<div class="summary" id="daySummary">
+  <div class="card">
+    <div class="ct">DAY SUMMARY</div>
+    <div class="summary-total" id="summaryTotal"></div>
+    <div id="summaryDetails"></div>
+  </div>
+</div>
+
+<!-- Action Banner -->
+<div class="action-banner" id="actionBanner">
+  <div class="ab-title" id="abTitle"></div>
+  <div class="ab-detail" id="abDetail"></div>
+  <button class="ab-dismiss" onclick="dismissBanner()">DISMISS</button>
+  <button class="ab-dismiss" id="abFillBtn" onclick="openFillModal()" style="display:none">ENTER FILL</button>
+</div>
+
+<!-- Fill Price Modal -->
+<div class="fill-modal" id="fillModal">
+  <div class="fill-box">
+    <h3 id="fillTitle">Enter Your Fill Price</h3>
+    <div class="fill-sub" id="fillSub"></div>
+    <div class="fill-row">
+      <div class="fill-label">CREDIT / DEBIT</div>
+      <input type="number" id="fillPrice" step="0.01" placeholder="0.00">
+    </div>
+    <div class="fill-hint" id="fillHint"></div>
+    <div class="fill-row">
+      <div class="fill-label">SPREADS FILLED</div>
+      <input type="number" id="fillQty" step="1" placeholder="0">
+    </div>
+    <div class="fill-hint" id="fillQtyHint"></div>
+    <div class="fill-actions">
+      <button class="fill-btn secondary" onclick="skipFill()">USE THEORETICAL</button>
+      <button class="fill-btn primary" onclick="submitFill()">CONFIRM FILL</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ══════════════════════════════════════════════════════════════════════════════
+// CONFIG — DUAL SIGNAL PARAMETERS
+// ══════════════════════════════════════════════════════════════════════════════
+const MODERATE   = { MIN_SCORE: 55, MIN_VP: 1.00, MAX_VP: 1.40, MAX_VIX: 18.0, label: 'OPTIMIZED' };
+const CONSERVATIVE = { MIN_SCORE: 55, MIN_VP: 1.00, MAX_VP: 1.30, MAX_VIX: 17.0, label: 'TIGHT' };
+
+const CFG = {
+  WING_WIDTH: 40,
+  TARGET_PCT: 0.50,
+  MIN_RR: 0.25,
+  LADDER_DRIFT: 15,
+  DAILY_RISK_BUDGET: 100000,
+  MAX_POSITIONS: 3,
+  SPX_MULT: 100,
+  SLIPPAGE: 1.00,
+  POLL_MS: 30000,
+  POLL_MS_FAST: 15000,
+  TIME_ADD_MINUTES: 45,
+  TIME_ADD_MAX_RANGE: 10,
+};
+CFG.TRANCHE = CFG.DAILY_RISK_BUDGET / CFG.MAX_POSITIONS;
+
+// ══════════════════════════════════════════════════════════════════════════════
+// STATE
+// ══════════════════════════════════════════════════════════════════════════════
+let API_KEY = '';
+let spxBars = [], vixBars = [], vix9dBars = [];
+let positions = [];
+let alerts = [];
+let dayDecisionMod = null;   // 'GO','WAIT','SKIP' for moderate
+let dayDecisionCon = null;   // 'GO','WAIT','SKIP' for conservative
+let remainingBudget = CFG.DAILY_RISK_BUDGET;
+let lastCenter = null;
+let pollTimer = null;
+let pnlHistory = [];
+let entrySpx = null;
+let entryIV = null;
+
+// Score cache (computed once at 10am)
+let lastScore = null;
+let lastVP = null;
+let lastSlopesOK = false;
+
+// Time-add tracking
+let timeAddDone = false;
+let timeAddEligible = false;
+let maxDevFromCenter = 0;
+
+// Fill tracking
+let pendingFill = null;
+let bannerTimeout = null;
+
+// Refresh tracking
+let lastRefreshTime = null;
+let isRefreshing = false;
+
+// ══════════════════════════════════════════════════════════════════════════════
+// STATE PERSISTENCE (localStorage)
+// ══════════════════════════════════════════════════════════════════════════════
+const STORAGE_KEY = 'ibf_live_state';
+
+function saveState() {
+  try {
+    const today = getET().toISOString().slice(0,10);
+    const state = {
+      date: today,
+      positions: positions.map(p => ({
+        center: p.center, wp: p.wp, wc: p.wc,
+        credit: p.credit, maxProfit: p.maxProfit, maxLoss: p.maxLoss,
+        target: p.target, rr: p.rr, T_entry: p.T_entry, iv: p.iv, S_entry: p.S_entry,
+        nSpreads: p.nSpreads, riskDeployed: p.riskDeployed,
+        entryTime: p.entryTime ? p.entryTime.getTime() : null,
+        exitTime: p.exitTime ? p.exitTime.getTime() : null,
+        exitType: p.exitType, pnlDollar: p.pnlDollar, tag: p.tag,
+        actualCredit: p.actualCredit, exitFillPrice: p.exitFillPrice,
+        pricingSource: p.pricingSource || 'THEORETICAL'
+      })),
+      dayDecisionMod,
+      dayDecisionCon,
+      remainingBudget,
+      lastCenter,
+      entrySpx,
+      entryIV,
+      lastScore,
+      lastVP,
+      lastSlopesOK,
+      timeAddDone,
+      timeAddEligible,
+      maxDevFromCenter,
+      alerts: alerts.slice(0, 30),
+      pnlHistory: pnlHistory.slice(-200).map(p => ({t: p.t.getTime(), total: p.total, spx: p.spx}))
+    };
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+  } catch(e) { console.warn('Save state failed:', e); }
+}
+
+function restoreState() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (!raw) return false;
+    const state = JSON.parse(raw);
+
+    // Only restore if it's from today
+    const today = getET().toISOString().slice(0,10);
+    if (state.date !== today) {
+      localStorage.removeItem(STORAGE_KEY);
+      return false;
+    }
+
+    // Restore positions with Date objects
+    positions = (state.positions || []).map(p => ({
+      ...p,
+      entryTime: p.entryTime ? new Date(p.entryTime) : null,
+      exitTime: p.exitTime ? new Date(p.exitTime) : null
+    }));
+    dayDecisionMod = state.dayDecisionMod || null;
+    dayDecisionCon = state.dayDecisionCon || null;
+    remainingBudget = state.remainingBudget ?? CFG.DAILY_RISK_BUDGET;
+    lastCenter = state.lastCenter || null;
+    entrySpx = state.entrySpx || null;
+    entryIV = state.entryIV || null;
+    lastScore = state.lastScore || null;
+    lastVP = state.lastVP || null;
+    lastSlopesOK = state.lastSlopesOK || false;
+    timeAddDone = state.timeAddDone || false;
+    timeAddEligible = state.timeAddEligible || false;
+    maxDevFromCenter = state.maxDevFromCenter || 0;
+    alerts = state.alerts || [];
+    pnlHistory = (state.pnlHistory || []).map(p => ({...p, t: new Date(p.t)}));
+
+    return positions.length > 0 || dayDecisionMod !== null;
+  } catch(e) {
+    console.warn('Restore state failed:', e);
+    return false;
+  }
+}
+
+function clearDayState() {
+  localStorage.removeItem(STORAGE_KEY);
+}
+
+// ══════════════════════════════════════════════════════════════════════════════
+// MATH UTILITIES
+// ══════════════════════════════════════════════════════════════════════════════
+function erf(x) {
+  const a1=0.254829592, a2=-0.284496736, a3=1.421413741, a4=-1.453152027, a5=1.061405429, p=0.3275911;
+  const s = x < 0 ? -1 : 1;
+  x = Math.abs(x);
+  const t = 1/(1+p*x);
+  const y = 1 - (((((a5*t+a4)*t)+a3)*t+a2)*t+a1)*t*Math.exp(-x*x);
+  return s * y;
+}
+
+function normCDF(x) { return 0.5*(1+erf(x/Math.SQRT2)); }
+
+function bsCall(S,K,T,iv) {
+  if (T<=0||iv<=0) return Math.max(0, S-K);
+  const d1 = (Math.log(S/K)+0.5*iv*iv*T)/(iv*Math.sqrt(T));
+  const d2 = d1 - iv*Math.sqrt(T);
+  return S*normCDF(d1) - K*normCDF(d2);
+}
+
+function bsPut(S,K,T,iv) {
+  if (T<=0||iv<=0) return Math.max(0, K-S);
+  const d1 = (Math.log(S/K)+0.5*iv*iv*T)/(iv*Math.sqrt(T));
+  const d2 = d1 - iv*Math.sqrt(T);
+  return K*normCDF(-d2) - S*normCDF(-d1);
+}
+
+function snap(x, step=5) { return Math.round(Math.round(x/step)*step); }
+
+function adjIV(ivEntry, sEntry, sNow) {
+  const move = sNow - sEntry;
+  if (move < 0) return ivEntry + Math.abs(move) * 0.001;
+  return Math.max(ivEntry * 0.92, ivEntry - move * 0.0002);
+}
+
+// ══════════════════════════════════════════════════════════════════════════════
+// MARKET CALCULATIONS
+// ══════════════════════════════════════════════════════════════════════════════
+function calcRV(closes) {
+  if (!closes || closes.length < 5) return null;
+  const lr = [];
+  for (let i=1; i<closes.length; i++) lr.push(Math.log(closes[i]/closes[i-1]));
+  const mean = lr.reduce((a,b)=>a+b,0)/lr.length;
+  const variance = lr.reduce((a,b)=>a+(b-mean)**2,0)/lr.length;
+  return Math.sqrt(variance)*Math.sqrt(252*390)*100;
+}
+
+function calcRVSlope(bars, asOfIdx) {
+  if (!bars || bars.length < 8) return {rvNow:null, rvPrev:null, label:'UNKNOWN'};
+  const asOfT = bars[asOfIdx].t;
+  const mktOpen = new Date(asOfT); mktOpen.setHours(9,30,0,0);
+  const minsSinceOpen = (asOfT - mktOpen)/60000;
+
+  let w1Closes, w2Closes;
+  if (minsSinceOpen <= 35) {
+    const mid = new Date(mktOpen.getTime() + 15*60000);
+    w1Closes = bars.filter(b=>b.t>=mktOpen&&b.t<mid).map(b=>b.c);
+    w2Closes = bars.filter(b=>b.t>=mid&&b.t<=asOfT).map(b=>b.c);
+  } else {
+    const t30 = new Date(asOfT.getTime()-30*60000);
+    const t60 = new Date(asOfT.getTime()-60*60000);
+    w2Closes = bars.filter(b=>b.t>t30&&b.t<=asOfT).map(b=>b.c);
+    w1Closes = bars.filter(b=>b.t>t60&&b.t<=t30).map(b=>b.c);
+  }
+
+  const rvNow = calcRV(w2Closes);
+  const rvPrev = calcRV(w1Closes);
+  if (!rvNow||!rvPrev||rvPrev===0) return {rvNow, rvPrev, label:'UNKNOWN'};
+  const slope = (rvNow-rvPrev)/rvPrev*100;
+  const label = slope>20?'RISING':(slope<-20?'FALLING':'STABLE');
+  return {rvNow, rvPrev, label};
+}
+
+function calcVWAPLabel(bars, n=10) {
+  if (!bars || bars.length < n+1) return 'FLAT';
+  let cTP=0, cV=0;
+  const vwaps = [];
+  for (const b of bars) {
+    const tp = (b.h+b.l+b.c)/3;
+    const v = b.v || 1;
+    cTP += tp*v; cV += v;
+    vwaps.push(cTP/cV);
+  }
+  const recentVwap = vwaps.slice(-n);
+  const xs = recentVwap.map((_,i)=>i);
+  const mx = xs.reduce((a,b)=>a+b,0)/n;
+  const my = recentVwap.reduce((a,b)=>a+b,0)/n;
+  let num=0, den=0;
+  for (let i=0;i<n;i++){num+=(xs[i]-mx)*(recentVwap[i]-my);den+=(xs[i]-mx)**2;}
+  const slopePct = den?((num/den)/my*100):0;
+  if (slopePct > 0.01) return 'RISING';
+  if (slopePct < -0.01) return 'FALLING';
+  return 'FLAT';
+}
+
+function calcTermStructure(vix, vix9d) {
+  if (!vix||!vix9d||vix===0) return {ratio:null, label:'UNKNOWN'};
+  const r = vix9d/vix;
+  const label = r>1.05?'INVERTED':(r>0.95?'FLAT':'CONTANGO');
+  return {ratio:r, label};
+}
+
+function slopesOK(vwapLabel, rvLabel, allowUnknown=false) {
+  const okRV = ['STABLE','FALLING'].includes(rvLabel) || (allowUnknown && rvLabel==='UNKNOWN');
+  return vwapLabel==='FLAT' && okRV;
+}
+
+// ══════════════════════════════════════════════════════════════════════════════
+// SCORING (same for both signals — thresholds differ)
+// ══════════════════════════════════════════════════════════════════════════════
+function scoreEntry(rv, vix, vix9d, rangePct, vwapLabel, tsLabel, tsRatio, rvSlopeLabel) {
+  const s = {};
+  const vp = (vix && rv) ? vix/rv : null;
+
+  if (vp) {
+    s.vol_premium = vp>=1.5?30:(vp>=1.2?22:(vp>=1.0?15:(vp>=0.85?10:3)));
+  } else s.vol_premium = 0;
+  if (rvSlopeLabel==='RISING') s.vol_premium = Math.max(0, s.vol_premium-15);
+  else if (rvSlopeLabel==='FALLING') s.vol_premium = Math.min(30, s.vol_premium+5);
+
+  if (vix) s.skew = (vix>=16&&vix<=28)?16:(vix<16?8:(vix<=35?12:0));
+  else s.skew = 0;
+
+  if (rangePct!==null) {
+    let base = rangePct<0.4?14:(rangePct<0.7?8:0);
+    let bonus = (vwapLabel==='FLAT'&&base>0)?6:0;
+    if (['RISING','FALLING'].includes(vwapLabel)&&base>0) base=Math.max(0,base-4);
+    s.regime = Math.min(20, base+bonus);
+  } else s.regime = 0;
+
+  s.term_structure = {INVERTED:20,FLAT:12,CONTANGO:4}[tsLabel]||0;
+  s.timing = 10;
+
+  const total = Object.values(s).reduce((a,b)=>a+b,0);
+  return {total, components:s, vp};
+}
+
+// ══════════════════════════════════════════════════════════════════════════════
+// PRICING
+// ══════════════════════════════════════════════════════════════════════════════
+function priceIBF(S, iv, T) {
+  const atm = snap(S);
+  const wp = snap(S - CFG.WING_WIDTH);
+  const wc = snap(S + CFG.WING_WIDTH);
+  const credit = bsPut(S,atm,T,iv)+bsCall(S,atm,T,iv)-bsPut(S,wp,T,iv)-bsCall(S,wc,T,iv);
+  const maxLoss = (atm-wp)-credit;
+  return {
+    center:atm, wp, wc,
+    credit: +credit.toFixed(3),
+    maxProfit: +credit.toFixed(3),
+    maxLoss: +maxLoss.toFixed(3),
+    target: +(credit*CFG.TARGET_PCT).toFixed(3),
+    rr: maxLoss>0 ? +(credit/maxLoss).toFixed(3) : 0,
+    T_entry:T, iv, S_entry:S
+  };
+}
+
+function currentValue(pos, sNow, tNow) {
+  const ivNow = adjIV(pos.iv, pos.S_entry, sNow);
+  const cost = bsPut(sNow,pos.center,tNow,ivNow)+bsCall(sNow,pos.center,tNow,ivNow)
+              -bsPut(sNow,pos.wp,tNow,ivNow)-bsCall(sNow,pos.wc,tNow,ivNow);
+  const pnl = pos.credit - cost;
+  return +Math.max(-pos.maxLoss, Math.min(pos.maxProfit, pnl)).toFixed(4);
+}
+
+function calcSpreads(trancheRisk, maxLossPerSpread) {
+  if (maxLossPerSpread<=0) return {n:0, risk:0};
+  const n = Math.max(1, Math.floor(trancheRisk/maxLossPerSpread));
+  return {n, risk: n*maxLossPerSpread};
+}
+
+// ══════════════════════════════════════════════════════════════════════════════
+// LIVE OPTION PRICING (Polygon)
+// ══════════════════════════════════════════════════════════════════════════════
+let currentPollId = 0;
+let optCache = { pollId: -1, data: {} };
+let optionsAvailable = true; // false if Polygon plan doesn't include options
+
+function getTodayExp() {
+  const et = getET();
+  return `${et.getFullYear()}-${String(et.getMonth()+1).padStart(2,'0')}-${String(et.getDate()).padStart(2,'0')}`;
+}
+
+// Fetch option chain snapshot from Polygon for a strike range
+async function fetchIBFQuotes(center, wp, wc) {
+  if (!optionsAvailable) return null;
+
+  const exp = getTodayExp();
+  const cacheKey = `${center}_${wp}_${wc}`;
+
+  // Return cached if same poll cycle
+  if (optCache.pollId === currentPollId && optCache.data[cacheKey]) {
+    return optCache.data[cacheKey];
+  }
+
+  try {
+    const url = `https://api.polygon.io/v3/snapshot/options/SPX?` +
+      `expiration_date=${exp}&strike_price.gte=${wp}&strike_price.lte=${wc}` +
+      `&limit=200&apiKey=${API_KEY}`;
+
+    const resp = await fetch(url);
+    if (resp.status === 403 || resp.status === 401) {
+      optionsAvailable = false;
+      addAlert('warn', 'Polygon Options add-on required for live quotes. Falling back to theoretical prices.');
+      return null;
+    }
+    if (!resp.ok) return null;
+
+    const json = await resp.json();
+    const results = json.results || [];
+    if (!results.length) return null;
+
+    // Find the 4 legs by strike and type
+    function findLeg(strike, type) {
+      return results.find(r =>
+        r.details &&
+        Math.abs(r.details.strike_price - strike) < 1 &&
+        r.details.contract_type === type
+      );
+    }
+
+    const atmPut = findLeg(center, 'put');
+    const atmCall = findLeg(center, 'call');
+    const wingPut = findLeg(wp, 'put');
+    const wingCall = findLeg(wc, 'call');
+
+    if (!atmPut || !atmCall || !wingPut || !wingCall) return null;
+
+    // Extract prices from quote data
+    function getMid(leg) {
+      if (!leg) return null;
+      const q = leg.last_quote;
+      if (q) {
+        if (q.midpoint && q.midpoint > 0) return q.midpoint;
+        if (q.bid > 0 && q.ask > 0) return (q.bid + q.ask) / 2;
+      }
+      if (leg.last_trade && leg.last_trade.price > 0) return leg.last_trade.price;
+      return null;
+    }
+    function getBid(leg) { return (leg && leg.last_quote && leg.last_quote.bid > 0) ? leg.last_quote.bid : getMid(leg); }
+    function getAsk(leg) { return (leg && leg.last_quote && leg.last_quote.ask > 0) ? leg.last_quote.ask : getMid(leg); }
+
+    const mids = {
+      atmPut: getMid(atmPut), atmCall: getMid(atmCall),
+      wingPut: getMid(wingPut), wingCall: getMid(wingCall)
+    };
+
+    if (!mids.atmPut || !mids.atmCall || !mids.wingPut || !mids.wingCall) return null;
+
+    // Mid credit (reference price)
+    const credit = mids.atmPut + mids.atmCall - mids.wingPut - mids.wingCall;
+
+    // Natural credit (sell at bid, buy at ask — what you'd realistically get)
+    const natCredit = getBid(atmPut) + getBid(atmCall) - getAsk(wingPut) - getAsk(wingCall);
+
+    const result = {
+      credit: +credit.toFixed(3),
+      natCredit: +natCredit.toFixed(3),
+      mids,
+      source: 'LIVE'
+    };
+
+    // Cache for this poll cycle
+    if (optCache.pollId !== currentPollId) {
+      optCache = { pollId: currentPollId, data: {} };
+    }
+    optCache.data[cacheKey] = result;
+
+    return result;
+  } catch(e) {
+    console.warn('Option fetch error:', e);
+    return null;
+  }
+}
+
+// Price an IBF using live Polygon quotes, fallback to Black-Scholes
+async function priceIBFLive(S, iv, T) {
+  const center = snap(S);
+  const wp = snap(S - CFG.WING_WIDTH);
+  const wc = snap(S + CFG.WING_WIDTH);
+
+  const live = await fetchIBFQuotes(center, wp, wc);
+
+  if (live) {
+    const credit = live.credit;
+    const maxLoss = (center - wp) - credit;
+    return {
+      center, wp, wc,
+      credit: +credit.toFixed(3),
+      natCredit: live.natCredit,
+      maxProfit: +credit.toFixed(3),
+      maxLoss: +maxLoss.toFixed(3),
+      target: +(credit * CFG.TARGET_PCT).toFixed(3),
+      rr: maxLoss > 0 ? +(credit / maxLoss).toFixed(3) : 0,
+      T_entry: T, iv, S_entry: S,
+      pricingSource: 'LIVE'
+    };
+  }
+
+  // Fallback to BS
+  const pos = priceIBF(S, iv, T);
+  pos.pricingSource = 'THEORETICAL';
+  return pos;
+}
+
+// Get current butterfly value from live quotes, fallback to BS
+async function currentValueLive(pos, sNow, tNow) {
+  const live = await fetchIBFQuotes(pos.center, pos.wp, pos.wc);
+
+  if (live) {
+    return { value: +live.credit.toFixed(4), source: 'LIVE' };
+  }
+
+  return { value: currentValue(pos, sNow, tNow) + pos.credit, source: 'THEORETICAL' };
+  // Note: BS currentValue returns P&L (credit-cost). We add credit back to get the butterfly cost.
+}
+
+// ══════════════════════════════════════════════════════════════════════════════
+// TIME HELPERS
+// ══════════════════════════════════════════════════════════════════════════════
+function getET() {
+  return new Date(new Date().toLocaleString('en-US',{timeZone:'America/New_York'}));
+}
+function minsToClose(t) { return Math.max(0, (15*60+30)-(t.getHours()*60+t.getMinutes())); }
+function TFromTime(t) { return Math.max(0.0001, minsToClose(t)/(252*390)); }
+
+function fmtTime(d) {
+  if (!d) return '—';
+  const h = d.getHours(), m = d.getMinutes(), s = d.getSeconds();
+  const ampm = h>=12?'PM':'AM';
+  return `${h%12||12}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')} ${ampm}`;
+}
+function fmtTimeShort(d) {
+  if (!d) return '—';
+  const h = d.getHours()%12||12, m = String(d.getMinutes()).padStart(2,'0');
+  return `${h}:${m}${d.getHours()>=12?'p':'a'}`;
+}
+function fmtDollar(v) {
+  if (v===null||v===undefined) return '—';
+  const sign = v>=0?'+':'-';
+  return `${sign}$${Math.abs(v).toLocaleString('en-US',{maximumFractionDigits:0})}`;
+}
+function getMarketStatus(et) {
+  const mins=et.getHours()*60+et.getMinutes();
+  if (mins < 570) return 'PRE';
+  if (mins < 600) return 'SCORING';
+  if (mins < 930) return 'TRADING';
+  if (mins < 960) return 'CLOSING';
+  return 'CLOSED';
+}
+function valAt(bars, t) {
+  if (!bars.length) return null;
+  let val = null;
+  for (const b of bars) { if (b.t <= t) val = b.c; else break; }
+  return val;
+}
+function findBarIdx(bars, t) {
+  let idx = 0;
+  for (let i=0; i<bars.length; i++) { if (bars[i].t <= t) idx = i; }
+  return idx;
+}
+
+// ══════════════════════════════════════════════════════════════════════════════
+// POLYGON API
+// ══════════════════════════════════════════════════════════════════════════════
+async function fetchBars(ticker, dateStr) {
+  const url = `https://api.polygon.io/v2/aggs/ticker/${ticker}/range/1/minute/${dateStr}/${dateStr}?adjusted=true&sort=asc&limit=500&apiKey=${API_KEY}`;
+  try {
+    const r = await fetch(url);
+    if (r.status === 429) { console.warn('Rate limited'); return null; }
+    const j = await r.json();
+    return (j.results||[]).map(b=>({
+      t: new Date(b.t), o:b.o, h:b.h, l:b.l, c:b.c, v:b.v||0
+    }));
+  } catch(e) { console.error(`Fetch ${ticker}:`,e); return null; }
+}
+
+// ── API KEY VALIDATION ──────────────────────────────────────────────────────
+// Hits Polygon with a lightweight request (previous trading day SPX) to verify
+// the key works. Shows green dot on success, red dot + reason on failure.
+async function validateKey() {
+  const statusEl = document.getElementById('connStatus');
+  const dotEl = document.getElementById('connDot');
+  const labelEl = document.getElementById('connLabel');
+  statusEl.style.display = 'flex';
+  dotEl.className = 'conn-dot checking';
+  labelEl.className = 'conn-label';
+  labelEl.textContent = 'CHECKING...';
+
+  try {
+    // Use yesterday (or last Friday if weekend) to guarantee data exists
+    const now = new Date();
+    const d = new Date(now);
+    d.setDate(d.getDate() - 1);
+    // Walk back to Friday if we land on a weekend
+    while (d.getDay() === 0 || d.getDay() === 6) d.setDate(d.getDate() - 1);
+    const ds = `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+
+    const url = `https://api.polygon.io/v2/aggs/ticker/I:SPX/range/1/day/${ds}/${ds}?adjusted=true&sort=asc&limit=1&apiKey=${API_KEY}`;
+    const resp = await fetch(url);
+
+    if (resp.status === 403 || resp.status === 401) {
+      dotEl.className = 'conn-dot fail';
+      labelEl.className = 'conn-label fail';
+      labelEl.textContent = 'INVALID KEY';
+      addAlert('warn', 'API key rejected by Polygon (401/403). Check your key.');
+      return false;
+    }
+    if (resp.status === 429) {
+      dotEl.className = 'conn-dot fail';
+      labelEl.className = 'conn-label fail';
+      labelEl.textContent = 'RATE LIMITED';
+      addAlert('warn', 'Polygon rate limit hit during validation. Will retry on next poll.');
+      return false;
+    }
+    if (!resp.ok) {
+      dotEl.className = 'conn-dot fail';
+      labelEl.className = 'conn-label fail';
+      labelEl.textContent = `ERROR ${resp.status}`;
+      addAlert('warn', `Polygon returned status ${resp.status}. Check your key or plan.`);
+      return false;
+    }
+
+    const json = await resp.json();
+    if (json.resultsCount > 0 || (json.results && json.results.length > 0)) {
+      dotEl.className = 'conn-dot ok';
+      labelEl.className = 'conn-label ok';
+      labelEl.textContent = 'CONNECTED';
+      addAlert('info', `API key valid. Verified with SPX data from ${ds}.`);
+      return true;
+    } else {
+      // Key works but no data returned (possible free-tier limitation)
+      dotEl.className = 'conn-dot ok';
+      labelEl.className = 'conn-label ok';
+      labelEl.textContent = 'CONNECTED';
+      addAlert('info', `API key accepted. No SPX data for ${ds} (may be a holiday). Will poll live data.`);
+      return true;
+    }
+  } catch (err) {
+    dotEl.className = 'conn-dot fail';
+    labelEl.className = 'conn-label fail';
+    labelEl.textContent = 'NETWORK ERROR';
+    addAlert('warn', `Could not reach Polygon: ${err.message}. Check your internet connection.`);
+    return false;
+  }
+}
+
+async function pollData() {
+  isRefreshing = true;
+  updateRefreshBtn();
+  const et = getET();
+  const y = et.getFullYear(), mo = String(et.getMonth()+1).padStart(2,'0'), d = String(et.getDate()).padStart(2,'0');
+  const dateStr = `${y}-${mo}-${d}`;
+  const [spx, vix, vix9d] = await Promise.all([
+    fetchBars('I:SPX', dateStr), fetchBars('I:VIX', dateStr), fetchBars('I:VIX9D', dateStr),
+  ]);
+  if (spx) spxBars = spx;
+  if (vix) vixBars = vix;
+  if (vix9d) vix9dBars = vix9d;
+  lastRefreshTime = new Date();
+  isRefreshing = false;
+  updateRefreshBtn();
+  await processUpdate();
+  scheduleNextPoll();
+}
+
+// Manual refresh button
+async function manualRefresh() {
+  if (isRefreshing) return;
+  await pollData();
+}
+
+// Adaptive polling — faster when SPX is near a wing or time-add is about to fire
+function shouldPollFast() {
+  if (!positions.length) return false;
+  const p1 = positions[0];
+  if (p1.exitType) return false;
+  if (!spxBars.length) return false;
+  const sNow = spxBars[spxBars.length-1].c;
+
+  // Fast poll if SPX within 10pts of either wing
+  const distPut = Math.abs(sNow - p1.wp);
+  const distCall = Math.abs(sNow - p1.wc);
+  if (distPut < 10 || distCall < 10) return true;
+
+  // Fast poll if time-add is about to fire (last 5 min of window)
+  if (!timeAddDone && positions.length === 1) {
+    const lastBar = spxBars[spxBars.length-1];
+    const elapsed = (lastBar.t - p1.entryTime) / 60000;
+    if (elapsed > CFG.TIME_ADD_MINUTES - 5 && elapsed < CFG.TIME_ADD_MINUTES) return true;
+  }
+
+  return false;
+}
+
+function scheduleNextPoll() {
+  clearInterval(pollTimer);
+  const interval = shouldPollFast() ? CFG.POLL_MS_FAST : CFG.POLL_MS;
+  pollTimer = setTimeout(() => pollData(), interval);
+}
+
+// Update refresh button with "Xsec ago" counter
+function updateRefreshBtn() {
+  const btn = document.getElementById('refreshBtn');
+  const ageEl = document.getElementById('refreshAge');
+  if (isRefreshing) {
+    btn.classList.add('spinning');
+    ageEl.textContent = '';
+  } else {
+    btn.classList.remove('spinning');
+    if (lastRefreshTime) {
+      const secs = Math.floor((new Date() - lastRefreshTime) / 1000);
+      ageEl.textContent = secs < 5 ? 'just now' : `${secs}s ago`;
+    }
+  }
+}
+
+// ══════════════════════════════════════════════════════════════════════════════
+// AUDIO
+// ══════════════════════════════════════════════════════════════════════════════
+function beep(freq=800, dur=200) {
+  try {
+    const ctx = new (window.AudioContext||window.webkitAudioContext)();
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.connect(gain); gain.connect(ctx.destination);
+    osc.frequency.value = freq; gain.gain.value = 0.15;
+    osc.start(); osc.stop(ctx.currentTime + dur/1000);
+  } catch(e) {}
+}
+function alertBeep() { beep(880, 150); setTimeout(()=>beep(1100,150),200); }
+function exitBeep() { beep(600, 300); }
+
+// ══════════════════════════════════════════════════════════════════════════════
+// ALERT FEED
+// ══════════════════════════════════════════════════════════════════════════════
+function addAlert(type, msg) {
+  alerts.unshift({time:fmtTimeShort(getET()), type, msg});
+  renderAlerts();
+}
+function renderAlerts() {
+  document.getElementById('alertFeed').innerHTML = alerts.slice(0,50).map(a=>`
+    <div class="alert-item">
+      <div class="alert-time">${a.time}</div>
+      <div class="alert-icon ${a.type}"></div>
+      <div class="alert-msg">${a.msg}</div>
+    </div>
+  `).join('');
+}
+
+// ══════════════════════════════════════════════════════════════════════════════
+// MAIN PROCESSING LOOP
+// ══════════════════════════════════════════════════════════════════════════════
+async function processUpdate() {
+  currentPollId++; // new cache cycle for option quotes
+  const et = getET();
+  const status = getMarketStatus(et);
+
+  updateClock(et, status);
+  updateMarketKPIs();
+
+  if (status === 'SCORING' || status === 'TRADING' || status === 'CLOSING') {
+    await computeScore();
+  }
+
+  // Retry entry if decision was GO but position didn't populate (timing edge case)
+  if (dayDecisionMod === 'GO' && positions.length === 0 && spxBars.length && vixBars.length) {
+    const retryTime = new Date(et); retryTime.setHours(10,0,0,0);
+    const vixRetry = valAt(vixBars, retryTime) || vixBars[vixBars.length-1].c;
+    addAlert('info', 'Retrying entry — signal was GO but position did not populate.');
+    await enterPosition(retryTime, vixRetry);
+  }
+
+  if ((status === 'TRADING' || status === 'CLOSING') && positions.length > 0) {
+    await updatePositions();
+    await checkTimeAdd();
+    await checkLadderAdds();
+  }
+
+  if (status === 'CLOSING' || status === 'CLOSED') {
+    checkTimeStop();
+  }
+
+  updateThinking();
+  updateChart();
+  saveState();
+}
+
+function updateClock(et, status) {
+  document.getElementById('clock').textContent = fmtTime(et);
+  const badge = document.getElementById('statusBadge');
+  const cdEl = document.getElementById('countdown');
+  const labels = {PRE:'PRE-MARKET',SCORING:'SCORING',TRADING:'TRADING',CLOSING:'CLOSING',CLOSED:'CLOSED'};
+  const classes = {PRE:'pre',SCORING:'scoring',TRADING:'trading',CLOSING:'trading',CLOSED:'closed'};
+  badge.textContent = labels[status]||status;
+  badge.className = 'status-badge '+(classes[status]||'pre');
+  const mins = et.getHours()*60+et.getMinutes();
+  if (mins < 600) cdEl.textContent = `Entry in ${600-mins}min`;
+  else if (mins < 930) cdEl.textContent = `Time stop in ${930-mins}min`;
+  else cdEl.textContent = '';
+}
+
+function updateMarketKPIs() {
+  if (!spxBars.length) return;
+  const last = spxBars[spxBars.length-1];
+  const spxNow = last.c;
+  document.getElementById('kpi-spx').textContent = spxNow.toFixed(2);
+  const open = spxBars[0].o;
+  const chg = spxNow - open;
+  const chgEl = document.getElementById('kpi-spx-chg');
+  chgEl.textContent = `${chg>=0?'+':''}${chg.toFixed(2)} (${(chg/open*100).toFixed(2)}%)`;
+  chgEl.style.color = chg>=0?'var(--green)':'var(--red)';
+
+  if (vixBars.length) {
+    const vixNow = vixBars[vixBars.length-1].c;
+    document.getElementById('kpi-vix').textContent = vixNow.toFixed(2);
+    document.getElementById('kpi-vix').style.color = vixNow>25?'var(--red)':(vixNow>20?'var(--yellow)':'var(--text)');
+  }
+
+  const mktOpen = new Date(last.t); mktOpen.setHours(9,30,0,0);
+  const morningBars = spxBars.filter(b=>b.t>=mktOpen);
+  const rv = calcRV(morningBars.map(b=>b.c));
+  if (rv!==null) {
+    document.getElementById('kpi-rv').textContent = rv.toFixed(1);
+    const rvSlope = calcRVSlope(spxBars, spxBars.length-1);
+    const rvEl = document.getElementById('kpi-rv-slope');
+    rvEl.textContent = rvSlope.label;
+    rvEl.style.color = rvSlope.label==='RISING'?'var(--red)':(rvSlope.label==='FALLING'?'var(--green)':'var(--text)');
+  }
+
+  if (rv && vixBars.length) {
+    const vp = vixBars[vixBars.length-1].c / rv;
+    const vpEl = document.getElementById('kpi-vp');
+    vpEl.textContent = vp.toFixed(2)+'x';
+    vpEl.style.color = vp>=1.4?'var(--green)':(vp>=1.0?'var(--yellow)':'var(--red)');
+  }
+
+  if (vixBars.length && vix9dBars.length) {
+    const ts = calcTermStructure(vixBars[vixBars.length-1].c, vix9dBars[vix9dBars.length-1].c);
+    document.getElementById('kpi-ts').textContent = ts.label;
+    document.getElementById('kpi-ts-sub').textContent = ts.ratio?`ratio: ${ts.ratio.toFixed(3)}`:'';
+  }
+
+  const vwap = calcVWAPLabel(spxBars);
+  const vwEl = document.getElementById('kpi-vwap');
+  vwEl.textContent = vwap;
+  vwEl.style.color = vwap==='FLAT'?'var(--green)':(vwap==='RISING'?'var(--red)':'var(--yellow)');
+}
+
+// ══════════════════════════════════════════════════════════════════════════════
+// SCORING + DUAL VERDICT
+// ══════════════════════════════════════════════════════════════════════════════
+async function computeScore() {
+  if (!spxBars.length || !vixBars.length) return;
+  if (dayDecisionMod) return; // already decided
+
+  const et = getET();
+  const entryTime = new Date(et); entryTime.setHours(10,0,0,0);
+  const mktOpen = new Date(et); mktOpen.setHours(9,30,0,0);
+
+  const morning = spxBars.filter(b=>b.t>=mktOpen && b.t<=entryTime);
+  if (morning.length < 5) return;
+
+  const vixNow = valAt(vixBars, entryTime);
+  const vix9dNow = valAt(vix9dBars, entryTime);
+  if (!vixNow) return;
+
+  const rv = calcRV(morning.map(b=>b.c));
+  const rangePct = (Math.max(...morning.map(b=>b.h))-Math.min(...morning.map(b=>b.l)))/morning[0].o*100;
+  const vwapLabel = calcVWAPLabel(morning);
+  const ts = calcTermStructure(vixNow, vix9dNow);
+  const rvSlope = calcRVSlope(spxBars, findBarIdx(spxBars, entryTime));
+
+  const result = scoreEntry(rv, vixNow, vix9dNow, rangePct, vwapLabel, ts.label, ts.ratio, rvSlope.label);
+
+  // Update score bar
+  const pct = Math.min(100, result.total/96*100);
+  const bar = document.getElementById('scoreBar');
+  bar.style.width = pct+'%';
+  bar.className = 'score-bar '+(result.total>=55?'go':(result.total>=35?'wait':'skip'));
+  document.getElementById('scoreVal').textContent = result.total+'/96';
+
+  document.getElementById('sc-vp').textContent = result.components.vol_premium;
+  document.getElementById('sc-skew').textContent = result.components.skew;
+  document.getElementById('sc-regime').textContent = result.components.regime;
+  document.getElementById('sc-ts').textContent = result.components.term_structure;
+  document.getElementById('sc-timing').textContent = result.components.timing;
+
+  const slopes = slopesOK(vwapLabel, rvSlope.label);
+
+  // Evaluate BOTH signals (optimized filters)
+  const modScoreOK = result.total >= MODERATE.MIN_SCORE;
+  const modVpOK    = result.vp !== null && result.vp >= MODERATE.MIN_VP && result.vp <= MODERATE.MAX_VP;
+  const modVixOK   = vixNow !== null && vixNow <= MODERATE.MAX_VIX;
+  const modGO      = modScoreOK && modVpOK && modVixOK && slopes;
+
+  const conScoreOK = result.total >= CONSERVATIVE.MIN_SCORE;
+  const conVpOK    = result.vp !== null && result.vp >= CONSERVATIVE.MIN_VP && result.vp <= CONSERVATIVE.MAX_VP;
+  const conVixOK   = vixNow !== null && vixNow <= CONSERVATIVE.MAX_VIX;
+  const conGO      = conScoreOK && conVpOK && conVixOK && slopes;
+
+  // Update optimized verdict card gates
+  setVCGate('vcModScore', modScoreOK, result.total);
+  setVCGate('vcModVp', modVpOK, result.vp ? result.vp.toFixed(2)+'x' : '—');
+  setVCGate('vcModVix', modVixOK, vixNow ? vixNow.toFixed(1) : '—');
+  setVCGate('vcModSlopes', slopes, '');
+
+  // Update tight verdict card gates
+  setVCGate('vcConScore', conScoreOK, result.total);
+  setVCGate('vcConVp', conVpOK, result.vp ? result.vp.toFixed(2)+'x' : '—');
+  setVCGate('vcConVix', conVixOK, vixNow ? vixNow.toFixed(1) : '—');
+  setVCGate('vcConSlopes', slopes, '');
+
+  // Lock in decisions at 10am
+  if (et >= entryTime && !dayDecisionMod) {
+    lastScore = result.total;
+    lastVP = result.vp;
+    lastSlopesOK = slopes;
+
+    // MODERATE
+    if (modGO) {
+      dayDecisionMod = 'GO';
+      setVerdictCard('vcMod', 'go', 'GO — ENTER', `VP ${result.vp?.toFixed(2)}x, VIX ${vixNow?.toFixed(1)}`);
+    } else if (result.total >= 35) {
+      dayDecisionMod = 'WAIT';
+      const reason = !modScoreOK ? `Score ${result.total} < 55` : (!modVpOK ? `VP ${result.vp?.toFixed(2)} outside [1.0-1.4]` : (!modVixOK ? `VIX ${vixNow?.toFixed(1)} > 18` : `Slopes: ${vwapLabel}/${rvSlope.label}`));
+      setVerdictCard('vcMod', 'wait', 'WAIT', reason);
+    } else {
+      dayDecisionMod = 'SKIP';
+      setVerdictCard('vcMod', 'skip', 'SKIP', `Score ${result.total}`);
+    }
+
+    // TIGHT
+    if (conGO) {
+      dayDecisionCon = 'GO';
+      setVerdictCard('vcCon', 'go', 'GO — ENTER', `VP ${result.vp?.toFixed(2)}x, VIX ${vixNow?.toFixed(1)}`);
+    } else if (result.total >= 35) {
+      dayDecisionCon = 'WAIT';
+      const reason = !conScoreOK ? `Score ${result.total} < 55` : (!conVpOK ? `VP ${result.vp?.toFixed(2)} outside [1.0-1.3]` : (!conVixOK ? `VIX ${vixNow?.toFixed(1)} > 17` : `Slopes: ${vwapLabel}/${rvSlope.label}`));
+      setVerdictCard('vcCon', 'wait', 'WAIT', reason);
+    } else {
+      dayDecisionCon = 'SKIP';
+      setVerdictCard('vcCon', 'skip', 'SKIP', `Score ${result.total}`);
+    }
+
+    // If either signal fires, alert
+    if (modGO || conGO) {
+      alertBeep();
+      if (conGO) {
+        addAlert('entry', `<b>BOTH SIGNALS: GO</b> — VP ${result.vp?.toFixed(2)}x, VIX ${vixNow?.toFixed(1)}. High confidence entry.`);
+      } else {
+        addAlert('entry', `<b>OPTIMIZED: GO</b> — VP ${result.vp?.toFixed(2)}x, VIX ${vixNow?.toFixed(1)}. Tight signal says WAIT.`);
+      }
+      await enterPosition(entryTime, vixNow);
+    } else {
+      addAlert('warn', `No trade. Optimized: ${dayDecisionMod}. Tight: ${dayDecisionCon}.`);
+    }
+  }
+}
+
+function setVCGate(prefix, pass, val) {
+  document.getElementById(prefix+'Dot').className = 'vc-gate-dot '+(pass?'pass':'fail');
+  const valEl = document.getElementById(prefix+'Val');
+  if (valEl) valEl.textContent = val;
+}
+
+function setVerdictCard(id, cls, signal, detail) {
+  const el = document.getElementById(id);
+  el.className = 'verdict-card '+cls;
+  el.querySelector('.vc-signal').textContent = signal;
+  el.querySelector('.vc-detail').textContent = detail;
+}
+
+// ══════════════════════════════════════════════════════════════════════════════
+// POSITION MANAGEMENT
+// ══════════════════════════════════════════════════════════════════════════════
+async function enterPosition(entryTime, vixVal) {
+  if (!spxBars.length) return false;
+
+  // Find bar at or after 10am; if none, use the latest bar (we're past 10am, it's the current price)
+  let entryBar = spxBars.find(b=>b.t>=entryTime);
+  if (!entryBar) entryBar = spxBars[spxBars.length - 1];
+
+  entrySpx = entryBar.c;
+  entryIV = vixVal / 100;
+  const T = TFromTime(entryBar.t);
+
+  // Use live Polygon option quotes, fallback to BS
+  const pos = await priceIBFLive(entrySpx, entryIV, T);
+  const mlPerSpread = pos.maxLoss * CFG.SPX_MULT;
+  const {n, risk} = calcSpreads(CFG.TRANCHE, mlPerSpread);
+  remainingBudget -= risk;
+  lastCenter = pos.center;
+
+  const posObj = {
+    ...pos, nSpreads:n, riskDeployed:risk,
+    entryTime: entryBar.t, exitTime:null, exitType:null,
+    pnlDollar:0, tag:'T1', actualCredit:pos.credit, exitFillPrice:null
+  };
+  positions.push(posObj);
+  const posIdx = positions.length - 1;
+
+  const srcTag = pos.pricingSource === 'LIVE' ? ' [LIVE QUOTES]' : ' [THEORETICAL]';
+  const natStr = pos.natCredit !== undefined ? ` · Natural: ~${pos.natCredit.toFixed(2)}` : '';
+  const conLabel = dayDecisionCon === 'GO' ? '  [BOTH SIGNALS]' : '  [OPTIMIZED ONLY]';
+  addAlert('entry',
+    `<b>T1 ENTRY:</b> Sell ${pos.wp}/${pos.center}/${pos.wc} IBF, ${n}x spreads, mid ~$${(pos.credit*100).toFixed(0)}/spr${natStr ? ` · nat ~$${(pos.natCredit*100).toFixed(0)}/spr` : ''} · Max loss $${mlPerSpread.toLocaleString()}/spr · Risk $${risk.toLocaleString()} of $${CFG.TRANCHE.toLocaleString()} tranche${conLabel}${srcTag}`
+  );
+
+  showBanner('enter',
+    `ACTION: SELL ${pos.wp} / ${pos.center} / ${pos.wc} IRON BUTTERFLY`,
+    `${n} spreads · Mid: ~${pos.credit.toFixed(2)}${natStr} ($${(pos.credit*100).toFixed(0)}/spr) · Max loss: $${mlPerSpread.toLocaleString()}/spr · Tranche: $${risk.toLocaleString()} / $${CFG.TRANCHE.toLocaleString()} · Wing stop: ${pos.wp} / ${pos.wc}  ${srcTag}`,
+    true
+  );
+
+  pendingFill = {type:'entry', posIdx, pos:posObj, theoretical:pos.credit, mlPerSpread, trancheBudget:CFG.TRANCHE};
+  openFillModal();
+  renderPositions();
+}
+
+async function updatePositions() {
+  if (!spxBars.length || !positions.length) return;
+  const lastBar = spxBars[spxBars.length-1];
+  const sNow = lastBar.c;
+  const tNow = TFromTime(lastBar.t);
+
+  for (const pos of positions) {
+    if (pos.exitType) continue;
+
+    const effectiveCredit = pos.actualCredit || pos.credit;
+
+    // Try live Polygon quotes first, fallback to BS
+    const liveResult = await currentValueLive(pos, sNow, tNow);
+    let pnlPerSpread, currentCost;
+
+    if (liveResult.source === 'LIVE') {
+      // liveResult.value = current butterfly mid (what it costs to close)
+      currentCost = liveResult.value;
+      pnlPerSpread = effectiveCredit - currentCost;
+      pos.pricingSource = 'LIVE';
+    } else {
+      // BS fallback: currentValue returns P&L per spread directly
+      const bsVal = currentValue(pos, sNow, tNow);
+      pnlPerSpread = bsVal + (effectiveCredit - pos.credit);
+      currentCost = effectiveCredit - pnlPerSpread;
+      pos.pricingSource = 'THEORETICAL';
+    }
+
+    const pnlRaw = pnlPerSpread * pos.nSpreads * CFG.SPX_MULT;
+    const slip = pos.nSpreads * CFG.SLIPPAGE * CFG.SPX_MULT;
+    pos.pnlDollar = Math.round(pnlRaw - slip);
+
+    // Target: P&L per spread >= target (50% of entry credit)
+    if (pnlPerSpread >= pos.target) {
+      pos.exitType = 'TARGET';
+      pos.exitTime = lastBar.t;
+      const closeDebit = +currentCost.toFixed(2);
+      addAlert('exit-win', `<b>${pos.tag} TARGET HIT:</b> Close position! Debit ~${closeDebit.toFixed(2)}. P&L ~${fmtDollar(pos.pnlDollar)}`);
+      alertBeep();
+      showBanner('exit-target',
+        `ACTION: CLOSE ${pos.tag} — TARGET HIT`,
+        `Buy back ${pos.wp}/${pos.center}/${pos.wc} IBF · ${pos.nSpreads} spreads · ~${closeDebit.toFixed(2)} debit`,
+        true
+      );
+      pendingFill = {type:'exit', posIdx:positions.indexOf(pos), pos, theoretical:closeDebit};
+    } else if (sNow <= pos.wp || sNow >= pos.wc) {
+      // Wing stop — always based on SPX price
+      pos.exitType = 'WING_STOP';
+      pos.exitTime = lastBar.t;
+      const closeDebit = +currentCost.toFixed(2);
+      const breached = sNow<=pos.wp ? pos.wp : pos.wc;
+      addAlert('exit-loss', `<b>${pos.tag} WING BREACH:</b> SPX ${sNow.toFixed(2)} crossed ${breached}! Close NOW! Debit ~${closeDebit.toFixed(2)}`);
+      exitBeep();
+      showBanner('exit-wing',
+        `URGENT: CLOSE ${pos.tag} — WING BREACHED AT ${breached}`,
+        `Buy back ${pos.wp}/${pos.center}/${pos.wc} IBF · ${pos.nSpreads} spreads · ~${closeDebit.toFixed(2)} debit`,
+        true
+      );
+      pendingFill = {type:'exit', posIdx:positions.indexOf(pos), pos, theoretical:closeDebit};
+    }
+  }
+
+  const totalPnl = positions.reduce((s,p)=>s+p.pnlDollar, 0);
+  pnlHistory.push({t:lastBar.t, total:totalPnl, spx:sNow});
+  renderPositions();
+}
+
+// ══════════════════════════════════════════════════════════════════════════════
+// TIME-BASED ADD (pinning confirmation)
+// ══════════════════════════════════════════════════════════════════════════════
+async function checkTimeAdd() {
+  if (timeAddDone) return;
+  if (!positions.length || positions.length >= CFG.MAX_POSITIONS) return;
+
+  const p1 = positions[0];
+  if (!p1 || p1.exitType) return;
+  if (positions.length > 1) { timeAddDone = true; return; }
+
+  if (!spxBars.length) return;
+  const lastBar = spxBars[spxBars.length-1];
+  const sNow = lastBar.c;
+
+  // Track max deviation from center since entry
+  const barsAfterEntry = spxBars.filter(b => b.t >= p1.entryTime);
+  maxDevFromCenter = 0;
+  for (const b of barsAfterEntry) {
+    maxDevFromCenter = Math.max(maxDevFromCenter, Math.abs(b.h - p1.center), Math.abs(b.l - p1.center));
+  }
+  timeAddEligible = maxDevFromCenter <= CFG.TIME_ADD_MAX_RANGE;
+
+  if (minsToClose(lastBar.t) < 90) return;
+
+  const elapsed = (lastBar.t - p1.entryTime) / 60000;
+  if (elapsed < CFG.TIME_ADD_MINUTES) return;
+
+  if (!timeAddEligible) {
+    timeAddDone = true;
+    addAlert('info', `Time-add skipped: SPX deviated ${maxDevFromCenter.toFixed(1)}pts from center (max: ±${CFG.TIME_ADD_MAX_RANGE})`);
+    return;
+  }
+
+  const rvSlope = calcRVSlope(spxBars, spxBars.length - 1);
+  const vwapNow = calcVWAPLabel(spxBars.slice(-30));
+  if (!slopesOK(vwapNow, rvSlope.label, true)) {
+    timeAddDone = true;
+    addAlert('warn', `Time-add blocked: slopes ${vwapNow}/${rvSlope.label}`);
+    return;
+  }
+
+  if (remainingBudget < 1000) return;
+
+  timeAddDone = true;
+  const T = TFromTime(lastBar.t);
+  const ivAdd = adjIV(entryIV, entrySpx, sNow);
+  const pos = await priceIBFLive(p1.center, ivAdd, T);
+
+  if (pos.rr < CFG.MIN_RR) {
+    addAlert('warn', `Time-add RR skip: ${pos.rr.toFixed(2)} < ${CFG.MIN_RR}`);
+    return;
+  }
+
+  const mlPerSpread = pos.maxLoss * CFG.SPX_MULT;
+  const {n, risk} = calcSpreads(Math.min(CFG.TRANCHE, remainingBudget), mlPerSpread);
+  remainingBudget -= risk;
+
+  const tag = `T${positions.length+1}`;
+  const addObj = {
+    ...pos, nSpreads:n, riskDeployed:risk,
+    entryTime:lastBar.t, exitTime:null, exitType:null,
+    pnlDollar:0, tag, actualCredit:pos.credit, exitFillPrice:null
+  };
+  positions.push(addObj);
+  const addIdx = positions.length - 1;
+
+  const trancheBudgetUsed = Math.min(CFG.TRANCHE, remainingBudget + risk);
+  addAlert('add',
+    `<b>${tag} PINNING ADD:</b> SPX held within ±${maxDevFromCenter.toFixed(1)}pts for ${CFG.TIME_ADD_MINUTES}min. ` +
+    `Sell ${pos.wp}/${pos.center}/${pos.wc} IBF, ${n}x spreads · Max loss $${mlPerSpread.toLocaleString()}/spr · Risk $${risk.toLocaleString()} of $${trancheBudgetUsed.toLocaleString()} tranche`
+  );
+  alertBeep();
+
+  showBanner('add',
+    `ACTION: SELL ${pos.wp} / ${pos.center} / ${pos.wc} IRON BUTTERFLY (${tag} — PINNING ADD)`,
+    `${n} spreads · ~${pos.credit.toFixed(2)} credit ($${(pos.credit*100).toFixed(0)}/spr) · Max loss: $${mlPerSpread.toLocaleString()}/spr · Tranche: $${risk.toLocaleString()} / $${trancheBudgetUsed.toLocaleString()}`,
+    true
+  );
+
+  pendingFill = {type:'add', posIdx:addIdx, pos:addObj, theoretical:pos.credit, mlPerSpread, trancheBudget:trancheBudgetUsed};
+  openFillModal();
+  renderPositions();
+}
+
+// ══════════════════════════════════════════════════════════════════════════════
+// DRIFT-BASED LADDER ADD
+// ══════════════════════════════════════════════════════════════════════════════
+async function checkLadderAdds() {
+  if (!spxBars.length || positions.length >= CFG.MAX_POSITIONS) return;
+  if (remainingBudget < 1000) return;
+
+  const p1 = positions[0];
+  if (!p1 || p1.exitType) return;
+
+  const lastBar = spxBars[spxBars.length-1];
+  const sNow = lastBar.c;
+
+  if (minsToClose(lastBar.t) < 90) return;
+
+  const drift = Math.abs(sNow - lastCenter);
+  if (drift < CFG.LADDER_DRIFT) return;
+
+  const rvSlope = calcRVSlope(spxBars, spxBars.length-1);
+  const vwapNow = calcVWAPLabel(spxBars.slice(-30));
+
+  if (!slopesOK(vwapNow, rvSlope.label, true)) {
+    addAlert('warn', `Drift add blocked: slopes ${vwapNow}/${rvSlope.label} at drift ${drift.toFixed(1)}pts`);
+    return;
+  }
+
+  const T = TFromTime(lastBar.t);
+  const ivAdd = adjIV(entryIV, entrySpx, sNow);
+  const pos = await priceIBFLive(sNow, ivAdd, T);
+
+  if (pos.rr < CFG.MIN_RR) {
+    addAlert('warn', `Drift add RR skip: ${pos.rr.toFixed(2)} < ${CFG.MIN_RR}`);
+    return;
+  }
+
+  const mlPerSpread = pos.maxLoss * CFG.SPX_MULT;
+  const {n, risk} = calcSpreads(Math.min(CFG.TRANCHE, remainingBudget), mlPerSpread);
+  remainingBudget -= risk;
+  lastCenter = pos.center;
+
+  const tag = `T${positions.length+1}`;
+  const addObj = {
+    ...pos, nSpreads:n, riskDeployed:risk,
+    entryTime:lastBar.t, exitTime:null, exitType:null,
+    pnlDollar:0, tag, actualCredit:pos.credit, exitFillPrice:null
+  };
+  positions.push(addObj);
+  const addIdx = positions.length - 1;
+
+  const driftTrancheBudget = Math.min(CFG.TRANCHE, remainingBudget + risk);
+  addAlert('add',
+    `<b>${tag} DRIFT ADD:</b> SPX ${sNow.toFixed(2)} (drift ${drift.toFixed(1)}pts). Sell ${pos.wp}/${pos.center}/${pos.wc} IBF, ${n}x spreads · Max loss $${mlPerSpread.toLocaleString()}/spr · Risk $${risk.toLocaleString()} of $${driftTrancheBudget.toLocaleString()} tranche`
+  );
+  alertBeep();
+
+  showBanner('add',
+    `ACTION: SELL ${pos.wp} / ${pos.center} / ${pos.wc} IRON BUTTERFLY (${tag} — DRIFT ADD)`,
+    `${n} spreads · ~${pos.credit.toFixed(2)} credit ($${(pos.credit*100).toFixed(0)}/spr) · Max loss: $${mlPerSpread.toLocaleString()}/spr · Tranche: $${risk.toLocaleString()} / $${driftTrancheBudget.toLocaleString()}`,
+    true
+  );
+
+  pendingFill = {type:'add', posIdx:addIdx, pos:addObj, theoretical:pos.credit, mlPerSpread, trancheBudget:driftTrancheBudget};
+  openFillModal();
+  renderPositions();
+}
+
+// ══════════════════════════════════════════════════════════════════════════════
+// TIME STOP
+// ══════════════════════════════════════════════════════════════════════════════
+function checkTimeStop() {
+  const et = getET();
+  if (et.getHours()*60+et.getMinutes() < 930) return;
+  for (const pos of positions) {
+    if (pos.exitType) continue;
+    pos.exitType = 'TIME_STOP';
+    pos.exitTime = et;
+    const lastBar = spxBars.length ? spxBars[spxBars.length-1] : null;
+    const val = lastBar ? currentValue(pos, lastBar.c, TFromTime(lastBar.t)) : 0;
+    const theoreticalDebit = pos.actualCredit - val;
+    addAlert('exit-win', `<b>${pos.tag} TIME STOP (3:30pm):</b> Close position! Debit ~${theoreticalDebit.toFixed(2)}. P&L ~${fmtDollar(pos.pnlDollar)}`);
+    exitBeep();
+    showBanner('exit-time',
+      `ACTION: CLOSE ${pos.tag} — 3:30PM TIME STOP`,
+      `Buy back ${pos.wp}/${pos.center}/${pos.wc} IBF · ${pos.nSpreads} spreads · ~${theoreticalDebit.toFixed(2)} debit`,
+      true
+    );
+    pendingFill = {type:'exit', posIdx:positions.indexOf(pos), pos, theoretical:theoreticalDebit};
+  }
+  renderPositions();
+}
+
+// ══════════════════════════════════════════════════════════════════════════════
+// SYSTEM THINKING — narrates what the system is watching
+// ══════════════════════════════════════════════════════════════════════════════
+function updateThinking() {
+  const et = getET();
+  const status = getMarketStatus(et);
+  const items = [];
+
+  if (status === 'PRE') {
+    items.push({icon:'waiting', label:'STATUS', value:'Waiting for market open. Scoring begins at 9:30am, entry decision at 10:00am.'});
+  }
+
+  else if (status === 'SCORING') {
+    const minsTo10 = 600 - (et.getHours()*60 + et.getMinutes());
+    items.push({icon:'active', label:'SCORING', value:`Evaluating conditions. Entry decision in ${minsTo10} minutes.`});
+    if (vixBars.length) {
+      const vixNow = vixBars[vixBars.length-1].c;
+      items.push({icon:'waiting', label:'VIX', value:`Current VIX: ${vixNow.toFixed(1)}. ${vixNow > 25 ? 'Elevated — may filter to conservative only.' : vixNow > 20 ? 'Above average.' : 'Calm environment — both signals likely.'}`});
+    }
+  }
+
+  else if (dayDecisionMod && !positions.length) {
+    if (dayDecisionMod === 'GO') {
+      // GO decision but no position yet — entry pending
+      items.push({icon:'active', label:'ENTRY PENDING', value:`Moderate: GO. Waiting for position to populate — will retry on next poll.`});
+    } else {
+      // WAIT or SKIP — genuinely no trade
+      const modStr = dayDecisionMod, conStr = dayDecisionCon;
+      items.push({icon:'blocked', label:'NO TRADE', value:`Moderate: ${modStr}. Conservative: ${conStr}. System is idle.`});
+    }
+  }
+
+  else if (positions.length > 0) {
+    const p1 = positions[0];
+    const lastBar = spxBars.length ? spxBars[spxBars.length-1] : null;
+    const sNow = lastBar ? lastBar.c : 0;
+
+    // Signal agreement context
+    if (dayDecisionCon === 'GO') {
+      items.push({icon:'done', label:'SIGNAL', value:'Both moderate and conservative agree: GO. High confidence entry.'});
+    } else {
+      items.push({icon:'waiting', label:'SIGNAL', value:'Moderate signal only. Conservative would not have entered today.'});
+    }
+
+    // P1 status
+    if (!p1.exitType) {
+      const distPut = Math.abs(sNow - p1.wp).toFixed(1);
+      const distCall = Math.abs(sNow - p1.wc).toFixed(1);
+      const nearestWing = sNow < p1.center ? `${distPut}pts from put wing ${p1.wp}` : `${distCall}pts from call wing ${p1.wc}`;
+      items.push({icon:'active', label:'T1 LIVE', value:`Center: ${p1.center} | SPX: ${sNow.toFixed(1)} | ${nearestWing}`, sub:`Wing stop triggers if SPX crosses ${p1.wp} or ${p1.wc}`});
+    } else {
+      items.push({icon:'done', label:'T1 CLOSED', value:`${p1.exitType} at ${fmtTimeShort(p1.exitTime)}. P&L: ${fmtDollar(p1.pnlDollar)}`});
+    }
+
+    // Time-add thinking
+    if (!timeAddDone && positions.length === 1 && !p1.exitType && lastBar) {
+      const elapsed = (lastBar.t - p1.entryTime) / 60000;
+      const minsLeft = Math.max(0, Math.ceil(CFG.TIME_ADD_MINUTES - elapsed));
+
+      if (maxDevFromCenter > CFG.TIME_ADD_MAX_RANGE) {
+        items.push({icon:'blocked', label:'PINNING ADD', value:`Cancelled. SPX moved ${maxDevFromCenter.toFixed(1)}pts from center (max: ±${CFG.TIME_ADD_MAX_RANGE}). Not pinning.`});
+      } else if (minsLeft > 0) {
+        const pctDone = Math.min(100, elapsed / CFG.TIME_ADD_MINUTES * 100);
+        items.push({
+          icon:'active', label:'PINNING ADD',
+          value:`SPX holding within ±${maxDevFromCenter.toFixed(1)}pts of ${p1.center}. If range stays under ±${CFG.TIME_ADD_MAX_RANGE}pts for ${minsLeft} more min, T2 adds at same strikes.`,
+          sub:`${Math.floor(elapsed)}/${CFG.TIME_ADD_MINUTES} min`,
+          progress: pctDone, progressColor: 'blue'
+        });
+      }
+    } else if (timeAddDone && positions.length === 1 && !p1.exitType) {
+      items.push({icon:'blocked', label:'PINNING ADD', value:`Did not qualify. Watching for ${CFG.LADDER_DRIFT}pt drift for T2.`});
+    }
+
+    // Drift-add thinking
+    const activeP = positions.filter(p => !p.exitType);
+    if (activeP.length > 0 && positions.length < CFG.MAX_POSITIONS) {
+      const drift = Math.abs(sNow - lastCenter);
+      const driftPct = drift / CFG.LADDER_DRIFT * 100;
+      const driftNeeded = Math.max(0, CFG.LADDER_DRIFT - drift).toFixed(1);
+
+      if (drift < CFG.LADDER_DRIFT) {
+        items.push({
+          icon:'waiting', label:`DRIFT ADD (T${positions.length+1})`,
+          value:`SPX ${drift.toFixed(1)}pts from last center (${lastCenter}). Need ${driftNeeded}pts more drift.`,
+          progress: Math.min(100, driftPct), progressColor: 'yellow'
+        });
+      }
+    }
+
+    // Budget & sizing breakdown
+    const tranchesUsed = positions.length;
+    const riskUsed = positions.reduce((s,p) => s + p.riskDeployed, 0);
+    const sizingDetails = positions.map(p => `${p.tag}: ${p.nSpreads}×$${(p.maxLoss*CFG.SPX_MULT).toLocaleString()} = $${p.riskDeployed.toLocaleString()}`).join(' · ');
+    items.push({icon: tranchesUsed >= 3 ? 'done' : 'waiting', label:'BUDGET',
+      value:`${tranchesUsed}/3 tranches deployed. $${riskUsed.toLocaleString()} risked, $${remainingBudget.toLocaleString()} of $${CFG.DAILY_RISK_BUDGET.toLocaleString()} remaining.`,
+      sub: sizingDetails});
+  }
+
+  if (status === 'CLOSED') {
+    const totalPnl = positions.reduce((s,p) => s + p.pnlDollar, 0);
+    if (positions.length > 0) {
+      items.push({icon: totalPnl >= 0 ? 'done' : 'blocked', label:'DAY COMPLETE',
+        value:`${positions.length} position(s) closed. Day P&L: ${fmtDollar(totalPnl)}`});
+    } else {
+      items.push({icon:'done', label:'DAY COMPLETE', value:'No trades today. Market closed.'});
+    }
+  }
+
+  // Render
+  document.getElementById('thinkItems').innerHTML = items.map(item => `
+    <div class="think-item">
+      <div class="think-icon ${item.icon}">${item.icon==='done'?'✓':(item.icon==='blocked'?'✗':(item.icon==='active'?'◉':'○'))}</div>
+      <div class="think-text">
+        <span class="th-label">${item.label}</span>
+        <span class="th-value">${item.value}</span>
+        ${item.sub ? `<span class="th-sub">${item.sub}</span>` : ''}
+        ${item.progress !== undefined ? `<div class="think-progress"><div class="think-progress-bar ${item.progressColor||'blue'}" style="width:${item.progress}%"></div></div>` : ''}
+      </div>
+    </div>
+  `).join('');
+}
+
+// ══════════════════════════════════════════════════════════════════════════════
+// RENDER POSITIONS
+// ══════════════════════════════════════════════════════════════════════════════
+function renderPositions() {
+  for (let i=0; i<3; i++) {
+    const el = document.getElementById('pos-'+i);
+    const p = positions[i];
+
+    if (!p) {
+      el.className = 'pos-card empty';
+      continue;
+    }
+
+    const isActive = !p.exitType;
+    const isWin = p.pnlDollar >= 0;
+    el.className = 'pos-card '+(isActive?'active':(isWin?'closed-win':'closed-loss'));
+
+    const pnlPct = p.maxLoss>0 ? Math.max(0, Math.min(100, (p.pnlDollar/(p.maxProfit*p.nSpreads*CFG.SPX_MULT))*100)) : 0;
+
+    el.innerHTML = `
+      <div class="pos-tag">${p.tag} — ${isActive?'LIVE':(p.exitType||'CLOSED')}</div>
+      <div class="pos-strikes">
+        <span class="wing">${p.wp}</span> / <span class="center">${p.center}</span> / <span class="wing">${p.wc}</span>
+      </div>
+      <div class="pos-detail">
+        ${p.nSpreads}x spreads · Credit ${p.actualCredit?p.actualCredit.toFixed(2)+'*':p.credit.toFixed(2)} ($${((p.actualCredit||p.credit)*100).toFixed(0)}/spr) · Target ${p.target.toFixed(2)}
+        ${p.exitType ? ' · Exit '+fmtTimeShort(p.exitTime) : ''} ${p.exitFillPrice!==null?' · Debit '+p.exitFillPrice.toFixed(2)+'*':''}
+        <br>Max loss: $${(p.maxLoss*CFG.SPX_MULT).toLocaleString()}/spr · Risk deployed: $${p.riskDeployed.toLocaleString()}
+      </div>
+      <div class="pos-pnl ${isWin?'pos':'neg'}">${fmtDollar(p.pnlDollar)}</div>
+      <div class="pos-progress">
+        <div class="pos-progress-bar ${isWin?'pos':'neg'}" style="width:${Math.abs(pnlPct)}%"></div>
+      </div>
+      ${p.exitType ? `<span class="pos-exit ${p.exitType==='TARGET'?'target':(p.exitType==='WING_STOP'?'wing':'time')}">${p.exitType}</span>` : ''}
+      ${!p.exitType && p.pricingSource ? `<span style="font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:1px;padding:2px 6px;border-radius:3px;${p.pricingSource==='LIVE'?'color:var(--green);background:rgba(0,229,160,0.08);border:1px solid rgba(0,229,160,0.2)':'color:var(--yellow);background:rgba(255,201,77,0.08);border:1px solid rgba(255,201,77,0.2)'}">${p.pricingSource}</span>` : ''}
+    `;
+  }
+}
+
+// ══════════════════════════════════════════════════════════════════════════════
+// CHART
+// ══════════════════════════════════════════════════════════════════════════════
+let pnlChartInstance = null;
+function updateChart() {
+  if (!pnlHistory.length) return;
+  const ctx = document.getElementById('pnlChart');
+  const labels = pnlHistory.map(p=>fmtTimeShort(p.t));
+  const data = pnlHistory.map(p=>p.total);
+
+  if (pnlChartInstance) {
+    pnlChartInstance.data.labels = labels;
+    pnlChartInstance.data.datasets[0].data = data;
+    pnlChartInstance.update('none');
+    return;
+  }
+
+  pnlChartInstance = new Chart(ctx, {
+    type:'line',
+    data:{
+      labels,
+      datasets:[{
+        label:'Total P&L', data,
+        borderColor:'#00e5a0', backgroundColor:'rgba(0,229,160,0.05)',
+        borderWidth:1.5, fill:true, pointRadius:0, tension:0.3
+      }]
+    },
+    options:{
+      responsive:true,
+      plugins:{legend:{display:false}},
+      scales:{
+        x:{ticks:{color:'#2d4a60',font:{family:'IBM Plex Mono',size:8},maxTicksLimit:8},grid:{color:'rgba(15,34,51,0.5)'}},
+        y:{ticks:{color:'#2d4a60',font:{family:'IBM Plex Mono',size:9},callback:v=>'$'+v.toLocaleString()},grid:{color:'rgba(15,34,51,0.5)'}}
+      }
+    }
+  });
+}
+
+// ══════════════════════════════════════════════════════════════════════════════
+// ACTION BANNER
+// ══════════════════════════════════════════════════════════════════════════════
+function showBanner(cls, title, detail, showFillBtn=false) {
+  const el = document.getElementById('actionBanner');
+  el.className = 'action-banner visible '+cls;
+  document.getElementById('abTitle').textContent = title;
+  document.getElementById('abDetail').textContent = detail;
+  document.getElementById('abFillBtn').style.display = showFillBtn?'inline-block':'none';
+  clearTimeout(bannerTimeout);
+  bannerTimeout = setTimeout(dismissBanner, 60000);
+}
+function dismissBanner() {
+  document.getElementById('actionBanner').className = 'action-banner';
+  clearTimeout(bannerTimeout);
+}
+
+// ══════════════════════════════════════════════════════════════════════════════
+// FILL PRICE MODAL
+// ══════════════════════════════════════════════════════════════════════════════
+function openFillModal() {
+  if (!pendingFill) return;
+  const fm = document.getElementById('fillModal');
+  fm.className = 'fill-modal visible';
+  const pf = pendingFill;
+
+  if (pf.type === 'entry' || pf.type === 'add') {
+    document.getElementById('fillTitle').textContent = `${pf.pos.tag} — Enter Your Fill`;
+    const mlStr = pf.mlPerSpread ? `$${pf.mlPerSpread.toLocaleString()}` : `$${(pf.pos.maxLoss * CFG.SPX_MULT).toLocaleString()}`;
+    const trStr = pf.trancheBudget ? `$${pf.trancheBudget.toLocaleString()}` : `$${CFG.TRANCHE.toLocaleString()}`;
+    document.getElementById('fillSub').textContent = `${pf.pos.wp} / ${pf.pos.center} / ${pf.pos.wc} Iron Butterfly · Tranche budget: ${trStr}`;
+    document.getElementById('fillPrice').value = '';
+    document.getElementById('fillPrice').placeholder = pf.theoretical.toFixed(2);
+    document.getElementById('fillHint').textContent = `Theoretical credit: ${pf.theoretical.toFixed(2)} pts ($${(pf.theoretical*100).toFixed(0)}/spr). Max loss per spread: ${mlStr}. Enter the net credit you received.`;
+    document.getElementById('fillQty').value = '';
+    document.getElementById('fillQty').placeholder = pf.pos.nSpreads;
+    document.getElementById('fillQtyHint').textContent = `Suggested: ${pf.pos.nSpreads} spreads · ${mlStr} max loss/spr × ${pf.pos.nSpreads} = $${pf.pos.riskDeployed.toLocaleString()} risk of ${trStr} tranche`;
+  } else if (pf.type === 'exit') {
+    document.getElementById('fillTitle').textContent = `${pf.pos.tag} — Enter Your Exit Fill`;
+    document.getElementById('fillSub').textContent = `${pf.pos.exitType} — Close the ${pf.pos.wp}/${pf.pos.center}/${pf.pos.wc} butterfly`;
+    document.getElementById('fillPrice').value = '';
+    document.getElementById('fillPrice').placeholder = pf.theoretical.toFixed(2);
+    document.getElementById('fillHint').textContent = `Theoretical debit: ${pf.theoretical.toFixed(2)} pts ($${(pf.theoretical*100).toFixed(0)}/spr). Enter the net debit you paid.`;
+    document.getElementById('fillQty').value = pf.pos.nSpreads;
+    document.getElementById('fillQtyHint').textContent = `Closing all ${pf.pos.nSpreads} spreads`;
+  }
+  document.getElementById('fillPrice').focus();
+}
+
+function submitFill() {
+  if (!pendingFill) return;
+  const priceVal = parseFloat(document.getElementById('fillPrice').value);
+  const qtyVal = parseInt(document.getElementById('fillQty').value);
+  const pf = pendingFill;
+
+  if (pf.type === 'entry' || pf.type === 'add') {
+    const fillCredit = isNaN(priceVal) ? pf.theoretical : priceVal;
+    const fillQty = isNaN(qtyVal) ? pf.pos.nSpreads : qtyVal;
+    const pos = positions[pf.posIdx];
+    pos.actualCredit = fillCredit;
+    pos.credit = fillCredit;
+    pos.maxProfit = fillCredit;
+    pos.maxLoss = (pos.center - pos.wp) - fillCredit;
+    pos.target = +(fillCredit * CFG.TARGET_PCT).toFixed(3);
+    pos.nSpreads = fillQty;
+    pos.riskDeployed = fillQty * pos.maxLoss * CFG.SPX_MULT;
+    addAlert('info', `${pos.tag} fill confirmed: ${fillCredit.toFixed(2)} credit × ${fillQty} spreads. Target at ${pos.target.toFixed(2)} pts. Risk $${pos.riskDeployed.toLocaleString()}`);
+  } else if (pf.type === 'exit') {
+    const fillDebit = isNaN(priceVal) ? pf.theoretical : priceVal;
+    const pos = positions[pf.posIdx];
+    const actualPnlPerSpread = pos.actualCredit - fillDebit;
+    pos.pnlDollar = Math.round(actualPnlPerSpread * pos.nSpreads * CFG.SPX_MULT);
+    pos.exitFillPrice = fillDebit;
+    addAlert('info', `${pos.tag} exit fill confirmed: ${fillDebit.toFixed(2)} debit. Actual P&L: ${fmtDollar(pos.pnlDollar)}`);
+  }
+
+  closeFillModal();
+  dismissBanner();
+  renderPositions();
+  pendingFill = null;
+  saveState();
+}
+
+function skipFill() {
+  if (pendingFill) {
+    const pf = pendingFill;
+    if (pf.type === 'entry' || pf.type === 'add') {
+      positions[pf.posIdx].actualCredit = pf.theoretical;
+      addAlert('info', `${positions[pf.posIdx].tag}: using theoretical credit ${pf.theoretical.toFixed(2)}`);
+    } else if (pf.type === 'exit') {
+      positions[pf.posIdx].exitFillPrice = pf.theoretical;
+      addAlert('info', `${positions[pf.posIdx].tag}: using theoretical exit ${pf.theoretical.toFixed(2)}`);
+    }
+  }
+  closeFillModal();
+  dismissBanner();
+  pendingFill = null;
+  saveState();
+}
+
+function closeFillModal() {
+  document.getElementById('fillModal').className = 'fill-modal';
+}
+
+document.getElementById('fillPrice').addEventListener('keydown', e => {
+  if (e.key === 'Enter') {
+    const qtyEl = document.getElementById('fillQty');
+    if (!qtyEl.value) qtyEl.focus();
+    else submitFill();
+  }
+});
+document.getElementById('fillQty').addEventListener('keydown', e => {
+  if (e.key === 'Enter') submitFill();
+});
+
+// ══════════════════════════════════════════════════════════════════════════════
+// APP INIT
+// ══════════════════════════════════════════════════════════════════════════════
+async function startApp() {
+  const key = document.getElementById('keyInput').value.trim();
+  if (!key) return;
+  API_KEY = key;
+  document.getElementById('keyModal').style.display = 'none';
+
+  // Show refresh button
+  document.getElementById('refreshBtn').style.display = 'flex';
+
+  // Restore saved state from today (positions, fills, decisions)
+  const restored = restoreState();
+  if (restored) {
+    addAlert('info', `Session restored: ${positions.length} position(s), Moderate: ${dayDecisionMod}, Conservative: ${dayDecisionCon}.`);
+
+    // Restore verdict cards
+    if (dayDecisionMod === 'GO') setVerdictCard('vcMod', 'go', 'GO — ENTER', `Score ${lastScore}, VP ${lastVP?.toFixed(2)}x`);
+    else if (dayDecisionMod === 'WAIT') setVerdictCard('vcMod', 'wait', 'WAIT', `Score ${lastScore}`);
+    else if (dayDecisionMod === 'SKIP') setVerdictCard('vcMod', 'skip', 'SKIP', `Score ${lastScore}`);
+
+    if (dayDecisionCon === 'GO') setVerdictCard('vcCon', 'go', 'GO — ENTER', `Score ${lastScore}, VP ${lastVP?.toFixed(2)}x`);
+    else if (dayDecisionCon === 'WAIT') setVerdictCard('vcCon', 'wait', 'WAIT', `Score ${lastScore}`);
+    else if (dayDecisionCon === 'SKIP') setVerdictCard('vcCon', 'skip', 'SKIP', `Score ${lastScore}`);
+
+    // Restore score bar
+    if (lastScore !== null) {
+      const pct = Math.min(100, lastScore/96*100);
+      const bar = document.getElementById('scoreBar');
+      bar.style.width = pct+'%';
+      bar.className = 'score-bar '+(lastScore>=55?'go':(lastScore>=35?'wait':'skip'));
+      document.getElementById('scoreVal').textContent = lastScore+'/96';
+    }
+
+    renderPositions();
+    renderAlerts();
+    updateThinking();
+    updateChart();
+  }
+
+  // Validate key first — works even when market is closed
+  const valid = await validateKey();
+
+  if (valid) {
+    const interval = restored ? '— resuming from saved state' : '';
+    addAlert('info', `Polling Polygon every 30s (15s near wing strikes). Showing both signals. ${interval}`);
+    pollData();  // scheduleNextPoll() is called inside pollData
+  } else {
+    addAlert('warn', 'Polling paused — fix your API key and reload, or data will not stream.');
+  }
+
+  // Clock tick + refresh age counter every second
+  setInterval(()=>{
+    const et = getET();
+    const status = getMarketStatus(et);
+    updateClock(et, status);
+    updateRefreshBtn();
+  }, 1000);
+}
+
+document.getElementById('keyInput').addEventListener('keydown', e => {
+  if (e.key === 'Enter') startApp();
+});
+</script>
+</body>
+</html>

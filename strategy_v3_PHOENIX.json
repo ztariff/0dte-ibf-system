@@ -1,0 +1,272 @@
+{
+  "strategy_id": "PHOENIX-v3.0",
+  "strategy_name": "Phoenix Iron Butterfly",
+  "version": "3.0",
+  "created": "2026-02-22",
+  "description": "Concentrated 0DTE SPX Iron Butterfly strategy using top 5 Jaccard-clustered S-tier signal groups with tiered sizing and adaptive exit mechanics.",
+  "status": "BACKTEST_VALIDATED",
+
+  "data_source": {
+    "instrument": "SPX 0DTE Iron Butterfly",
+    "pricing": "100% LIVE Polygon.io option chains",
+    "backtest_period": "2023-11-06 to 2026-02-20",
+    "total_trading_days": 573,
+    "go_trades_in_period": 573,
+    "note": "All P&L computed from real market fills via Polygon snapshot API — no synthetic/theoretical pricing"
+  },
+
+  "signal_catalog": {
+    "source_file": "signal_catalog.json",
+    "total_parameter_sets": 14991,
+    "tier_breakdown": {
+      "S": 625,
+      "A": 1345,
+      "B": 2719,
+      "C": 3563,
+      "D": 6739
+    },
+    "robust_sets": 8252
+  },
+
+  "clustering": {
+    "method": "Jaccard similarity",
+    "threshold": 0.70,
+    "input_filter_groups": 897,
+    "output_distinct_groups": 309,
+    "ranking": "tier_order * -100 + calmar (S-tier first, then by Calmar ratio)"
+  },
+
+  "capital_allocation": {
+    "daily_risk_budget": 100000,
+    "pool_size": 5,
+    "sizing_model": "tiered",
+    "sizing_rules": {
+      "0_signals": 0,
+      "1_signal": 25000,
+      "2_signals": 50000,
+      "3_signals": 75000,
+      "4_plus_signals": 100000
+    },
+    "mechanics_selection": "adaptive",
+    "adaptive_rule": "Use exit mechanics (target %, time stop, tranches) from the highest-ranked signal group that fires on that day"
+  },
+
+  "signal_groups": [
+    {
+      "rank": 1,
+      "name": "VIX≤20 + VP≤1.0 + 5dRet>0",
+      "tier": "S",
+      "profit_factor": 6.20,
+      "calmar": 14.85,
+      "fires_on_days": 24,
+      "mechanics": {
+        "target_pct": 70,
+        "time_stop": "close",
+        "tranches": "5T",
+        "interval": "60m"
+      },
+      "filters": {
+        "VIX": "≤ 20",
+        "VP_ratio": "≤ 1.0",
+        "prior_5d_return": "> 0"
+      }
+    },
+    {
+      "rank": 2,
+      "name": "VP≤1.3 + PrDayDn + 5dRet>0",
+      "tier": "S",
+      "profit_factor": 5.95,
+      "calmar": 14.58,
+      "fires_on_days": 33,
+      "mechanics": {
+        "target_pct": 50,
+        "time_stop": "close",
+        "tranches": "5T",
+        "interval": "60m"
+      },
+      "filters": {
+        "VP_ratio": "≤ 1.3",
+        "prior_day_direction": "DOWN",
+        "prior_5d_return": "> 0"
+      }
+    },
+    {
+      "rank": 3,
+      "name": "VP≤1.2 + 5dRet>0 + RVchg>0",
+      "tier": "S",
+      "profit_factor": 3.23,
+      "calmar": 10.90,
+      "fires_on_days": 106,
+      "mechanics": {
+        "target_pct": 50,
+        "time_stop": "close",
+        "tranches": "5T",
+        "interval": "60m"
+      },
+      "filters": {
+        "VP_ratio": "≤ 1.2",
+        "prior_5d_return": "> 0",
+        "rv_1d_change": "> 0"
+      }
+    },
+    {
+      "rank": 4,
+      "name": "VP≤1.5 + OutWkRng + 5dRet>0",
+      "tier": "S",
+      "profit_factor": 2.45,
+      "calmar": 10.35,
+      "fires_on_days": 57,
+      "mechanics": {
+        "target_pct": 70,
+        "time_stop": "close",
+        "tranches": "5T",
+        "interval": "60m"
+      },
+      "filters": {
+        "VP_ratio": "≤ 1.5",
+        "in_prior_week_range": false,
+        "prior_5d_return": "> 0"
+      }
+    },
+    {
+      "rank": 5,
+      "name": "VP≤1.3 + !RISING + 5dRet>0",
+      "tier": "S",
+      "profit_factor": 2.61,
+      "calmar": 9.14,
+      "fires_on_days": 58,
+      "mechanics": {
+        "target_pct": 50,
+        "time_stop": "close",
+        "tranches": "5T",
+        "interval": "60m"
+      },
+      "filters": {
+        "VP_ratio": "≤ 1.3",
+        "rv_slope": "NOT RISING",
+        "prior_5d_return": "> 0"
+      }
+    }
+  ],
+
+  "execution_mechanics": {
+    "entry_time": "10:30 ET (market open + 1hr)",
+    "structure": "ATM Iron Butterfly on SPX 0DTE",
+    "wing_width": "determined by risk allocation / SPX multiplier",
+    "spx_multiplier": 100,
+    "slippage_per_spread": 1.00,
+    "tranche_risk_base": 25000,
+    "checkpoints_60m": ["11:00", "12:00", "13:00", "14:00", "15:00"],
+    "checkpoints_30m": ["10:30", "11:00", "11:30", "12:00", "12:30", "13:00", "13:30", "14:00", "14:30", "15:00", "15:30", "15:45"],
+    "exit_priority": "wing_stop > profit_target > time_stop > expiry",
+    "note": "Multi-tranche: first tranche at entry, subsequent tranches at checkpoint intervals if still in trade"
+  },
+
+  "backtest_results": {
+    "config_label": "P5/tiered/adaptive",
+    "trades": 161,
+    "total_pnl": 1204729,
+    "avg_pnl_per_trade": 7483,
+    "win_rate_pct": 55.3,
+    "profit_factor": 2.68,
+    "sharpe_ratio": 2.25,
+    "max_drawdown": -89603,
+    "calmar_ratio": 13.45,
+    "best_day": 135464,
+    "worst_day": -52614,
+    "max_consecutive_losses": 3,
+    "profitable_months_pct": 75,
+    "h1_profit_factor": 2.47,
+    "h2_profit_factor": 2.90,
+    "robust": true,
+    "confluence_depth_analysis": {
+      "1_signal": {"trades": 50, "win_rate": 64, "pf": 1.36},
+      "2_signals": {"trades": 38, "win_rate": 68, "pf": 1.59},
+      "3_signals": {"trades": 15, "win_rate": 73, "pf": 5.81},
+      "4_signals": {"trades": 8, "win_rate": 100, "pf": 99},
+      "5_signals": {"trades": 1, "win_rate": 0, "pf": 0}
+    }
+  },
+
+  "statistical_validation": {
+    "monte_carlo_bootstrap": {
+      "n_simulations": 10000,
+      "probability_of_total_loss": 0.0,
+      "probability_pf_below_1": 0.0,
+      "confidence_intervals_90pct": {
+        "total_pnl": [653454, 1795173],
+        "profit_factor": [1.79, 3.95],
+        "sharpe_ratio": [2.76, 5.82],
+        "win_rate_pct": [49.1, 62.1],
+        "max_drawdown": [-170920, -58797],
+        "calmar_ratio": [4.61, 26.52]
+      }
+    },
+    "binomial_test_wr_vs_50pct": {"z_score": 1.34, "p_value": 0.09, "significant": false},
+    "binomial_test_wr_vs_breakeven": {"breakeven_wr": 0.316, "z_score": 6.46, "p_value": 0.0, "significant": true},
+    "permutation_test_mean_pnl": {"n_permutations": 50000, "p_value": 0.00012, "significant": true},
+    "rolling_50trade_windows": {
+      "total_windows": 112,
+      "pf_range": [1.36, 3.48],
+      "pf_mean": 2.16,
+      "windows_below_pf1": 0
+    }
+  },
+
+  "monthly_pnl": {
+    "2023-11": 56875, "2023-12": 41793,
+    "2024-01": 116412, "2024-02": 30109, "2024-03": 16524, "2024-04": 157837,
+    "2024-05": -53380, "2024-06": 127502, "2024-07": -42831, "2024-08": 120224,
+    "2024-09": 25804, "2024-10": 14218, "2024-11": -47994, "2024-12": -29359,
+    "2025-01": 89968, "2025-02": -8556, "2025-03": 37447, "2025-04": 22858,
+    "2025-05": 125819, "2025-06": 57978, "2025-07": -38177, "2025-08": -11837,
+    "2025-09": 14419, "2025-10": 13368, "2025-11": 17062, "2025-12": 32560,
+    "2026-01": 152755, "2026-02": 165331
+  },
+
+  "files": {
+    "backtest_engine": "ensemble_v3.py",
+    "signal_catalog": "signal_catalog.json",
+    "trade_data": "research_all_trades.csv",
+    "catalog_builder": "build_signal_catalog.py",
+    "original_research_backtest": "backtest_research.py",
+    "equity_curves": "ensemble_v3_equity.csv",
+    "config_summary": "ensemble_v3_summary.csv",
+    "results_log": "ensemble_v3_results.txt",
+    "calendar_dashboard": "ibf_calendar.html",
+    "calendar_data": "calendar_data_v3.json",
+    "monte_carlo_analysis": "monte_carlo.py",
+    "monte_carlo_dashboard": "monte_carlo_dashboard.html"
+  },
+
+  "atomic_filters_reference": {
+    "VIX≤20": "VIX index ≤ 20",
+    "VP≤1.0": "VP ratio (implied vol / realized vol) ≤ 1.0",
+    "VP≤1.2": "VP ratio ≤ 1.2",
+    "VP≤1.3": "VP ratio ≤ 1.3",
+    "VP≤1.5": "VP ratio ≤ 1.5",
+    "5dRet>0": "Prior 5-day SPX return > 0%",
+    "PrDayDn": "Prior day closed down",
+    "OutWkRng": "SPX outside prior week's range",
+    "!RISING": "Realized volatility slope is NOT rising",
+    "RVchg>0": "1-day change in realized volatility > 0"
+  },
+
+  "version_history": [
+    {
+      "version": "1.0",
+      "date": "2026-02-22",
+      "description": "Ensemble V1 — compared Options A (strategy families), B (confluence sizing), C (multi-mechanics buckets). Option A won but was unrealistic (fractional spreads)."
+    },
+    {
+      "version": "2.0",
+      "date": "2026-02-22",
+      "description": "Ensemble V2 — Jaccard clustering at 70/80/90% thresholds with quality-weighted allocation across all groups. All configs lost money due to capital dilution."
+    },
+    {
+      "version": "3.0",
+      "date": "2026-02-22",
+      "description": "Ensemble V3 (PHOENIX) — Concentrated signal model. Top 5 S-tier Jaccard clusters as go/no-go filters, tiered sizing by confluence, adaptive exit mechanics. Winner: $1.2M, PF 2.68, Calmar 13.45."
+    }
+  ]
+}

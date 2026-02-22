@@ -1,0 +1,7 @@
+
+==============================SPX 0DTE — Iron Butterfly Backtest===============================
+  Entry: 10am · Exit: 50% target or 3:30pm · Wings: ±40pts · Add if drift >15pts + slopes OK
+  180 trading days lookback
+
+Date           Sc   VIX    RV RVSlp    VWAP        VP    N     P1 ($)     P2 ($)      Total  Outcome
+---------------------------------------------------------------------------------------------------------
