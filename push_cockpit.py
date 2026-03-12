@@ -28,7 +28,9 @@ def git(*args):
     return subprocess.run(["git", "-C", REPO] + list(args),
                           capture_output=True, text=True)
 
-LIVE_FILE = os.path.join(REPO, "live_trades.json")
+LIVE_FILE   = os.path.join(REPO, "live_trades.json")
+STATS_FILE  = os.path.join(REPO, "strategy_stats.json")
+TRADES_FILE = os.path.join(REPO, "strategy_trades.json")
 
 def push_state():
     ts = datetime.datetime.now().strftime("%H:%M:%S")
@@ -36,10 +38,11 @@ def push_state():
         print(f"[{ts}] cockpit_state.json not found — is cockpit_feed.py running?")
         return
 
-    # Stage cockpit state (always) + live trades (if exists)
+    # Stage all files that feed the live GitHub Pages site
     git("add", "cockpit_state.json")
-    if os.path.exists(LIVE_FILE):
-        git("add", "live_trades.json")
+    for f in (LIVE_FILE, STATS_FILE, TRADES_FILE):
+        if os.path.exists(f):
+            git("add", os.path.basename(f))
 
     diff = git("diff", "--staged", "--quiet")
     if diff.returncode == 0:
