@@ -23,13 +23,17 @@ STATE_PATH = os.path.join(_DIR, "cockpit_state.json")
 TRADE_PATH       = os.path.join(_DIR, "trade_active.json")
 LIVE_TRADES_PATH = os.path.join(_DIR, "live_trades.json")
 
-# ─── Load config ───
-with open(CONFIG_PATH) as f:
-    CONFIG = json.load(f)
+# ─── Load config (file optional — env vars take precedence in cloud) ───
+try:
+    with open(CONFIG_PATH) as f:
+        CONFIG = json.load(f)
+except FileNotFoundError:
+    CONFIG = {}
 
-API_KEY = CONFIG["polygon_api_key"]
-DAILY_RISK = CONFIG.get("daily_risk", 100000)
-POLL_SEC = CONFIG.get("poll_interval_sec", 10)
+# API key: env var first (Railway/cloud), then config file, then placeholder
+API_KEY    = os.environ.get("POLYGON_API_KEY") or CONFIG.get("polygon_api_key", "YOUR_KEY_HERE")
+DAILY_RISK = int(os.environ.get("DAILY_RISK", CONFIG.get("daily_risk", 100000)))
+POLL_SEC   = int(os.environ.get("POLL_INTERVAL_SEC", CONFIG.get("poll_interval_sec", 10)))
 BASE = "https://api.polygon.io"
 
 # Adaptive wing width — mirrors backtest_research.py exactly
@@ -45,7 +49,7 @@ def adaptive_wing_width(spx_price, vix_val):
     return int(rounded)
 
 if API_KEY == "YOUR_KEY_HERE":
-    print("ERROR: Set your Polygon API key in cockpit_config.json")
+    print("ERROR: Set your Polygon API key via POLYGON_API_KEY env var or cockpit_config.json")
     sys.exit(1)
 
 # ─── Strategy definitions ───
@@ -190,8 +194,82 @@ def append_live_trade(trade):
         with open(LIVE_TRADES_PATH, "w") as f:
             json.dump(existing, f, indent=2)
         print(f"  LIVE TRADE LOGGED: {record['date']} {record['ver']} {exit_label} P&L=${int(pnl):+,}")
+        # Push to GitHub for persistence across Railway redeploys (non-blocking)
+        if os.environ.get("GITHUB_TOKEN"):
+            import threading as _t
+            _t.Thread(target=_push_live_trades_bg, daemon=True).start()
     except Exception as e:
         print(f"  WARNING: Failed to log live trade: {e}")
+
+def _push_live_trades_bg():
+    """Background: push live_trades.json to GitHub repo via REST API."""
+    try:
+        import urllib.request as _ur, base64 as _b64
+        token = os.environ.get("GITHUB_TOKEN", "")
+        repo  = os.environ.get("GITHUB_REPO", "")   # e.g. "ztariff/0dte-ibf-system"
+        branch = os.environ.get("GITHUB_BRANCH", "main")
+        if not token or not repo:
+            return
+        filename = "live_trades.json"
+        api_url  = f"https://api.github.com/repos/{repo}/contents/{filename}"
+        hdrs = {
+            "Authorization": f"token {token}",
+            "Accept": "application/vnd.github.v3+json",
+            "Content-Type": "application/json",
+            "User-Agent": "cockpit-feed/1.0",
+        }
+        # Read current file to get SHA (required for updates)
+        sha = ""
+        try:
+            req = _ur.Request(api_url, headers=hdrs)
+            with _ur.urlopen(req, timeout=10) as resp:
+                sha = json.loads(resp.read()).get("sha", "")
+        except Exception:
+            pass   # file may not exist yet
+        # Read local file
+        with open(LIVE_TRADES_PATH, "rb") as f:
+            content_b64 = _b64.b64encode(f.read()).decode()
+        payload = {
+            "message": f"cockpit: live trade update {datetime.now().strftime('%H:%M:%S')}",
+            "content": content_b64,
+            "branch":  branch,
+        }
+        if sha:
+            payload["sha"] = sha
+        req = _ur.Request(api_url,
+                          data=json.dumps(payload).encode(),
+                          headers=hdrs, method="PUT")
+        with _ur.urlopen(req, timeout=15) as resp:
+            resp.read()
+        print(f"  GITHUB: live_trades.json pushed to {repo}")
+    except Exception as e:
+        print(f"  GITHUB PUSH FAILED: {e}")
+
+def _restore_live_trades_from_github():
+    """On startup: fetch live_trades.json from GitHub if local copy is missing."""
+    if os.path.exists(LIVE_TRADES_PATH):
+        return   # already have local copy
+    try:
+        import urllib.request as _ur, base64 as _b64
+        token = os.environ.get("GITHUB_TOKEN", "")
+        repo  = os.environ.get("GITHUB_REPO", "")
+        if not token or not repo:
+            return
+        api_url = f"https://api.github.com/repos/{repo}/contents/live_trades.json"
+        hdrs = {
+            "Authorization": f"token {token}",
+            "Accept": "application/vnd.github.v3+json",
+            "User-Agent": "cockpit-feed/1.0",
+        }
+        req = _ur.Request(api_url, headers=hdrs)
+        with _ur.urlopen(req, timeout=10) as resp:
+            data = json.loads(resp.read())
+        content = _b64.b64decode(data["content"].replace("\n", ""))
+        with open(LIVE_TRADES_PATH, "wb") as f:
+            f.write(content)
+        print(f"  GITHUB: live_trades.json restored from {repo}")
+    except Exception as e:
+        print(f"  GITHUB: could not restore live_trades.json: {e}")
 
 def parse_mech(mech):
     """Parse mech string like '50%/close/5T60m' into components."""
@@ -1431,7 +1509,7 @@ def write_state():
 import threading
 from http.server import HTTPServer, SimpleHTTPRequestHandler
 
-HTTP_PORT = 8811
+HTTP_PORT = int(os.environ.get("PORT", 8811))
 
 class QuietHandler(SimpleHTTPRequestHandler):
     """Serve files from _DIR, suppress request logs, handle trade API."""
@@ -1439,6 +1517,11 @@ class QuietHandler(SimpleHTTPRequestHandler):
         super().__init__(*args, directory=_DIR, **kwargs)
     def log_message(self, format, *args):
         pass
+
+    def end_headers(self):
+        """Inject CORS header on every response (GET, POST, etc.)."""
+        self.send_header("Access-Control-Allow-Origin", "*")
+        super().end_headers()
 
     def do_OPTIONS(self):
         self.send_response(200)
@@ -1607,15 +1690,22 @@ def start_http_server():
 
 # ─── Run ───
 if __name__ == "__main__":
+    # Restore live_trades.json from GitHub if running in cloud with no local copy
+    _restore_live_trades_from_github()
+
     # Start HTTP server in background thread
     t = threading.Thread(target=start_http_server, daemon=True)
     t.start()
 
+    cloud = bool(os.environ.get("RAILWAY_ENVIRONMENT") or os.environ.get("PORT"))
     print("=" * 60)
     print("PHOENIX 0DTE IBF COCKPIT — Live Feed")
+    print(f"Mode:     {'☁ CLOUD (Railway)' if cloud else '🖥  LOCAL'}")
     print(f"Polling every {POLL_SEC}s")
     print(f"State file: {STATE_PATH}")
     print(f"Cockpit URL: http://localhost:{HTTP_PORT}/trading_cockpit.html")
+    if cloud:
+        print(f"Public URL: (set by Railway — see your Railway dashboard)")
     print("=" * 60)
 
     while True:

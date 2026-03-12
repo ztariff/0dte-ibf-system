@@ -245,7 +245,14 @@ let alertedTimeStops = {};  // ver -> true
 // ── GitHub Pages read-only mode ──────────────────────────────────────────────
 // When running on GitHub Pages (no local backend), hide trade management buttons
 // so the cockpit works as a read-only live view.
+// Set COCKPIT_BACKEND to your Railway URL to enable live data + trade management
+// from GitHub Pages (e.g. 'https://your-app.up.railway.app').
+// Leave empty ('') when running locally — relative URLs will be used automatically.
+const COCKPIT_BACKEND = '';   // ← set to Railway URL after deploying
+
 const IS_GITHUB_PAGES = window.location.hostname.includes('github.io');
+// HAS_BACKEND: true when we have a live backend we can POST to
+const HAS_BACKEND = !IS_GITHUB_PAGES || !!COCKPIT_BACKEND;
 
 const TRANCHE_CONFIGS = {
     "1T":    {n:1, adds:[]},
@@ -297,7 +304,10 @@ function updateClock() {
 // ══════════════════════════════════════════════════════════════
 async function loadFeed() {
     try {
-        const r = await fetch('cockpit_state.json?t=' + Date.now());
+        const stateUrl = COCKPIT_BACKEND
+            ? COCKPIT_BACKEND + '/cockpit_state.json?t=' + Date.now()
+            : 'cockpit_state.json?t=' + Date.now();
+        const r = await fetch(stateUrl);
         if (!r.ok) { setFeedStatus('off','No file'); return; }
         const data = await r.json();
         const age = (Date.now() - new Date(data.last_update).getTime()) / 1000;
@@ -925,14 +935,14 @@ function renderDetail() {
     }
 
     // ─── GitHub Pages read-only banner ───
-    if (IS_GITHUB_PAGES) {
+    if (IS_GITHUB_PAGES && !COCKPIT_BACKEND) {
         html += `<div style="background:rgba(99,102,241,0.12);border:1px solid rgba(99,102,241,0.4);border-radius:6px;padding:8px 14px;margin-bottom:8px;font-size:10px;color:#a5b4fc;">
-            📡 <strong>READ-ONLY</strong> — live data via auto-push (~60s lag). Trade management requires local backend.
+            📡 <strong>READ-ONLY</strong> — live data via auto-push (~60s lag). Set COCKPIT_BACKEND to Railway URL for full access.
         </div>`;
     }
 
     // ─── ENTRY FORM (only if signal matched AND past entry time AND no active trade) ───
-    if (!IS_GITHUB_PAGES && !phxBlocked && !hasActiveTrade && sig.matched && pastEntryTime && (t.status === 'waiting' || t.status === 'alert')) {
+    if (HAS_BACKEND && !phxBlocked && !hasActiveTrade && sig.matched && pastEntryTime && (t.status === 'waiting' || t.status === 'alert')) {
         // Auto-calculate position size from risk budget
         // For V3 (PHOENIX): use tiered sizing from confluence count, not raw daily_risk
         // For non-V3: use VP-scaled risk_budget from backend (regime_budget_cockpit); V10 half-size already baked in
@@ -1171,7 +1181,7 @@ function renderDetail() {
                                 </div>
                             </div>
                         </div>
-                        ${IS_GITHUB_PAGES ? '' : `<div style="display:flex;gap:8px;align-items:center;">
+                        ${!HAS_BACKEND ? '' : `<div style="display:flex;gap:8px;align-items:center;">
                             <button class="btn btn-green btn-lg" onclick="fillTranche('${at.ver}',${idx},${recQty})" style="flex:1;">FILL T${idx}: ${recQty}x @ ${trCredit.toFixed(2)}</button>
                             <button class="btn btn-muted" onclick="skipTranche('${at.ver}',${idx})">SKIP</button>
                         </div>`}
@@ -1198,7 +1208,7 @@ function renderDetail() {
         html += `</div>`;
 
         // ─── EXIT ───
-        if (!IS_GITHUB_PAGES) { html += `<div class="d-section">
+        if (HAS_BACKEND) { html += `<div class="d-section">
             <h3>Exit Trade</h3>
             <div class="exit-row">
                 <div class="inp-grp" style="max-width:140px"><label>Exit Spread Val</label><input class="inp" type="number" id="ep_${sig.ver}" step="0.01" value="${sv.toFixed(2)}" placeholder="8.00"></div>
@@ -1238,7 +1248,7 @@ async function confirmEntry(ver) {
 
     const c = feedData.option_chain || {};
     try {
-        const r = await fetch('/api/confirm_entry', {
+        const r = await fetch((COCKPIT_BACKEND || '') + '/api/confirm_entry', {
             method: 'POST', headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({ ver, atm: c.atm, wing_width: c.wing_width || 50, credit: price, qty })
         });
@@ -1269,7 +1279,7 @@ async function fillTranche(ver, idx, recQty) {
     const qty = recQty || at?.fill_qty || 10;
 
     try {
-        const r = await fetch('/api/fill_tranche', {
+        const r = await fetch((COCKPIT_BACKEND || '') + '/api/fill_tranche', {
             method: 'POST', headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({ idx, credit: price, qty: qty })
         });
@@ -1285,7 +1295,7 @@ async function fillTranche(ver, idx, recQty) {
 
 async function skipTranche(ver, idx) {
     try {
-        const r = await fetch('/api/skip_tranche', {
+        const r = await fetch((COCKPIT_BACKEND || '') + '/api/skip_tranche', {
             method: 'POST', headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({ idx })
         });
@@ -1306,7 +1316,7 @@ async function exitTrade(ver, type) {
     if (isNaN(ev)) { showNotif('Enter exit spread value','red'); return; }
 
     try {
-        const r = await fetch('/api/exit_trade', {
+        const r = await fetch((COCKPIT_BACKEND || '') + '/api/exit_trade', {
             method: 'POST', headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({ exit_type: type, exit_sv: ev })
         });
@@ -1337,7 +1347,7 @@ async function exitTrade(ver, type) {
 async function cancelTrade() {
     if (!confirm('Cancel active trade? This cannot be undone.')) return;
     try {
-        await fetch('/api/cancel_trade', { method: 'POST' });
+        await fetch((COCKPIT_BACKEND || '') + '/api/cancel_trade', { method: 'POST' });
         // Reset client state
         for (const ver in tradeState) { delete tradeState[ver]; }
         addLog('TRADE CANCELLED');
