@@ -28,19 +28,25 @@ def git(*args):
     return subprocess.run(["git", "-C", REPO] + list(args),
                           capture_output=True, text=True)
 
+LIVE_FILE = os.path.join(REPO, "live_trades.json")
+
 def push_state():
     ts = datetime.datetime.now().strftime("%H:%M:%S")
     if not os.path.exists(STATE_FILE):
         print(f"[{ts}] cockpit_state.json not found — is cockpit_feed.py running?")
         return
 
+    # Stage cockpit state (always) + live trades (if exists)
     git("add", "cockpit_state.json")
+    if os.path.exists(LIVE_FILE):
+        git("add", "live_trades.json")
+
     diff = git("diff", "--staged", "--quiet")
     if diff.returncode == 0:
-        print(f"[{ts}] No change in cockpit_state.json — skip push")
+        print(f"[{ts}] No changes — skip push")
         return
 
-    commit = git("commit", "-m", f"cockpit: live state {ts}")
+    commit = git("commit", "-m", f"cockpit: live update {ts}")
     if commit.returncode != 0:
         print(f"[{ts}] Commit failed: {commit.stderr.strip()}")
         return

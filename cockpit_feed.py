@@ -20,7 +20,8 @@ import numpy as np
 _DIR = os.path.dirname(os.path.abspath(__file__))
 CONFIG_PATH = os.path.join(_DIR, "cockpit_config.json")
 STATE_PATH = os.path.join(_DIR, "cockpit_state.json")
-TRADE_PATH = os.path.join(_DIR, "trade_active.json")
+TRADE_PATH       = os.path.join(_DIR, "trade_active.json")
+LIVE_TRADES_PATH = os.path.join(_DIR, "live_trades.json")
 
 # ─── Load config ───
 with open(CONFIG_PATH) as f:
@@ -119,6 +120,78 @@ def save_active_trade(trade):
 def clear_active_trade():
     if os.path.exists(TRADE_PATH):
         os.remove(TRADE_PATH)
+
+def append_live_trade(trade):
+    """Convert a closed active trade into strategy_trades.json format and append to live_trades.json."""
+    try:
+        # Weighted avg credit + total qty across all filled tranches
+        filled = [t for t in trade.get("tranches", [])
+                  if t.get("status") == "filled" and t.get("credit") is not None]
+        if filled:
+            qtys       = [t.get("qty", trade.get("fill_qty", 0)) for t in filled]
+            total_qty  = sum(qtys)
+            avg_credit = (sum(t["credit"] * q for t, q in zip(filled, qtys)) / total_qty
+                          if total_qty > 0 else trade.get("entry_credit", 0))
+        else:
+            total_qty  = trade.get("fill_qty", 0)
+            avg_credit = trade.get("entry_credit", 0)
+
+        exit_sv   = float(trade.get("exit_sv") or avg_credit)
+        pnl_ps    = round(avg_credit - exit_sv, 2)
+        pnl       = round(pnl_ps * 100 * total_qty)
+
+        entry_iso = trade.get("entry_time", "")
+        exit_iso  = trade.get("exit_time",  "")
+        exit_map  = {
+            "target": "TARGET", "stop": "STOP", "time": "TIME",
+            "manual": "MANUAL", "wing_stop": "WING_STOP", "EOD_AUTO": "CLOSE",
+        }
+        exit_label = exit_map.get(
+            trade.get("exit_type", "manual"),
+            str(trade.get("exit_type", "MANUAL")).upper()
+        )
+
+        mkt = state.get("market", {})
+        record = {
+            "date":         entry_iso[:10] if entry_iso else datetime.now().strftime("%Y-%m-%d"),
+            "ver":          trade.get("ver", "?"),
+            "pnl":          int(pnl),
+            "qty":          total_qty,
+            "exit":         exit_label,
+            "risk_budget":  trade.get("risk_budget", 0),
+            "pnl_ps":       pnl_ps,
+            "is_win":       pnl >= 0,
+            "entry_time":   (entry_iso[11:16] + " ET") if len(entry_iso) >= 16 else "?",
+            "exit_time":    (exit_iso[11:16]  + " ET") if len(exit_iso)  >= 16 else "?",
+            "wing_width":   trade.get("wing_width", 0),
+            "entry_credit": round(float(avg_credit), 2),
+            "exit_sv":      exit_sv,
+            "vix":          round(float(trade.get("entry_vix") or mkt.get("vix", 0)), 1),
+            "vp_ratio":     round(float(trade.get("entry_vp")  or mkt.get("vp_ratio", 0)), 2),
+            "atm":          trade.get("atm"),
+            "mech":         trade.get("mech", ""),
+            "live":         True,   # distinguishes live trades from backtest in calendar
+        }
+        if trade.get("fire_count") is not None:
+            record["fire_count"] = trade["fire_count"]
+
+        try:
+            with open(LIVE_TRADES_PATH) as f:
+                existing = json.load(f)
+        except (FileNotFoundError, json.JSONDecodeError):
+            existing = []
+
+        # Replace any existing record for same date + ver (avoid duplicates on re-log)
+        key = (record["date"], record["ver"])
+        existing = [e for e in existing if (e.get("date"), e.get("ver")) != key]
+        existing.append(record)
+        existing.sort(key=lambda x: x.get("date", ""))
+
+        with open(LIVE_TRADES_PATH, "w") as f:
+            json.dump(existing, f, indent=2)
+        print(f"  LIVE TRADE LOGGED: {record['date']} {record['ver']} {exit_label} P&L=${int(pnl):+,}")
+    except Exception as e:
+        print(f"  WARNING: Failed to log live trade: {e}")
 
 def parse_mech(mech):
     """Parse mech string like '50%/close/5T60m' into components."""
@@ -1071,7 +1144,9 @@ def poll():
             stale_trade["status"] = "closed"
             stale_trade["exit_type"] = "EOD_AUTO"
             stale_trade["exit_time"] = f"{entry_date}T16:00:00"
+            stale_trade["exit_sv"]   = stale_trade.get("current_sv", stale_trade.get("entry_credit", 0))
             save_active_trade(stale_trade)
+            append_live_trade(stale_trade)
             # Clear it so today can start fresh
             clear_active_trade()
 
@@ -1405,6 +1480,9 @@ class QuietHandler(SimpleHTTPRequestHandler):
                         "valid": None, "validity_reason": "Waiting for scheduled time",
                         "current_credit": None,
                     })
+                # Grab market context at entry for live trade logging
+                sig_entry = next((s for s in state.get("signals", []) if s.get("ver") == ver), {})
+                mkt_entry = state.get("market", {})
                 trade = {
                     "ver": ver,
                     "atm": data.get("atm"),
@@ -1417,7 +1495,13 @@ class QuietHandler(SimpleHTTPRequestHandler):
                     "stop_time": mech_info["stop_time"],
                     "tranches": tranches,
                     "status": "active",
+                    # Market context snapshot (used by append_live_trade on exit)
+                    "risk_budget": sig_entry.get("risk_budget", 0),
+                    "entry_vix":   round(float(mkt_entry.get("vix", 0)), 1),
+                    "entry_vp":    round(float(mkt_entry.get("vp_ratio", 0)), 2),
                 }
+                if ver == "v3":
+                    trade["fire_count"] = state.get("phoenix", {}).get("fire_count")
                 save_active_trade(trade)
                 print(f"  TRADE CONFIRMED: {ver} ATM={trade['atm']} credit={trade['entry_credit']} qty={trade['fill_qty']}")
                 self.send_json(200, {"ok": True, "trade": trade})
@@ -1478,6 +1562,7 @@ class QuietHandler(SimpleHTTPRequestHandler):
                 trade["exit_time"] = datetime.now().isoformat()
                 trade["exit_sv"] = data.get("exit_sv", 0)
                 save_active_trade(trade)
+                append_live_trade(trade)
                 print(f"  TRADE CLOSED: {trade['ver']} type={trade['exit_type']}")
                 self.send_json(200, {"ok": True, "trade": trade})
             except Exception as e:

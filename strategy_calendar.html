@@ -281,7 +281,7 @@ function renderCalendar(trades) {
           tag.className = 'strat-tag ' + (pnl >= 0 ? 'win' : 'loss');
           tag.style.cssText = `background:${color}22;color:${color};border:1px solid ${color}44`;
           tag.title = tip;
-          tag.innerHTML = `${ver.slice(1)} <span class="${posneg(pnl)}">${fmtPnl(pnl)}</span>`;
+          tag.innerHTML = `${ver.slice(1)} <span class="${posneg(pnl)}">${fmtPnl(pnl)}</span>${t.live ? ' <span style="color:#60a5fa;font-size:8px" title="Live trade">●</span>' : ''}`;
           cell.appendChild(tag);
         });
 
@@ -322,13 +322,31 @@ async function loadCalendar() {
 
   async function tryLoadJson() {
     const bust = '?_=' + Date.now();
-    const [tr, sr] = await Promise.all([
+    const [tr, sr, lr] = await Promise.all([
       fetch('strategy_trades.json' + bust),
       fetch('strategy_stats.json'  + bust),
+      fetch('live_trades.json'     + bust).catch(() => null),  // optional — graceful if missing
     ]);
     if (!tr.ok) throw new Error('strategy_trades.json missing — run compute_stats.py');
     if (!sr.ok) throw new Error('strategy_stats.json missing — run compute_stats.py');
-    return [await tr.json(), await sr.json()];
+
+    let trades = await tr.json();
+    const stats = await sr.json();
+
+    // Merge live trades — live records override backtest on same date+ver
+    if (lr && lr.ok) {
+      try {
+        const live = await lr.json();
+        if (live.length) {
+          const liveKeys = new Set(live.map(t => t.date + '|' + t.ver));
+          trades = trades.filter(t => !liveKeys.has(t.date + '|' + t.ver));
+          trades = trades.concat(live);
+          trades.sort((a, b) => a.date < b.date ? -1 : 1);
+        }
+      } catch (_) {}
+    }
+
+    return [trades, stats];
   }
 
   try {
@@ -354,7 +372,10 @@ async function loadCalendar() {
       month:'short', day:'numeric', hour:'2-digit', minute:'2-digit'
     });
     setStatus(`Live — updated ${now} ET`, 'ok', false);
-    tsEl.textContent = `${trades.length} trades`;
+    const liveCount = trades.filter(t => t.live).length;
+    tsEl.textContent = liveCount > 0
+      ? `${trades.length} trades (${liveCount} live)`
+      : `${trades.length} trades`;
 
   } catch (err) {
     setStatus('Refresh failed — showing cached data', 'err', false);
@@ -368,7 +389,10 @@ async function loadCalendar() {
       renderStats(stats);
       renderCalendar(trades);
       calEl.style.display = 'block';
-      tsEl.textContent = `${trades.length} trades (cached)`;
+      const liveCached = trades.filter(t => t.live).length;
+      tsEl.textContent = liveCached > 0
+        ? `${trades.length} trades (${liveCached} live, cached)`
+        : `${trades.length} trades (cached)`;
     } catch (_) {}
   }
 }
@@ -441,6 +465,7 @@ function openModal(dStr, dayTrades) {
     html += `<div class="modal-strat-hdr">
       <span class="modal-strat-ver" style="color:${color}">${t.ver.toUpperCase()}</span>
       <span class="modal-strat-desc">${sm.desc}</span>
+      ${t.live ? '<span style="background:#1e3a5f;color:#60a5fa;font-size:8px;padding:2px 6px;border-radius:3px;font-weight:bold;letter-spacing:1px;margin-left:6px;">LIVE</span>' : ''}
     </div>`;
 
     html += `<div class="modal-pnl ${isWin?'pnl-pos':'pnl-neg'}">${fmtDollar(t.pnl)}<span class="modal-badge ${isWin?'badge-win':'badge-loss'}">${isWin?'WIN':'LOSS'}</span></div>`;
