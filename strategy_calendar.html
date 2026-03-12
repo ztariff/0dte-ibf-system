@@ -373,8 +373,8 @@ async function loadCalendar() {
       calEl.style.display = 'block';
       const liveCount = trades.filter(t => t.live).length;
       const now = new Date().toLocaleString('en-US', {
-        timeZone:'America/New_York', hour12:false,
-        month:'short', day:'numeric', hour:'2-digit', minute:'2-digit'
+        timeZone:'America/New_York', hour12:true,
+        month:'short', day:'numeric', hour:'numeric', minute:'2-digit'
       });
       setStatus(`Updated ${now} ET`, 'ok', false);
       tsEl.textContent = liveCount > 0
@@ -408,8 +408,8 @@ async function loadCalendar() {
       calEl.style.display = 'block';
 
       const now = new Date().toLocaleString('en-US', {
-        timeZone:'America/New_York', hour12:false,
-        month:'short', day:'numeric', hour:'2-digit', minute:'2-digit'
+        timeZone:'America/New_York', hour12:true,
+        month:'short', day:'numeric', hour:'numeric', minute:'2-digit'
       });
       setStatus(`Live — updated ${now} ET`, 'ok', false);
       const liveCount = trades.filter(t => t.live).length;
