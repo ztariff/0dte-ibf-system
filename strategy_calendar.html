@@ -355,11 +355,13 @@ async function loadCalendar() {
 
   const isGitHubPages = window.location.hostname.includes('github.io')
                      || window.location.protocol === 'file:';
-  // Use backend if we have one (local OR Railway URL configured)
-  const hasBackend = !isGitHubPages || !!COCKPIT_BACKEND;
+  // Calendar stats/trades come from static JSON files (GitHub Actions keeps them fresh).
+  // Only use the local backend for /api/refresh_stats when running locally.
+  // Railway doesn't have research_all_trades.csv so can't regenerate stats.
+  const hasBackend = !isGitHubPages;
 
   if (!hasBackend) {
-    // ── Static / GitHub Pages mode (no backend configured) ──────────────────
+    // ── Static / GitHub Pages mode ──────────────────────────────────────────
     // Load committed JSON files directly.
     // Data is kept current by push_cockpit.py (live_trades.json) and
     // the daily GitHub Actions job (strategy_stats.json / strategy_trades.json).
