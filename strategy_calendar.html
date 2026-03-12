@@ -93,6 +93,10 @@ h1 { color: #f59e0b; font-size: 20px; margin-bottom: 4px; }
 </div>
 
 <script>
+// ─── Backend URL (set to Railway URL for cloud; leave empty for local/GH Pages) ─
+// e.g. const COCKPIT_BACKEND = 'https://your-app.up.railway.app';
+const COCKPIT_BACKEND = '';
+
 // ─── Strategy metadata ────────────────────────────────────────────────────────
 const STRATEGIES = [
   {ver:"v3",  regime:"PHOENIX",        mech:"50%/close/1T", filter:"--",          color:"#f59e0b", desc:"PHOENIX Concentrated Signal Model"},
@@ -351,10 +355,12 @@ async function loadCalendar() {
 
   const isGitHubPages = window.location.hostname.includes('github.io')
                      || window.location.protocol === 'file:';
+  // Use backend if we have one (local OR Railway URL configured)
+  const hasBackend = !isGitHubPages || !!COCKPIT_BACKEND;
 
-  if (isGitHubPages) {
-    // ── Static / GitHub Pages mode ──────────────────────────────────────────
-    // No local backend — load committed JSON files directly.
+  if (!hasBackend) {
+    // ── Static / GitHub Pages mode (no backend configured) ──────────────────
+    // Load committed JSON files directly.
     // Data is kept current by push_cockpit.py (live_trades.json) and
     // the daily GitHub Actions job (strategy_stats.json / strategy_trades.json).
     try {
@@ -379,11 +385,12 @@ async function loadCalendar() {
     }
 
   } else {
-    // ── Local mode — backend is running ─────────────────────────────────────
+    // ── Backend mode — local or Railway ─────────────────────────────────────
+    const backendBase = COCKPIT_BACKEND || '';
     try {
       // Step 1 — Ask server to regenerate JSON from the CSV
       setStatus('Refreshing stats from CSV…', 'loading', true);
-      const r = await fetch('/api/refresh_stats', {method:'POST'});
+      const r = await fetch(backendBase + '/api/refresh_stats', {method:'POST'});
       if (!r.ok) {
         const body = await r.json().catch(() => ({}));
         throw new Error(body.error || `refresh_stats returned HTTP ${r.status}`);
@@ -410,8 +417,10 @@ async function loadCalendar() {
 
     } catch (err) {
       setStatus('Refresh failed — showing cached data', 'err', false);
-      errEl.textContent = 'Error: ' + err.message
-        + '\n\nMake sure cockpit_feed.py is running at http://localhost:8811/';
+      const hint = COCKPIT_BACKEND
+        ? `\n\nMake sure cockpit_feed.py is running at ${COCKPIT_BACKEND}`
+        : '\n\nMake sure cockpit_feed.py is running at http://localhost:8811/';
+      errEl.textContent = 'Error: ' + err.message + hint;
       errEl.style.display = 'block';
 
       // Graceful fallback: show whatever JSON is on disk
