@@ -349,51 +349,83 @@ async function loadCalendar() {
     return [trades, stats];
   }
 
-  try {
-    // Step 1 — Ask server to regenerate JSON from the CSV
-    setStatus('Refreshing stats from CSV…', 'loading', true);
-    const r = await fetch('/api/refresh_stats', {method:'POST'});
-    if (!r.ok) {
-      const body = await r.json().catch(() => ({}));
-      throw new Error(body.error || `refresh_stats returned HTTP ${r.status}`);
-    }
+  const isGitHubPages = window.location.hostname.includes('github.io')
+                     || window.location.protocol === 'file:';
 
-    // Step 2 — Fetch freshly generated JSON
-    setStatus('Loading trade data…', 'loading', true);
-    const [trades, stats] = await tryLoadJson();
-
-    // Step 3 — Render
-    renderStats(stats);
-    renderCalendar(trades);
-    calEl.style.display = 'block';
-
-    const now = new Date().toLocaleString('en-US', {
-      timeZone:'America/New_York', hour12:false,
-      month:'short', day:'numeric', hour:'2-digit', minute:'2-digit'
-    });
-    setStatus(`Live — updated ${now} ET`, 'ok', false);
-    const liveCount = trades.filter(t => t.live).length;
-    tsEl.textContent = liveCount > 0
-      ? `${trades.length} trades (${liveCount} live)`
-      : `${trades.length} trades`;
-
-  } catch (err) {
-    setStatus('Refresh failed — showing cached data', 'err', false);
-    errEl.textContent = 'Error: ' + err.message
-      + '\n\nMake sure cockpit_feed.py is running at http://localhost:8811/';
-    errEl.style.display = 'block';
-
-    // Graceful fallback: try to show whatever JSON is on disk
+  if (isGitHubPages) {
+    // ── Static / GitHub Pages mode ──────────────────────────────────────────
+    // No local backend — load committed JSON files directly.
+    // Data is kept current by push_cockpit.py (live_trades.json) and
+    // the daily GitHub Actions job (strategy_stats.json / strategy_trades.json).
     try {
+      setStatus('Loading trade data…', 'loading', true);
       const [trades, stats] = await tryLoadJson();
       renderStats(stats);
       renderCalendar(trades);
       calEl.style.display = 'block';
-      const liveCached = trades.filter(t => t.live).length;
-      tsEl.textContent = liveCached > 0
-        ? `${trades.length} trades (${liveCached} live, cached)`
-        : `${trades.length} trades (cached)`;
-    } catch (_) {}
+      const liveCount = trades.filter(t => t.live).length;
+      const now = new Date().toLocaleString('en-US', {
+        timeZone:'America/New_York', hour12:false,
+        month:'short', day:'numeric', hour:'2-digit', minute:'2-digit'
+      });
+      setStatus(`Updated ${now} ET`, 'ok', false);
+      tsEl.textContent = liveCount > 0
+        ? `${trades.length} trades (${liveCount} live)`
+        : `${trades.length} trades`;
+    } catch (err) {
+      setStatus('Failed to load trade data', 'err', false);
+      errEl.textContent = 'Error: ' + err.message;
+      errEl.style.display = 'block';
+    }
+
+  } else {
+    // ── Local mode — backend is running ─────────────────────────────────────
+    try {
+      // Step 1 — Ask server to regenerate JSON from the CSV
+      setStatus('Refreshing stats from CSV…', 'loading', true);
+      const r = await fetch('/api/refresh_stats', {method:'POST'});
+      if (!r.ok) {
+        const body = await r.json().catch(() => ({}));
+        throw new Error(body.error || `refresh_stats returned HTTP ${r.status}`);
+      }
+
+      // Step 2 — Fetch freshly generated JSON
+      setStatus('Loading trade data…', 'loading', true);
+      const [trades, stats] = await tryLoadJson();
+
+      // Step 3 — Render
+      renderStats(stats);
+      renderCalendar(trades);
+      calEl.style.display = 'block';
+
+      const now = new Date().toLocaleString('en-US', {
+        timeZone:'America/New_York', hour12:false,
+        month:'short', day:'numeric', hour:'2-digit', minute:'2-digit'
+      });
+      setStatus(`Live — updated ${now} ET`, 'ok', false);
+      const liveCount = trades.filter(t => t.live).length;
+      tsEl.textContent = liveCount > 0
+        ? `${trades.length} trades (${liveCount} live)`
+        : `${trades.length} trades`;
+
+    } catch (err) {
+      setStatus('Refresh failed — showing cached data', 'err', false);
+      errEl.textContent = 'Error: ' + err.message
+        + '\n\nMake sure cockpit_feed.py is running at http://localhost:8811/';
+      errEl.style.display = 'block';
+
+      // Graceful fallback: show whatever JSON is on disk
+      try {
+        const [trades, stats] = await tryLoadJson();
+        renderStats(stats);
+        renderCalendar(trades);
+        calEl.style.display = 'block';
+        const liveCached = trades.filter(t => t.live).length;
+        tsEl.textContent = liveCached > 0
+          ? `${trades.length} trades (${liveCached} live, cached)`
+          : `${trades.length} trades (cached)`;
+      } catch (_) {}
+    }
   }
 }
 
