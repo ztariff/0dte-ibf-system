@@ -11,7 +11,43 @@ venv/
 
 # Caches
 .polygon_cache/
+spx_gap_cache.json
+spx_intraday_cache.json
+*.cache
 
 # Temporary debug files
 feb19_bars.json
 oct13_bars.json
+
+# Live ephemeral trade state
+trade_active.json
+
+# Secrets (contains API key — do NOT commit)
+cockpit_config.json
+
+# Large report (optional; re-generate locally)
+PHOENIX_Strategy_Report.pdf
+
+# IDE metadata
+.claude/
+
+# Large analysis / sweep CSVs (not needed for deployment)
+backtest_v4_aggressive_results.csv
+backtest_v4_moderate_results.csv
+backtest_v4_moderate_timeadd_results.csv
+backtest_v4_results.csv
+backtest_v5_livequotes_results.csv
+entry_time_sweep_results.csv
+entry_time_sweep_summary.csv
+entry_time_sweep_v2_results.csv
+entry_time_sweep_v2_summary.csv
+regime_sweep_results.csv
+regime_entry_time_results.csv
+regime_best_mechanics.csv
+extended_all_trades.csv
+extended_all_trades_enriched.csv
+recentered_backtest_results.csv
+
+# Backup directories
+backups/
+PHOENIX_v3_backup/
