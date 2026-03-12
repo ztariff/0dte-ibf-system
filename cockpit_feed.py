@@ -1169,7 +1169,7 @@ def poll():
     print(f"  {matched_count} active signals")
 
     # ─── Update state ───
-    state["last_update"] = now.isoformat()
+    state["last_update"] = datetime.utcnow().isoformat() + "Z"  # UTC with Z so browsers parse correctly
     state["market"] = {
         "spx": round(spx, 2),
         "vix": round(vix, 2),
