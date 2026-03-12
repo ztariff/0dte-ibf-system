@@ -62,8 +62,8 @@
       "mechanics": {
         "target_pct": 70,
         "time_stop": "close",
-        "tranches": "5T",
-        "interval": "60m"
+        "tranches": "1T",
+        "interval": "N/A"
       },
       "filters": {
         "VIX": "≤ 20",
@@ -81,8 +81,8 @@
       "mechanics": {
         "target_pct": 50,
         "time_stop": "close",
-        "tranches": "5T",
-        "interval": "60m"
+        "tranches": "1T",
+        "interval": "N/A"
       },
       "filters": {
         "VP_ratio": "≤ 1.3",
@@ -100,8 +100,8 @@
       "mechanics": {
         "target_pct": 50,
         "time_stop": "close",
-        "tranches": "5T",
-        "interval": "60m"
+        "tranches": "1T",
+        "interval": "N/A"
       },
       "filters": {
         "VP_ratio": "≤ 1.2",
@@ -119,8 +119,8 @@
       "mechanics": {
         "target_pct": 70,
         "time_stop": "close",
-        "tranches": "5T",
-        "interval": "60m"
+        "tranches": "1T",
+        "interval": "N/A"
       },
       "filters": {
         "VP_ratio": "≤ 1.5",
@@ -138,8 +138,8 @@
       "mechanics": {
         "target_pct": 50,
         "time_stop": "close",
-        "tranches": "5T",
-        "interval": "60m"
+        "tranches": "1T",
+        "interval": "N/A"
       },
       "filters": {
         "VP_ratio": "≤ 1.3",
@@ -159,7 +159,7 @@
     "checkpoints_60m": ["11:00", "12:00", "13:00", "14:00", "15:00"],
     "checkpoints_30m": ["10:30", "11:00", "11:30", "12:00", "12:30", "13:00", "13:30", "14:00", "14:30", "15:00", "15:30", "15:45"],
     "exit_priority": "wing_stop > profit_target > time_stop > expiry",
-    "note": "Multi-tranche: first tranche at entry, subsequent tranches at checkpoint intervals if still in trade"
+    "note": "Single tranche (1T): full sized position at entry. Multi-tranche backtest assumed same-strike adds which creates directional risk when SPX drifts — 1T results are trustworthy."
   },
 
   "backtest_results": {

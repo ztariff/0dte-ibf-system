@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Strategy Calendar — v3-v14 Dollar P&L</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: #0a0a0f; color: #e0e0e0; font-family: 'Consolas', 'Monaco', monospace; padding: 20px; }
+h1 { color: #f59e0b; font-size: 20px; margin-bottom: 4px; }
+.subtitle { color: #888; font-size: 11px; margin-bottom: 12px; }
+.refresh-bar { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; padding: 8px 12px; background: #111118; border-radius: 6px; border: 1px solid #222; font-size: 11px; }
+.refresh-bar .status { color: #888; }
+.refresh-bar .status.loading { color: #f59e0b; }
+.refresh-bar .status.ok { color: #22c55e; }
+.refresh-bar .status.err { color: #ef4444; }
+.spinner { display: inline-block; width: 10px; height: 10px; border: 2px solid #333; border-top-color: #f59e0b; border-radius: 50%; animation: spin 0.7s linear infinite; margin-right: 4px; vertical-align: middle; }
+@keyframes spin { to { transform: rotate(360deg); } }
+.legend { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px; padding: 10px; background: #111118; border-radius: 6px; border: 1px solid #222; }
+.legend-item { display: flex; align-items: center; gap: 4px; font-size: 10px; }
+.legend-dot { width: 10px; height: 10px; border-radius: 2px; }
+.stats-table { width: 100%; border-collapse: collapse; margin-bottom: 24px; font-size: 11px; }
+.stats-table th { text-align: left; padding: 6px 10px; border-bottom: 2px solid #333; color: #888; font-weight: normal; text-transform: uppercase; font-size: 9px; letter-spacing: 1px; }
+.stats-table td { padding: 5px 10px; border-bottom: 1px solid #1a1a22; }
+.stats-table tr:hover { background: #111118; }
+.month-section { margin-bottom: 28px; }
+.month-title { font-size: 14px; color: #ccc; margin-bottom: 8px; padding: 4px 10px; background: #111118; border-radius: 4px; display: inline-block; }
+.cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 2px; }
+.cal-hdr { font-size: 9px; color: #666; text-align: center; padding: 4px; }
+.cal-day { background: #0f0f16; border: 1px solid #1a1a22; border-radius: 4px; min-height: 68px; padding: 3px; font-size: 9px; }
+.cal-day.empty { background: transparent; border-color: transparent; min-height: 20px; }
+.cal-day.has-trades { border-color: #333; }
+.cal-day .day-num { color: #666; font-size: 10px; margin-bottom: 2px; }
+.cal-day .day-num.weekend { color: #333; }
+.strat-tag { display: inline-block; padding: 1px 4px; border-radius: 2px; font-size: 8px; font-weight: bold; margin: 1px; line-height: 1.4; white-space: nowrap; }
+.pnl-pos { color: #22c55e; }
+.pnl-neg { color: #ef4444; }
+.day-total { font-size: 9px; font-weight: bold; margin-top: 2px; padding-top: 2px; border-top: 1px solid #222; }
+#calendar-container { display: none; }
+#error-msg { display: none; color: #ef4444; background: #1a0a0a; border: 1px solid #4a1a1a; padding: 12px; border-radius: 6px; margin-bottom: 16px; font-size: 11px; white-space: pre-wrap; }
+
+/* ── Trade detail modal ────────────────────────────────── */
+#trade-modal { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.82); z-index:1000; align-items:center; justify-content:center; }
+#trade-modal.open { display:flex; }
+.modal-box { background:#0d0d14; border:1px solid #2a2a3a; border-radius:10px; padding:20px 22px; max-width:490px; width:94%; max-height:88vh; overflow-y:auto; position:relative; }
+.modal-close { position:absolute; top:10px; right:14px; background:none; border:none; color:#555; font-size:18px; cursor:pointer; line-height:1; font-family:inherit; }
+.modal-close:hover { color:#ccc; }
+.modal-date { font-size:11px; color:#666; margin-bottom:2px; }
+.modal-pnl { font-size:28px; font-weight:bold; line-height:1; margin-bottom:2px; }
+.modal-pnl-sub { font-size:10px; color:#666; margin-bottom:10px; }
+.modal-badge { display:inline-block; font-size:8px; padding:2px 6px; border-radius:3px; font-weight:bold; letter-spacing:1px; vertical-align:middle; margin-left:8px; }
+.badge-win  { background:#14532d; color:#4ade80; }
+.badge-loss { background:#450a0a; color:#f87171; }
+.modal-sep { border:none; border-top:1px solid #1c1c28; margin:12px 0 10px; }
+.modal-strat-hdr { display:flex; align-items:baseline; gap:8px; margin-bottom:8px; }
+.modal-strat-ver { font-size:16px; font-weight:bold; }
+.modal-strat-desc { font-size:9px; color:#666; }
+.modal-sec { font-size:9px; color:#444; text-transform:uppercase; letter-spacing:1.5px; margin-bottom:5px; display:flex; justify-content:space-between; align-items:center; }
+.modal-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:8px 6px; margin-bottom:10px; }
+.modal-kv .k { font-size:9px; color:#555; }
+.modal-kv .v { font-size:12px; color:#ddd; font-weight:bold; }
+.sparkline-wrap { width:100%; margin-top:4px; margin-bottom:2px; }
+.signal-row { display:flex; gap:5px; flex-wrap:wrap; margin-top:4px; }
+.sig-chip { font-size:9px; padding:2px 7px; border-radius:3px; font-weight:bold; letter-spacing:0.3px; }
+.sig-on  { background:#14532d44; color:#4ade80; border:1px solid #14532d88; }
+.sig-off { background:#111; color:#444; border:1px solid #222; }
+.cal-day.has-trades { cursor:pointer; transition:background 0.1s,border-color 0.1s; }
+.cal-day.has-trades:hover { background:#181826; border-color:#444; }
+</style>
+</head>
+<body>
+<h1>STRATEGY CALENDAR — v3-v14 Dollar P&amp;L</h1>
+<div class="subtitle">$100K daily risk | V3 tiered by confluence (1=$25K, 2=$50K, 3=$75K, 4+=$100K) | Regimes: A+C sizing | $1/spread slippage</div>
+
+<div class="refresh-bar">
+  <span id="refresh-status" class="status loading"><span class="spinner"></span>Refreshing stats from CSV…</span>
+  <span id="refresh-ts" style="color:#555;margin-left:auto;font-size:10px;"></span>
+</div>
+
+<div id="error-msg"></div>
+<div id="calendar-container">
+  <div class="legend" id="legend"></div>
+  <table class="stats-table" id="stats-table">
+    <thead>
+      <tr>
+        <th>Strategy</th><th>Regime</th><th>Mech</th><th>Filter</th>
+        <th>Days</th><th>W/L</th><th>Win Rate</th>
+        <th>Total P&amp;L</th><th>Avg P&amp;L</th><th>PF</th><th>Max DD</th>
+      </tr>
+    </thead>
+    <tbody id="stats-body"></tbody>
+  </table>
+  <div id="months"></div>
+</div>
+
+<script>
+// ─── Strategy metadata ────────────────────────────────────────────────────────
+const STRATEGIES = [
+  {ver:"v3",  regime:"PHOENIX",        mech:"50%/close/1T", filter:"--",          color:"#f59e0b", desc:"PHOENIX Concentrated Signal Model"},
+  {ver:"v6",  regime:"LOW_DN_IN_GFL",  mech:"50%/1530/1T",  filter:"VP\u22641.7", color:"#06b6d4", desc:"Low VIX | Prior Down | In Range | Flat Gap"},
+  {ver:"v7",  regime:"LOW_FL_IN_GUP",  mech:"40%/close/1T", filter:"--",          color:"#a855f7", desc:"Low VIX | Prior Flat | In Range | Gap Up"},
+  {ver:"v8",  regime:"ELEV_UP_IN_GDN", mech:"40%/1530/1T",  filter:"--",          color:"#ef4444", desc:"Elev VIX | Prior Up | In Range | Gap Down"},
+  {ver:"v9",  regime:"MID_UP_OT_GFL",  mech:"70%/1545/1T",  filter:"!RISING",     color:"#eab308", desc:"Mid VIX | Prior Up | Outside Range | Flat Gap"},
+  {ver:"v10", regime:"MID_DN_OT_GFL",  mech:"70%/1545/1T",  filter:"--",          color:"#ec4899", desc:"Mid VIX | Prior Down | Outside Range | Flat Gap"},
+  {ver:"v12", regime:"LOW_UP_OT_GUP",  mech:"40%/close/1T", filter:"5dRet>1",     color:"#f97316", desc:"Low VIX | Prior Up | Outside Range | Gap Up"},
+  {ver:"v14", regime:"MID_DN_IN_GDN",  mech:"50%/close/1T", filter:"ScoreVol<18", color:"#64748b", desc:"Mid VIX | Prior Down | In Range | Gap Down"},
+];
+const colorMap = Object.fromEntries(STRATEGIES.map(s => [s.ver, s.color]));
+const stratMap  = Object.fromEntries(STRATEGIES.map(s => [s.ver, s]));
+const verList   = STRATEGIES.map(s => s.ver);
+
+// ─── Helpers ──────────────────────────────────────────────────────────────────
+function fmtPnl(v) {
+  if (Math.abs(v) >= 1000) return (v >= 0 ? '+' : '') + (v/1000).toFixed(1) + 'K';
+  return (v >= 0 ? '+' : '') + Math.round(v).toString();
+}
+function fmtDollar(v) {
+  const sign = v >= 0 ? '+$' : '-$';
+  return sign + Math.abs(v).toLocaleString('en-US', {maximumFractionDigits:0});
+}
+function posneg(v) { return v >= 0 ? 'pnl-pos' : 'pnl-neg'; }
+
+// ─── Build legend ─────────────────────────────────────────────────────────────
+const legendEl = document.getElementById('legend');
+STRATEGIES.forEach(s => {
+  const item = document.createElement('div');
+  item.className = 'legend-item';
+  item.innerHTML = `<div class="legend-dot" style="background:${s.color}"></div>${s.ver.toUpperCase()}`;
+  legendEl.appendChild(item);
+});
+
+// ─── Render stats summary table ───────────────────────────────────────────────
+function renderStats(stats) {
+  const tbody = document.getElementById('stats-body');
+  tbody.innerHTML = '';
+  let totalAll = 0;
+
+  STRATEGIES.forEach(s => {
+    const st = stats[s.ver] || {};
+    const n = st.total_trades || 0;
+    if (!n) return;
+    const wr     = st.win_rate || 0;
+    const wins   = st.wins || 0;
+    const losses = st.losses || 0;
+    const total  = st.total_pnl || 0;
+    const avg    = st.avg_pnl || 0;
+    const pf     = st.profit_factor || 0;
+    const mdd    = st.max_drawdown || 0;
+    totalAll += total;
+
+    const tr = document.createElement('tr');
+    tr.innerHTML =
+      `<td style="color:${s.color};font-weight:bold">${s.ver.toUpperCase()}</td>` +
+      `<td>${s.regime}</td><td>${s.mech}</td><td>${s.filter}</td>` +
+      `<td>${n}</td><td>${wins}/${losses}</td>` +
+      `<td>${wr.toFixed(1)}%</td>` +
+      `<td class="${posneg(total)}">${fmtDollar(total)}</td>` +
+      `<td class="${posneg(avg)}">${fmtDollar(avg)}</td>` +
+      `<td>${pf.toFixed(2)}</td>` +
+      `<td class="pnl-neg">-$${Math.abs(mdd).toLocaleString('en-US',{maximumFractionDigits:0})}</td>`;
+    tbody.appendChild(tr);
+  });
+
+  // Combined totals row
+  const tr = document.createElement('tr');
+  tr.style.cssText = 'border-top:2px solid #444;font-weight:bold';
+  tr.innerHTML =
+    `<td colspan="7" style="color:#f59e0b">COMBINED</td>` +
+    `<td class="${posneg(totalAll)}">${fmtDollar(totalAll)}</td>` +
+    `<td colspan="3"></td>`;
+  tbody.appendChild(tr);
+}
+
+// ─── Render monthly calendars ─────────────────────────────────────────────────
+const DOW_NAMES   = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
+const MONTH_NAMES = ['','January','February','March','April','May','June',
+                     'July','August','September','October','November','December'];
+
+function daysInMonth(y, m) { return new Date(y, m, 0).getDate(); }
+function firstDow(y, m) {
+  // Returns 0=Mon … 6=Sun (ISO week start)
+  return (new Date(y, m-1, 1).getDay() + 6) % 7;
+}
+
+function renderCalendar(trades) {
+  // Group by date
+  const calData = {};
+  const combinedDaily = {};
+  trades.forEach(t => {
+    if (!calData[t.date]) calData[t.date] = {};
+    calData[t.date][t.ver] = t;
+  });
+  Object.entries(calData).forEach(([d, dt]) => {
+    combinedDaily[d] = Object.values(dt).reduce((s, t) => s + t.pnl, 0);
+  });
+
+  const sortedDates = Object.keys(calData).sort();
+  if (!sortedDates.length) return;
+
+  const [fy, fm] = sortedDates[0].split('-').map(Number);
+  const [ly, lm] = sortedDates[sortedDates.length-1].split('-').map(Number);
+
+  // Enumerate months
+  const months = [];
+  let [cy, cm] = [fy, fm];
+  while (cy < ly || (cy === ly && cm <= lm)) {
+    months.push([cy, cm]);
+    cm++; if (cm > 12) { cm = 1; cy++; }
+  }
+  months.reverse();
+
+  const container = document.getElementById('months');
+  container.innerHTML = '';
+
+  months.forEach(([year, month]) => {
+    let monthTotal = 0;
+    Object.entries(combinedDaily).forEach(([d, pnl]) => {
+      const [dy, dm] = d.split('-').map(Number);
+      if (dy === year && dm === month) monthTotal += pnl;
+    });
+
+    const section = document.createElement('div');
+    section.className = 'month-section';
+
+    const title = document.createElement('div');
+    title.className = 'month-title';
+    title.innerHTML =
+      `${MONTH_NAMES[month]} ${year}` +
+      ` <span class="${posneg(monthTotal)}" style="margin-left:12px">${fmtDollar(monthTotal)}</span>`;
+    section.appendChild(title);
+
+    const grid = document.createElement('div');
+    grid.className = 'cal-grid';
+
+    // Day-of-week header
+    DOW_NAMES.forEach(name => {
+      const h = document.createElement('div');
+      h.className = 'cal-hdr';
+      h.textContent = name;
+      grid.appendChild(h);
+    });
+
+    const fd      = firstDow(year, month);
+    const numDays = daysInMonth(year, month);
+
+    // Leading blanks
+    for (let i = 0; i < fd; i++) {
+      const e = document.createElement('div');
+      e.className = 'cal-day empty';
+      grid.appendChild(e);
+    }
+
+    // Day cells
+    for (let day = 1; day <= numDays; day++) {
+      const dStr = `${year}-${String(month).padStart(2,'0')}-${String(day).padStart(2,'0')}`;
+      const dow  = (fd + day - 1) % 7;
+      const isWE = dow >= 5;
+      const dt   = calData[dStr] || {};
+      const hasTrades = Object.keys(dt).length > 0;
+
+      const cell = document.createElement('div');
+      cell.className = 'cal-day' + (hasTrades ? ' has-trades' : '');
+
+      const dn = document.createElement('div');
+      dn.className = 'day-num' + (isWE ? ' weekend' : '');
+      dn.textContent = day;
+      cell.appendChild(dn);
+
+      if (hasTrades) {
+        cell.addEventListener('click', () => openModal(dStr, dt));
+        let dayPnl = 0;
+        verList.forEach(ver => {
+          const t = dt[ver];
+          if (!t) return;
+          const pnl   = t.pnl;
+          dayPnl     += pnl;
+          const color  = colorMap[ver];
+          const riskK  = (t.risk_budget || 100000) / 1000;
+          const fcStr  = t.fire_count ? ` (${t.fire_count}sig)` : '';
+          const tip    = `${ver.toUpperCase()} ${t.exit||'?'} | ${t.qty}x${fcStr} | $${pnl>=0?'+':''}${Math.round(pnl).toLocaleString()} ($${riskK.toFixed(0)}K risk)`;
+          const tag    = document.createElement('span');
+          tag.className = 'strat-tag ' + (pnl >= 0 ? 'win' : 'loss');
+          tag.style.cssText = `background:${color}22;color:${color};border:1px solid ${color}44`;
+          tag.title = tip;
+          tag.innerHTML = `${ver.slice(1)} <span class="${posneg(pnl)}">${fmtPnl(pnl)}</span>`;
+          cell.appendChild(tag);
+        });
+
+        const tot = document.createElement('div');
+        tot.className = `day-total ${posneg(dayPnl)}`;
+        tot.textContent = fmtPnl(dayPnl);
+        cell.appendChild(tot);
+      }
+
+      grid.appendChild(cell);
+    }
+
+    // Trailing blanks
+    const used     = (fd + numDays) % 7;
+    const trailing = used === 0 ? 0 : 7 - used;
+    for (let i = 0; i < trailing; i++) {
+      const e = document.createElement('div');
+      e.className = 'cal-day empty';
+      grid.appendChild(e);
+    }
+
+    section.appendChild(grid);
+    container.appendChild(section);
+  });
+}
+
+// ─── Main boot sequence (runs on every page load) ─────────────────────────────
+async function loadCalendar() {
+  const statusEl = document.getElementById('refresh-status');
+  const tsEl     = document.getElementById('refresh-ts');
+  const errEl    = document.getElementById('error-msg');
+  const calEl    = document.getElementById('calendar-container');
+
+  function setStatus(msg, state, spin) {
+    statusEl.innerHTML = (spin ? '<span class="spinner"></span>' : '') + msg;
+    statusEl.className = `status ${state}`;
+  }
+
+  async function tryLoadJson() {
+    const bust = '?_=' + Date.now();
+    const [tr, sr] = await Promise.all([
+      fetch('strategy_trades.json' + bust),
+      fetch('strategy_stats.json'  + bust),
+    ]);
+    if (!tr.ok) throw new Error('strategy_trades.json missing — run compute_stats.py');
+    if (!sr.ok) throw new Error('strategy_stats.json missing — run compute_stats.py');
+    return [await tr.json(), await sr.json()];
+  }
+
+  try {
+    // Step 1 — Ask server to regenerate JSON from the CSV
+    setStatus('Refreshing stats from CSV…', 'loading', true);
+    const r = await fetch('/api/refresh_stats', {method:'POST'});
+    if (!r.ok) {
+      const body = await r.json().catch(() => ({}));
+      throw new Error(body.error || `refresh_stats returned HTTP ${r.status}`);
+    }
+
+    // Step 2 — Fetch freshly generated JSON
+    setStatus('Loading trade data…', 'loading', true);
+    const [trades, stats] = await tryLoadJson();
+
+    // Step 3 — Render
+    renderStats(stats);
+    renderCalendar(trades);
+    calEl.style.display = 'block';
+
+    const now = new Date().toLocaleString('en-US', {
+      timeZone:'America/New_York', hour12:false,
+      month:'short', day:'numeric', hour:'2-digit', minute:'2-digit'
+    });
+    setStatus(`Live — updated ${now} ET`, 'ok', false);
+    tsEl.textContent = `${trades.length} trades`;
+
+  } catch (err) {
+    setStatus('Refresh failed — showing cached data', 'err', false);
+    errEl.textContent = 'Error: ' + err.message
+      + '\n\nMake sure cockpit_feed.py is running at http://localhost:8811/';
+    errEl.style.display = 'block';
+
+    // Graceful fallback: try to show whatever JSON is on disk
+    try {
+      const [trades, stats] = await tryLoadJson();
+      renderStats(stats);
+      renderCalendar(trades);
+      calEl.style.display = 'block';
+      tsEl.textContent = `${trades.length} trades (cached)`;
+    } catch (_) {}
+  }
+}
+
+document.addEventListener('DOMContentLoaded', loadCalendar);
+
+// ─── Sparkline builder ────────────────────────────────────────────────────────
+function buildSparkline(intraday, pnlPs) {
+  const keys = ['10:30','11:00','11:30','12:00','12:30','13:00','13:30','14:00','14:30','15:00','15:30','15:45'];
+  const pairs = keys.map(k => [k, intraday[k]]).filter(([,v]) => v !== null && v !== undefined);
+  if (!pairs.length) return '<div style="color:#444;font-size:9px;padding:6px 0">no intraday data</div>';
+
+  const vals = pairs.map(([,v]) => v);
+  const W = 440, H = 54, px = 4, py = 5;
+  const minV = Math.min(0, ...vals);
+  const maxV = Math.max(0, ...vals);
+  const span = (maxV - minV) || 1;
+  const n = pairs.length;
+
+  const xOf = i => px + (W - 2*px) * i / Math.max(n - 1, 1);
+  const yOf = v => py + (H - 2*py) * (1 - (v - minV) / span);
+  const zy  = yOf(0);
+
+  const pts = pairs.map(([,v], i) => `${xOf(i).toFixed(1)},${yOf(v).toFixed(1)}`).join(' ');
+  const fillPts = `${xOf(0).toFixed(1)},${zy.toFixed(1)} ${pts} ${xOf(n-1).toFixed(1)},${zy.toFixed(1)}`;
+  const color = pnlPs >= 0 ? '#22c55e' : '#ef4444';
+
+  // First/last time labels
+  const lblFirst = pairs[0][0];
+  const lblLast  = pairs[n-1][0];
+
+  return `<svg viewBox="0 0 ${W} ${H+14}" style="width:100%;height:${H+14}px;display:block;overflow:visible">
+    <polygon points="${fillPts}" fill="${color}18"/>
+    <line x1="${px}" y1="${zy.toFixed(1)}" x2="${W-px}" y2="${zy.toFixed(1)}" stroke="#2a2a3a" stroke-width="1"/>
+    <polyline points="${pts}" fill="none" stroke="${color}" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round"/>
+    <circle cx="${xOf(0).toFixed(1)}" cy="${yOf(vals[0]).toFixed(1)}" r="2.5" fill="${color}"/>
+    <circle cx="${xOf(n-1).toFixed(1)}" cy="${yOf(vals[n-1]).toFixed(1)}" r="3" fill="${color}" stroke="#0d0d14" stroke-width="1.5"/>
+    <text x="${px}" y="${H+11}" font-size="8" fill="#444" font-family="monospace">${lblFirst}</text>
+    <text x="${(W-px).toFixed(0)}" y="${H+11}" font-size="8" fill="#444" font-family="monospace" text-anchor="end">${lblLast}</text>
+  </svg>`;
+}
+
+// ─── Trade detail modal ───────────────────────────────────────────────────────
+function openModal(dStr, dayTrades) {
+  const date = new Date(dStr + 'T12:00:00');
+  const DOWS = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+  const MONS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  const dateLabel = `${DOWS[date.getDay()]}, ${MONS[date.getMonth()]} ${date.getDate()}, ${date.getFullYear()}`;
+
+  const tradeList = verList.map(v => dayTrades[v]).filter(Boolean);
+  const dayTotal  = tradeList.reduce((s, t) => s + t.pnl, 0);
+  const multiDay  = tradeList.length > 1;
+
+  let html = `<div class="modal-date">${dateLabel}`;
+  if (multiDay) html += ` <span style="color:#555">— ${tradeList.length} strategies</span>`;
+  html += '</div>';
+  if (multiDay) {
+    html += `<div class="modal-pnl ${dayTotal>=0?'pnl-pos':'pnl-neg'}">${fmtDollar(dayTotal)}<span class="modal-badge ${dayTotal>=0?'badge-win':'badge-loss'}">${dayTotal>=0?'WIN':'LOSS'}</span></div>`;
+    html += `<div class="modal-pnl-sub">Combined day P&amp;L</div>`;
+  }
+
+  tradeList.forEach((t, idx) => {
+    const sm    = stratMap[t.ver];
+    const color = sm.color;
+    const isWin = t.pnl >= 0;
+    const fc    = t.fire_count;
+
+    if (multiDay || idx > 0) html += '<hr class="modal-sep">';
+
+    html += `<div class="modal-strat-hdr">
+      <span class="modal-strat-ver" style="color:${color}">${t.ver.toUpperCase()}</span>
+      <span class="modal-strat-desc">${sm.desc}</span>
+    </div>`;
+
+    html += `<div class="modal-pnl ${isWin?'pnl-pos':'pnl-neg'}">${fmtDollar(t.pnl)}<span class="modal-badge ${isWin?'badge-win':'badge-loss'}">${isWin?'WIN':'LOSS'}</span></div>`;
+    html += `<div class="modal-pnl-sub">${t.pnl_ps >= 0 ? '+' : ''}${t.pnl_ps} pts/spread &nbsp;·&nbsp; ${t.qty} contracts &nbsp;·&nbsp; $${((t.risk_budget||0)/1000).toFixed(0)}K risk</div>`;
+
+    // ── Market setup ──
+    html += `<div class="modal-sec"><span>Market Setup</span></div>
+    <div class="modal-grid">
+      <div class="modal-kv"><span class="k">VIX</span><span class="v">${t.vix ?? '—'}</span></div>
+      <div class="modal-kv"><span class="k">Score</span><span class="v">${t.score != null ? Math.round(t.score) : '—'}</span></div>
+      <div class="modal-kv"><span class="k">VP Ratio</span><span class="v">${t.vp_ratio ?? '—'}</span></div>
+      <div class="modal-kv"><span class="k">RV</span><span class="v">${t.rv ?? '—'}</span></div>
+      <div class="modal-kv"><span class="k">Prior 1d</span><span class="v ${t.prior_1d!=null?(t.prior_1d>=0?'pnl-pos':'pnl-neg'):''}">${t.prior_1d != null ? (t.prior_1d>0?'+':'')+t.prior_1d+'%' : '—'}</span></div>
+      <div class="modal-kv"><span class="k">Prior 5d</span><span class="v ${t.prior_5d!=null?(t.prior_5d>=0?'pnl-pos':'pnl-neg'):''}">${t.prior_5d != null ? (t.prior_5d>0?'+':'')+t.prior_5d+'%' : '—'}</span></div>
+    </div>`;
+
+    // ── Trade details ──
+    html += `<div class="modal-sec"><span>Trade Details</span></div>
+    <div class="modal-grid">
+      <div class="modal-kv"><span class="k">Entry</span><span class="v">${t.entry_time ? t.entry_time+' ET' : '—'}</span></div>
+      <div class="modal-kv"><span class="k">Exit</span><span class="v">${t.exit_time ?? '—'}</span></div>
+      <div class="modal-kv"><span class="k">Exit Type</span><span class="v">${t.exit ?? '—'}</span></div>
+      <div class="modal-kv"><span class="k">Wing Width</span><span class="v">±${t.wing_width ?? '—'} pts</span></div>
+      <div class="modal-kv"><span class="k">Entry Credit</span><span class="v">${t.entry_credit ?? '—'} pts</span></div>
+      <div class="modal-kv"><span class="k">Mech</span><span class="v">${sm.mech}</span></div>
+    </div>`;
+
+    // ── Intraday P&L ──
+    if (t.intraday && Object.keys(t.intraday).length > 0) {
+      const peakStr   = t.max_ps != null ? `+${t.max_ps}` : '—';
+      const troughStr = t.min_ps != null ? `${t.min_ps}` : '—';
+      html += `<div class="modal-sec">
+        <span>Intraday P&amp;L (pts/spread)</span>
+        <span style="font-weight:normal;font-size:9px">
+          <span style="color:#22c55e">▲ ${peakStr}</span> &nbsp;
+          <span style="color:#ef4444">▼ ${troughStr}</span>
+        </span>
+      </div>`;
+      html += `<div class="sparkline-wrap">${buildSparkline(t.intraday, t.pnl_ps)}</div>`;
+    }
+
+    // ── PHOENIX signals (V3 only) ──
+    if (t.ver === 'v3' && t.fire_signals) {
+      const sigLabels = ['S1: VIX≤20+VP≤1.0','S2: VP≤1.3+Prior↓','S3: VP≤1.2+RV↑','S4: VP≤1.5+OutRng','S5: VP≤1.3+Stable'];
+      html += `<div class="modal-sec" style="margin-top:8px"><span>PHOENIX Signals — ${fc}/5 fired</span></div>`;
+      html += '<div class="signal-row">';
+      t.fire_signals.forEach((on, i) => {
+        html += `<span class="sig-chip ${on?'sig-on':'sig-off'}">${sigLabels[i]}</span>`;
+      });
+      html += '</div>';
+    }
+  });
+
+  document.getElementById('modal-content').innerHTML = html;
+  document.getElementById('trade-modal').classList.add('open');
+}
+
+function closeModal() {
+  document.getElementById('trade-modal').classList.remove('open');
+}
+</script>
+<div id="trade-modal" onclick="if(event.target===this)closeModal()">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <div id="modal-content"></div>
+  </div>
+</div>
+</body>
+</html>

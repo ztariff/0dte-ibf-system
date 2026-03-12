@@ -1,0 +1,1372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PHOENIX 0DTE IBF Trading Cockpit</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --bg: #0a0e17; --card: #111827; --card2: #1a2332;
+            --border: #1e293b; --text: #e2e8f0; --muted: #94a3b8;
+            --green: #10b981; --red: #ef4444; --amber: #f59e0b;
+            --blue: #3b82f6; --cyan: #06b6d4; --purple: #a855f7;
+        }
+        body { font-family: 'Courier New', monospace; background: var(--bg); color: var(--text); overflow: hidden; }
+
+        /* ─── HEADER ─── */
+        .header {
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 10px 20px; background: var(--card); border-bottom: 2px solid var(--border); height: 52px;
+        }
+        .header h1 { font-size: 15px; color: var(--amber); letter-spacing: 1px; }
+        .header-right { display: flex; align-items: center; gap: 16px; }
+        .clock { font-size: 22px; font-weight: bold; color: var(--cyan); }
+        .feed-dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; }
+        .feed-dot.live { background: var(--green); animation: blink 2s infinite; }
+        .feed-dot.stale { background: var(--red); }
+        .feed-dot.off { background: var(--muted); }
+        @keyframes blink { 0%,100% { opacity:1; } 50% { opacity:0.3; } }
+        .market-pill { font-size: 10px; padding: 3px 10px; border-radius: 3px; font-weight: bold; }
+        .market-pill.open { background: rgba(16,185,129,0.2); color: var(--green); }
+        .market-pill.pre { background: rgba(249,115,22,0.2); color: #fb923c; }
+        .market-pill.closed { background: rgba(239,68,68,0.2); color: var(--red); }
+
+        /* ─── MARKET STRIP ─── */
+        .market-strip {
+            display: flex; gap: 0; padding: 0; background: var(--card2); border-bottom: 1px solid var(--border);
+            font-size: 11px; height: 36px; align-items: stretch;
+        }
+        .ms-item { padding: 0 16px; display: flex; align-items: center; gap: 6px; border-right: 1px solid var(--border); }
+        .ms-label { color: var(--muted); font-size: 9px; text-transform: uppercase; }
+        .ms-val { font-weight: bold; }
+        .regime-badge { background: rgba(59,130,246,0.15); color: var(--blue); padding: 2px 10px; border-radius: 3px; font-weight: bold; font-size: 11px; letter-spacing: 0.5px; }
+
+        /* ─── LAYOUT ─── */
+        .main { display: flex; height: calc(100vh - 88px); }
+        .left-col { width: 320px; border-right: 1px solid var(--border); display: flex; flex-direction: column; flex-shrink: 0; }
+        .right-col { flex: 1; overflow-y: auto; }
+
+        /* ─── SIGNAL CARDS ─── */
+        .sig-header { padding: 8px 14px; font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; border-bottom: 1px solid var(--border); background: var(--card); display: flex; justify-content: space-between; align-items: center; }
+        .sig-list { flex: 1; overflow-y: auto; }
+        .sig-card {
+            padding: 10px 14px; border-bottom: 1px solid var(--border); cursor: pointer;
+            transition: background 0.15s; border-left: 3px solid transparent;
+        }
+        .sig-card:hover { background: rgba(59,130,246,0.05); }
+        .sig-card.selected { background: rgba(59,130,246,0.08); }
+        .sig-card.alerting { animation: alertPulse 0.8s ease-in-out infinite; }
+        @keyframes alertPulse { 0%,100% { background:rgba(249,115,22,0.08); } 50% { background:rgba(249,115,22,0.22); } }
+        .sig-card.no-match { opacity: 0.35; }
+        .sig-card.active-trade { opacity: 1 !important; border-left: 3px solid var(--green) !important; background: rgba(34,197,94,0.06); }
+
+        .sig-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px; }
+        .sig-ver { font-weight: bold; font-size: 14px; }
+        .sig-status { font-size: 8px; padding: 2px 7px; border-radius: 3px; font-weight: bold; text-transform: uppercase; letter-spacing: 0.5px; }
+        .sts-wait { background: var(--border); color: var(--muted); }
+        .sts-alert { background: rgba(249,115,22,0.3); color: var(--amber); }
+        .sts-live { background: rgba(16,185,129,0.25); color: var(--green); }
+        .sts-exit { background: rgba(139,92,246,0.3); color: var(--purple); }
+        .sts-stop { background: rgba(239,68,68,0.3); color: var(--red); }
+        .sts-tgt { background: rgba(16,185,129,0.4); color: var(--green); }
+        .sts-no { background: transparent; color: var(--muted); border: 1px solid var(--border); }
+        .sig-desc { font-size: 9px; color: var(--muted); margin-bottom: 3px; }
+        .sig-meta { font-size: 10px; color: var(--cyan); }
+        .sig-pnl { font-size: 13px; font-weight: bold; margin-top: 3px; }
+
+        /* ─── DETAIL PANEL ─── */
+        .detail-pad { padding: 16px; }
+        .d-section { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 16px; margin-bottom: 14px; }
+        .d-section h3 { font-size: 11px; color: var(--amber); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px; padding-bottom: 6px; border-bottom: 1px solid var(--border); }
+
+        .strike-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; }
+        .strike-box { background: var(--bg); border: 1px solid var(--border); border-radius: 6px; padding: 10px; text-align: center; }
+        .strike-box .s-label { font-size: 8px; color: var(--muted); text-transform: uppercase; margin-bottom: 3px; }
+        .strike-box .s-val { font-size: 18px; font-weight: bold; }
+        .strike-box .s-price { font-size: 11px; color: var(--cyan); margin-top: 2px; }
+        .strike-box.put { border-color: rgba(239,68,68,0.3); }
+        .strike-box.call { border-color: rgba(6,182,212,0.3); }
+        .strike-box.cred { border-color: rgba(16,185,129,0.4); }
+
+        .mech-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-top: 10px; font-size: 11px; }
+        .mech-item .m-label { font-size: 8px; color: var(--muted); text-transform: uppercase; }
+        .mech-item .m-val { font-weight: bold; margin-top: 2px; }
+
+        /* ─── ENTRY FORM ─── */
+        .entry-row { display: flex; gap: 8px; align-items: flex-end; }
+        .inp { background: var(--bg); border: 1px solid var(--border); color: var(--text); padding: 8px 10px; border-radius: 4px; font-family: inherit; font-size: 13px; width: 100%; }
+        .inp:focus { border-color: var(--blue); outline: none; }
+        .inp-grp { display: flex; flex-direction: column; gap: 3px; }
+        .inp-grp label { font-size: 8px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; }
+        .btn { padding: 8px 16px; border: none; border-radius: 4px; font-family: inherit; font-size: 11px; font-weight: bold; cursor: pointer; transition: 0.2s; white-space: nowrap; }
+        .btn:hover { filter: brightness(1.15); }
+        .btn-green { background: var(--green); color: black; }
+        .btn-red { background: var(--red); color: white; }
+        .btn-amber { background: var(--amber); color: black; }
+        .btn-blue { background: var(--blue); color: white; }
+        .btn-muted { background: var(--border); color: var(--muted); }
+        .btn-lg { padding: 12px 24px; font-size: 13px; }
+
+        /* ─── PNL ─── */
+        .pnl-hero { text-align: center; padding: 20px 0; }
+        .pnl-big { font-size: 42px; font-weight: bold; }
+        .pnl-sub { font-size: 11px; color: var(--muted); margin-top: 4px; }
+        .prog-row { display: flex; gap: 12px; margin-top: 14px; }
+        .prog-item { flex: 1; }
+        .prog-lbl { font-size: 8px; color: var(--muted); text-transform: uppercase; margin-bottom: 3px; display: flex; justify-content: space-between; }
+        .prog-bar { height: 6px; background: var(--border); border-radius: 3px; overflow: hidden; }
+        .prog-fill { height: 100%; border-radius: 3px; transition: width 0.5s; }
+
+        /* ─── TRANCHES ─── */
+        .tranche-row { display: flex; gap: 4px; flex-wrap: wrap; }
+        .tr-pill { padding: 6px 10px; border-radius: 4px; font-size: 10px; font-weight: bold; border: 1px solid var(--border); background: var(--bg); display: flex; align-items: center; gap: 6px; }
+        .tr-pill.filled { border-color: var(--green); color: var(--green); }
+        .tr-pill.pending { border-color: var(--amber); color: var(--amber); }
+        .tr-pill.skipped { border-color: var(--border); color: var(--muted); text-decoration: line-through; }
+        .tr-btn { background: none; border: 1px solid currentColor; color: inherit; padding: 1px 5px; border-radius: 2px; font-size: 8px; cursor: pointer; font-family: inherit; font-weight: bold; }
+
+        /* ─── EXIT ─── */
+        .exit-row { display: flex; gap: 8px; align-items: flex-end; flex-wrap: wrap; }
+
+        /* ─── NOTIF ─── */
+        .notif { position: fixed; top: 0; left: 0; right: 0; z-index: 999; padding: 10px 20px; font-weight: bold; font-size: 12px; text-align: center; transform: translateY(-100%); transition: transform 0.3s; }
+        .notif.show { transform: translateY(0); }
+        .notif.green { background: var(--green); color: black; }
+        .notif.red { background: var(--red); color: white; }
+        .notif.amber { background: var(--amber); color: black; }
+
+        /* ─── ALERT MODAL ─── */
+        .modal-bg { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.7); z-index:1000; align-items:center; justify-content:center; }
+        .modal-bg.show { display: flex; }
+        .modal { background: var(--card); border: 2px solid var(--amber); border-radius: 12px; padding: 24px 32px; max-width: 500px; width: 90%; text-align: center; }
+        .modal h2 { color: var(--amber); font-size: 18px; margin-bottom: 10px; }
+        .modal-detail { font-size: 12px; margin-bottom: 16px; line-height: 1.6; }
+        .modal-actions { display: flex; gap: 8px; justify-content: center; }
+
+        /* ─── PHOENIX PANEL ─── */
+        .phoenix-section { border-bottom: 2px solid var(--border); }
+        .phoenix-hdr { padding: 8px 14px; font-size: 10px; color: var(--amber); text-transform: uppercase; letter-spacing: 1px; border-bottom: 1px solid var(--border); background: var(--card); display: flex; justify-content: space-between; align-items: center; }
+        .phoenix-hdr .phx-count { font-size: 13px; font-weight: bold; }
+        .phx-row { display: flex; align-items: center; gap: 8px; padding: 5px 14px; border-bottom: 1px solid rgba(30,41,59,0.4); font-size: 10px; transition: background 0.2s, opacity 0.2s; }
+        .phx-row.fire { background: rgba(16,185,129,0.06); }
+        .phx-row.off { opacity: 0.35; }
+        .phx-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+        .phx-dot.fire { background: var(--green); box-shadow: 0 0 6px rgba(16,185,129,0.5); }
+        .phx-dot.off { background: var(--border); }
+        .phx-dot.pending { background: var(--amber); animation: blink 2s infinite; }
+        .phx-rank { width: 16px; color: var(--muted); font-size: 9px; text-align: center; flex-shrink: 0; }
+        .phx-name { flex: 1; font-weight: bold; }
+        .phx-row.fire .phx-name { color: var(--green); }
+        .phx-pills { display: flex; gap: 3px; flex-shrink: 0; }
+        .phx-pill { font-size: 7px; padding: 1px 5px; border-radius: 2px; border: 1px solid var(--border); color: var(--muted); letter-spacing: 0.3px; }
+        .phx-pill.pass { border-color: rgba(16,185,129,0.4); color: var(--green); background: rgba(16,185,129,0.08); }
+        .phx-pill.fail { border-color: rgba(239,68,68,0.3); color: var(--red); background: rgba(239,68,68,0.06); }
+        .phx-sizing { display: flex; align-items: center; gap: 10px; padding: 8px 14px; background: var(--card2); }
+        .phx-sizing-num { font-size: 22px; font-weight: bold; color: var(--muted); min-width: 28px; text-align: center; }
+        .phx-sizing-num.active { color: var(--green); }
+        .phx-sizing-arrow { color: var(--muted); font-size: 14px; }
+        .phx-sizing-bar { flex: 1; }
+        .phx-bar-track { height: 6px; background: var(--border); border-radius: 3px; overflow: hidden; margin-bottom: 4px; }
+        .phx-bar-fill { height: 100%; border-radius: 3px; background: var(--green); transition: width 0.5s; width: 0%; }
+        .phx-sizing-detail { display: flex; justify-content: space-between; font-size: 10px; }
+        .phx-sizing-dollars { font-weight: bold; color: var(--muted); }
+        .phx-sizing-dollars.active { color: var(--green); }
+        .phx-sizing-mech { font-size: 9px; color: var(--muted); }
+        .phx-sizing-mech.active { color: var(--cyan); }
+
+        .placeholder { display: flex; align-items: center; justify-content: center; height: 300px; color: var(--muted); font-size: 12px; }
+        .log-wrap { max-height: 160px; overflow-y: auto; }
+        .log-line { font-size: 9px; padding: 3px 0; border-bottom: 1px solid rgba(30,41,59,0.4); color: var(--muted); }
+        .log-line .lt { color: var(--cyan); margin-right: 6px; }
+
+        ::-webkit-scrollbar { width: 5px; }
+        ::-webkit-scrollbar-track { background: var(--bg); }
+        ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+    </style>
+</head>
+<body>
+    <div class="notif" id="notif"></div>
+    <div class="modal-bg" id="modalBg"><div class="modal" id="modal"></div></div>
+
+    <div class="header">
+        <h1>PHOENIX 0DTE IBF COCKPIT</h1>
+        <div class="header-right">
+            <span style="font-size:10px;color:var(--muted);">Feed: <span class="feed-dot off" id="feedDot"></span> <span id="feedLabel">Waiting</span></span>
+            <span class="market-pill pre" id="mktPill">PRE-MARKET</span>
+            <div class="clock" id="clock">--:--:--</div>
+        </div>
+    </div>
+
+    <div class="market-strip" id="mktStrip">
+        <div class="ms-item"><span class="ms-label">SPX</span><span class="ms-val" id="ms_spx">—</span></div>
+        <div class="ms-item"><span class="ms-label">VIX</span><span class="ms-val" id="ms_vix">—</span></div>
+        <div class="ms-item"><span class="ms-label">Gap</span><span class="ms-val" id="ms_gap">—</span></div>
+        <div class="ms-item"><span class="ms-label">Prior</span><span class="ms-val" id="ms_prior">—</span></div>
+        <div class="ms-item"><span class="ms-label">Range</span><span class="ms-val" id="ms_range">—</span></div>
+        <div class="ms-item"><span class="ms-label">5d Ret</span><span class="ms-val" id="ms_5d">—</span></div>
+        <div class="ms-item"><span class="ms-label">VP</span><span class="ms-val" id="ms_vp">—</span></div>
+        <div class="ms-item"><span class="ms-label">RV</span><span class="ms-val" id="ms_rv">—</span></div>
+        <div class="ms-item"><span class="ms-label">Slope</span><span class="ms-val" id="ms_slope">—</span></div>
+        <div class="ms-item"><span class="ms-label">MrnRng</span><span class="ms-val" id="ms_mrnrng">—</span></div>
+        <div class="ms-item"><span class="ms-label">ScVol</span><span class="ms-val" id="ms_scvol">—</span></div>
+        <div class="ms-item"><span class="ms-label">Credit</span><span class="ms-val" id="ms_credit" style="color:var(--green)">—</span></div>
+        <div class="ms-item"><span class="ms-label">Spread</span><span class="ms-val" id="ms_spread">—</span></div>
+        <div class="ms-item"><span class="regime-badge" id="ms_regime">—</span></div>
+    </div>
+
+    <div class="main">
+        <div class="left-col">
+            <div class="sig-header">
+                <span>SIGNALS <span id="sigCount">0</span></span>
+                <span style="font-size:9px;cursor:pointer;" onclick="toggleSound()" id="soundBtn">🔔 ON</span>
+            </div>
+            <div class="sig-list" id="sigList"><div class="placeholder" style="height:200px;">Waiting for feed data...</div></div>
+        </div>
+        <div class="right-col">
+            <div class="detail-pad" id="detailPanel"><div class="placeholder">Select a signal from the left panel</div></div>
+        </div>
+    </div>
+
+<script>
+// ══════════════════════════════════════════════════════════════
+// STATE
+// ══════════════════════════════════════════════════════════════
+let feedData = null;        // latest cockpit_state.json
+let selected = null;        // selected ver
+let tradeState = {};        // ver -> {status, fillPrice, fillQty, spreadVal, tranches, pnl, exitType, exitPrice}
+let initialSelectDone = false;  // only auto-select active trade on first load
+let logs = [];
+let soundOn = true;
+let alertedEntries = {};    // ver -> true (already alerted)
+let alertedTranches = {};   // ver_tN -> true
+let alertedTimeStops = {};  // ver -> true
+
+// ── GitHub Pages read-only mode ──────────────────────────────────────────────
+// When running on GitHub Pages (no local backend), hide trade management buttons
+// so the cockpit works as a read-only live view.
+const IS_GITHUB_PAGES = window.location.hostname.includes('github.io');
+
+const TRANCHE_CONFIGS = {
+    "1T":    {n:1, adds:[]},
+    "3T60m": {n:3, adds:["11:00","12:00"]},
+    "5T30m": {n:5, adds:["10:30","11:00","11:30","12:00"]},
+    "5T60m": {n:5, adds:["11:00","12:00","13:00","14:00"]},
+};
+
+// ══════════════════════════════════════════════════════════════
+// AUDIO
+// ══════════════════════════════════════════════════════════════
+const AC = window.AudioContext || window.webkitAudioContext;
+let ac;
+function audio() { if(!ac) ac = new AC(); return ac; }
+function beep(freq, dur, type='sine', vol=0.15) {
+    if(!soundOn) return;
+    const a = audio(), o = a.createOscillator(), g = a.createGain();
+    o.connect(g); g.connect(a.destination);
+    o.frequency.value = freq; o.type = type;
+    g.gain.setValueAtTime(vol, a.currentTime);
+    g.gain.exponentialRampToValueAtTime(0.01, a.currentTime + dur);
+    o.start(); o.stop(a.currentTime + dur);
+}
+function playEntry() { [0,150,300].forEach((d,i) => setTimeout(() => beep(600+i*200, 0.3), d)); }
+function playTarget() { beep(880, 0.5); setTimeout(() => beep(1100, 0.4), 200); }
+function playStop() { beep(300, 0.6, 'sawtooth', 0.2); }
+function playWingBreach() { [0,200,400,600,800].forEach(d => setTimeout(() => beep(250, 0.8, 'sawtooth', 0.3), d)); }
+function playTranche() { beep(500, 0.2, 'triangle', 0.12); }
+function toggleSound() { soundOn = !soundOn; document.getElementById('soundBtn').textContent = soundOn ? '🔔 ON' : '🔕 OFF'; }
+
+// ══════════════════════════════════════════════════════════════
+// CLOCK
+// ══════════════════════════════════════════════════════════════
+function etNow() {
+    const d = new Date(new Date().toLocaleString("en-US",{timeZone:"America/New_York"}));
+    return {h:d.getHours(), m:d.getMinutes(), s:d.getSeconds()};
+}
+function updateClock() {
+    const {h,m,s} = etNow();
+    document.getElementById('clock').textContent = `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')} ET`;
+    const pill = document.getElementById('mktPill');
+    if (h < 9 || (h===9 && m<30)) { pill.className='market-pill pre'; pill.textContent='PRE-MARKET'; }
+    else if (h < 16) { pill.className='market-pill open'; pill.textContent='MARKET OPEN'; }
+    else { pill.className='market-pill closed'; pill.textContent='CLOSED'; }
+}
+
+// ══════════════════════════════════════════════════════════════
+// FEED LOADER
+// ══════════════════════════════════════════════════════════════
+async function loadFeed() {
+    try {
+        const r = await fetch('cockpit_state.json?t=' + Date.now());
+        if (!r.ok) { setFeedStatus('off','No file'); return; }
+        const data = await r.json();
+        const age = (Date.now() - new Date(data.last_update).getTime()) / 1000;
+        if (age > 60) { setFeedStatus('stale', `${Math.round(age)}s ago`); }
+        else { setFeedStatus('live', `${Math.round(age)}s ago`); }
+        feedData = data;
+        // Sync trade state from server
+        if (data.active_trade && data.active_trade.status === 'active') {
+            const ver = data.active_trade.ver;
+            if (!tradeState[ver] || tradeState[ver].status !== 'entered') {
+                tradeState[ver] = {
+                    status: 'entered',
+                    fillPrice: data.active_trade.entry_credit,
+                    fillQty: data.active_trade.fill_qty,
+                    spreadVal: data.active_trade.current_sv || data.active_trade.entry_credit,
+                    pnl: data.active_trade.total_pnl || 0,
+                    tranches: data.active_trade.tranches || [],
+                    exitType: null, exitPrice: null,
+                };
+            } else {
+                // Update live values from server
+                tradeState[ver].pnl = data.active_trade.total_pnl || 0;
+                tradeState[ver].spreadVal = data.active_trade.current_sv || 0;
+            }
+        }
+        // Auto-select active trade version ONLY on first load (not on every poll)
+        if (!initialSelectDone && data.active_trade && data.active_trade.status === 'active') {
+            selected = data.active_trade.ver;
+            initialSelectDone = true;
+        }
+        if (!selected && data.active_trade && data.active_trade.status === 'active') {
+            selected = data.active_trade.ver;
+        }
+        updateMarketStrip();
+        updateSignals();
+        checkAlerts();
+        checkTrancheAlerts();
+        checkWingBreach();
+        updatePnL();
+        if (selected) renderDetail();
+    } catch(e) {
+        setFeedStatus('off', 'Error');
+    }
+}
+
+function setFeedStatus(cls, label) {
+    document.getElementById('feedDot').className = `feed-dot ${cls}`;
+    document.getElementById('feedLabel').textContent = label;
+}
+
+// ══════════════════════════════════════════════════════════════
+// MARKET STRIP
+// ══════════════════════════════════════════════════════════════
+function updateMarketStrip() {
+    if (!feedData) return;
+    const m = feedData.market;
+    const c = feedData.option_chain || {};
+    document.getElementById('ms_spx').textContent = m.spx?.toFixed(2) || '—';
+    document.getElementById('ms_vix').textContent = m.vix?.toFixed(1) || '—';
+    const gEl = document.getElementById('ms_gap');
+    gEl.textContent = (m.gap_pct >= 0 ? '+' : '') + (m.gap_pct?.toFixed(2) || '0') + '%';
+    gEl.style.color = m.gap_pct >= 0 ? 'var(--green)' : 'var(--red)';
+    document.getElementById('ms_prior').textContent = m.prior_direction || '—';
+    document.getElementById('ms_prior').style.color = m.prior_direction === 'UP' ? 'var(--green)' : m.prior_direction === 'DOWN' ? 'var(--red)' : 'var(--muted)';
+    document.getElementById('ms_range').textContent = m.in_range ? 'IN' : 'OUT';
+    document.getElementById('ms_range').style.color = m.in_range ? 'var(--cyan)' : 'var(--amber)';
+    const r5 = document.getElementById('ms_5d');
+    r5.textContent = (m.ret5d >= 0 ? '+' : '') + (m.ret5d?.toFixed(2) || '0') + '%';
+    r5.style.color = m.ret5d >= 0 ? 'var(--green)' : 'var(--red)';
+    document.getElementById('ms_vp').textContent = m.vp_ratio?.toFixed(2) || '—';
+    // RV
+    const rvEl = document.getElementById('ms_rv');
+    rvEl.textContent = m.rv != null ? m.rv.toFixed(1) : '—';
+    // Slope
+    const slopeEl = document.getElementById('ms_slope');
+    slopeEl.textContent = m.rv_slope || '—';
+    slopeEl.style.color = m.rv_slope === 'RISING' ? 'var(--red)' : m.rv_slope === 'FALLING' ? 'var(--green)' : 'var(--muted)';
+    // Morning Range
+    const mrnEl = document.getElementById('ms_mrnrng');
+    mrnEl.textContent = m.range_pct != null ? m.range_pct.toFixed(2) + '%' : '—';
+    mrnEl.style.color = m.range_pct <= 0.3 ? 'var(--green)' : m.range_pct <= 0.5 ? 'var(--amber)' : 'var(--red)';
+    // Score Vol
+    const svEl = document.getElementById('ms_scvol');
+    svEl.textContent = m.score_vol != null ? m.score_vol : '—';
+    svEl.style.color = m.score_vol < 18 ? 'var(--green)' : m.score_vol >= 22 ? 'var(--red)' : 'var(--amber)';
+
+    document.getElementById('ms_credit').textContent = c.credit?.toFixed(2) || '—';
+    document.getElementById('ms_spread').textContent = c.spread_val?.toFixed(2) || '—';
+    document.getElementById('ms_regime').textContent = feedData.regime?.label || '—';
+}
+
+// ══════════════════════════════════════════════════════════════
+// SIGNALS
+// ══════════════════════════════════════════════════════════════
+function updateSignals() {
+    if (!feedData || !feedData.signals) return;
+    const sigs = feedData.signals;
+    const v3Blocked = feedData.phoenix && feedData.phoenix.fire_count === 0;
+    document.getElementById('sigCount').textContent = sigs.filter(s => s.matched && !(s.ver === 'v3' && v3Blocked)).length;
+
+    // Init trade state for new matched signals
+    for (const sig of sigs) {
+        if (sig.matched && !tradeState[sig.ver]) {
+            tradeState[sig.ver] = {status:'waiting', fillPrice:0, fillQty:0, spreadVal:0, tranches:[], pnl:0, exitType:null, exitPrice:null};
+        }
+    }
+    renderSignalList();
+}
+
+function renderSignalList() {
+    if (!feedData || !feedData.signals) return;
+    const list = document.getElementById('sigList');
+    const sigs = feedData.signals;
+
+    // Sort: active trade first, then matched, then by version number
+    const at_sort = feedData.active_trade;
+    const activeVerSort = (at_sort && at_sort.status === 'active') ? at_sort.ver : null;
+    const verNum = v => parseInt(v.ver.replace('v',''));
+    const sorted = [...sigs].sort((a,b) => {
+        if (a.ver === activeVerSort && b.ver !== activeVerSort) return -1;
+        if (b.ver === activeVerSort && a.ver !== activeVerSort) return 1;
+        if (a.matched && !b.matched) return -1;
+        if (!a.matched && b.matched) return 1;
+        return verNum(a) - verNum(b);
+    });
+
+    const at = feedData.active_trade;
+    const activeVer = (at && at.status === 'active') ? at.ver : null;
+
+    list.innerHTML = sorted.map(sig => {
+        const t = tradeState[sig.ver] || {status:'waiting', pnl:0};
+        const isActiveTrade = sig.ver === activeVer;
+        // V3 match depends on PHOENIX confluence (0 signals = no match)
+        const v3NoSignals = sig.ver === 'v3' && feedData.phoenix && feedData.phoenix.fire_count === 0;
+        const isMatch = isActiveTrade || (sig.matched && !v3NoSignals);
+
+        let stsCls, stsLabel;
+        if (isActiveTrade) {
+            stsCls = 'sts-live';
+            const nReady = (at.tranches||[]).filter(t => t.status === 'ready').length;
+            stsLabel = nReady > 0 ? `LIVE — ${nReady} READY` : 'LIVE TRADE';
+        } else if (!isMatch) {
+            stsCls = 'sts-no';
+            stsLabel = v3NoSignals ? '0 SIGNALS' : 'NO MATCH';
+        } else {
+            stsCls = t.status === 'waiting' ? 'sts-wait' :
+                t.status === 'alert' ? 'sts-alert' :
+                t.status === 'entered' ? 'sts-live' :
+                t.status === 'stopped' ? 'sts-stop' :
+                t.status === 'target' ? 'sts-tgt' : 'sts-exit';
+            stsLabel = t.status.toUpperCase();
+        }
+
+        const pnlDisplay = isActiveTrade
+            ? `<div class="sig-pnl" style="color:${(at.total_pnl||0)>=0?'var(--green)':'var(--red)'}">${(at.total_pnl||0)>=0?'+':''}$${(at.total_pnl||0).toLocaleString()}</div>`
+            : (t.status === 'entered' ? `<div class="sig-pnl" style="color:${t.pnl>=0?'var(--green)':'var(--red)'}">${t.pnl>=0?'+':''}$${t.pnl.toLocaleString()}</div>` : '');
+
+        return `<div class="sig-card ${selected === sig.ver ? 'selected' : ''} ${!isMatch ? 'no-match' : ''} ${isActiveTrade ? 'active-trade' : ''} ${t.status === 'alert' ? 'alerting' : ''}"
+                     style="border-left-color:${selected === sig.ver ? sig.color : (isActiveTrade ? 'var(--green)' : 'transparent')}"
+                     onclick="selected='${sig.ver}'; renderSignalList(); renderDetail();">
+            <div class="sig-top">
+                <span class="sig-ver" style="color:${sig.color}">${sig.ver.toUpperCase()}</span>
+                <span class="sig-status ${stsCls}">${stsLabel}</span>
+            </div>
+            <div class="sig-desc">${sig.desc}</div>
+            <div class="sig-meta">${sig.mech} | Entry ${sig.entry}${sig.filter ? ' | ' + sig.filter : ''}${sig.half_size ? ' | <span style="color:var(--amber);font-weight:bold;">⚡ HALF SIZE</span>' : ''}</div>
+            ${pnlDisplay}
+        </div>`;
+    }).join('');
+}
+
+// ══════════════════════════════════════════════════════════════
+// ALERTS
+// ══════════════════════════════════════════════════════════════
+function checkAlerts() {
+    if (!feedData) return;
+    const {h,m,s} = etNow();
+
+    for (const sig of feedData.signals) {
+        if (!sig.matched || sig.ver === 'v3') continue;
+        const t = tradeState[sig.ver];
+        if (!t || t.status !== 'waiting') continue;
+
+        const [eH, eM] = sig.entry.split(':').map(Number);
+
+        // 1-min warning
+        if (h === eH && m === eM - 1 && !alertedEntries[sig.ver + '_pre']) {
+            alertedEntries[sig.ver + '_pre'] = true;
+            showNotif(`⏰ ${sig.ver.toUpperCase()} entry in 1 MIN — get ready!`, 'amber');
+            playEntry();
+        }
+
+        // At entry
+        if (h === eH && m === eM && !alertedEntries[sig.ver]) {
+            alertedEntries[sig.ver] = true;
+            t.status = 'alert';
+            showEntryModal(sig);
+            playEntry();
+            renderSignalList();
+        }
+    }
+
+    // Tranche alerts
+    for (const sig of feedData.signals) {
+        const t = tradeState[sig.ver];
+        if (!t || t.status !== 'entered') continue;
+        const trKey = sig.mech.split('/')[2];
+        const cfg = TRANCHE_CONFIGS[trKey];
+        if (!cfg) continue;
+        cfg.adds.forEach((addTime, i) => {
+            const [aH, aM] = addTime.split(':').map(Number);
+            const key = `${sig.ver}_t${i+2}`;
+            if (h === aH && m === aM && !alertedTranches[key]) {
+                alertedTranches[key] = true;
+                playTranche();
+                showNotif(`📦 ${sig.ver.toUpperCase()} — ADD TRANCHE ${i+2} NOW (${addTime})`, 'amber');
+                addLog(`TRANCHE: ${sig.ver} T${i+2} @ ${addTime}`);
+                if (!t.tranches[i+1]) t.tranches[i+1] = {time:addTime, status:'pending'};
+                if (selected === sig.ver) renderDetail();
+            }
+        });
+    }
+
+    // Time stop warnings
+    for (const sig of feedData.signals) {
+        const t = tradeState[sig.ver];
+        if (!t || t.status !== 'entered') continue;
+        const ts = sig.mech.split('/')[1];
+        let tsH, tsM;
+        if (ts === 'close') { tsH=16; tsM=0; }
+        else if (ts === '1545') { tsH=15; tsM=45; }
+        else if (ts === '1530') { tsH=15; tsM=30; }
+        else continue;
+        const key = sig.ver + '_ts';
+        const warnM = tsM >= 5 ? tsM - 5 : tsM + 55;
+        const warnH = tsM >= 5 ? tsH : tsH - 1;
+        if (h === warnH && m === warnM && !alertedTimeStops[key + '_w']) {
+            alertedTimeStops[key + '_w'] = true;
+            playStop();
+            showNotif(`⏱ ${sig.ver.toUpperCase()} TIME STOP in 5 min — prepare to exit!`, 'red');
+        }
+        if (h === tsH && m === tsM && !alertedTimeStops[key]) {
+            alertedTimeStops[key] = true;
+            playStop();
+            showNotif(`🛑 ${sig.ver.toUpperCase()} TIME STOP NOW — EXIT!`, 'red');
+        }
+    }
+}
+
+// ══════════════════════════════════════════════════════════════
+// TRANCHE ALERTS (from server state)
+// ══════════════════════════════════════════════════════════════
+function checkTrancheAlerts() {
+    if (!feedData || !feedData.active_trade) return;
+    const at = feedData.active_trade;
+    if (at.status !== 'active') return;
+
+    for (const tr of at.tranches) {
+        const key = `${at.ver}_t${tr.idx}`;
+        if (tr.status === 'ready' && !alertedTranches[key]) {
+            alertedTranches[key] = true;
+            if (tr.valid !== false) {
+                playTranche();
+                showNotif(`⏰ ${at.ver.toUpperCase()} — ENTER TRANCHE ${tr.idx} NOW @ ${tr.scheduled} | Credit: ${(tr.current_credit||0).toFixed(2)}`, 'amber');
+                addLog(`TRANCHE READY: ${at.ver} T${tr.idx} @ ${tr.scheduled} — credit ${(tr.current_credit||0).toFixed(2)}`);
+            } else {
+                playStop();
+                showNotif(`⚠️ ${at.ver.toUpperCase()} — T${tr.idx} @ ${tr.scheduled} NOT VALID: ${tr.validity_reason}`, 'red');
+                addLog(`TRANCHE INVALID: ${at.ver} T${tr.idx} — ${tr.validity_reason}`);
+            }
+            // Auto-select the trade version to show detail
+            selected = at.ver;
+            renderSignalList();
+            renderDetail();
+        }
+    }
+}
+
+// ══════════════════════════════════════════════════════════════
+// WING BREACH ALERT
+// ══════════════════════════════════════════════════════════════
+let wingBreachAlerted = {};  // ver -> true
+let wingBreachWarned = {};   // ver -> threshold% -> true
+
+function checkWingBreach() {
+    if (!feedData || !feedData.active_trade) return;
+    const at = feedData.active_trade;
+    if (at.status !== 'active') return;
+
+    const ver = at.ver;
+    const proximity = at.wing_proximity_pct || 0;  // 0-100+, 100 = at wing
+
+    // P&L-based wing stop (70% of max loss) — matches backtest exit rule
+    const wsTriggered = at.wing_stop_triggered || false;
+    const wsLossPct = at.wing_stop_loss_pct || 0;
+    const wsLevel = at.wing_stop_level;
+    const wsWarnKey = ver + '_ws70';
+    if (wsTriggered && !wingBreachWarned[wsWarnKey]) {
+        wingBreachWarned[wsWarnKey] = true;
+        playStop();
+        showNotif(`🛑 ${ver.toUpperCase()} WING STOP — 70% of max loss reached (spread=${(at.current_sv||0).toFixed(2)}, stop=${(wsLevel||0).toFixed(2)}). EXIT NOW.`, 'red');
+        addLog(`WING STOP (70%): ${ver} spread=${(at.current_sv||0).toFixed(2)} ≥ stop level ${(wsLevel||0).toFixed(2)}`);
+        selected = ver;
+        renderSignalList();
+        renderDetail();
+    }
+    // Re-alarm every 30s while wing stop is triggered
+    if (wsTriggered && wingBreachWarned[wsWarnKey]) {
+        const wsReKey = ver + '_ws70_re';
+        if (!wingBreachWarned[wsReKey]) {
+            wingBreachWarned[wsReKey] = Date.now();
+        } else if (Date.now() - wingBreachWarned[wsReKey] > 30000) {
+            wingBreachWarned[wsReKey] = Date.now();
+            playStop();
+            showNotif(`🛑 ${ver.toUpperCase()} WING STOP STILL ACTIVE — EXIT NOW (${wsLossPct.toFixed(0)}% of max loss)`, 'red');
+        }
+    }
+
+    // 75% SPX proximity warning (visual heads-up before P&L stop)
+    const warnKey = ver + '_75';
+    if (proximity >= 75 && !wsTriggered && !at.wing_breach && !wingBreachWarned[warnKey]) {
+        wingBreachWarned[warnKey] = true;
+        playStop();
+        showNotif(`⚠️ ${ver.toUpperCase()} — SPX at ${proximity.toFixed(0)}% of wing! Watch spread value (stop at ${(wsLevel||0).toFixed(2)}).`, 'red');
+        addLog(`WING WARN: ${ver} at ${proximity.toFixed(0)}% of wing width — stop level ${(wsLevel||0).toFixed(2)}`);
+    }
+
+    // Full physical wing breach — modal + alarm
+    if (at.wing_breach && !wingBreachAlerted[ver]) {
+        wingBreachAlerted[ver] = true;
+        playWingBreach();
+        showWingBreachModal(at);
+        showNotif(`🚨 ${ver.toUpperCase()} WING BREACH — EXIT NOW!`, 'red');
+        addLog(`WING BREACH: ${ver} — SPX touched wing, EXIT IMMEDIATELY`);
+        // Auto-select this trade
+        selected = ver;
+        renderSignalList();
+        renderDetail();
+    }
+
+    // Re-alarm every 30 seconds while breach persists (don't let them ignore it)
+    if (at.wing_breach && wingBreachAlerted[ver]) {
+        const reAlarmKey = ver + '_realarm';
+        if (!wingBreachWarned[reAlarmKey]) {
+            wingBreachWarned[reAlarmKey] = Date.now();
+        } else if (Date.now() - wingBreachWarned[reAlarmKey] > 30000) {
+            wingBreachWarned[reAlarmKey] = Date.now();
+            playWingBreach();
+            showNotif(`🚨 ${ver.toUpperCase()} STILL BREACHED — EXIT NOW!`, 'red');
+        }
+    }
+}
+
+function showWingBreachModal(at) {
+    const spxDist = at.spx_distance || 0;
+    const ww = at.wing_width || 50;
+    const direction = spxDist > 0 ? 'ABOVE' : 'BELOW';
+    const wingStrike = spxDist > 0 ? at.atm + ww : at.atm - ww;
+    const spxNow = (feedData.market?.spx || 0).toFixed(2);
+    document.getElementById('modal').innerHTML = `
+        <h2 style="color:var(--red);">🚨 WING BREACH — EXIT NOW</h2>
+        <div class="modal-detail">
+            <div style="font-size:16px;font-weight:bold;color:var(--red);margin-bottom:12px;">
+                ${at.ver.toUpperCase()} — SPX ${direction} WING STRIKE
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin:12px 0;">
+                <div style="background:var(--bg);padding:10px;border-radius:6px;text-align:center;">
+                    <div style="font-size:9px;color:var(--muted);">SPX NOW</div>
+                    <div style="font-size:22px;font-weight:bold;color:var(--red);">${spxNow}</div>
+                </div>
+                <div style="background:var(--bg);padding:10px;border-radius:6px;text-align:center;">
+                    <div style="font-size:9px;color:var(--muted);">ATM STRIKE</div>
+                    <div style="font-size:22px;font-weight:bold;">${at.atm}</div>
+                </div>
+                <div style="background:var(--bg);padding:10px;border-radius:6px;text-align:center;border:2px solid var(--red);">
+                    <div style="font-size:9px;color:var(--red);">WING STRIKE</div>
+                    <div style="font-size:22px;font-weight:bold;color:var(--red);">${wingStrike}</div>
+                </div>
+            </div>
+            <div style="font-size:13px;color:var(--muted);margin:10px 0;">
+                SPX is <strong style="color:var(--red);">${Math.abs(spxDist).toFixed(1)} pts</strong> from center (wing = ${ww} pts)
+            </div>
+            <div style="font-size:14px;color:var(--red);font-weight:bold;margin:12px 0;">
+                MAX LOSS ZONE — Close all positions immediately
+            </div>
+        </div>
+        <div class="modal-actions">
+            <button class="btn btn-lg" style="background:var(--red);color:white;font-weight:bold;" onclick="closeModal(); selected='${at.ver}'; renderSignalList(); renderDetail();">GO TO TRADE & EXIT</button>
+        </div>`;
+    document.getElementById('modalBg').style.cssText += 'display:flex;';
+    document.getElementById('modalBg').classList.add('show');
+}
+
+// ══════════════════════════════════════════════════════════════
+// PNL AUTO-UPDATE
+// ══════════════════════════════════════════════════════════════
+function updatePnL() {
+    if (!feedData) return;
+    const at = feedData.active_trade;
+
+    for (const ver in tradeState) {
+        const t = tradeState[ver];
+        if (t.status !== 'entered') continue;
+
+        // Use server-side locked-chain values (correct strikes), not market option chain
+        if (at && at.ver === ver && at.status === 'active') {
+            const sv = at.current_sv || 0;
+            t.spreadVal = sv;
+            t.pnl = at.total_pnl || 0;
+            const profitPct = at.profit_pct || 0;
+
+            // Check target
+            const tgt = at.profit_target_pct || 50;
+            if (profitPct >= tgt && !alertedEntries[ver + '_tgt']) {
+                alertedEntries[ver + '_tgt'] = true;
+                playTarget();
+                showNotif(`🎯 ${ver.toUpperCase()} TARGET HIT — ${profitPct.toFixed(1)}% ≥ ${tgt}% — TAKE PROFIT!`, 'green');
+                addLog(`TARGET: ${ver} hit ${profitPct.toFixed(1)}%`);
+            }
+            // Wing stop warning at 60% of max loss
+            const maxLoss = at.total_max_loss || 1;
+            if (t.pnl < 0 && Math.abs(t.pnl) > maxLoss * 0.6 && !alertedEntries[ver + '_ws']) {
+                alertedEntries[ver + '_ws'] = true;
+                playStop();
+                showNotif(`⚠️ ${ver.toUpperCase()} at ${(Math.abs(t.pnl)/maxLoss*100).toFixed(0)}% of max loss!`, 'red');
+            }
+        }
+    }
+    renderSignalList();
+}
+
+// ══════════════════════════════════════════════════════════════
+// MODAL
+// ══════════════════════════════════════════════════════════════
+function showEntryModal(sig) {
+    const c = feedData.option_chain || {};
+    const atm = c.atm || 0;
+    const ww = c.wing_width || 50;
+    document.getElementById('modal').innerHTML = `
+        <h2>🔔 ENTRY SIGNAL — ${sig.ver.toUpperCase()}</h2>
+        <div class="modal-detail">
+            <div style="margin-bottom:6px"><strong>${sig.desc}</strong></div>
+            <div style="margin-bottom:10px">${sig.mech} | Entry: ${sig.entry} ET</div>
+            <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin:10px 0;">
+                <div style="background:var(--bg);padding:8px;border-radius:4px;border:1px solid rgba(239,68,68,0.3)">
+                    <div style="font-size:8px;color:var(--muted)">WING PUT</div>
+                    <div style="font-size:18px;font-weight:bold">${atm - ww}</div>
+                    <div style="font-size:10px;color:var(--cyan)">${c.wing_put_price?.toFixed(2) || '—'}</div>
+                </div>
+                <div style="background:var(--bg);padding:8px;border-radius:4px;border:1px solid rgba(239,68,68,0.3)">
+                    <div style="font-size:8px;color:var(--muted)">ATM PUT</div>
+                    <div style="font-size:18px;font-weight:bold">${atm}</div>
+                    <div style="font-size:10px;color:var(--cyan)">${c.atm_put_price?.toFixed(2) || '—'}</div>
+                </div>
+                <div style="background:var(--bg);padding:8px;border-radius:4px;border:1px solid rgba(6,182,212,0.3)">
+                    <div style="font-size:8px;color:var(--muted)">ATM CALL</div>
+                    <div style="font-size:18px;font-weight:bold">${atm}</div>
+                    <div style="font-size:10px;color:var(--cyan)">${c.atm_call_price?.toFixed(2) || '—'}</div>
+                </div>
+                <div style="background:var(--bg);padding:8px;border-radius:4px;border:1px solid rgba(6,182,212,0.3)">
+                    <div style="font-size:8px;color:var(--muted)">WING CALL</div>
+                    <div style="font-size:18px;font-weight:bold">${atm + ww}</div>
+                    <div style="font-size:10px;color:var(--cyan)">${c.wing_call_price?.toFixed(2) || '—'}</div>
+                </div>
+            </div>
+            <div style="font-size:14px;color:var(--green);font-weight:bold;margin:8px 0;">
+                Net Credit: ${c.credit?.toFixed(2) || '—'}
+            </div>
+        </div>
+        <div class="modal-actions">
+            <button class="btn btn-green btn-lg" onclick="closeModal(); selected='${sig.ver}'; renderSignalList(); renderDetail();">VIEW & ENTER</button>
+            <button class="btn btn-muted" onclick="closeModal()">DISMISS</button>
+        </div>`;
+    document.getElementById('modalBg').classList.add('show');
+    addLog(`ALERT: ${sig.ver} entry signal — ATM ${atm} ±${ww}, credit ${c.credit?.toFixed(2)}`);
+}
+function closeModal() { document.getElementById('modalBg').classList.remove('show'); }
+
+// ══════════════════════════════════════════════════════════════
+// DETAIL PANEL
+// ══════════════════════════════════════════════════════════════
+function renderDetail() {
+    const panel = document.getElementById('detailPanel');
+    if (!selected || !feedData) { panel.innerHTML = '<div class="placeholder">Select a signal</div>'; return; }
+
+    const sig = feedData.signals.find(s => s.ver === selected);
+    if (!sig) return;
+    const t = tradeState[sig.ver] || {status:'waiting'};
+    const at = feedData.active_trade;  // server-managed trade
+    const hasActiveTrade = at && at.status === 'active' && at.ver === sig.ver;
+
+    const c = feedData.option_chain || {};
+    const trKey = sig.mech.split('/')[2];
+    const tgtPct = parseInt(sig.mech.split('/')[0]);
+    const tStop = sig.mech.split('/')[1];
+    const cfg = TRANCHE_CONFIGS[trKey] || {n:1, adds:[]};
+
+    // Use LOCKED strike if trade is active, otherwise current ATM
+    const atm = hasActiveTrade ? at.atm : (c.atm || 0);
+    const ww = hasActiveTrade ? at.wing_width : (c.wing_width || 50);
+    const lc = hasActiveTrade ? at.locked_chain : c;
+
+    let html = '';
+
+    // ─── STRIKES (locked if trade active) ───
+    const lockBadge = hasActiveTrade ? ' <span style="color:var(--green);font-size:9px;">🔒 LOCKED</span>' : '';
+    html += `<div class="d-section">
+        <h3>Iron Butterfly — <span style="color:${sig.color}">${sig.ver.toUpperCase()} ${sig.regime}</span>${lockBadge}</h3>
+        <div class="strike-grid">
+            <div class="strike-box put"><div class="s-label">Wing Put</div><div class="s-val">${atm-ww}</div><div class="s-price">${(lc.wing_put_price||0).toFixed(2)}</div></div>
+            <div class="strike-box put"><div class="s-label">ATM Put</div><div class="s-val">${atm}</div><div class="s-price">${(lc.atm_put_price||0).toFixed(2)}</div></div>
+            <div class="strike-box cred"><div class="s-label">${hasActiveTrade ? 'Spread Val' : 'Net Credit'}</div><div class="s-val" style="color:var(--green)">${hasActiveTrade ? (at.current_sv||0).toFixed(2) : (c.credit?.toFixed(2)||'—')}</div><div class="s-price">${hasActiveTrade ? 'entry: '+at.entry_credit.toFixed(2) : 'spread val'}</div></div>
+            <div class="strike-box call"><div class="s-label">ATM Call</div><div class="s-val">${atm}</div><div class="s-price">${(lc.atm_call_price||0).toFixed(2)}</div></div>
+            <div class="strike-box call"><div class="s-label">Wing Call</div><div class="s-val">${atm+ww}</div><div class="s-price">${(lc.wing_call_price||0).toFixed(2)}</div></div>
+        </div>
+        ${hasActiveTrade ? `<div style="text-align:center;margin-top:8px;font-size:10px;color:var(--muted);">SPX distance from ATM: <span style="color:${Math.abs(at.spx_distance)>ww*0.5?'var(--red)':'var(--green)'}; font-weight:bold;">${at.spx_distance>=0?'+':''}${at.spx_distance.toFixed(1)} pts</span> <span style="color:${(at.wing_proximity_pct||0)>=75?'var(--red)':(at.wing_proximity_pct||0)>=50?'var(--amber)':'var(--muted)'};">(${(at.wing_proximity_pct||0).toFixed(0)}% to wing${at.wing_breach?' — BREACHED!':''})</span></div>` : ''}
+        <div class="mech-row">
+            <div class="mech-item"><div class="m-label">Target</div><div class="m-val">${tgtPct}%</div></div>
+            <div class="mech-item"><div class="m-label">Time Stop</div><div class="m-val">${tStop === 'close' ? '16:00' : tStop}</div></div>
+            <div class="mech-item"><div class="m-label">Tranches</div><div class="m-val">${trKey}</div></div>
+            <div class="mech-item"><div class="m-label">Entry</div><div class="m-val">${sig.entry} ET</div></div>
+        </div>
+    </div>`;
+
+    // ─── PHOENIX v3 CONFLUENCE (only for v3) ───
+    if (sig.ver === 'v3' && feedData.phoenix) {
+        const phx = feedData.phoenix;
+        const isLocked = feedData.phoenix_locked === true;
+        const lockTime = feedData.phoenix_lock_time || '';
+        const lockCtx = feedData.phoenix_lock_ctx || {};
+        const lockLabel = isLocked
+            ? `<span style="font-size:9px;color:var(--green);margin-left:8px;">LOCKED ${lockTime}</span>`
+            : `<span style="font-size:9px;color:var(--amber);margin-left:8px;">PREVIEW</span>`;
+        html += `<div class="d-section">
+            <h3>Signal Confluence ${lockLabel}<span style="float:right;font-size:13px;font-weight:bold;color:${phx.fire_count > 0 ? 'var(--green)' : 'var(--muted)'}">${phx.fire_count} / 5</span></h3>`;
+        if (isLocked && lockCtx.vix) {
+            const rvChg = lockCtx.rv_1d_change != null ? lockCtx.rv_1d_change : 0;
+            html += `<div style="font-size:9px;color:var(--muted);padding:2px 0 4px 0;">VIX=${lockCtx.vix.toFixed(1)} VP=${lockCtx.vp.toFixed(2)} RV=${lockCtx.rv_slope_label} RV\u0394=${rvChg > 0 ? '+' : ''}${rvChg.toFixed(1)}% 5dR=${lockCtx.ret5d > 0 ? '+' : ''}${lockCtx.ret5d.toFixed(3)}%</div>`;
+        }
+        for (let i = 0; i < phx.signals.length; i++) {
+            const ps = phx.signals[i];
+            const pills = (ps.filters || []).map(f =>
+                `<span class="phx-pill ${f.pass ? 'pass' : 'fail'}">${f.id}</span>`
+            ).join('');
+            html += `<div class="phx-row ${ps.firing ? 'fire' : 'off'}">
+                <div class="phx-dot ${ps.firing ? 'fire' : 'off'}"></div>
+                <div class="phx-rank">#${i+1}</div>
+                <div class="phx-name">${ps.name}</div>
+                <div class="phx-pills">${pills}</div>
+            </div>`;
+        }
+        html += `<div class="phx-sizing">
+            <div class="phx-sizing-num ${phx.fire_count > 0 ? 'active' : ''}">${phx.fire_count}</div>
+            <div class="phx-sizing-arrow">&rarr;</div>
+            <div class="phx-sizing-bar">
+                <div class="phx-bar-track"><div class="phx-bar-fill" style="width:${phx.sizing.pct}%"></div></div>
+                <div class="phx-sizing-detail">
+                    <span class="phx-sizing-dollars ${phx.fire_count > 0 ? 'active' : ''}">$${phx.sizing.dollars.toLocaleString()}</span>
+                    <span class="phx-sizing-mech ${phx.adaptive_mech ? 'active' : ''}">${phx.adaptive_mech ? phx.adaptive_mech.target+'% / '+phx.adaptive_mech.time_stop+' / '+phx.adaptive_mech.tranches : 'No signals'}</span>
+                </div>
+            </div>
+        </div>`;
+        html += `</div>`;
+    }
+
+    // ─── ACTIVE TRADE BANNER (if viewing a different strategy while trade is open) ───
+    const hasAnyActiveTrade = at && at.status === 'active';
+    if (hasAnyActiveTrade && !hasActiveTrade) {
+        const atPnl = at.total_pnl || 0;
+        const atFilled = (at.tranches||[]).filter(t => t.status === 'filled').length;
+        const atTotal = (at.tranches||[]).length;
+        const atReady = (at.tranches||[]).filter(t => t.status === 'ready').length;
+        const readyAlert = atReady > 0 ? `<span style="color:var(--amber);font-weight:bold;"> — ${atReady} TRANCHE${atReady>1?'S':''} READY!</span>` : '';
+        html += `<div style="background:rgba(59,130,246,0.12);border:2px solid var(--blue, #3b82f6);border-radius:8px;padding:14px;margin-bottom:12px;">
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
+                <span style="font-size:14px;font-weight:bold;color:#3b82f6;">Active Trade: ${at.ver.toUpperCase()} ATM ${at.atm} LOCKED</span>
+                <span style="font-size:13px;color:${atPnl>=0?'var(--green)':'var(--red)'};">${atPnl>=0?'+':''}$${atPnl.toLocaleString()}</span>
+            </div>
+            <div style="font-size:11px;color:var(--muted);margin-bottom:10px;">
+                ${atFilled}/${atTotal} tranches filled${readyAlert}
+            </div>
+            <button class="btn btn-green btn-lg" onclick="selected='${at.ver}'; renderSignalList(); renderDetail();" style="width:100%;">GO TO ACTIVE TRADE (${at.ver.toUpperCase()})</button>
+        </div>`;
+    }
+
+    // ─── NO MATCH message (greyed out strategies) ───
+    if (!sig.matched && !hasActiveTrade) {
+        html += `<div class="d-section" style="text-align:center;padding:20px;">
+            <div style="font-size:14px;color:var(--muted);margin-bottom:8px;">No Signal Today</div>
+            <div style="font-size:11px;color:var(--muted);">
+                ${sig.match_reason || `Today's regime does not match ${sig.ver.toUpperCase()} filters`}
+            </div>
+        </div>`;
+    }
+
+    // ─── PHOENIX NO-TRADE (v3 with 0 signals firing) ───
+    const phxBlocked = sig.ver === 'v3' && feedData.phoenix && feedData.phoenix.fire_count === 0;
+    if (phxBlocked && !hasActiveTrade) {
+        html += `<div class="d-section" style="text-align:center;padding:24px;">
+            <div style="font-size:28px;font-weight:bold;color:var(--red);margin-bottom:8px;">NO TRADE TODAY</div>
+            <div style="font-size:11px;color:var(--muted);line-height:1.6;">
+                0 of 5 PHOENIX signals firing &mdash; sizing = $0<br>
+                Strategy says sit out. Conditions don't favor the butterfly.
+            </div>
+        </div>`;
+    }
+
+    // ─── ENTRY TIME GATE ───
+    // Don't show CONFIRM ENTRY before the strategy's scheduled entry time
+    let pastEntryTime = true;  // default true if no entry time specified
+    if (sig.entry) {
+        const [entryH, entryM] = sig.entry.split(':').map(Number);
+        const {h: nowH, m: nowM} = etNow();
+        pastEntryTime = (nowH > entryH) || (nowH === entryH && nowM >= entryM);
+    }
+
+    if (!phxBlocked && !hasActiveTrade && sig.matched && !pastEntryTime && (t.status === 'waiting')) {
+        html += `<div class="d-section" style="text-align:center;padding:24px;">
+            <div style="font-size:22px;font-weight:bold;color:var(--amber);margin-bottom:8px;">⏳ SIGNAL ACTIVE — WAITING</div>
+            <div style="font-size:12px;color:var(--muted);line-height:1.6;">
+                Entry window opens at <strong style="color:var(--cyan);">${sig.entry} ET</strong><br>
+                Do not enter early. Butterfly pricing is calibrated for this time.
+            </div>
+        </div>`;
+    }
+
+    // ─── GitHub Pages read-only banner ───
+    if (IS_GITHUB_PAGES) {
+        html += `<div style="background:rgba(99,102,241,0.12);border:1px solid rgba(99,102,241,0.4);border-radius:6px;padding:8px 14px;margin-bottom:8px;font-size:10px;color:#a5b4fc;">
+            📡 <strong>READ-ONLY</strong> — live data via auto-push (~60s lag). Trade management requires local backend.
+        </div>`;
+    }
+
+    // ─── ENTRY FORM (only if signal matched AND past entry time AND no active trade) ───
+    if (!IS_GITHUB_PAGES && !phxBlocked && !hasActiveTrade && sig.matched && pastEntryTime && (t.status === 'waiting' || t.status === 'alert')) {
+        // Auto-calculate position size from risk budget
+        // For V3 (PHOENIX): use tiered sizing from confluence count, not raw daily_risk
+        // For non-V3: use VP-scaled risk_budget from backend (regime_budget_cockpit); V10 half-size already baked in
+        const rawDailyRisk = feedData.market?.daily_risk || 100000;
+        const phxSizing = (sig.ver === 'v3' && feedData.phoenix?.sizing?.dollars) ? feedData.phoenix.sizing.dollars : 0;
+        const halfSize = sig.half_size || false;
+        // VP-scaled budget (already includes V10 half-size) — fallback to rawDailyRisk if not set
+        const sigBudget = (sig.risk_budget && sig.risk_budget > 0) ? sig.risk_budget : rawDailyRisk;
+        const dailyRisk = (sig.ver === 'v3' && phxSizing > 0) ? phxSizing : sigBudget;
+        const phxPct = (sig.ver === 'v3' && feedData.phoenix?.sizing) ? feedData.phoenix.sizing.pct : 100;
+        // VP annotation for non-V3 budget label
+        const REGIME_MAX_BUDGET_JS = {v6:75000,v7:100000,v8:50000,v9:75000,v10:100000,v12:100000,v14:100000};
+        const curVP = feedData.market?.vp_ratio || 1.5;
+        const vpScale = curVP <= 1.0 ? 100 : curVP <= 1.2 ? 75 : curVP <= 1.5 ? 50 : 25;
+        const maxBudget = REGIME_MAX_BUDGET_JS[sig.ver] || 100000;
+        const vpNote = `VP ${curVP.toFixed(2)} → ${vpScale}% of $${(maxBudget/1000).toFixed(0)}K max`;
+
+        // Half-size warning banner for V10
+        if (halfSize) {
+            html += `<div style="background:rgba(245,158,11,0.15);border:1px solid var(--amber);border-radius:6px;padding:10px 14px;margin-bottom:8px;font-size:11px;">
+                <span style="color:var(--amber);font-weight:bold;">⚡ HALF SIZE — 5d return ${(feedData.market?.ret5d||0).toFixed(2)}% ≤ -1.5%</span><br>
+                <span style="color:var(--muted);">${sig.half_size_reason || 'Deep downtrend: trade half budget to reduce tail risk'}</span>
+            </div>`;
+        }
+        const credit = c.credit || 0;
+        const nTranches = cfg.n || 1;
+        const maxLossPerSpread = (ww - credit) * 100;  // (wing_width - credit) * 100
+        const riskPerTranche = dailyRisk / nTranches;
+        const autoQty = maxLossPerSpread > 0 ? Math.floor(riskPerTranche / maxLossPerSpread) : 10;
+
+        html += `<div class="d-section">
+            <h3>Confirm Entry</h3>
+            <p style="font-size:10px;color:var(--amber);margin-bottom:8px;">This will LOCK the ATM strike at ${c.atm || '—'} for all tranches.</p>
+            <div style="background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:10px 14px;margin-bottom:10px;font-size:11px;">
+                <div style="display:flex;justify-content:space-between;margin-bottom:4px;">
+                    <span style="color:var(--muted);">${sig.ver === 'v3' ? 'PHOENIX Tiered Sizing' : (halfSize ? 'Risk Budget (VP-scaled, HALF)' : 'Risk Budget (VP-scaled)')}</span>
+                    <span style="font-weight:bold;${halfSize ? 'color:var(--amber);' : ''}">$${dailyRisk.toLocaleString()}${sig.ver === 'v3' ? ` <span style="color:var(--cyan);font-size:10px;">(${phxPct}% of $${rawDailyRisk.toLocaleString()})</span>` : ` <span style="color:${halfSize ? 'var(--amber)' : 'var(--cyan)'};font-size:10px;">(${halfSize ? 'HALF × ' : ''}${vpNote})</span>`}</span>
+                </div>
+                <div style="display:flex;justify-content:space-between;margin-bottom:4px;">
+                    <span style="color:var(--muted);">Tranches</span>
+                    <span>${nTranches} → $${Math.round(riskPerTranche).toLocaleString()} per tranche</span>
+                </div>
+                <div style="display:flex;justify-content:space-between;margin-bottom:4px;">
+                    <span style="color:var(--muted);">Max Loss / Spread</span>
+                    <span>(${ww} − ${credit.toFixed(2)}) × 100 = <strong>$${maxLossPerSpread.toFixed(0)}</strong></span>
+                </div>
+                <div style="display:flex;justify-content:space-between;border-top:1px solid var(--border);padding-top:4px;margin-top:4px;">
+                    <span style="color:var(--cyan);font-weight:bold;">Spreads per Tranche</span>
+                    <span style="color:var(--green);font-weight:bold;font-size:14px;">${autoQty}</span>
+                </div>
+            </div>
+            <div class="entry-row">
+                <div class="inp-grp" style="flex:1"><label>Fill Credit</label><input class="inp" type="number" id="fp_${sig.ver}" step="0.01" value="${credit.toFixed(2)}" placeholder="15.50"></div>
+                <div class="inp-grp" style="flex:1"><label>Spreads / Tranche</label><input class="inp" type="number" id="fq_${sig.ver}" step="1" value="${autoQty}" placeholder="${autoQty}"></div>
+                <button class="btn btn-green btn-lg" onclick="confirmEntry('${sig.ver}')" style="margin-top:auto;">CONFIRM ENTRY</button>
+            </div>
+        </div>`;
+    }
+
+    // ─── LIVE PNL + TRANCHES (server-managed) ───
+    if (hasActiveTrade) {
+        const sv = at.current_sv || 0;
+        const pnlPct = at.profit_pct || 0;
+        const totalPnl = at.total_pnl || 0;
+        const tgtProg = Math.min(100, Math.max(0, pnlPct / tgtPct * 100));
+        const fillQty = at.fill_qty || 10;
+        const dailyBudget = at.daily_risk_budget || feedData.market?.daily_risk || 100000;
+        // Client-side fallback: compute risk from tranches if server fields not yet available
+        const filledTranches = (at.tranches||[]).filter(t => t.status === 'filled' && t.credit);
+        const nFilled = filledTranches.length;
+        const nTotal = (at.tranches||[]).length;
+        let computedMaxLoss = 0;
+        const clientRiskDetail = [];
+        for (const ft of filledTranches) {
+            const tq = ft.qty || fillQty;
+            const tml = (ww - ft.credit) * tq * 100;
+            computedMaxLoss += tml;
+            clientRiskDetail.push({ idx: ft.idx, credit: ft.credit, qty: tq, max_loss: tml, current_pnl: Math.round((ft.credit - sv) * tq * 100) });
+        }
+        const riskDetail = (at.tranche_risk_detail && at.tranche_risk_detail.length > 0) ? at.tranche_risk_detail : clientRiskDetail;
+        const actualMaxLoss = at.total_max_loss || computedMaxLoss;
+        const maxLoss = actualMaxLoss || ((ww - at.entry_credit) * fillQty * 100);
+        const lossProg = totalPnl < 0 ? Math.min(100, Math.abs(totalPnl) / maxLoss * 100) : 0;
+        const riskUtil = actualMaxLoss > 0 ? (actualMaxLoss / dailyBudget * 100) : 0;
+        const hasPending = (at.tranches||[]).some(t => t.status === 'pending' || t.status === 'ready');
+        // Projected next tranche
+        const mlPerSpreadNow = (ww - sv) * 100;
+        const remainingBudget = at.remaining_budget || (dailyBudget - actualMaxLoss);
+        const nRemaining = (at.tranches||[]).filter(t => t.status === 'pending' || t.status === 'ready').length;
+        const budgetPerRemaining = nRemaining > 0 ? remainingBudget / nRemaining : 0;
+        const clientRecQty = mlPerSpreadNow > 0 ? Math.max(1, Math.floor(budgetPerRemaining / mlPerSpreadNow)) : fillQty;
+        const nextTrMaxLoss = at.next_tranche_max_loss || (hasPending ? mlPerSpreadNow * clientRecQty : 0);
+        const projMaxLoss = at.projected_total_max_loss || (actualMaxLoss + nextTrMaxLoss);
+        const riskColor = riskUtil > 100 ? 'var(--red)' : riskUtil > 80 ? 'var(--amber)' : 'var(--green)';
+        const projColor = projMaxLoss > dailyBudget ? 'var(--red)' : projMaxLoss > dailyBudget * 0.8 ? 'var(--amber)' : 'var(--green)';
+
+        html += `<div class="d-section">
+            <h3>Live P&L</h3>
+            <div class="pnl-hero">
+                <div class="pnl-big" style="color:${totalPnl>=0?'var(--green)':'var(--red)'}">${totalPnl>=0?'+':''}$${totalPnl.toLocaleString()}</div>
+                <div class="pnl-sub">${pnlPct.toFixed(1)}% captured | Spread: ${sv.toFixed(2)} (entry avg: ${(at.avg_credit||0).toFixed(2)}) | ${fillQty} spreads/tranche</div>
+            </div>
+            <div class="prog-row">
+                <div class="prog-item">
+                    <div class="prog-lbl"><span>Target ${tgtPct}%</span><span style="color:var(--green)">${pnlPct.toFixed(1)}%</span></div>
+                    <div class="prog-bar"><div class="prog-fill" style="width:${tgtProg}%;background:var(--green)"></div></div>
+                </div>
+                <div class="prog-item">
+                    <div class="prog-lbl">
+                        <span>Wing Stop 70% ${at.wing_stop_triggered ? '🛑 EXIT NOW' : at.wing_stop_level ? `(sv≥${(at.wing_stop_level).toFixed(1)})` : ''}</span>
+                        <span style="color:${at.wing_stop_triggered ? 'var(--red)' : lossProg > 60 ? 'var(--amber)' : 'var(--muted)'}">${(at.wing_stop_loss_pct||lossProg).toFixed(0)}%</span>
+                    </div>
+                    <div class="prog-bar"><div class="prog-fill" style="width:${Math.min(100,at.wing_stop_loss_pct||lossProg)}%;background:${at.wing_stop_triggered ? 'var(--red)' : 'var(--amber)'}"></div></div>
+                </div>
+            </div>
+        </div>`;
+
+        // ─── RISK / MAX LOSS TRACKER ───
+        html += `<div class="d-section">
+            <h3>Risk Tracker</h3>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px;">
+                <div style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);border-radius:8px;padding:12px;text-align:center;">
+                    <div style="font-size:11px;color:var(--muted);margin-bottom:4px;">Current Max Loss (${nFilled}/${nTotal} tranches)</div>
+                    <div style="font-size:22px;font-weight:bold;color:${riskColor};">$${Math.abs(actualMaxLoss).toLocaleString()}</div>
+                    <div style="font-size:10px;color:${riskColor};margin-top:2px;">${riskUtil.toFixed(0)}% of $${(dailyBudget/1000).toFixed(0)}K budget</div>
+                </div>
+                <div style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);border-radius:8px;padding:12px;text-align:center;">
+                    <div style="font-size:11px;color:var(--muted);margin-bottom:4px;">${hasPending ? 'If Next Tranche Added' : 'All Tranches Filled'}</div>
+                    <div style="font-size:22px;font-weight:bold;color:${hasPending ? projColor : riskColor};">${hasPending ? '$'+Math.abs(projMaxLoss).toLocaleString() : '—'}</div>
+                    ${hasPending ? `<div style="font-size:10px;color:var(--muted);margin-top:2px;">+$${Math.abs(nextTrMaxLoss).toLocaleString()} for next tranche @ ${sv.toFixed(2)} credit</div>` : ''}
+                </div>
+            </div>
+            <div style="margin-bottom:8px;">
+                <div class="prog-lbl"><span>Budget Used</span><span style="color:${riskColor};">${riskUtil.toFixed(0)}%</span></div>
+                <div class="prog-bar"><div class="prog-fill" style="width:${Math.min(100,riskUtil)}%;background:${riskColor}"></div></div>
+            </div>`;
+
+        // Per-tranche risk breakdown
+        if (riskDetail.length > 0) {
+            html += `<div style="font-size:11px;color:var(--muted);margin-bottom:6px;">Per-Tranche Breakdown:</div>
+            <table style="width:100%;font-size:11px;border-collapse:collapse;">
+                <tr style="color:var(--muted);border-bottom:1px solid rgba(255,255,255,0.08);">
+                    <th style="text-align:left;padding:4px;">Tranche</th>
+                    <th style="text-align:right;padding:4px;">Qty</th>
+                    <th style="text-align:right;padding:4px;">Credit</th>
+                    <th style="text-align:right;padding:4px;">Max Loss</th>
+                    <th style="text-align:right;padding:4px;">Current P&L</th>
+                </tr>`;
+            for (const rd of riskDetail) {
+                const pnlClr = rd.current_pnl >= 0 ? 'var(--green)' : 'var(--red)';
+                html += `<tr style="border-bottom:1px solid rgba(255,255,255,0.04);">
+                    <td style="padding:4px;">T${rd.idx}</td>
+                    <td style="text-align:right;padding:4px;">${rd.qty || fillQty}</td>
+                    <td style="text-align:right;padding:4px;">${rd.credit.toFixed(2)}</td>
+                    <td style="text-align:right;padding:4px;color:var(--red);">$${Math.abs(rd.max_loss).toLocaleString()}</td>
+                    <td style="text-align:right;padding:4px;color:${pnlClr};">${rd.current_pnl >= 0 ? '+' : ''}$${rd.current_pnl.toLocaleString()}</td>
+                </tr>`;
+            }
+            // Show pending tranches projected with dynamic sizing
+            for (const tr of (at.tranches||[])) {
+                if (tr.status === 'ready' || tr.status === 'pending') {
+                    const projCredit = tr.current_credit || sv;
+                    const projQty = tr.recommended_qty || at.recommended_qty || fillQty;
+                    const projML = (ww - projCredit) * projQty * 100;
+                    html += `<tr style="border-bottom:1px solid rgba(255,255,255,0.04);opacity:0.5;">
+                        <td style="padding:4px;">T${tr.idx} <span style="font-size:9px;">(${tr.status})</span></td>
+                        <td style="text-align:right;padding:4px;">${projQty}*</td>
+                        <td style="text-align:right;padding:4px;">${projCredit.toFixed(2)}*</td>
+                        <td style="text-align:right;padding:4px;color:var(--red);">$${Math.abs(projML).toLocaleString()}*</td>
+                        <td style="text-align:right;padding:4px;color:var(--muted);">—</td>
+                    </tr>`;
+                }
+            }
+            html += `</table>`;
+            if ((at.tranches||[]).some(t => t.status === 'ready' || t.status === 'pending')) {
+                html += `<div style="font-size:9px;color:var(--muted);margin-top:4px;">* Projected at current spread value — actual will depend on fill credit</div>`;
+            }
+        }
+        html += `</div>`;
+
+        // ─── TRANCHES (from server state) ───
+        html += `<div class="d-section">
+            <h3>Tranches — ${trKey} — ATM ${atm} LOCKED</h3>`;
+
+        let enterPromptShown = false;  // only show one ENTER NOW prompt at a time
+        for (const tr of at.tranches) {
+            const idx = tr.idx;
+            const st = tr.status;
+            let cls, content;
+
+            if (st === 'filled') {
+                cls = 'filled';
+                const tQty = tr.qty || fillQty;
+                content = `<div class="tr-pill filled" style="flex-basis:100%;padding:10px 14px;">
+                    <span style="font-size:13px;">✓ T${idx} @ ${tr.scheduled}</span>
+                    <span style="margin-left:auto;">${tQty}x @ ${(tr.credit||0).toFixed(2)} (${tr.fill_time})</span>
+                </div>`;
+            } else if (st === 'ready' && !enterPromptShown) {
+                enterPromptShown = true;
+                const isValid = tr.valid !== false;
+                if (isValid) {
+                    const trCredit = tr.current_credit || sv;
+                    const recQty = tr.recommended_qty || at.recommended_qty || clientRecQty || fillQty;
+                    const mlPerSpread = (ww - trCredit) * 100;
+                    const trMaxLoss = mlPerSpread * recQty;
+                    const afterFillMax = actualMaxLoss + trMaxLoss;
+                    const afterFillPct = (afterFillMax / dailyBudget * 100).toFixed(0);
+                    const budgetRemain = dailyBudget - actualMaxLoss;
+                    content = `<div style="flex-basis:100%;background:rgba(249,115,22,0.12);border:2px solid var(--amber);border-radius:6px;padding:12px 14px;">
+                        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
+                            <span style="font-size:15px;font-weight:bold;color:var(--amber);">⏰ T${idx} READY</span>
+                            <span style="font-size:11px;color:var(--muted);">${tr.scheduled} ET</span>
+                        </div>
+                        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px;">
+                            <div style="background:rgba(255,255,255,0.04);border-radius:6px;padding:10px;text-align:center;">
+                                <div style="color:var(--muted);font-size:9px;margin-bottom:2px;">ADD</div>
+                                <div style="font-size:22px;font-weight:bold;color:var(--green);">${recQty} spreads</div>
+                                <div style="font-size:10px;color:var(--muted);margin-top:2px;">@ ${trCredit.toFixed(2)} credit</div>
+                            </div>
+                            <div style="background:rgba(255,255,255,0.04);border-radius:6px;padding:10px;">
+                                <div style="display:flex;justify-content:space-between;font-size:10px;margin-bottom:4px;">
+                                    <span style="color:var(--muted);">Max loss/spread</span>
+                                    <span>$${mlPerSpread.toFixed(0)}</span>
+                                </div>
+                                <div style="display:flex;justify-content:space-between;font-size:10px;margin-bottom:4px;">
+                                    <span style="color:var(--muted);">This tranche risk</span>
+                                    <span style="color:var(--red);">$${Math.abs(trMaxLoss).toLocaleString()}</span>
+                                </div>
+                                <div style="display:flex;justify-content:space-between;font-size:10px;margin-bottom:4px;">
+                                    <span style="color:var(--muted);">Budget remaining</span>
+                                    <span>$${Math.abs(budgetRemain).toLocaleString()}</span>
+                                </div>
+                                <div style="display:flex;justify-content:space-between;font-size:10px;">
+                                    <span style="color:var(--muted);">Budget after fill</span>
+                                    <span style="color:${afterFillPct > 100 ? 'var(--red)' : 'var(--green)'};">${afterFillPct}%</span>
+                                </div>
+                            </div>
+                        </div>
+                        ${IS_GITHUB_PAGES ? '' : `<div style="display:flex;gap:8px;align-items:center;">
+                            <button class="btn btn-green btn-lg" onclick="fillTranche('${at.ver}',${idx},${recQty})" style="flex:1;">FILL T${idx}: ${recQty}x @ ${trCredit.toFixed(2)}</button>
+                            <button class="btn btn-muted" onclick="skipTranche('${at.ver}',${idx})">SKIP</button>
+                        </div>`}
+                    </div>`;
+                }
+            } else if (st === 'ready' && enterPromptShown) {
+                // Queued — past due but waiting for previous tranche to be filled first
+                content = `<div class="tr-pill pending" style="flex-basis:100%;padding:10px 14px;display:flex;align-items:center;">
+                    <span>T${idx} @ ${tr.scheduled} ET — next up</span>
+                    <button class="btn btn-muted" onclick="skipTranche('${at.ver}',${idx})" style="margin-left:auto;font-size:9px;">SKIP</button>
+                </div>`;
+            } else if (st === 'skipped') {
+                content = `<div class="tr-pill skipped" style="flex-basis:100%;padding:10px 14px;">
+                    <span>T${idx} @ ${tr.scheduled} — SKIPPED</span>
+                </div>`;
+            } else {
+                // pending (not yet time)
+                content = `<div class="tr-pill pending" style="flex-basis:100%;padding:10px 14px;">
+                    <span>T${idx} @ ${tr.scheduled} ET — waiting...</span>
+                </div>`;
+            }
+            html += content;
+        }
+        html += `</div>`;
+
+        // ─── EXIT ───
+        if (!IS_GITHUB_PAGES) { html += `<div class="d-section">
+            <h3>Exit Trade</h3>
+            <div class="exit-row">
+                <div class="inp-grp" style="max-width:140px"><label>Exit Spread Val</label><input class="inp" type="number" id="ep_${sig.ver}" step="0.01" value="${sv.toFixed(2)}" placeholder="8.00"></div>
+                <button class="btn btn-green" onclick="exitTrade('${sig.ver}','target')" style="margin-top:auto">🎯 TARGET</button>
+                <button class="btn btn-red" onclick="exitTrade('${sig.ver}','stop')" style="margin-top:auto">🛑 STOP</button>
+                <button class="btn btn-amber" onclick="exitTrade('${sig.ver}','time')" style="margin-top:auto">⏱ TIME</button>
+                <button class="btn btn-muted" onclick="exitTrade('${sig.ver}','manual')" style="margin-top:auto">MANUAL</button>
+                <button class="btn btn-red" onclick="cancelTrade()" style="margin-top:auto;font-size:9px;">CANCEL</button>
+            </div>
+        </div>`; }
+    }
+
+    // ─── EXITED ───
+    if (['exited','stopped','target'].includes(t.status)) {
+        html += `<div class="d-section">
+            <h3>Closed — ${(t.exitType||'exit').toUpperCase()}</h3>
+            <div class="pnl-hero">
+                <div class="pnl-big" style="color:${t.pnl>=0?'var(--green)':'var(--red)'}">${t.pnl>=0?'+':''}$${t.pnl.toLocaleString()}</div>
+                <div class="pnl-sub">Entry: ${t.fillPrice?.toFixed(2)||'—'} | Exit: ${t.exitPrice?.toFixed(2)||'—'} | ${t.fillQty} spreads</div>
+            </div>
+        </div>`;
+    }
+
+    // ─── LOG ───
+    html += `<div class="d-section"><h3>Log</h3><div class="log-wrap">${logs.slice(0,30).map(l => `<div class="log-line"><span class="lt">${l.t}</span>${l.m}</div>`).join('')}</div></div>`;
+
+    panel.innerHTML = html;
+}
+
+// ══════════════════════════════════════════════════════════════
+// TRADE ACTIONS (server-managed via API)
+// ══════════════════════════════════════════════════════════════
+async function confirmEntry(ver) {
+    const price = parseFloat(document.getElementById(`fp_${ver}`).value);
+    const qty = parseInt(document.getElementById(`fq_${ver}`).value);
+    if (!price || price <= 0 || !qty || qty <= 0) { showNotif('Enter valid fill price and quantity','red'); return; }
+
+    const c = feedData.option_chain || {};
+    try {
+        const r = await fetch('/api/confirm_entry', {
+            method: 'POST', headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({ ver, atm: c.atm, wing_width: c.wing_width || 50, credit: price, qty })
+        });
+        const data = await r.json();
+        if (data.ok) {
+            const t = tradeState[ver] || {};
+            t.status = 'entered'; t.fillPrice = price; t.fillQty = qty; t.spreadVal = price; t.pnl = 0;
+            t.tranches = [{time: data.trade.tranches[0]?.scheduled || '10:00', status:'filled', fillPrice: price}];
+            tradeState[ver] = t;
+            addLog(`ENTERED: ${ver} — ${qty}x @ ${price.toFixed(2)} | ATM LOCKED at ${c.atm}`);
+            showNotif(`${ver.toUpperCase()} ENTERED — ${qty} spreads @ ${price.toFixed(2)} — ATM LOCKED at ${c.atm}`, 'green');
+            playEntry();
+            renderSignalList(); renderDetail();
+        } else {
+            showNotif('Entry failed: ' + (data.error || 'unknown'), 'red');
+        }
+    } catch(e) { showNotif('Entry failed: ' + e.message, 'red'); }
+}
+
+async function fillTranche(ver, idx, recQty) {
+    const at = feedData.active_trade;
+    const currentCredit = at?.current_sv || 0;
+    const p = prompt(`Fill credit for tranche ${idx}:`, currentCredit.toFixed(2));
+    if (!p) return;
+    const price = parseFloat(p);
+    if (isNaN(price)) return;
+    // Use recommended qty (dynamic sizing) or fall back to original fill_qty
+    const qty = recQty || at?.fill_qty || 10;
+
+    try {
+        const r = await fetch('/api/fill_tranche', {
+            method: 'POST', headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({ idx, credit: price, qty: qty })
+        });
+        const data = await r.json();
+        if (data.ok) {
+            addLog(`TRANCHE: ${ver} T${idx} filled @ ${price.toFixed(2)}`);
+            showNotif(`${ver.toUpperCase()} T${idx} filled @ ${price.toFixed(2)}`, 'green');
+            playTranche();
+            await loadFeed(); renderDetail();
+        }
+    } catch(e) { showNotif('Fill failed: ' + e.message, 'red'); }
+}
+
+async function skipTranche(ver, idx) {
+    try {
+        const r = await fetch('/api/skip_tranche', {
+            method: 'POST', headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({ idx })
+        });
+        const data = await r.json();
+        if (data.ok) {
+            addLog(`TRANCHE: ${ver} T${idx} skipped`);
+            showNotif(`${ver.toUpperCase()} T${idx} skipped`, 'amber');
+            await loadFeed(); renderDetail();
+        }
+    } catch(e) { showNotif('Skip failed: ' + e.message, 'red'); }
+}
+
+async function exitTrade(ver, type) {
+    const at = feedData.active_trade;
+    const sv = at?.current_sv || 0;
+    const evInput = document.getElementById(`ep_${ver}`);
+    const ev = evInput ? parseFloat(evInput.value) : sv;
+    if (isNaN(ev)) { showNotif('Enter exit spread value','red'); return; }
+
+    try {
+        const r = await fetch('/api/exit_trade', {
+            method: 'POST', headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({ exit_type: type, exit_sv: ev })
+        });
+        const data = await r.json();
+        if (data.ok) {
+            const t = tradeState[ver] || {};
+            t.exitPrice = ev; t.exitType = type;
+            t.status = type === 'target' ? 'target' : type === 'stop' ? 'stopped' : 'exited';
+            // Compute final P&L from server trade
+            const trade = data.trade;
+            let total = 0;
+            for (const tr of (trade.tranches || [])) {
+                if (tr.status === 'filled' && tr.credit) {
+                    total += (tr.credit - ev) * (trade.fill_qty || 10) * 100;
+                }
+            }
+            t.pnl = Math.round(total);
+            tradeState[ver] = t;
+            const win = t.pnl >= 0;
+            win ? playTarget() : playStop();
+            addLog(`EXIT: ${ver} ${type.toUpperCase()} — ${win?'+':''}$${t.pnl.toLocaleString()}`);
+            showNotif(`${ver.toUpperCase()} CLOSED — ${type.toUpperCase()} — ${win?'+':''}$${t.pnl.toLocaleString()}`, win ? 'green' : 'red');
+            await loadFeed(); renderSignalList(); renderDetail();
+        }
+    } catch(e) { showNotif('Exit failed: ' + e.message, 'red'); }
+}
+
+async function cancelTrade() {
+    if (!confirm('Cancel active trade? This cannot be undone.')) return;
+    try {
+        await fetch('/api/cancel_trade', { method: 'POST' });
+        // Reset client state
+        for (const ver in tradeState) { delete tradeState[ver]; }
+        addLog('TRADE CANCELLED');
+        showNotif('Trade cancelled', 'amber');
+        await loadFeed(); renderSignalList(); renderDetail();
+    } catch(e) { showNotif('Cancel failed: ' + e.message, 'red'); }
+}
+
+// ══════════════════════════════════════════════════════════════
+// HELPERS
+// ══════════════════════════════════════════════════════════════
+function showNotif(msg, type) {
+    const el = document.getElementById('notif');
+    el.textContent = msg; el.className = `notif show ${type}`;
+    setTimeout(() => el.classList.remove('show'), 5000);
+}
+function addLog(msg) {
+    const {h,m,s} = etNow();
+    logs.unshift({t:`${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`, m: msg});
+    if (logs.length > 100) logs.pop();
+}
+
+// ══════════════════════════════════════════════════════════════
+// INIT
+// ══════════════════════════════════════════════════════════════
+setInterval(updateClock, 1000);
+setInterval(loadFeed, 3000);  // poll state file every 3s
+updateClock();
+loadFeed();
+</script>
+</body>
+</html>

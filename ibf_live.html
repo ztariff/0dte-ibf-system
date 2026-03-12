@@ -110,6 +110,43 @@ body{background:var(--bg);color:var(--text);font-family:'IBM Plex Sans',sans-ser
 .gate-label{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:1px;color:var(--muted)}
 .gate-val{font-family:'IBM Plex Mono',monospace;font-size:11px;margin-top:2px}
 
+/* ── PHOENIX Signal Panel ─────────────────────────── */
+.phoenix-panel{background:var(--s1);border:1px solid var(--border);border-radius:9px;padding:16px;margin-bottom:12px}
+.phoenix-panel .ct{margin-bottom:10px}
+.phoenix-signals{display:flex;flex-direction:column;gap:6px;margin-bottom:14px}
+.phoenix-sig{display:flex;align-items:center;gap:10px;padding:8px 12px;background:var(--s2);border:1px solid var(--border);border-radius:6px;font-family:'IBM Plex Mono',monospace;font-size:11px;transition:border-color 0.3s, background 0.3s}
+.phoenix-sig.fire{border-color:rgba(0,229,160,0.35);background:rgba(0,229,160,0.05)}
+.phoenix-sig.off{opacity:0.45}
+.phoenix-sig .sig-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;transition:background 0.3s, box-shadow 0.3s}
+.phoenix-sig .sig-dot.fire{background:var(--green);box-shadow:0 0 8px rgba(0,229,160,0.5)}
+.phoenix-sig .sig-dot.off{background:var(--dim)}
+.phoenix-sig .sig-dot.pending{background:var(--yellow);animation:pulse 2s infinite}
+.phoenix-sig .sig-rank{width:20px;color:var(--dim);font-size:10px;text-align:center;flex-shrink:0}
+.phoenix-sig .sig-name{flex:1;color:var(--text)}
+.phoenix-sig.fire .sig-name{color:var(--green)}
+.phoenix-sig .sig-filters{display:flex;gap:6px;flex-shrink:0}
+.phoenix-sig .sig-filter{font-size:8px;letter-spacing:0.5px;padding:2px 6px;border-radius:3px;border:1px solid var(--border);color:var(--dim)}
+.phoenix-sig.fire .sig-filter.pass{border-color:rgba(0,229,160,0.3);color:var(--green);background:rgba(0,229,160,0.06)}
+.phoenix-sig .sig-filter.fail{border-color:rgba(255,61,90,0.3);color:var(--red);background:rgba(255,61,90,0.06)}
+.phoenix-sig .sig-mech{font-size:9px;color:var(--dim);width:100px;text-align:right;flex-shrink:0}
+.phoenix-sig.fire .sig-mech{color:var(--muted)}
+
+.phoenix-sizing{display:flex;align-items:center;gap:16px;padding:12px 16px;border-radius:8px;border:1px solid var(--border);background:var(--s2)}
+.sizing-count{font-family:'IBM Plex Mono',monospace}
+.sizing-count .sc-num{font-size:28px;font-weight:600;color:var(--dim);transition:color 0.3s}
+.sizing-count .sc-num.active{color:var(--green)}
+.sizing-count .sc-label{font-size:8px;letter-spacing:2px;color:var(--dim);text-align:center}
+.sizing-arrow{font-size:18px;color:var(--dim)}
+.sizing-alloc{flex:1}
+.sizing-bar{height:8px;background:var(--bg);border-radius:4px;overflow:hidden;margin-bottom:6px}
+.sizing-bar-fill{height:100%;border-radius:4px;background:var(--green);transition:width 0.6s ease;width:0%}
+.sizing-detail{font-family:'IBM Plex Mono',monospace;display:flex;justify-content:space-between;align-items:baseline}
+.sizing-dollars{font-size:16px;font-weight:500;color:var(--dim);transition:color 0.3s}
+.sizing-dollars.active{color:var(--green)}
+.sizing-pct{font-size:10px;color:var(--dim)}
+.sizing-mechLabel{font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--dim);margin-top:4px;text-align:right}
+.sizing-mechLabel.active{color:var(--muted)}
+
 /* ── Dual Verdict ─────────────────────────────────── */
 .dual-verdict{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px}
 .verdict-card{padding:16px 20px;border-radius:8px;font-family:'IBM Plex Mono',monospace;position:relative;border:1px solid var(--border);background:var(--s1)}
@@ -292,6 +329,83 @@ canvas{max-height:180px}
       <div class="sc-item"><div class="sc-label">REGIME</div><div class="sc-val" id="sc-regime">—</div><div class="sc-max">/ 20</div></div>
       <div class="sc-item"><div class="sc-label">TERM STRUCT</div><div class="sc-val" id="sc-ts">—</div><div class="sc-max">/ 20</div></div>
       <div class="sc-item"><div class="sc-label">TIMING</div><div class="sc-val" id="sc-timing">—</div><div class="sc-max">/ 10</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- PHOENIX Signal Groups -->
+<div class="phoenix-panel">
+  <div class="ct">PHOENIX v3 — SIGNAL CONFLUENCE</div>
+  <div class="phoenix-signals" id="phoenixSignals">
+    <div class="phoenix-sig" id="phxSig1">
+      <div class="sig-dot pending"></div>
+      <div class="sig-rank">#1</div>
+      <div class="sig-name">VIX≤20 + VP≤1.0 + 5dRet>0</div>
+      <div class="sig-filters">
+        <span class="sig-filter" id="phx1f1">VIX≤20</span>
+        <span class="sig-filter" id="phx1f2">VP≤1.0</span>
+        <span class="sig-filter" id="phx1f3">5dRet>0</span>
+      </div>
+      <div class="sig-mech">70% / close / 5T</div>
+    </div>
+    <div class="phoenix-sig" id="phxSig2">
+      <div class="sig-dot pending"></div>
+      <div class="sig-rank">#2</div>
+      <div class="sig-name">VP≤1.3 + PrDayDn + 5dRet>0</div>
+      <div class="sig-filters">
+        <span class="sig-filter" id="phx2f1">VP≤1.3</span>
+        <span class="sig-filter" id="phx2f2">PrDayDn</span>
+        <span class="sig-filter" id="phx2f3">5dRet>0</span>
+      </div>
+      <div class="sig-mech">50% / close / 5T</div>
+    </div>
+    <div class="phoenix-sig" id="phxSig3">
+      <div class="sig-dot pending"></div>
+      <div class="sig-rank">#3</div>
+      <div class="sig-name">VP≤1.2 + 5dRet>0 + RVchg>0</div>
+      <div class="sig-filters">
+        <span class="sig-filter" id="phx3f1">VP≤1.2</span>
+        <span class="sig-filter" id="phx3f2">5dRet>0</span>
+        <span class="sig-filter" id="phx3f3">RVchg>0</span>
+      </div>
+      <div class="sig-mech">50% / close / 5T</div>
+    </div>
+    <div class="phoenix-sig" id="phxSig4">
+      <div class="sig-dot pending"></div>
+      <div class="sig-rank">#4</div>
+      <div class="sig-name">VP≤1.5 + OutWkRng + 5dRet>0</div>
+      <div class="sig-filters">
+        <span class="sig-filter" id="phx4f1">VP≤1.5</span>
+        <span class="sig-filter" id="phx4f2">OutWkRng</span>
+        <span class="sig-filter" id="phx4f3">5dRet>0</span>
+      </div>
+      <div class="sig-mech">70% / close / 5T</div>
+    </div>
+    <div class="phoenix-sig" id="phxSig5">
+      <div class="sig-dot pending"></div>
+      <div class="sig-rank">#5</div>
+      <div class="sig-name">VP≤1.3 + !RISING + 5dRet>0</div>
+      <div class="sig-filters">
+        <span class="sig-filter" id="phx5f1">VP≤1.3</span>
+        <span class="sig-filter" id="phx5f2">!RISING</span>
+        <span class="sig-filter" id="phx5f3">5dRet>0</span>
+      </div>
+      <div class="sig-mech">50% / close / 5T</div>
+    </div>
+  </div>
+  <div class="phoenix-sizing" id="phoenixSizing">
+    <div class="sizing-count">
+      <div class="sc-num" id="sizingNum">0</div>
+      <div class="sc-label">SIGNALS</div>
+    </div>
+    <div class="sizing-arrow">→</div>
+    <div class="sizing-alloc">
+      <div class="sizing-bar"><div class="sizing-bar-fill" id="sizingBarFill"></div></div>
+      <div class="sizing-detail">
+        <div class="sizing-dollars" id="sizingDollars">$0</div>
+        <div class="sizing-pct" id="sizingPct">0% of $100K budget</div>
+      </div>
+      <div class="sizing-mechLabel" id="sizingMech">No signals — no trade</div>
     </div>
   </div>
 </div>
@@ -482,6 +596,16 @@ let lastRefreshTime = null;
 let isRefreshing = false;
 
 // ══════════════════════════════════════════════════════════════════════════════
+// PHOENIX v3 — Signal Confluence State
+// ══════════════════════════════════════════════════════════════════════════════
+let priorDayData = null;    // { prior_day_return, prior_day_direction, prior_5d_return, rv_1d_change, in_prior_week_range, spx_daily_bars[] }
+let phoenixEvaluated = false;
+let phoenixFireCount = 0;
+let phoenixFiring = [false, false, false, false, false];
+let phoenixSizing = 0;
+let phoenixMech = null;     // mechanics from highest-ranked firing signal
+
+// ══════════════════════════════════════════════════════════════════════════════
 // STATE PERSISTENCE (localStorage)
 // ══════════════════════════════════════════════════════════════════════════════
 const STORAGE_KEY = 'ibf_live_state';
@@ -515,7 +639,12 @@ function saveState() {
       timeAddEligible,
       maxDevFromCenter,
       alerts: alerts.slice(0, 30),
-      pnlHistory: pnlHistory.slice(-200).map(p => ({t: p.t.getTime(), total: p.total, spx: p.spx}))
+      pnlHistory: pnlHistory.slice(-200).map(p => ({t: p.t.getTime(), total: p.total, spx: p.spx})),
+      phoenixEvaluated,
+      phoenixFireCount,
+      phoenixFiring,
+      phoenixSizing,
+      phoenixMech
     };
     localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
   } catch(e) { console.warn('Save state failed:', e); }
@@ -554,6 +683,11 @@ function restoreState() {
     maxDevFromCenter = state.maxDevFromCenter || 0;
     alerts = state.alerts || [];
     pnlHistory = (state.pnlHistory || []).map(p => ({...p, t: new Date(p.t)}));
+    phoenixEvaluated = state.phoenixEvaluated || false;
+    phoenixFireCount = state.phoenixFireCount || 0;
+    phoenixFiring = state.phoenixFiring || [false, false, false, false, false];
+    phoenixSizing = state.phoenixSizing || 0;
+    phoenixMech = state.phoenixMech || null;
 
     return positions.length > 0 || dayDecisionMod !== null;
   } catch(e) {
@@ -1128,6 +1262,22 @@ async function processUpdate() {
   updateClock(et, status);
   updateMarketKPIs();
 
+  // PHOENIX: fetch prior-day data once, then evaluate signals on every update
+  if (status !== 'PRE' && status !== 'CLOSED') {
+    if (!priorDayData) await fetchPriorDayData();
+    if (priorDayData && spxBars.length && vixBars.length) {
+      const vixNow = vixBars[vixBars.length - 1].c;
+      const morning = spxBars.filter(b => {
+        const open = new Date(b.t); open.setHours(9,30,0,0);
+        return b.t >= open;
+      });
+      const rv = morning.length >= 5 ? calcRV(morning.map(b => b.c)) : null;
+      const vp = (rv && rv > 0) ? vixNow / rv : null;
+      const rvSlope = morning.length >= 8 ? calcRVSlope(spxBars, spxBars.length - 1) : { label: 'UNKNOWN' };
+      if (vp !== null) evaluatePhoenixSignals(vixNow, vp, rvSlope.label);
+    }
+  }
+
   if (status === 'SCORING' || status === 'TRADING' || status === 'CLOSING') {
     await computeScore();
   }
@@ -1219,6 +1369,223 @@ function updateMarketKPIs() {
 // ══════════════════════════════════════════════════════════════════════════════
 // SCORING + DUAL VERDICT
 // ══════════════════════════════════════════════════════════════════════════════
+// ══════════════════════════════════════════════════════════════════════════════
+// PHOENIX v3 — Prior-Day Data Fetch & Signal Evaluation
+// ══════════════════════════════════════════════════════════════════════════════
+
+// PHOENIX signal group definitions (from strategy_v3_PHOENIX.json)
+const PHOENIX_SIGNALS = [
+  {
+    rank: 1,
+    name: 'VIX≤20 + VP≤1.0 + 5dRet>0',
+    filters: [
+      { id: 'VIX≤20',  label: 'VIX≤20',  test: (ctx) => ctx.vix <= 20 },
+      { id: 'VP≤1.0',  label: 'VP≤1.0',  test: (ctx) => ctx.vp <= 1.0 },
+      { id: '5dRet>0',  label: '5dRet>0',  test: (ctx) => ctx.prior_5d_return > 0 },
+    ],
+    mech: { target: 70, timeStop: 'close', tranches: '5T', interval: '60m' }
+  },
+  {
+    rank: 2,
+    name: 'VP≤1.3 + PrDayDn + 5dRet>0',
+    filters: [
+      { id: 'VP≤1.3',   label: 'VP≤1.3',   test: (ctx) => ctx.vp <= 1.3 },
+      { id: 'PrDayDn',  label: 'PrDayDn',  test: (ctx) => ctx.prior_day_direction === 'DOWN' },
+      { id: '5dRet>0',  label: '5dRet>0',  test: (ctx) => ctx.prior_5d_return > 0 },
+    ],
+    mech: { target: 50, timeStop: 'close', tranches: '5T', interval: '60m' }
+  },
+  {
+    rank: 3,
+    name: 'VP≤1.2 + 5dRet>0 + RVchg>0',
+    filters: [
+      { id: 'VP≤1.2',   label: 'VP≤1.2',   test: (ctx) => ctx.vp <= 1.2 },
+      { id: '5dRet>0',  label: '5dRet>0',  test: (ctx) => ctx.prior_5d_return > 0 },
+      { id: 'RVchg>0',  label: 'RVchg>0',  test: (ctx) => ctx.rv_1d_change > 0 },
+    ],
+    mech: { target: 50, timeStop: 'close', tranches: '5T', interval: '60m' }
+  },
+  {
+    rank: 4,
+    name: 'VP≤1.5 + OutWkRng + 5dRet>0',
+    filters: [
+      { id: 'VP≤1.5',    label: 'VP≤1.5',    test: (ctx) => ctx.vp <= 1.5 },
+      { id: 'OutWkRng',  label: 'OutWkRng',  test: (ctx) => ctx.in_prior_week_range === false },
+      { id: '5dRet>0',   label: '5dRet>0',   test: (ctx) => ctx.prior_5d_return > 0 },
+    ],
+    mech: { target: 70, timeStop: 'close', tranches: '5T', interval: '60m' }
+  },
+  {
+    rank: 5,
+    name: 'VP≤1.3 + !RISING + 5dRet>0',
+    filters: [
+      { id: 'VP≤1.3',    label: 'VP≤1.3',    test: (ctx) => ctx.vp <= 1.3 },
+      { id: '!RISING',   label: '!RISING',   test: (ctx) => ctx.rv_slope !== 'RISING' },
+      { id: '5dRet>0',   label: '5dRet>0',   test: (ctx) => ctx.prior_5d_return > 0 },
+    ],
+    mech: { target: 50, timeStop: 'close', tranches: '5T', interval: '60m' }
+  }
+];
+
+// Tiered sizing: signals → dollar allocation
+function phoenixTieredSizing(nSignals) {
+  if (nSignals === 0) return { dollars: 0, pct: 0, label: 'No signals — no trade' };
+  if (nSignals === 1) return { dollars: 25000, pct: 25, label: '1 signal → $25K (25%)' };
+  if (nSignals === 2) return { dollars: 50000, pct: 50, label: '2 signals → $50K (50%)' };
+  if (nSignals === 3) return { dollars: 75000, pct: 75, label: '3 signals → $75K (75%)' };
+  return { dollars: 100000, pct: 100, label: `${nSignals} signals → $100K (100%)` };
+}
+
+// Fetch SPX daily bars for prior N trading days (for 5d return, prior day direction, weekly range)
+async function fetchPriorDayData() {
+  if (priorDayData) return priorDayData; // already fetched
+
+  try {
+    const et = getET();
+    // Fetch 15 calendar days back to ensure we get at least 7 trading days
+    const from = new Date(et);
+    from.setDate(from.getDate() - 20);
+    const fromStr = `${from.getFullYear()}-${String(from.getMonth()+1).padStart(2,'0')}-${String(from.getDate()).padStart(2,'0')}`;
+    // "to" should be yesterday (or last trading day)
+    const to = new Date(et);
+    to.setDate(to.getDate() - 1);
+    while (to.getDay() === 0 || to.getDay() === 6) to.setDate(to.getDate() - 1);
+    const toStr = `${to.getFullYear()}-${String(to.getMonth()+1).padStart(2,'0')}-${String(to.getDate()).padStart(2,'0')}`;
+
+    const url = `https://api.polygon.io/v2/aggs/ticker/I:SPX/range/1/day/${fromStr}/${toStr}?adjusted=true&sort=asc&limit=50&apiKey=${API_KEY}`;
+    const resp = await fetch(url);
+    if (!resp.ok) { console.warn('Prior day fetch failed:', resp.status); return null; }
+    const json = await resp.json();
+    const bars = (json.results || []).map(r => ({
+      date: new Date(r.t),
+      o: r.o, h: r.h, l: r.l, c: r.c, v: r.v
+    }));
+
+    if (bars.length < 6) { console.warn('Not enough daily bars:', bars.length); return null; }
+
+    const yesterday = bars[bars.length - 1];
+    const dayBefore = bars[bars.length - 2];
+
+    // Prior day direction
+    const prior_day_return = ((yesterday.c - yesterday.o) / yesterday.o) * 100;
+    const prior_day_direction = yesterday.c < yesterday.o ? 'DOWN' : (yesterday.c > yesterday.o ? 'UP' : 'FLAT');
+
+    // Prior 5-day return (close 5 trading days ago vs yesterday's close)
+    const fiveDaysAgo = bars.length >= 6 ? bars[bars.length - 6] : bars[0];
+    const prior_5d_return = ((yesterday.c - fiveDaysAgo.c) / fiveDaysAgo.c) * 100;
+
+    // RV 1-day change: compare yesterday's intraday range% to day-before's
+    const rvYesterday = ((yesterday.h - yesterday.l) / yesterday.o) * 100;
+    const rvDayBefore = ((dayBefore.h - dayBefore.l) / dayBefore.o) * 100;
+    const rv_1d_change = rvYesterday - rvDayBefore;
+
+    // Weekly range: was yesterday's close within the prior 5-day high/low range?
+    const weekBars = bars.slice(-7, -1); // last 6 bars excluding yesterday... use the 5 before yesterday
+    const priorWeekBars = bars.slice(Math.max(0, bars.length - 6), bars.length - 1);
+    const weekHigh = Math.max(...priorWeekBars.map(b => b.h));
+    const weekLow = Math.min(...priorWeekBars.map(b => b.l));
+    const in_prior_week_range = yesterday.c >= weekLow && yesterday.c <= weekHigh;
+
+    priorDayData = {
+      prior_day_return,
+      prior_day_direction,
+      prior_5d_return,
+      rv_1d_change,
+      in_prior_week_range,
+      bars
+    };
+
+    addAlert('info', `Prior-day data loaded: 5d return ${prior_5d_return >= 0 ? '+' : ''}${prior_5d_return.toFixed(2)}%, ` +
+      `prior day ${prior_day_direction} (${prior_day_return >= 0 ? '+' : ''}${prior_day_return.toFixed(2)}%), ` +
+      `RV chg ${rv_1d_change >= 0 ? '+' : ''}${rv_1d_change.toFixed(3)}%, ` +
+      `${in_prior_week_range ? 'IN' : 'OUT of'} weekly range`);
+
+    return priorDayData;
+  } catch (err) {
+    console.warn('fetchPriorDayData error:', err);
+    return null;
+  }
+}
+
+// Evaluate all 5 PHOENIX signal groups and update the UI
+function evaluatePhoenixSignals(vix, vp, rvSlopeLabel) {
+  if (!priorDayData) return;
+
+  const ctx = {
+    vix,
+    vp,
+    rv_slope: rvSlopeLabel,
+    prior_day_direction: priorDayData.prior_day_direction,
+    prior_5d_return: priorDayData.prior_5d_return,
+    rv_1d_change: priorDayData.rv_1d_change,
+    in_prior_week_range: priorDayData.in_prior_week_range
+  };
+
+  let fireCount = 0;
+  let highestMech = null;
+
+  for (let i = 0; i < PHOENIX_SIGNALS.length; i++) {
+    const sig = PHOENIX_SIGNALS[i];
+    const filterResults = sig.filters.map(f => f.test(ctx));
+    const allPass = filterResults.every(Boolean);
+
+    phoenixFiring[i] = allPass;
+    if (allPass) {
+      fireCount++;
+      if (!highestMech) highestMech = sig.mech; // first (highest-ranked) firing signal's mechanics
+    }
+
+    // Update UI for this signal row
+    const row = document.getElementById(`phxSig${i + 1}`);
+    const dot = row.querySelector('.sig-dot');
+    if (allPass) {
+      row.className = 'phoenix-sig fire';
+      dot.className = 'sig-dot fire';
+    } else {
+      row.className = 'phoenix-sig off';
+      dot.className = 'sig-dot off';
+    }
+
+    // Update individual filter pills
+    for (let j = 0; j < sig.filters.length; j++) {
+      const pill = document.getElementById(`phx${i + 1}f${j + 1}`);
+      if (pill) {
+        pill.className = 'sig-filter ' + (filterResults[j] ? 'pass' : 'fail');
+      }
+    }
+  }
+
+  phoenixFireCount = fireCount;
+  phoenixMech = highestMech;
+  const sizing = phoenixTieredSizing(fireCount);
+  phoenixSizing = sizing.dollars;
+
+  // Update sizing panel
+  const numEl = document.getElementById('sizingNum');
+  numEl.textContent = fireCount;
+  numEl.className = 'sc-num' + (fireCount > 0 ? ' active' : '');
+
+  const barFill = document.getElementById('sizingBarFill');
+  barFill.style.width = sizing.pct + '%';
+
+  const dollarsEl = document.getElementById('sizingDollars');
+  dollarsEl.textContent = '$' + sizing.dollars.toLocaleString();
+  dollarsEl.className = 'sizing-dollars' + (fireCount > 0 ? ' active' : '');
+
+  document.getElementById('sizingPct').textContent = sizing.pct + '% of $100K budget';
+
+  const mechEl = document.getElementById('sizingMech');
+  if (highestMech) {
+    mechEl.textContent = `Adaptive → ${highestMech.target}% target / ${highestMech.timeStop} / ${highestMech.tranches}`;
+    mechEl.className = 'sizing-mechLabel active';
+  } else {
+    mechEl.textContent = 'No signals — no trade';
+    mechEl.className = 'sizing-mechLabel';
+  }
+
+  phoenixEvaluated = true;
+}
+
 async function computeScore() {
   if (!spxBars.length || !vixBars.length) return;
   if (dayDecisionMod) return; // already decided
@@ -1978,6 +2345,35 @@ async function startApp() {
       bar.style.width = pct+'%';
       bar.className = 'score-bar '+(lastScore>=55?'go':(lastScore>=35?'wait':'skip'));
       document.getElementById('scoreVal').textContent = lastScore+'/96';
+    }
+
+    // Restore PHOENIX signal panel
+    if (phoenixEvaluated) {
+      for (let i = 0; i < 5; i++) {
+        const row = document.getElementById(`phxSig${i + 1}`);
+        const dot = row.querySelector('.sig-dot');
+        if (phoenixFiring[i]) {
+          row.className = 'phoenix-sig fire';
+          dot.className = 'sig-dot fire';
+        } else {
+          row.className = 'phoenix-sig off';
+          dot.className = 'sig-dot off';
+        }
+      }
+      const sizing = phoenixTieredSizing(phoenixFireCount);
+      const numEl = document.getElementById('sizingNum');
+      numEl.textContent = phoenixFireCount;
+      numEl.className = 'sc-num' + (phoenixFireCount > 0 ? ' active' : '');
+      document.getElementById('sizingBarFill').style.width = sizing.pct + '%';
+      const dollarsEl = document.getElementById('sizingDollars');
+      dollarsEl.textContent = '$' + sizing.dollars.toLocaleString();
+      dollarsEl.className = 'sizing-dollars' + (phoenixFireCount > 0 ? ' active' : '');
+      document.getElementById('sizingPct').textContent = sizing.pct + '% of $100K budget';
+      const mechEl = document.getElementById('sizingMech');
+      if (phoenixMech) {
+        mechEl.textContent = `Adaptive → ${phoenixMech.target}% target / ${phoenixMech.timeStop} / ${phoenixMech.tranches}`;
+        mechEl.className = 'sizing-mechLabel active';
+      }
     }
 
     renderPositions();
