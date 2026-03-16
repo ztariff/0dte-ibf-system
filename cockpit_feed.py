@@ -1089,6 +1089,7 @@ def poll():
     # ─── Match strategies (with signal latching) ───
     signals = []
     et_hm_str = f"{et_h:02d}:{et_m:02d}"
+    global _phoenix_lock, _phoenix_lock_date  # used in N15/N17/N18 branches inside the loop
 
     for strat in STRATEGIES:
         if strat["ver"] == "v3":
@@ -1393,7 +1394,7 @@ def poll():
     # VIX, VP, RV slope, and in_range are all snapshots at 10:00 AM — they never change
     # during the trading day. The cockpit must do the same: evaluate once at 10:00 AM,
     # lock the result, and display it unchanged for the rest of the session.
-    global _phoenix_lock, _phoenix_lock_date
+    # (global _phoenix_lock, _phoenix_lock_date declared before the STRATEGIES loop above)
     if _phoenix_lock_date != today_str:
         _phoenix_lock = None
         _phoenix_lock_date = today_str
