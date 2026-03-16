@@ -17,14 +17,14 @@ _DIR = os.path.dirname(os.path.abspath(__file__))
 # STRATEGY METADATA  (colors + regime labels for display)
 # ═══════════════════════════════════════════════════════════════════════
 STRATEGIES = [
-    {"ver":"v3","regime":"PHOENIX","mech":"50%/close/1T","filter":"--","color":"#f59e0b"},
-    {"ver":"v6","regime":"LOW_DN_IN_GFL","mech":"50%/1530/1T","filter":"VP<=1.7","color":"#06b6d4"},
-    {"ver":"v7","regime":"LOW_FL_IN_GUP","mech":"40%/close/1T","filter":"--","color":"#a855f7"},
-    {"ver":"v8","regime":"ELEV_UP_IN_GDN","mech":"40%/1530/1T","filter":"--","color":"#ef4444"},
-    {"ver":"v9","regime":"MID_UP_OT_GFL","mech":"70%/1545/1T","filter":"!RISING","color":"#eab308"},
-    {"ver":"v10","regime":"MID_DN_OT_GFL","mech":"70%/1545/1T","filter":"--","color":"#ec4899"},
-    {"ver":"v12","regime":"LOW_UP_OT_GUP","mech":"40%/close/1T","filter":"5dRet>1","color":"#f97316"},
-    {"ver":"v14","regime":"MID_DN_IN_GDN","mech":"50%/close/1T","filter":"ScoreVol<18","color":"#64748b"},
+    {"ver":"v3", "name":"PHOENIX",        "regime":"PHOENIX",        "mech":"50%/close/1T","filter":"--",          "color":"#f59e0b"},
+    {"ver":"v6", "name":"QUIET REBOUND",  "regime":"LOW_DN_IN_GFL",  "mech":"50%/1530/1T", "filter":"VP<=1.7",    "color":"#06b6d4"},
+    {"ver":"v7", "name":"FLAT-GAP FADE",  "regime":"LOW_FL_IN_GUP",  "mech":"40%/close/1T","filter":"--",          "color":"#a855f7"},
+    {"ver":"v8", "name":"STRESS SNAP",    "regime":"ELEV_UP_IN_GDN", "mech":"40%/1530/1T", "filter":"--",          "color":"#ef4444"},
+    {"ver":"v9", "name":"BREAKOUT STALL", "regime":"MID_UP_OT_GFL",  "mech":"70%/1545/1T", "filter":"!RISING",    "color":"#eab308"},
+    {"ver":"v10","name":"BREAKDOWN PAUSE","regime":"MID_DN_OT_GFL",  "mech":"70%/1545/1T", "filter":"--",          "color":"#ec4899"},
+    {"ver":"v12","name":"BULL SQUEEZE",   "regime":"LOW_UP_OT_GUP",  "mech":"40%/close/1T","filter":"5dRet>1",    "color":"#f97316"},
+    {"ver":"v14","name":"ORDERLY DIP",    "regime":"MID_DN_IN_GDN",  "mech":"50%/close/1T","filter":"ScoreVol<18","color":"#64748b"},
 ]
 
 color_map = {s["ver"]: s["color"] for s in STRATEGIES}
@@ -141,7 +141,7 @@ h1 { color: #f59e0b; font-size: 20px; margin-bottom: 4px; }
 </head>
 <body>
 <h1>STRATEGY CALENDAR -- v3-v14 Dollar P&L</h1>
-<div class="subtitle">Risk: V3 tiered $25K–$100K | V6/V10/V12/V14 $75K | V9 $100K | V7/V8 $25K | VP-scaled per trade | $1/spread slippage</div>
+<div class="subtitle">Risk: PHOENIX tiered $25K–$100K | QUIET REBOUND/BREAKDOWN PAUSE/BULL SQUEEZE/ORDERLY DIP $75K | BREAKOUT STALL $100K | FLAT-GAP FADE/STRESS SNAP $25K | VP-scaled per trade | $1/spread slippage</div>
 
 <div class="legend">
 """
