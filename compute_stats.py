@@ -108,13 +108,13 @@ def phoenix_fire_count(row):
 #   VP 1.2-1.5 → 50%
 #   VP > 1.5   → 25%  (barely passed filter, minimum sizing)
 REGIME_MAX_BUDGET = {
-    'v6':  75000,   # PF 1.91
-    'v7':  100000,  # PF 3.79
-    'v8':  50000,   # PF 1.47
-    'v9':  75000,   # PF 1.78
-    'v10': 100000,  # PF 2.50
-    'v12': 100000,  # PF 2.57
-    'v14': 100000,  # PF 4.68
+    'v6':  75000,   # p<0.05, Sharpe 7.11, small n — $75K
+    'v7':  25000,   # ns, n=5, cannot trust — $25K
+    'v8':  25000,   # ns, Sharpe 1.58, conflicts Law 1 — $25K
+    'v9':  100000,  # p<0.01, Sharpe 8.35, worst only -$16K — $100K
+    'v10': 75000,   # p<0.1, Sharpe 4.72, real edge — $75K
+    'v12': 75000,   # ns but power problem (n=11), Sharpe 5.88 — $75K
+    'v14': 75000,   # p<0.05, Sharpe 11.61, but single loss = -$75K — $75K
 }
 
 def regime_budget(ver, vp):
