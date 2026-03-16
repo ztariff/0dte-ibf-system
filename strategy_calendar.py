@@ -41,7 +41,7 @@ ver_list  = [s["ver"] for s in STRATEGIES]
 print("Loading trade data from compute_stats.py output...", flush=True)
 
 trades_path = os.path.join(_DIR, "strategy_trades.json")
-stats_path = os.path.join(_DIR, "strategy_stats.json")
+stats_path  = os.path.join(_DIR, "strategy_stats.json")
 
 if not os.path.exists(trades_path) or not os.path.exists(stats_path):
     print("ERROR: Run compute_stats.py first to generate strategy_trades.json and strategy_stats.json")
@@ -55,11 +55,30 @@ with open(stats_path) as f:
 
 print(f"  {len(all_trades)} trades loaded across {len(all_stats)} strategies")
 
+# ── Read Polygon API key ──────────────────────────────────────────────
+POLY_KEY = ""
+try:
+    cfg_path = os.path.join(_DIR, "cockpit_config.json")
+    if os.path.exists(cfg_path):
+        cfg = json.load(open(cfg_path))
+        POLY_KEY = cfg.get("polygon_api_key", "")
+except Exception:
+    pass
+
+# ── Read real_fills for N17/N18 ATM data ─────────────────────────────
+fills_data = {}
+try:
+    rf_path = os.path.join(_DIR, "real_fills.json")
+    if os.path.exists(rf_path):
+        fills_data = json.load(open(rf_path))
+except Exception:
+    pass
+
 # ═══════════════════════════════════════════════════════════════════════
 # BUILD CALENDAR DATA (group trades by date)
 # ═══════════════════════════════════════════════════════════════════════
-calendar_data = {}  # date -> {ver -> trade_info}
-combined_daily = {}  # date -> total dollar PnL
+calendar_data  = {}   # date -> {ver -> trade_info}
+combined_daily = {}   # date -> total dollar PnL
 
 for t in all_trades:
     d = t["date"]
@@ -77,17 +96,36 @@ for d_str in sorted(calendar_data.keys()):
         cum_by_strat[ver] += trade["pnl"]
         trade["cum_pnl"] = cum_by_strat[ver]
 
+# ── Build trades-by-date dict for JS (augment N17/N18 with ATM info) ──
+trades_by_date = {}
+for t in all_trades:
+    d   = t["date"]
+    ver = t["ver"]
+    entry = dict(t)
+    # Augment N17/N18 with ATM/offset data from real_fills
+    rf_key = "N17" if ver == "n17" else ("N18" if ver == "n18" else None)
+    if rf_key:
+        fill = fills_data.get(rf_key, {}).get(d, {})
+        if fill:
+            entry["spx_at_entry"] = fill.get("spx_at_entry")
+            entry["atm"]          = fill.get("atm")
+            entry["short_offset"] = fill.get("short_offset")
+            entry["long_offset"]  = fill.get("long_offset")
+    if d not in trades_by_date:
+        trades_by_date[d] = []
+    trades_by_date[d].append(entry)
+
 # Print summary
 total_all = sum(s.get("total_pnl", 0) for s in all_stats.values())
 print(f"\n  {'Strat':<6} {'Days':>5} {'WR':>6} {'Total $':>12} {'Avg $':>10}")
 print(f"  {'-----':<6} {'----':>5} {'-----':>6} {'-------':>12} {'-----':>10}")
 for s in STRATEGIES:
     st = all_stats.get(s["ver"], {})
-    n = st.get("total_trades", 0)
+    n  = st.get("total_trades", 0)
     if n == 0: continue
-    wr = st.get("win_rate", 0)
+    wr    = st.get("win_rate", 0)
     total = st.get("total_pnl", 0)
-    avg = st.get("avg_pnl", 0)
+    avg   = st.get("avg_pnl", 0)
     print(f"  {s['ver'].upper():<6} {n:>5} {wr:>5.1f}% ${total:>11,} ${avg:>9,}")
 
 print(f"\n  COMBINED TOTAL: ${total_all:,}")
@@ -97,9 +135,9 @@ print(f"\n  COMBINED TOTAL: ${total_all:,}")
 # ═══════════════════════════════════════════════════════════════════════
 print("\nGenerating HTML calendar...", flush=True)
 
-all_dates = sorted(calendar_data.keys())
-first_date = datetime.strptime(all_dates[0], "%Y-%m-%d")
-last_date = datetime.strptime(all_dates[-1], "%Y-%m-%d")
+all_dates  = sorted(calendar_data.keys())
+first_date = datetime.strptime(all_dates[0],  "%Y-%m-%d")
+last_date  = datetime.strptime(all_dates[-1], "%Y-%m-%d")
 
 months = []
 current = first_date.replace(day=1)
@@ -110,38 +148,96 @@ while current <= last_date:
     else:
         current = current.replace(month=current.month + 1)
 
-html = """<!DOCTYPE html>
+# ── JS data blobs ────────────────────────────────────────────────────
+trades_by_date_js = json.dumps(trades_by_date, separators=(',', ':'))
+ver_colors_js     = json.dumps({s["ver"]: s["color"] for s in STRATEGIES})
+ver_names_js      = json.dumps({s["ver"]: s["name"]  for s in STRATEGIES})
+ver_shorts_js     = json.dumps({s["ver"]: s["short"] for s in STRATEGIES})
+
+html = f"""<!DOCTYPE html>
 <html>
 <head>
 <meta charset="utf-8">
-<title>Strategy Calendar -- v3-v14 Dollar P&L ($100K Risk)</title>
+<title>Strategy Calendar -- All Strategies Dollar P&L</title>
+<script src="https://cdn.jsdelivr.net/npm/lightweight-charts@4.1.1/dist/lightweight-charts.standalone.production.js"></script>
 <style>
-* { box-sizing: border-box; margin: 0; padding: 0; }
-body { background: #0a0a0f; color: #e0e0e0; font-family: 'Consolas', 'Monaco', monospace; padding: 20px; }
-h1 { color: #f59e0b; font-size: 20px; margin-bottom: 4px; }
-.subtitle { color: #888; font-size: 11px; margin-bottom: 16px; }
-.legend { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px; padding: 10px; background: #111118; border-radius: 6px; border: 1px solid #222; }
-.legend-item { display: flex; align-items: center; gap: 4px; font-size: 10px; }
-.legend-dot { width: 10px; height: 10px; border-radius: 2px; }
-.stats-table { width: 100%; border-collapse: collapse; margin-bottom: 24px; font-size: 11px; }
-.stats-table th { text-align: left; padding: 6px 10px; border-bottom: 2px solid #333; color: #888; font-weight: normal; text-transform: uppercase; font-size: 9px; letter-spacing: 1px; }
-.stats-table td { padding: 5px 10px; border-bottom: 1px solid #1a1a22; }
-.stats-table tr:hover { background: #111118; }
-.month-section { margin-bottom: 28px; }
-.month-title { font-size: 14px; color: #ccc; margin-bottom: 8px; padding: 4px 10px; background: #111118; border-radius: 4px; display: inline-block; }
-.cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 2px; }
-.cal-hdr { font-size: 9px; color: #666; text-align: center; padding: 4px; }
-.cal-day { background: #0f0f16; border: 1px solid #1a1a22; border-radius: 4px; min-height: 68px; padding: 3px; font-size: 9px; }
-.cal-day.empty { background: transparent; border-color: transparent; min-height: 20px; }
-.cal-day.has-trades { border-color: #333; }
-.cal-day .day-num { color: #666; font-size: 10px; margin-bottom: 2px; }
-.cal-day .day-num.weekend { color: #333; }
-.strat-tag { display: inline-block; padding: 1px 4px; border-radius: 2px; font-size: 8px; font-weight: bold; margin: 1px; line-height: 1.4; white-space: nowrap; }
-.strat-tag.win { opacity: 1; }
-.strat-tag.loss { opacity: 0.7; }
-.pnl-pos { color: #22c55e; }
-.pnl-neg { color: #ef4444; }
-.day-total { font-size: 9px; font-weight: bold; margin-top: 2px; padding-top: 2px; border-top: 1px solid #222; }
+* {{ box-sizing: border-box; margin: 0; padding: 0; }}
+body {{ background: #0a0a0f; color: #e0e0e0; font-family: 'Consolas', 'Monaco', monospace; padding: 20px; }}
+h1 {{ color: #f59e0b; font-size: 20px; margin-bottom: 4px; }}
+.subtitle {{ color: #888; font-size: 11px; margin-bottom: 16px; }}
+.legend {{ display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px; padding: 10px; background: #111118; border-radius: 6px; border: 1px solid #222; }}
+.legend-item {{ display: flex; align-items: center; gap: 4px; font-size: 10px; }}
+.legend-dot {{ width: 10px; height: 10px; border-radius: 2px; }}
+.stats-table {{ width: 100%; border-collapse: collapse; margin-bottom: 24px; font-size: 11px; }}
+.stats-table th {{ text-align: left; padding: 6px 10px; border-bottom: 2px solid #333; color: #888; font-weight: normal; text-transform: uppercase; font-size: 9px; letter-spacing: 1px; }}
+.stats-table td {{ padding: 5px 10px; border-bottom: 1px solid #1a1a22; }}
+.stats-table tr:hover {{ background: #111118; }}
+.month-section {{ margin-bottom: 28px; }}
+.month-title {{ font-size: 14px; color: #ccc; margin-bottom: 8px; padding: 4px 10px; background: #111118; border-radius: 4px; display: inline-block; }}
+.cal-grid {{ display: grid; grid-template-columns: repeat(7, 1fr); gap: 2px; }}
+.cal-hdr {{ font-size: 9px; color: #666; text-align: center; padding: 4px; }}
+.cal-day {{ background: #0f0f16; border: 1px solid #1a1a22; border-radius: 4px; min-height: 68px; padding: 3px; font-size: 9px; }}
+.cal-day.empty {{ background: transparent; border-color: transparent; min-height: 20px; }}
+.cal-day.has-trades {{ border-color: #333; cursor: pointer; }}
+.cal-day.has-trades:hover {{ border-color: #555; background: #13131c; transform: scale(1.01); transition: all .1s; }}
+.cal-day .day-num {{ color: #666; font-size: 10px; margin-bottom: 2px; }}
+.cal-day .day-num.weekend {{ color: #333; }}
+.strat-tag {{ display: inline-block; padding: 1px 4px; border-radius: 2px; font-size: 8px; font-weight: bold; margin: 1px; line-height: 1.4; white-space: nowrap; }}
+.strat-tag.win {{ opacity: 1; }}
+.strat-tag.loss {{ opacity: 0.7; }}
+.pnl-pos {{ color: #22c55e; }}
+.pnl-neg {{ color: #ef4444; }}
+.day-total {{ font-size: 9px; font-weight: bold; margin-top: 2px; padding-top: 2px; border-top: 1px solid #222; }}
+
+/* ── Modal ── */
+.modal-overlay {{
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.85); z-index: 1000;
+    display: flex; align-items: flex-start; justify-content: center;
+    overflow-y: auto; padding: 24px 12px;
+}}
+.modal-box {{
+    background: #131722; border: 1px solid #2a2e3d;
+    border-radius: 10px; width: 100%; max-width: 1100px;
+    overflow: hidden; position: relative; flex-shrink: 0;
+}}
+.modal-header {{
+    display: flex; align-items: center; gap: 12px;
+    padding: 14px 20px; background: #1e2130;
+    border-bottom: 1px solid #2a2e3d; flex-wrap: wrap;
+}}
+.modal-header-date {{ font-size: 15px; font-weight: bold; color: #ddd; }}
+#modal-pnl {{ font-size: 18px; font-weight: bold; }}
+.modal-close {{
+    margin-left: auto; cursor: pointer; color: #888;
+    font-size: 20px; padding: 2px 8px; border-radius: 4px; line-height: 1;
+}}
+.modal-close:hover {{ background: #2a2e3d; color: #ddd; }}
+#modal-chart-wrap {{ position: relative; background: #131722; }}
+#modal-chart {{ width: 100%; height: 440px; }}
+#modal-loading {{
+    position: absolute; top: 50%; left: 50%;
+    transform: translate(-50%,-50%);
+    background: rgba(19,23,34,0.92); border: 1px solid #2a2e3d;
+    border-radius: 6px; padding: 14px 28px; font-size: 13px; color: #aaa;
+    z-index: 10; display: none;
+}}
+.modal-trades {{ padding: 12px 16px; display: flex; flex-direction: column; gap: 10px; }}
+.trade-card {{
+    background: #1a1a24; border: 1px solid #222;
+    border-radius: 6px; padding: 10px 14px;
+    transition: border-color .15s;
+}}
+.trade-card:hover {{ border-color: #444; }}
+.trade-card-header {{ display: flex; align-items: center; gap: 8px; font-size: 13px; margin-bottom: 6px; }}
+.trade-card-meta {{ display: flex; gap: 18px; font-size: 11px; color: #888; flex-wrap: wrap; margin-bottom: 4px; }}
+.trade-card-meta span {{ white-space: nowrap; }}
+.exit-badge {{
+    font-size: 9px; font-weight: bold; padding: 2px 6px;
+    border-radius: 3px; text-transform: uppercase; letter-spacing: .5px;
+}}
+.sparkline-wrap {{ margin-top: 8px; overflow: hidden; line-height: 0; }}
+.spark-label {{ font-size: 9px; color: #555; margin-bottom: 2px; }}
 </style>
 </head>
 <body>
@@ -156,20 +252,20 @@ for s in STRATEGIES:
 
 html += '</div>\n'
 
-# Stats summary table (from strategy_stats.json)
+# Stats summary table
 html += '<table class="stats-table">\n'
 html += '<tr><th>Strategy</th><th>Regime</th><th>Mech</th><th>Filter</th><th>Days</th><th>W/L</th><th>Win Rate</th><th>Total P&L</th><th>Avg P&L</th><th>PF</th><th>Max DD</th></tr>\n'
 for s in STRATEGIES:
     st = all_stats.get(s["ver"], {})
-    n = st.get("total_trades", 0)
+    n  = st.get("total_trades", 0)
     if n == 0: continue
-    wr = st.get("win_rate", 0)
-    wins = st.get("wins", 0)
+    wr     = st.get("win_rate", 0)
+    wins   = st.get("wins", 0)
     losses = st.get("losses", 0)
-    total = st.get("total_pnl", 0)
-    avg = st.get("avg_pnl", 0)
-    pf = st.get("profit_factor", 0)
-    mdd = st.get("max_drawdown", 0)
+    total  = st.get("total_pnl", 0)
+    avg    = st.get("avg_pnl", 0)
+    pf     = st.get("profit_factor", 0)
+    mdd    = st.get("max_drawdown", 0)
     pnl_class = "pnl-pos" if total >= 0 else "pnl-neg"
     html += f'<tr><td style="color:{s["color"]};font-weight:bold">{s["name"]} <span style="opacity:0.45;font-size:9px;font-weight:normal">{s["ver"].upper()}</span></td>'
     html += f'<td>{s["regime"]}</td><td>{s["mech"]}</td><td>{s["filter"]}</td>'
@@ -180,16 +276,14 @@ for s in STRATEGIES:
     html += f'<td>{pf:.2f}</td>'
     html += f'<td class="pnl-neg">${mdd:,.0f}</td></tr>\n'
 
-# Total row
 html += f'<tr style="border-top:2px solid #444;font-weight:bold"><td colspan="7" style="color:#f59e0b">COMBINED</td>'
 html += f'<td class="{"pnl-pos" if total_all >= 0 else "pnl-neg"}">${total_all:,.0f}</td><td colspan="3"></td></tr>\n'
 html += '</table>\n'
 
-# Month calendars
+# ── Month calendars ───────────────────────────────────────────────────
 DOW_NAMES = ["Mon","Tue","Wed","Thu","Fri","Sat","Sun"]
 
 def fmt_pnl(v):
-    """Format dollar P&L compactly: +1.2K, -500, +23K"""
     if abs(v) >= 1000:
         return f"{'+' if v >= 0 else ''}{v/1000:.1f}K"
     else:
@@ -198,7 +292,6 @@ def fmt_pnl(v):
 for year, month in reversed(months):
     month_name = calendar.month_name[month]
 
-    # Month total
     month_total = 0
     for d_str, total in combined_daily.items():
         d = datetime.strptime(d_str, "%Y-%m-%d")
@@ -213,15 +306,15 @@ for year, month in reversed(months):
     for d in DOW_NAMES:
         html += f'<div class="cal-hdr">{d}</div>\n'
 
-    first_dow = datetime(year, month, 1).weekday()
+    first_dow    = datetime(year, month, 1).weekday()
     days_in_month = calendar.monthrange(year, month)[1]
 
     for _ in range(first_dow):
         html += '<div class="cal-day empty"></div>\n'
 
     for day in range(1, days_in_month + 1):
-        d_str = f"{year}-{month:02d}-{day:02d}"
-        dow = datetime(year, month, day).weekday()
+        d_str   = f"{year}-{month:02d}-{day:02d}"
+        dow     = datetime(year, month, day).weekday()
         is_weekend = dow >= 5
 
         day_trades = calendar_data.get(d_str, {})
@@ -230,23 +323,24 @@ for year, month in reversed(months):
         cls = "cal-day"
         if has_trades: cls += " has-trades"
 
-        html += f'<div class="{cls}">\n'
+        onclick = f' onclick="openDayModal(\'{d_str}\')"' if has_trades else ''
+        html += f'<div class="{cls}"{onclick}>\n'
         html += f'<div class="day-num{"" if not is_weekend else " weekend"}">{day}</div>\n'
 
         if has_trades:
             total_pnl = 0
             for ver in ver_list:
                 if ver in day_trades:
-                    t = day_trades[ver]
-                    pnl = t["pnl"]
+                    t       = day_trades[ver]
+                    pnl     = t["pnl"]
                     total_pnl += pnl
-                    win_cls = "win" if pnl >= 0 else "loss"
+                    win_cls  = "win" if pnl >= 0 else "loss"
                     sign_cls = "pnl-pos" if pnl >= 0 else "pnl-neg"
-                    qty_str = f"{t['qty']}x"
-                    fc_str = f" ({t['fire_count']}sig)" if t.get("fire_count") else ""
+                    qty_str  = f"{t['qty']}x"
+                    fc_str   = f" ({t['fire_count']}sig)" if t.get("fire_count") else ""
                     exit_label = t.get("exit", "?")
-                    risk_k = t.get("risk_budget", 100000) / 1000
-                    tooltip = f"{name_map.get(ver, ver.upper())} ({ver.upper()}) {exit_label} | {qty_str}{fc_str} | ${pnl:+,} (${risk_k:.0f}K risk)"
+                    risk_k   = t.get("risk_budget", 100000) / 1000
+                    tooltip  = f"{name_map.get(ver, ver.upper())} ({ver.upper()}) {exit_label} | {qty_str}{fc_str} | ${pnl:+,} (${risk_k:.0f}K risk)"
                     html += f'<span class="strat-tag {win_cls}" style="background:{color_map[ver]}22;color:{color_map[ver]};border:1px solid {color_map[ver]}44" '
                     html += f'title="{tooltip}">'
                     html += f'{short_map.get(ver, ver[1:])} <span class="{sign_cls}">{fmt_pnl(pnl)}</span>'
@@ -263,7 +357,299 @@ for year, month in reversed(months):
 
     html += '</div></div>\n'
 
-html += '</body></html>'
+# ── Modal HTML ────────────────────────────────────────────────────────
+html += """
+<!-- ═══ DAY DETAIL MODAL ═══ -->
+<div id="day-modal" class="modal-overlay" style="display:none" onclick="if(event.target===this)closeModal()">
+  <div class="modal-box">
+    <div class="modal-header">
+      <span class="modal-header-date" id="modal-date"></span>
+      <span id="modal-pnl"></span>
+      <span class="modal-close" onclick="closeModal()">&#x2715;</span>
+    </div>
+    <div id="modal-chart-wrap">
+      <div id="modal-chart"></div>
+      <div id="modal-loading">Loading SPX data&hellip;</div>
+    </div>
+    <div class="modal-trades" id="modal-trades"></div>
+  </div>
+</div>
+"""
+
+# ── JavaScript ────────────────────────────────────────────────────────
+html += f"""<script>
+// ── Embedded data ───────────────────────────────────────────────────
+const POLY_KEY        = "{POLY_KEY}";
+const VER_COLORS      = {ver_colors_js};
+const VER_NAMES       = {ver_names_js};
+const VER_SHORTS      = {ver_shorts_js};
+const TRADES_BY_DATE  = {trades_by_date_js};
+
+// ── State ────────────────────────────────────────────────────────────
+const spxCache = {{}};
+let   modalChart = null;
+
+// ── Helpers ──────────────────────────────────────────────────────────
+function parseHM(s) {{
+    return (s || '').replace(/\\s*ET\\s*$/i, '').trim();
+}}
+function barToET(unixSec) {{
+    return new Date(unixSec * 1000).toLocaleString('en-US', {{
+        timeZone: 'America/New_York',
+        hour: '2-digit', minute: '2-digit', hour12: false
+    }});
+}}
+function findBarAt(bars, hm) {{
+    // exact match first
+    for (const b of bars) {{ if (barToET(b.time) === hm) return b; }}
+    // then first bar >= hm
+    for (const b of bars) {{ if (barToET(b.time) >= hm) return b; }}
+    return bars[bars.length - 1];
+}}
+function fmtPnl(v) {{
+    if (Math.abs(v) >= 1000) return (v>=0?'+':'')+'$'+(v/1000).toFixed(1)+'K';
+    return (v>=0?'+':'')+'$'+Math.round(v);
+}}
+function fmtDate(ds) {{
+    return new Date(ds + 'T12:00:00').toLocaleDateString('en-US',
+        {{weekday:'long', year:'numeric', month:'long', day:'numeric'}});
+}}
+
+// ── Fetch SPX 1-min bars ─────────────────────────────────────────────
+async function fetchSPX(dateStr) {{
+    if (spxCache[dateStr]) return spxCache[dateStr];
+    const url = `https://api.polygon.io/v2/aggs/ticker/I:SPX/range/1/minute/${{dateStr}}/${{dateStr}}`
+              + `?adjusted=true&sort=asc&limit=1000&apiKey=${{POLY_KEY}}`;
+    const resp = await fetch(url);
+    const data = await resp.json();
+    const bars = (data.results || []).map(r => ({{
+        time:  r.t / 1000,
+        open:  r.o, high: r.h, low: r.l, close: r.c,
+        value: r.v,
+        color: r.c >= r.o ? 'rgba(38,166,154,0.45)' : 'rgba(239,83,80,0.45)'
+    }}));
+    spxCache[dateStr] = bars;
+    return bars;
+}}
+
+// ── Build inline SVG sparkline from intraday P&L snapshots ───────────
+function buildSparkline(intraday, entryCredit, color) {{
+    const TIMES = ['10:30','11:00','11:30','12:00','12:30','13:00',
+                   '13:30','14:00','14:30','15:00','15:30','15:45'];
+    const pts = TIMES.map(t => intraday[t]).filter(v => v != null);
+    if (pts.length < 2) return '';
+    const W=420, H=56, P=6;
+    const minV = Math.min(0, ...pts);
+    const maxV = Math.max(entryCredit || 0, ...pts, 0.01);
+    const rng  = maxV - minV || 1;
+    const tx   = i => P + (i/(pts.length-1))*(W-2*P);
+    const ty   = v => H - P - ((v-minV)/rng)*(H-2*P);
+    const zY   = ty(0);
+    const tgtY = ty((entryCredit||0)*0.5);
+    const path = pts.map((v,i) => (i===0?'M':'L')+tx(i).toFixed(1)+','+ty(v).toFixed(1)).join(' ');
+    const dots = pts.map((v,i) => `<circle cx="${{tx(i).toFixed(1)}}" cy="${{ty(v).toFixed(1)}}" r="2.5" fill="${{color}}" opacity="0.75"/>`).join('');
+    return `<div class="spark-label">IBF P&L per spread &nbsp;·&nbsp; dashed = 50% target</div>
+<svg width="${{W}}" height="${{H}}" style="overflow:visible;display:block">
+  <line x1="${{P}}" y1="${{zY.toFixed(1)}}" x2="${{W-P}}" y2="${{zY.toFixed(1)}}"
+        stroke="#555" stroke-dasharray="2,2" stroke-width="1"/>
+  <line x1="${{P}}" y1="${{tgtY.toFixed(1)}}" x2="${{W-P}}" y2="${{tgtY.toFixed(1)}}"
+        stroke="${{color}}" stroke-dasharray="3,3" stroke-width="1" opacity="0.35"/>
+  <path d="${{path}}" fill="none" stroke="${{color}}" stroke-width="1.8" opacity="0.85"/>
+  ${{dots}}
+</svg>`;
+}}
+
+// ── Render trade summary cards below the chart ───────────────────────
+function renderTradeCards(trades) {{
+    const wrap = document.getElementById('modal-trades');
+    wrap.innerHTML = '';
+    for (const t of trades) {{
+        const col   = VER_COLORS[t.ver] || '#888';
+        const name  = VER_NAMES[t.ver]  || t.ver.toUpperCase();
+        const pCls  = t.pnl >= 0 ? 'pnl-pos' : 'pnl-neg';
+        const eHM   = parseHM(t.entry_time);
+        const xHM   = parseHM(t.exit_time || '16:15');
+        const exitT = t.exit || '?';
+        const risk  = ((t.risk_budget||100000)/1000).toFixed(0);
+        const cred  = (t.entry_credit||0).toFixed(2);
+        const fc    = t.fire_count ? `<span>${{t.fire_count}} sig</span>` : '';
+        let spark = '';
+        if (t.intraday && Object.keys(t.intraday).length >= 2)
+            spark = buildSparkline(t.intraday, t.entry_credit, col);
+
+        const card = document.createElement('div');
+        card.className = 'trade-card';
+        card.style.borderLeft = `3px solid ${{col}}`;
+        card.innerHTML = `
+          <div class="trade-card-header">
+            <span style="color:${{col}};font-weight:bold">${{name}}</span>
+            <span style="color:#555;font-size:10px">${{t.ver.toUpperCase()}}</span>
+            <span class="exit-badge" style="background:${{col}}22;color:${{col}};border:1px solid ${{col}}44">${{exitT}}</span>
+            <span class="${{pCls}}" style="margin-left:auto;font-size:15px;font-weight:bold">${{fmtPnl(t.pnl)}}</span>
+          </div>
+          <div class="trade-card-meta">
+            <span>&#8593; Entry ${{eHM}}</span>
+            <span>&#8595; Exit ${{xHM}}</span>
+            <span>Qty ${{t.qty}}</span>
+            <span>Credit $${{cred}}/spread</span>
+            <span>Risk $${{risk}}K</span>
+            ${{fc}}
+          </div>
+          ${{spark ? '<div class="sparkline-wrap">'+spark+'</div>' : ''}}
+        `;
+        wrap.appendChild(card);
+    }}
+}}
+
+// ── Main: open modal for a date ──────────────────────────────────────
+async function openDayModal(dateStr) {{
+    const trades = TRADES_BY_DATE[dateStr];
+    if (!trades || !trades.length) return;
+
+    // Header
+    document.getElementById('modal-date').textContent = fmtDate(dateStr);
+    const dayPnl = trades.reduce((s,t) => s+t.pnl, 0);
+    const pEl = document.getElementById('modal-pnl');
+    pEl.textContent = fmtPnl(dayPnl);
+    pEl.className   = dayPnl >= 0 ? 'pnl-pos' : 'pnl-neg';
+
+    document.getElementById('day-modal').style.display = 'flex';
+    document.getElementById('modal-loading').style.display = 'block';
+
+    // Fetch SPX bars
+    let bars = [];
+    try {{ bars = await fetchSPX(dateStr); }} catch(e) {{ console.error(e); }}
+    document.getElementById('modal-loading').style.display = 'none';
+
+    // ── Destroy & recreate chart (avoids stale price lines) ──────────
+    const chartEl = document.getElementById('modal-chart');
+    if (modalChart) {{ modalChart.remove(); modalChart = null; }}
+
+    modalChart = LightweightCharts.createChart(chartEl, {{
+        width:  chartEl.clientWidth,
+        height: 440,
+        layout: {{ background: {{ color: '#131722' }}, textColor: '#DDD' }},
+        crosshair: {{ mode: LightweightCharts.CrosshairMode.Normal }},
+        timeScale: {{
+            borderColor: '#71649C', timeVisible: true, secondsVisible: false,
+            tickMarkFormatter: ts => new Date(ts*1000).toLocaleString('en-US',{{
+                timeZone:'America/New_York', hour:'2-digit', minute:'2-digit', hour12:false
+            }})
+        }},
+        rightPriceScale: {{ borderColor: '#71649C' }},
+        grid: {{
+            vertLines: {{ color: 'rgba(255,255,255,0.04)' }},
+            horzLines: {{ color: 'rgba(255,255,255,0.04)' }}
+        }},
+        localization: {{
+            timeFormatter: ts => new Date(ts*1000).toLocaleString('en-US',{{
+                timeZone:'America/New_York', hour:'2-digit', minute:'2-digit', hour12:false
+            }})
+        }}
+    }});
+
+    const cSeries = modalChart.addCandlestickSeries({{
+        upColor:'#26a69a', downColor:'#ef5350',
+        borderUpColor:'#26a69a', borderDownColor:'#ef5350',
+        wickUpColor:'#26a69a', wickDownColor:'#ef5350',
+        lastValueVisible: false, priceLineVisible: false,
+    }});
+
+    const volSeries = modalChart.addHistogramSeries({{
+        priceFormat: {{ type:'volume' }}, priceScaleId: '',
+        scaleMargins: {{ top: 0.84, bottom: 0 }}
+    }});
+    volSeries.priceScale().applyOptions({{ scaleMargins: {{ top: 0.84, bottom: 0 }} }});
+
+    // OHLC crosshair tooltip
+    const ohlcTip = document.createElement('div');
+    ohlcTip.style.cssText = 'position:absolute;top:8px;left:12px;background:rgba(19,23,34,0.88);'
+        + 'border:1px solid #2a2e3d;border-radius:5px;padding:6px 10px;font-size:11px;'
+        + 'line-height:1.7;pointer-events:none;z-index:5;display:none;min-width:120px;';
+    document.getElementById('modal-chart-wrap').appendChild(ohlcTip);
+    modalChart.subscribeCrosshairMove(p => {{
+        if (!p || !p.time) {{ ohlcTip.style.display='none'; return; }}
+        const c = p.seriesData.get(cSeries);
+        if (!c) {{ ohlcTip.style.display='none'; return; }}
+        const cls = c.close>=c.open ? '#26a69a' : '#ef5350';
+        const tf = new Date(p.time*1000).toLocaleString('en-US',{{timeZone:'America/New_York',hour:'2-digit',minute:'2-digit',hour12:false}});
+        ohlcTip.innerHTML = `<span style="color:#666;font-size:10px">${{tf}}</span><br>`
+            + `<span style="color:#888">O</span> <span style="color:${{cls}}">${{c.open?.toFixed(2)}}</span> &nbsp;`
+            + `<span style="color:#888">H</span> <span style="color:${{cls}}">${{c.high?.toFixed(2)}}</span> &nbsp;`
+            + `<span style="color:#888">L</span> <span style="color:${{cls}}">${{c.low?.toFixed(2)}}</span> &nbsp;`
+            + `<span style="color:#888">C</span> <span style="color:${{cls}}">${{c.close?.toFixed(2)}}</span>`;
+        ohlcTip.style.display = 'block';
+    }});
+
+    if (bars.length) {{
+        cSeries.setData(bars);
+        volSeries.setData(bars);
+
+        // ── Entry/exit markers + strike level lines ───────────────────
+        const markers = [];
+        for (const t of trades) {{
+            const col  = VER_COLORS[t.ver] || '#888';
+            const nm   = VER_SHORTS[t.ver] || t.ver.toUpperCase();
+            const eHM  = parseHM(t.entry_time);
+            const xHM  = parseHM(t.exit_time || '16:15');
+            const eBar = findBarAt(bars, eHM);
+            const xBar = findBarAt(bars, xHM);
+
+            if (eBar) {{
+                markers.push({{ time: eBar.time, position:'belowBar', color:col,
+                    shape:'arrowUp',   text: nm+' IN',  size:1 }});
+
+                // Determine strike levels
+                const wing    = t.wing_width || 0;
+                const sOff    = t.short_offset;
+                const lOff    = t.long_offset;
+                const atmPrice = t.atm || t.spx_at_entry || eBar.close;
+
+                if (sOff && lOff) {{
+                    // Iron Condor (N17 / N18)
+                    cSeries.createPriceLine({{price:atmPrice+sOff, color:col,      lineWidth:1, lineStyle:2, title:nm+' +S', axisLabelVisible:true}});
+                    cSeries.createPriceLine({{price:atmPrice-sOff, color:col,      lineWidth:1, lineStyle:2, title:nm+' -S', axisLabelVisible:true}});
+                    cSeries.createPriceLine({{price:atmPrice+lOff, color:'#ef4444',lineWidth:1, lineStyle:1, title:nm+' +L', axisLabelVisible:true}});
+                    cSeries.createPriceLine({{price:atmPrice-lOff, color:'#ef4444',lineWidth:1, lineStyle:1, title:nm+' -L', axisLabelVisible:true}});
+                }} else if (wing > 0) {{
+                    // Iron Butterfly (V3/N15 and all regime strategies)
+                    cSeries.createPriceLine({{price:atmPrice,      color:col,      lineWidth:1, lineStyle:2, title:nm+' ATM', axisLabelVisible:true}});
+                    cSeries.createPriceLine({{price:atmPrice+wing, color:'#ef4444',lineWidth:1, lineStyle:1, title:nm+' +W',  axisLabelVisible:true}});
+                    cSeries.createPriceLine({{price:atmPrice-wing, color:'#ef4444',lineWidth:1, lineStyle:1, title:nm+' -W',  axisLabelVisible:true}});
+                }}
+            }}
+            if (xBar) {{
+                markers.push({{ time: xBar.time, position:'aboveBar', color:col,
+                    shape:'arrowDown', text: nm+' OUT', size:1 }});
+            }}
+        }}
+
+        markers.sort((a,b) => a.time - b.time);
+        cSeries.setMarkers(markers);
+        modalChart.timeScale().fitContent();
+    }}
+
+    // ── Trade cards ───────────────────────────────────────────────────
+    renderTradeCards(trades);
+
+    // ── Resize handler ────────────────────────────────────────────────
+    window._modalResize = () => {{
+        if (modalChart) modalChart.applyOptions({{ width: chartEl.clientWidth }});
+    }};
+    window.removeEventListener('resize', window._modalResize);
+    window.addEventListener('resize', window._modalResize);
+}}
+
+function closeModal() {{
+    document.getElementById('day-modal').style.display = 'none';
+    // Clean up dangling tooltip divs inside chart wrap
+    const wrap = document.getElementById('modal-chart-wrap');
+    wrap.querySelectorAll('div:not(#modal-chart):not(#modal-loading)').forEach(el => el.remove());
+}}
+
+document.addEventListener('keydown', e => {{ if (e.key === 'Escape') closeModal(); }});
+</script>
+</body></html>"""
 
 out_path = os.path.join(_DIR, "strategy_calendar.html")
 with open(out_path, "w", encoding="utf-8") as f:
