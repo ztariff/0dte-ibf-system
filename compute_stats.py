@@ -46,21 +46,21 @@ def _build_intraday(row):
 
 # CORRECT strategy definitions from cockpit_feed.py lines 51-88
 strats = [
-    {"ver":"v3","type":"phoenix","mech":"50%/close/1T","entry":"10:00","desc":"PHOENIX Concentrated Signal Model"},
+    {"ver":"v3","type":"phoenix","mech":"50%/close/1T","entry":"10:00","name":"PHOENIX","desc":"PHOENIX — Concentrated Signal Model"},
     {"ver":"v6","vix":[0,15],"pd":"DN","rng":"IN","gap":"GFL","filter":"VP<=1.7","mech":"50%/1530/1T","entry":"10:00",
-     "desc":"LOW VIX | Prior Down | In Range | Flat Gap"},
+     "name":"QUIET REBOUND","desc":"QUIET REBOUND — Low VIX | Prior Day Down | In Range | Flat Gap"},
     {"ver":"v7","vix":[0,15],"pd":"FL","rng":"IN","gap":"GUP","filter":None,"mech":"40%/close/1T","entry":"10:00",
-     "desc":"LOW VIX | Prior Flat | In Range | Gap Up"},
+     "name":"FLAT-GAP FADE","desc":"FLAT-GAP FADE — Low VIX | Prior Day Flat | In Range | Gap Up"},
     {"ver":"v8","vix":[20,25],"pd":"UP","rng":"IN","gap":"GDN","filter":None,"mech":"40%/1530/1T","entry":"10:30",
-     "desc":"ELEV VIX | Prior Up | In Range | Gap Down"},
+     "name":"STRESS SNAP","desc":"STRESS SNAP — Elevated VIX | Prior Day Up | In Range | Gap Down"},
     {"ver":"v9","vix":[15,20],"pd":"UP","rng":"OT","gap":"GFL","filter":"!RISING","mech":"70%/1545/1T","entry":"10:00",
-     "desc":"MID VIX | Prior Up | Outside Range | Flat Gap"},
+     "name":"BREAKOUT STALL","desc":"BREAKOUT STALL — Mid VIX | Prior Day Up | Outside Range | Flat Gap"},
     {"ver":"v10","vix":[15,20],"pd":"DN","rng":"OT","gap":"GFL","filter":None,"mech":"70%/1545/1T","entry":"11:00",
-     "desc":"MID VIX | Prior Down | Outside Range | Flat Gap"},
+     "name":"BREAKDOWN PAUSE","desc":"BREAKDOWN PAUSE — Mid VIX | Prior Day Down | Outside Range | Flat Gap"},
     {"ver":"v12","vix":[0,15],"pd":"UP","rng":"OT","gap":"GUP","filter":"5dRet>1","mech":"40%/close/1T","entry":"10:00",
-     "desc":"LOW VIX | Prior Up | Outside Range | Gap Up"},
+     "name":"BULL SQUEEZE","desc":"BULL SQUEEZE — Low VIX | Prior Day Up | Outside Range | Gap Up"},
     {"ver":"v14","vix":[15,20],"pd":"DN","rng":"IN","gap":"GDN","filter":"ScoreVol<18","mech":"50%/close/1T","entry":"10:00",
-     "desc":"MID VIX | Prior Down | In Range | Gap Down"},
+     "name":"ORDERLY DIP","desc":"ORDERLY DIP — Mid VIX | Prior Day Down | In Range | Gap Down"},
 ]
 
 def classify_row(row):

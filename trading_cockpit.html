@@ -262,6 +262,15 @@ const TRANCHE_CONFIGS = {
 };
 
 // ══════════════════════════════════════════════════════════════
+// STRATEGY NAME HELPER
+// ══════════════════════════════════════════════════════════════
+function verDisplayName(ver) {
+    if (!feedData || !feedData.signals) return ver.toUpperCase();
+    const s = feedData.signals.find(s => s.ver === ver);
+    return (s && s.name) ? s.name : ver.toUpperCase();
+}
+
+// ══════════════════════════════════════════════════════════════
 // AUDIO
 // ══════════════════════════════════════════════════════════════
 const AC = window.AudioContext || window.webkitAudioContext;
@@ -469,7 +478,7 @@ function renderSignalList() {
                      style="border-left-color:${selected === sig.ver ? sig.color : (isActiveTrade ? 'var(--green)' : 'transparent')}"
                      onclick="selected='${sig.ver}'; renderSignalList(); renderDetail();">
             <div class="sig-top">
-                <span class="sig-ver" style="color:${sig.color}">${sig.ver.toUpperCase()}</span>
+                <span class="sig-ver" style="color:${sig.color}">${sig.name || sig.ver.toUpperCase()} <span style="font-size:9px;color:var(--muted);font-weight:normal;">${sig.ver.toUpperCase()}</span></span>
                 <span class="sig-status ${stsCls}">${stsLabel}</span>
             </div>
             <div class="sig-desc">${sig.desc}</div>
@@ -496,7 +505,7 @@ function checkAlerts() {
         // 1-min warning
         if (h === eH && m === eM - 1 && !alertedEntries[sig.ver + '_pre']) {
             alertedEntries[sig.ver + '_pre'] = true;
-            showNotif(`⏰ ${sig.ver.toUpperCase()} entry in 1 MIN — get ready!`, 'amber');
+            showNotif(`⏰ ${sig.name||sig.ver.toUpperCase()} entry in 1 MIN — get ready!`, 'amber');
             playEntry();
         }
 
@@ -523,8 +532,8 @@ function checkAlerts() {
             if (h === aH && m === aM && !alertedTranches[key]) {
                 alertedTranches[key] = true;
                 playTranche();
-                showNotif(`📦 ${sig.ver.toUpperCase()} — ADD TRANCHE ${i+2} NOW (${addTime})`, 'amber');
-                addLog(`TRANCHE: ${sig.ver} T${i+2} @ ${addTime}`);
+                showNotif(`📦 ${sig.name||sig.ver.toUpperCase()} — ADD TRANCHE ${i+2} NOW (${addTime})`, 'amber');
+                addLog(`TRANCHE: ${sig.name||sig.ver} T${i+2} @ ${addTime}`);
                 if (!t.tranches[i+1]) t.tranches[i+1] = {time:addTime, status:'pending'};
                 if (selected === sig.ver) renderDetail();
             }
@@ -547,12 +556,12 @@ function checkAlerts() {
         if (h === warnH && m === warnM && !alertedTimeStops[key + '_w']) {
             alertedTimeStops[key + '_w'] = true;
             playStop();
-            showNotif(`⏱ ${sig.ver.toUpperCase()} TIME STOP in 5 min — prepare to exit!`, 'red');
+            showNotif(`⏱ ${sig.name||sig.ver.toUpperCase()} TIME STOP in 5 min — prepare to exit!`, 'red');
         }
         if (h === tsH && m === tsM && !alertedTimeStops[key]) {
             alertedTimeStops[key] = true;
             playStop();
-            showNotif(`🛑 ${sig.ver.toUpperCase()} TIME STOP NOW — EXIT!`, 'red');
+            showNotif(`🛑 ${sig.name||sig.ver.toUpperCase()} TIME STOP NOW — EXIT!`, 'red');
         }
     }
 }
@@ -571,12 +580,12 @@ function checkTrancheAlerts() {
             alertedTranches[key] = true;
             if (tr.valid !== false) {
                 playTranche();
-                showNotif(`⏰ ${at.ver.toUpperCase()} — ENTER TRANCHE ${tr.idx} NOW @ ${tr.scheduled} | Credit: ${(tr.current_credit||0).toFixed(2)}`, 'amber');
-                addLog(`TRANCHE READY: ${at.ver} T${tr.idx} @ ${tr.scheduled} — credit ${(tr.current_credit||0).toFixed(2)}`);
+                showNotif(`⏰ ${verDisplayName(at.ver)} — ENTER TRANCHE ${tr.idx} NOW @ ${tr.scheduled} | Credit: ${(tr.current_credit||0).toFixed(2)}`, 'amber');
+                addLog(`TRANCHE READY: ${verDisplayName(at.ver)} T${tr.idx} @ ${tr.scheduled} — credit ${(tr.current_credit||0).toFixed(2)}`);
             } else {
                 playStop();
-                showNotif(`⚠️ ${at.ver.toUpperCase()} — T${tr.idx} @ ${tr.scheduled} NOT VALID: ${tr.validity_reason}`, 'red');
-                addLog(`TRANCHE INVALID: ${at.ver} T${tr.idx} — ${tr.validity_reason}`);
+                showNotif(`⚠️ ${verDisplayName(at.ver)} — T${tr.idx} @ ${tr.scheduled} NOT VALID: ${tr.validity_reason}`, 'red');
+                addLog(`TRANCHE INVALID: ${verDisplayName(at.ver)} T${tr.idx} — ${tr.validity_reason}`);
             }
             // Auto-select the trade version to show detail
             selected = at.ver;
@@ -608,8 +617,8 @@ function checkWingBreach() {
     if (wsTriggered && !wingBreachWarned[wsWarnKey]) {
         wingBreachWarned[wsWarnKey] = true;
         playStop();
-        showNotif(`🛑 ${ver.toUpperCase()} WING STOP — 70% of max loss reached (spread=${(at.current_sv||0).toFixed(2)}, stop=${(wsLevel||0).toFixed(2)}). EXIT NOW.`, 'red');
-        addLog(`WING STOP (70%): ${ver} spread=${(at.current_sv||0).toFixed(2)} ≥ stop level ${(wsLevel||0).toFixed(2)}`);
+        showNotif(`🛑 ${verDisplayName(ver)} WING STOP — 70% of max loss reached (spread=${(at.current_sv||0).toFixed(2)}, stop=${(wsLevel||0).toFixed(2)}). EXIT NOW.`, 'red');
+        addLog(`WING STOP (70%): ${verDisplayName(ver)} spread=${(at.current_sv||0).toFixed(2)} ≥ stop level ${(wsLevel||0).toFixed(2)}`);
         selected = ver;
         renderSignalList();
         renderDetail();
@@ -622,7 +631,7 @@ function checkWingBreach() {
         } else if (Date.now() - wingBreachWarned[wsReKey] > 30000) {
             wingBreachWarned[wsReKey] = Date.now();
             playStop();
-            showNotif(`🛑 ${ver.toUpperCase()} WING STOP STILL ACTIVE — EXIT NOW (${wsLossPct.toFixed(0)}% of max loss)`, 'red');
+            showNotif(`🛑 ${verDisplayName(ver)} WING STOP STILL ACTIVE — EXIT NOW (${wsLossPct.toFixed(0)}% of max loss)`, 'red');
         }
     }
 
@@ -631,8 +640,8 @@ function checkWingBreach() {
     if (proximity >= 75 && !wsTriggered && !at.wing_breach && !wingBreachWarned[warnKey]) {
         wingBreachWarned[warnKey] = true;
         playStop();
-        showNotif(`⚠️ ${ver.toUpperCase()} — SPX at ${proximity.toFixed(0)}% of wing! Watch spread value (stop at ${(wsLevel||0).toFixed(2)}).`, 'red');
-        addLog(`WING WARN: ${ver} at ${proximity.toFixed(0)}% of wing width — stop level ${(wsLevel||0).toFixed(2)}`);
+        showNotif(`⚠️ ${verDisplayName(ver)} — SPX at ${proximity.toFixed(0)}% of wing! Watch spread value (stop at ${(wsLevel||0).toFixed(2)}).`, 'red');
+        addLog(`WING WARN: ${verDisplayName(ver)} at ${proximity.toFixed(0)}% of wing width — stop level ${(wsLevel||0).toFixed(2)}`);
     }
 
     // Full physical wing breach — modal + alarm
@@ -640,8 +649,8 @@ function checkWingBreach() {
         wingBreachAlerted[ver] = true;
         playWingBreach();
         showWingBreachModal(at);
-        showNotif(`🚨 ${ver.toUpperCase()} WING BREACH — EXIT NOW!`, 'red');
-        addLog(`WING BREACH: ${ver} — SPX touched wing, EXIT IMMEDIATELY`);
+        showNotif(`🚨 ${verDisplayName(ver)} WING BREACH — EXIT NOW!`, 'red');
+        addLog(`WING BREACH: ${verDisplayName(ver)} — SPX touched wing, EXIT IMMEDIATELY`);
         // Auto-select this trade
         selected = ver;
         renderSignalList();
@@ -656,7 +665,7 @@ function checkWingBreach() {
         } else if (Date.now() - wingBreachWarned[reAlarmKey] > 30000) {
             wingBreachWarned[reAlarmKey] = Date.now();
             playWingBreach();
-            showNotif(`🚨 ${ver.toUpperCase()} STILL BREACHED — EXIT NOW!`, 'red');
+            showNotif(`🚨 ${verDisplayName(ver)} STILL BREACHED — EXIT NOW!`, 'red');
         }
     }
 }
@@ -671,7 +680,7 @@ function showWingBreachModal(at) {
         <h2 style="color:var(--red);">🚨 WING BREACH — EXIT NOW</h2>
         <div class="modal-detail">
             <div style="font-size:16px;font-weight:bold;color:var(--red);margin-bottom:12px;">
-                ${at.ver.toUpperCase()} — SPX ${direction} WING STRIKE
+                ${verDisplayName(at.ver)} — SPX ${direction} WING STRIKE
             </div>
             <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin:12px 0;">
                 <div style="background:var(--bg);padding:10px;border-radius:6px;text-align:center;">
@@ -724,15 +733,15 @@ function updatePnL() {
             if (profitPct >= tgt && !alertedEntries[ver + '_tgt']) {
                 alertedEntries[ver + '_tgt'] = true;
                 playTarget();
-                showNotif(`🎯 ${ver.toUpperCase()} TARGET HIT — ${profitPct.toFixed(1)}% ≥ ${tgt}% — TAKE PROFIT!`, 'green');
-                addLog(`TARGET: ${ver} hit ${profitPct.toFixed(1)}%`);
+                showNotif(`🎯 ${verDisplayName(ver)} TARGET HIT — ${profitPct.toFixed(1)}% ≥ ${tgt}% — TAKE PROFIT!`, 'green');
+                addLog(`TARGET: ${verDisplayName(ver)} hit ${profitPct.toFixed(1)}%`);
             }
             // Wing stop warning at 60% of max loss
             const maxLoss = at.total_max_loss || 1;
             if (t.pnl < 0 && Math.abs(t.pnl) > maxLoss * 0.6 && !alertedEntries[ver + '_ws']) {
                 alertedEntries[ver + '_ws'] = true;
                 playStop();
-                showNotif(`⚠️ ${ver.toUpperCase()} at ${(Math.abs(t.pnl)/maxLoss*100).toFixed(0)}% of max loss!`, 'red');
+                showNotif(`⚠️ ${verDisplayName(ver)} at ${(Math.abs(t.pnl)/maxLoss*100).toFixed(0)}% of max loss!`, 'red');
             }
         }
     }
@@ -747,7 +756,7 @@ function showEntryModal(sig) {
     const atm = c.atm || 0;
     const ww = c.wing_width || 50;
     document.getElementById('modal').innerHTML = `
-        <h2>🔔 ENTRY SIGNAL — ${sig.ver.toUpperCase()}</h2>
+        <h2>🔔 ENTRY SIGNAL — ${sig.name || sig.ver.toUpperCase()}</h2>
         <div class="modal-detail">
             <div style="margin-bottom:6px"><strong>${sig.desc}</strong></div>
             <div style="margin-bottom:10px">${sig.mech} | Entry: ${sig.entry} ET</div>
@@ -782,7 +791,7 @@ function showEntryModal(sig) {
             <button class="btn btn-muted" onclick="closeModal()">DISMISS</button>
         </div>`;
     document.getElementById('modalBg').classList.add('show');
-    addLog(`ALERT: ${sig.ver} entry signal — ATM ${atm} ±${ww}, credit ${c.credit?.toFixed(2)}`);
+    addLog(`ALERT: ${sig.name||sig.ver} entry signal — ATM ${atm} ±${ww}, credit ${c.credit?.toFixed(2)}`);
 }
 function closeModal() { document.getElementById('modalBg').classList.remove('show'); }
 
@@ -815,7 +824,7 @@ function renderDetail() {
     // ─── STRIKES (locked if trade active) ───
     const lockBadge = hasActiveTrade ? ' <span style="color:var(--green);font-size:9px;">🔒 LOCKED</span>' : '';
     html += `<div class="d-section">
-        <h3>Iron Butterfly — <span style="color:${sig.color}">${sig.ver.toUpperCase()} ${sig.regime}</span>${lockBadge}</h3>
+        <h3>Iron Butterfly — <span style="color:${sig.color}">${sig.name || sig.ver.toUpperCase()} <span style="color:var(--muted);font-weight:normal;font-size:10px;">${sig.ver.toUpperCase()}</span></span>${lockBadge}</h3>
         <div class="strike-grid">
             <div class="strike-box put"><div class="s-label">Wing Put</div><div class="s-val">${atm-ww}</div><div class="s-price">${(lc.wing_put_price||0).toFixed(2)}</div></div>
             <div class="strike-box put"><div class="s-label">ATM Put</div><div class="s-val">${atm}</div><div class="s-price">${(lc.atm_put_price||0).toFixed(2)}</div></div>
@@ -883,13 +892,13 @@ function renderDetail() {
         const readyAlert = atReady > 0 ? `<span style="color:var(--amber);font-weight:bold;"> — ${atReady} TRANCHE${atReady>1?'S':''} READY!</span>` : '';
         html += `<div style="background:rgba(59,130,246,0.12);border:2px solid var(--blue, #3b82f6);border-radius:8px;padding:14px;margin-bottom:12px;">
             <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
-                <span style="font-size:14px;font-weight:bold;color:#3b82f6;">Active Trade: ${at.ver.toUpperCase()} ATM ${at.atm} LOCKED</span>
+                <span style="font-size:14px;font-weight:bold;color:#3b82f6;">Active Trade: ${verDisplayName(at.ver)} ATM ${at.atm} LOCKED</span>
                 <span style="font-size:13px;color:${atPnl>=0?'var(--green)':'var(--red)'};">${atPnl>=0?'+':''}$${atPnl.toLocaleString()}</span>
             </div>
             <div style="font-size:11px;color:var(--muted);margin-bottom:10px;">
                 ${atFilled}/${atTotal} tranches filled${readyAlert}
             </div>
-            <button class="btn btn-green btn-lg" onclick="selected='${at.ver}'; renderSignalList(); renderDetail();" style="width:100%;">GO TO ACTIVE TRADE (${at.ver.toUpperCase()})</button>
+            <button class="btn btn-green btn-lg" onclick="selected='${at.ver}'; renderSignalList(); renderDetail();" style="width:100%;">GO TO ACTIVE TRADE (${verDisplayName(at.ver)})</button>
         </div>`;
     }
 
@@ -898,7 +907,7 @@ function renderDetail() {
         html += `<div class="d-section" style="text-align:center;padding:20px;">
             <div style="font-size:14px;color:var(--muted);margin-bottom:8px;">No Signal Today</div>
             <div style="font-size:11px;color:var(--muted);">
-                ${sig.match_reason || `Today's regime does not match ${sig.ver.toUpperCase()} filters`}
+                ${sig.match_reason || `Today's regime does not match ${sig.name || sig.ver.toUpperCase()} filters`}
             </div>
         </div>`;
     }
@@ -1258,8 +1267,8 @@ async function confirmEntry(ver) {
             t.status = 'entered'; t.fillPrice = price; t.fillQty = qty; t.spreadVal = price; t.pnl = 0;
             t.tranches = [{time: data.trade.tranches[0]?.scheduled || '10:00', status:'filled', fillPrice: price}];
             tradeState[ver] = t;
-            addLog(`ENTERED: ${ver} — ${qty}x @ ${price.toFixed(2)} | ATM LOCKED at ${c.atm}`);
-            showNotif(`${ver.toUpperCase()} ENTERED — ${qty} spreads @ ${price.toFixed(2)} — ATM LOCKED at ${c.atm}`, 'green');
+            addLog(`ENTERED: ${verDisplayName(ver)} — ${qty}x @ ${price.toFixed(2)} | ATM LOCKED at ${c.atm}`);
+            showNotif(`${verDisplayName(ver)} ENTERED — ${qty} spreads @ ${price.toFixed(2)} — ATM LOCKED at ${c.atm}`, 'green');
             playEntry();
             renderSignalList(); renderDetail();
         } else {
@@ -1285,8 +1294,8 @@ async function fillTranche(ver, idx, recQty) {
         });
         const data = await r.json();
         if (data.ok) {
-            addLog(`TRANCHE: ${ver} T${idx} filled @ ${price.toFixed(2)}`);
-            showNotif(`${ver.toUpperCase()} T${idx} filled @ ${price.toFixed(2)}`, 'green');
+            addLog(`TRANCHE: ${verDisplayName(ver)} T${idx} filled @ ${price.toFixed(2)}`);
+            showNotif(`${verDisplayName(ver)} T${idx} filled @ ${price.toFixed(2)}`, 'green');
             playTranche();
             await loadFeed(); renderDetail();
         }
@@ -1301,8 +1310,8 @@ async function skipTranche(ver, idx) {
         });
         const data = await r.json();
         if (data.ok) {
-            addLog(`TRANCHE: ${ver} T${idx} skipped`);
-            showNotif(`${ver.toUpperCase()} T${idx} skipped`, 'amber');
+            addLog(`TRANCHE: ${verDisplayName(ver)} T${idx} skipped`);
+            showNotif(`${verDisplayName(ver)} T${idx} skipped`, 'amber');
             await loadFeed(); renderDetail();
         }
     } catch(e) { showNotif('Skip failed: ' + e.message, 'red'); }
@@ -1337,8 +1346,8 @@ async function exitTrade(ver, type) {
             tradeState[ver] = t;
             const win = t.pnl >= 0;
             win ? playTarget() : playStop();
-            addLog(`EXIT: ${ver} ${type.toUpperCase()} — ${win?'+':''}$${t.pnl.toLocaleString()}`);
-            showNotif(`${ver.toUpperCase()} CLOSED — ${type.toUpperCase()} — ${win?'+':''}$${t.pnl.toLocaleString()}`, win ? 'green' : 'red');
+            addLog(`EXIT: ${verDisplayName(ver)} ${type.toUpperCase()} — ${win?'+':''}$${t.pnl.toLocaleString()}`);
+            showNotif(`${verDisplayName(ver)} CLOSED — ${type.toUpperCase()} — ${win?'+':''}$${t.pnl.toLocaleString()}`, win ? 'green' : 'red');
             await loadFeed(); renderSignalList(); renderDetail();
         }
     } catch(e) { showNotif('Exit failed: ' + e.message, 'red'); }
