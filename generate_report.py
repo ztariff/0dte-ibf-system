@@ -45,41 +45,6 @@ edges = {
             "The market is calm underneath despite what VIX implies -- textbook premium selling conditions.",
         ],
     },
-    "v4": {
-        "title": "Mid-VIX Down Day, Flat Gap, In Range",
-        "regime": "MID_DN_IN_GFL (VIX 15-20, prior day down, in prior week range, flat gap)",
-        "entry": "10:00 AM ET",
-        "mechanics": "40% profit target | Hold to close | 1 tranche",
-        "sizing": "$100K risk budget",
-        "edge": (
-            "This strategy targets a very common regime: moderate implied vol (VIX 15-20) "
-            "after a down day, with price still inside the prior week's range and no meaningful "
-            "gap at the open. The thesis is that yesterday's selloff was contained (still in range) "
-            "and today opens flat, suggesting the move is digested and the market is likely to "
-            "consolidate. The 40% target is conservative, reflecting the high frequency but "
-            "moderate edge of this setup. No additional filter is required -- the regime alone "
-            "provides enough context.\n\n"
-            "The risk: this fires on 44 days (most of any regime strategy), which means it catches "
-            "some unfavorable days. The 65.9% win rate and 0.76 profit factor indicate this regime "
-            "alone isn't enough -- it's a volume play that can accumulate losses during extended selloffs."
-        ),
-    },
-    "v5": {
-        "title": "Mid-VIX Up Day, Gap Up, Outside Range",
-        "regime": "MID_UP_OT_GUP (VIX 15-20, prior day up, outside range, gap up)",
-        "entry": "10:00 AM ET",
-        "mechanics": "40% profit target | Hold to close | 1 tranche",
-        "sizing": "$100K risk budget",
-        "edge": (
-            "After a strong up day that pushed price outside the prior week's range, today gaps "
-            "up further. The filter requires 5-day return > 0 (confirming a genuine uptrend, "
-            "not a dead cat bounce). The thesis: extended breakouts tend to consolidate intraday "
-            "even if the trend continues. The butterfly profits from the pause, not the direction.\n\n"
-            "The 72.2% win rate is solid, but with only 18 trades and a 1.17 PF, the edge is "
-            "thin. The gap-up-outside-range condition is rare enough to keep trade count low, "
-            "but when it fires into a trending day, the losses are large."
-        ),
-    },
     "v6": {
         "title": "Low-VIX Down Day, Flat Gap, In Range",
         "regime": "LOW_DN_IN_GFL (VIX <15, prior day down, in range, flat gap)",
@@ -163,22 +128,6 @@ edges = {
             "when the selloff resumes."
         ),
     },
-    "v11": {
-        "title": "Low-VIX Up Day, Flat Gap, Outside Range",
-        "regime": "LOW_UP_OT_GFL (VIX <15, prior day up, outside range, flat gap)",
-        "entry": "10:00 AM ET",
-        "mechanics": "70% profit target | Hold to close | 1 tranche",
-        "sizing": "$100K risk budget",
-        "edge": (
-            "Low VIX with price already above the prior week's range after an up day -- this is "
-            "a calm breakout in a complacent market. The VP<=2.0 filter is lenient (allows VP up "
-            "to 2x), acknowledging that in low-VIX environments the absolute premium is smaller "
-            "and VP tends to run higher.\n\n"
-            "The edge is that breakouts in low-vol regimes tend to stall intraday even as the "
-            "daily trend continues. The butterfly captures intraday consolidation premium. "
-            "29 trades, 62.1% win rate, but the 1.26 PF means the wins barely outpace losses."
-        ),
-    },
     "v12": {
         "title": "Low-VIX Up Day, Gap Up, Outside Range",
         "regime": "LOW_UP_OT_GUP (VIX <15, prior day up, outside range, gap up)",
@@ -192,22 +141,6 @@ edges = {
             "Paradoxically, selling premium on the strongest trend days works because intraday "
             "movement consolidates even as the trend extends over multiple days. 8 trades, 75% win "
             "rate, 1.98 PF -- small sample but clean execution."
-        ),
-    },
-    "v13": {
-        "title": "Low-VIX Down Day, Gap Up, In Range",
-        "regime": "LOW_DN_IN_GUP (VIX <15, prior day down, in range, gap up)",
-        "entry": "10:30 AM ET",
-        "mechanics": "40% profit target | Hold to close | 1 tranche",
-        "sizing": "$100K risk budget",
-        "edge": (
-            "Yesterday was a down day in a low-VIX regime, but today gaps up -- a classic reversal "
-            "pattern. Price is still inside the prior week's range (no damage done), and the "
-            "Rng<=0.3% filter requires the morning range to be very tight (under 0.3%), confirming "
-            "that the gap-up is not volatile but controlled.\n\n"
-            "The 10:30 entry lets the opening print settle. Only 7 trades with an 85.7% win rate "
-            "suggests this is a high-selectivity, high-conviction setup -- when all conditions "
-            "align, the butterfly almost always works."
         ),
     },
     "v14": {
@@ -300,16 +233,15 @@ pdf.cell(0, 6, 'Slippage: $1.00 per contract deducted from all P&L', align='C', 
 pdf.add_page()
 pdf.section_title('Executive Summary')
 pdf.body_text(
-    'This report covers 12 strategies (V3-V14) that trade 0DTE SPX iron butterflies under different '
-    'market conditions. V3 (PHOENIX) uses a multi-signal confluence model. V4-V14 are regime-based '
-    'strategies that each target a specific combination of VIX level, prior-day direction, weekly range '
-    'position, and opening gap direction.'
+    'This report covers 8 strategies (V3, V6-V10, V12, V14) that trade 0DTE SPX iron butterflies under different '
+    'market conditions. V3 (PHOENIX) uses a multi-signal confluence model. The regime strategies each target '
+    'a specific combination of VIX level, prior-day direction, weekly range position, and opening gap direction.'
 )
 pdf.body_text(
     'Each strategy enters a single iron butterfly at its designated time, with an adaptive wing width '
     'based on implied daily range (0.75x one-sigma move from VIX, rounded to nearest 5 points, minimum '
     '40 points). All P&L assumes $100,000 daily risk budget with $1/contract slippage. V3 uses tiered '
-    'sizing based on signal count; V4-V14 always deploy the full $100K budget.'
+    'sizing based on signal count; the regime strategies always deploy the full $100K budget.'
 )
 
 # Summary table
@@ -323,7 +255,7 @@ pdf.cell(0, 4, '-' * 85, new_x='LMARGIN', new_y='NEXT')
 
 total_trades = 0
 total_pnl = 0
-for ver in ['v3','v4','v5','v6','v7','v8','v9','v10','v11','v12','v13','v14']:
+for ver in ['v3','v6','v7','v8','v9','v10','v12','v14']:
     s = stats.get(ver, {})
     n = s.get('total_trades', 0)
     total_trades += n
@@ -348,19 +280,18 @@ pdf.sub_title('Key Findings')
 pdf.body_text(
     '1. V3 (PHOENIX) is the highest-volume profitable strategy: 112 trades, 70.5% win rate, '
     '$919K total P&L, 2.04 profit factor. Its tiered sizing concentrates capital on the best days.\n\n'
-    '2. V9 (Mid-VIX, up day, outside range, flat gap) is the best regime strategy: 29 trades, '
-    '79.3% win rate, $425K P&L, 2.36 PF. The !RISING filter and 70% target are well-calibrated.\n\n'
-    '3. V10 (Mid-VIX, down day, outside range, flat gap) is the highest per-trade earner among '
-    'viable strategies: $17,145 average per trade, driven by the 70% target on extended selloff pauses.\n\n'
-    '4. V14 (Mid-VIX, down-gap-down, in range) has the highest win rate (87.5%) and PF (3.99) '
-    'but only 8 trades -- high conviction, low frequency.\n\n'
-    '5. V4 is the biggest drag: 44 trades at a -$250K loss. The MID_DN_IN_GFL regime fires too '
-    'often without a quality filter, catching unfavorable trending days.\n\n'
-    '6. The combined ensemble generates $2.33M over 573 trading days -- roughly $4,070 per day.'
+    '2. V14 (Mid-VIX, down-gap-down, in range) has the highest win rate (88.9%) and PF (4.68) '
+    'with 9 trades -- the highest conviction setup in the ensemble.\n\n'
+    '3. V10 (Mid-VIX, down day, outside range, flat gap) is the highest per-trade earner: '
+    '$23,740 average, driven by the 70% target on extended selloff pauses.\n\n'
+    '4. V9 (Mid-VIX, up day, outside range, flat gap) is the most consistent regime strategy: '
+    '26 trades, 76.9% win rate, $289K P&L, 1.93 PF.\n\n'
+    '5. The 8-strategy ensemble generates $2.54M over 573 trading days -- roughly $4,430 per day. '
+    'Strategies with poor risk/reward (V4, V5, V11, V13) were removed to improve capital efficiency.'
 )
 
 # ─── INDIVIDUAL STRATEGY PAGES ───
-for ver in ['v3','v4','v5','v6','v7','v8','v9','v10','v11','v12','v13','v14']:
+for ver in ['v3','v6','v7','v8','v9','v10','v12','v14']:
     s = stats.get(ver, {})
     e = edges.get(ver, {})
     n = s.get('total_trades', 0)
@@ -493,7 +424,7 @@ terms = [
     ('Volatility Premium (VP)', 'Ratio of VIX to Realized Vol. VP > 1 means options are overpriced relative to actual movement. Lower VP = more edge for selling premium.'),
     ('Profit Factor (PF)', 'Gross winning dollars / gross losing dollars. PF > 1.5 is solid. PF > 2.0 is excellent. PF < 1.0 means net loser.'),
     ('Max Drawdown', 'Largest peak-to-trough decline in cumulative P&L. Measures worst-case pain tolerance required to trade the strategy.'),
-    ('Regime', 'Classification of market conditions: VIX level + prior day direction + weekly range position + gap direction. Each V4-V14 strategy targets one specific regime.'),
+    ('Regime', 'Classification of market conditions: VIX level + prior day direction + weekly range position + gap direction. Each regime strategy targets one specific regime.'),
     ('RV Slope', 'Direction of intraday realized vol: RISING (vol expanding), FALLING (vol compressing), STABLE (flat). !RISING filter avoids selling into expanding moves.'),
     ('5d Return', 'Trailing 5-trading-day SPX return. Positive = uptrend context. Used as a trend filter in most PHOENIX signals.'),
     ('Theta', 'Time decay of option premium. Butterflies are net theta-positive: they profit from the passage of time if the underlying stays near the ATM strike.'),

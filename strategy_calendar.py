@@ -17,14 +17,17 @@ _DIR = os.path.dirname(os.path.abspath(__file__))
 # STRATEGY METADATA  (colors + regime labels for display)
 # ═══════════════════════════════════════════════════════════════════════
 STRATEGIES = [
-    {"ver":"v3", "name":"PHOENIX",        "regime":"PHOENIX",        "mech":"50%/close/1T","filter":"--",          "color":"#f59e0b"},
-    {"ver":"v6", "name":"QUIET REBOUND",  "regime":"LOW_DN_IN_GFL",  "mech":"50%/1530/1T", "filter":"VP<=1.7",    "color":"#06b6d4"},
-    {"ver":"v7", "name":"FLAT-GAP FADE",  "regime":"LOW_FL_IN_GUP",  "mech":"40%/close/1T","filter":"--",          "color":"#a855f7"},
-    {"ver":"v8", "name":"STRESS SNAP",    "regime":"ELEV_UP_IN_GDN", "mech":"40%/1530/1T", "filter":"--",          "color":"#ef4444"},
-    {"ver":"v9", "name":"BREAKOUT STALL", "regime":"MID_UP_OT_GFL",  "mech":"70%/1545/1T", "filter":"!RISING",    "color":"#eab308"},
-    {"ver":"v10","name":"BREAKDOWN PAUSE","regime":"MID_DN_OT_GFL",  "mech":"70%/1545/1T", "filter":"--",          "color":"#ec4899"},
-    {"ver":"v12","name":"BULL SQUEEZE",   "regime":"LOW_UP_OT_GUP",  "mech":"40%/close/1T","filter":"5dRet>1",    "color":"#f97316"},
-    {"ver":"v14","name":"ORDERLY DIP",    "regime":"MID_DN_IN_GDN",  "mech":"50%/close/1T","filter":"ScoreVol<18","color":"#64748b"},
+    {"ver":"v3", "name":"PHOENIX",        "regime":"PHOENIX",        "mech":"50%/close/1T","filter":"--",              "color":"#f59e0b"},
+    {"ver":"n15","name":"PHOENIX CLEAR",  "regime":"PHOENIX_CLEAR",  "mech":"50%/close/1T","filter":"VIX9D/VIX<1.0",  "color":"#22c55e"},
+    {"ver":"v6", "name":"QUIET REBOUND",  "regime":"LOW_DN_IN_GFL",  "mech":"50%/1530/1T", "filter":"VP<=1.7",        "color":"#06b6d4"},
+    {"ver":"v7", "name":"FLAT-GAP FADE",  "regime":"LOW_FL_IN_GUP",  "mech":"40%/close/1T","filter":"--",              "color":"#a855f7"},
+    {"ver":"v8", "name":"STRESS SNAP",    "regime":"ELEV_UP_IN_GDN", "mech":"40%/1530/1T", "filter":"--",              "color":"#ef4444"},
+    {"ver":"v9", "name":"BREAKOUT STALL", "regime":"MID_UP_OT_GFL",  "mech":"70%/1545/1T", "filter":"!RISING",        "color":"#eab308"},
+    {"ver":"v10","name":"BREAKDOWN PAUSE","regime":"MID_DN_OT_GFL",  "mech":"70%/1545/1T", "filter":"--",              "color":"#ec4899"},
+    {"ver":"v12","name":"BULL SQUEEZE",   "regime":"LOW_UP_OT_GUP",  "mech":"40%/close/1T","filter":"5dRet>1",        "color":"#f97316"},
+    {"ver":"v14","name":"ORDERLY DIP",    "regime":"MID_DN_IN_GDN",  "mech":"50%/close/1T","filter":"ScoreVol<18",    "color":"#64748b"},
+    {"ver":"n17","name":"AFTERNOON LOCK", "regime":"PHOENIX_AFT",    "mech":"50%/close/1T","filter":"VVIX<100@13:00", "color":"#7c3aed"},
+    {"ver":"n18","name":"LATE SQUEEZE",   "regime":"LATE_SQUEEZE",   "mech":"50%/close/1T","filter":"3Laws@14:00",    "color":"#0ea5e9"},
 ]
 
 color_map = {s["ver"]: s["color"] for s in STRATEGIES}
@@ -140,14 +143,14 @@ h1 { color: #f59e0b; font-size: 20px; margin-bottom: 4px; }
 </style>
 </head>
 <body>
-<h1>STRATEGY CALENDAR -- v3-v14 Dollar P&L</h1>
-<div class="subtitle">Risk: PHOENIX tiered $25K–$100K | QUIET REBOUND/BREAKDOWN PAUSE/BULL SQUEEZE/ORDERLY DIP $75K | BREAKOUT STALL $100K | FLAT-GAP FADE/STRESS SNAP $25K | VP-scaled per trade | $1/spread slippage</div>
+<h1>STRATEGY CALENDAR -- All Strategies Dollar P&L</h1>
+<div class="subtitle">Risk: PHOENIX/PHOENIX CLEAR tiered $25K–$100K | QUIET REBOUND/BREAKDOWN PAUSE/BULL SQUEEZE/ORDERLY DIP $75K | BREAKOUT STALL $100K | FLAT-GAP FADE/STRESS SNAP $25K | AFTERNOON LOCK/LATE SQUEEZE $50K fixed | VP-scaled per trade | $1/spread slippage | N17/N18 use real bid/ask fills</div>
 
 <div class="legend">
 """
 
 for s in STRATEGIES:
-    html += f'<div class="legend-item"><div class="legend-dot" style="background:{s["color"]}"></div>{s["ver"].upper()}</div>\n'
+    html += f'<div class="legend-item"><div class="legend-dot" style="background:{s["color"]}"></div>{s["name"]} <span style="opacity:0.5;font-size:9px;">{s["ver"].upper()}</span></div>\n'
 
 html += '</div>\n'
 
