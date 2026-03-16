@@ -1,4 +1,4 @@
-"""Compute V3-V14 strategy performance stats with correct definitions from cockpit_feed.py."""
+"""Compute V3-V14 + N15/N17/N18 strategy performance stats."""
 import pandas as pd
 import numpy as np
 import json, os
@@ -7,6 +7,23 @@ _DIR = os.path.dirname(os.path.abspath(__file__))
 df = pd.read_csv(os.path.join(_DIR, 'research_all_trades.csv'))
 with open(os.path.join(_DIR, 'spx_gap_cache.json')) as f:
     gaps = json.load(f)
+
+# ── Locate additional data files (worktree or project root) ──────────────────
+_PROJ_ROOT = _DIR
+if '.claude' in _DIR and 'worktrees' in _DIR:
+    _PROJ_ROOT = os.path.dirname(os.path.dirname(os.path.dirname(_DIR)))
+
+def _find(fname):
+    for d in [_DIR, _PROJ_ROOT]:
+        p = os.path.join(d, fname)
+        if os.path.exists(p): return p
+    return None
+
+_vix9d_path = _find('vix9d_daily.json')
+_real_fills_path = _find('real_fills.json')
+vix9d_data = json.load(open(_vix9d_path)) if _vix9d_path else {}
+real_fills_data = json.load(open(_real_fills_path)) if _real_fills_path else {}
+print(f"VIX9D: {len(vix9d_data)} days | real_fills: {sum(len(v) for v in real_fills_data.values())} records")
 
 # ── Trade-detail helpers ──────────────────────────────────────────────────────
 def _safe_f(v, dec=2):
@@ -47,6 +64,7 @@ def _build_intraday(row):
 # CORRECT strategy definitions from cockpit_feed.py lines 51-88
 strats = [
     {"ver":"v3","type":"phoenix","mech":"50%/close/1T","entry":"10:00","name":"PHOENIX","desc":"PHOENIX — Concentrated Signal Model"},
+    {"ver":"n15","type":"phoenix_clear","mech":"50%/close/1T","entry":"10:00","name":"PHOENIX CLEAR","desc":"PHOENIX CLEAR — PHOENIX + Normal Term Structure (VIX9D/VIX < 1.0)"},
     {"ver":"v6","vix":[0,15],"pd":"DN","rng":"IN","gap":"GFL","filter":"VP<=1.7","mech":"50%/1530/1T","entry":"10:00",
      "name":"QUIET REBOUND","desc":"QUIET REBOUND — Low VIX | Prior Day Down | In Range | Flat Gap"},
     {"ver":"v7","vix":[0,15],"pd":"FL","rng":"IN","gap":"GUP","filter":None,"mech":"40%/close/1T","entry":"10:00",
@@ -61,6 +79,14 @@ strats = [
      "name":"BULL SQUEEZE","desc":"BULL SQUEEZE — Low VIX | Prior Day Up | Outside Range | Gap Up"},
     {"ver":"v14","vix":[15,20],"pd":"DN","rng":"IN","gap":"GDN","filter":"ScoreVol<18","mech":"50%/close/1T","entry":"10:00",
      "name":"ORDERLY DIP","desc":"ORDERLY DIP — Mid VIX | Prior Day Down | In Range | Gap Down"},
+]
+
+# N17/N18 metadata (processed separately from real_fills.json)
+REAL_FILL_STRATS = [
+    {"ver":"n17","mech":"50%/close/1T","entry":"13:00","filter":"VVIX<100",
+     "name":"AFTERNOON LOCK","desc":"AFTERNOON LOCK — PHOENIX + VVIX<100 + 13:00 Entry | ±25/±40 Iron Condor"},
+    {"ver":"n18","mech":"50%/close/1T","entry":"14:00","filter":"5dRet>1+VP<2+Prior≠FL",
+     "name":"LATE SQUEEZE","desc":"LATE SQUEEZE — 5dRet>1% + VP<2 + Prior≠FLAT + 14:00 Entry | ±10/±20 Iron Condor"},
 ]
 
 def classify_row(row):
@@ -185,7 +211,7 @@ def compute_pnl(row, strat, fire_count=0, override_budget=None):
         exit_type = 'CLOSE'
         exit_slot = 'close'
 
-    if strat.get('type') == 'phoenix':
+    if strat.get('type') in ('phoenix', 'phoenix_clear'):
         tier_map = {0: 0, 1: 25000, 2: 50000, 3: 75000, 4: 100000, 5: 100000}
         risk_budget = tier_map.get(fire_count, 100000)
     elif override_budget is not None:
@@ -213,36 +239,47 @@ for strat in strats:
     trades = []
     for idx, row in df.iterrows():
         vr, pd_label, rng, gap_label, vix_val = classify_row(row)
-        if ver == 'v3':
+        if strat.get('type') in ('phoenix', 'phoenix_clear'):
             fc, details = phoenix_fire_count(row)
-            if fc > 0:
-                result = compute_pnl(row, strat, fc)
-                if result:
-                    result['date'] = str(row['date'])[:10]
-                    trades.append(result)
-                    all_trades_export.append({
-                        'date': result['date'], 'ver': ver,
-                        'pnl': round(result['dollar_pnl']),
-                        'qty': result['qty'], 'exit': result['exit_type'],
-                        'fire_count': fc, 'risk_budget': result['risk_budget'],
-                        'pnl_ps': round(result['pnl_per_spread'], 2),
-                        'is_win': result['is_win'],
-                        'entry_time': strat['entry'],
-                        'exit_time': _get_exit_time(result, row),
-                        'wing_width': int(result['ww']),
-                        'entry_credit': round(result['entry_credit'], 2),
-                        'vix': _safe_f(row.get('vix')),
-                        'score': _safe_f(row.get('score'), 0),
-                        'vp_ratio': _safe_f(row.get('vp_ratio'), 3),
-                        'rv': _safe_f(row.get('rv')),
-                        'prior_5d': _safe_f(row.get('prior_5d_return'), 3),
-                        'prior_1d': _safe_f(row.get('prior_day_return'), 3),
-                        'prior_dir': _safe_s(row.get('prior_day_direction')),
-                        'max_ps': _safe_f(row.get('max_pnl')),
-                        'min_ps': _safe_f(row.get('min_pnl')),
-                        'intraday': _build_intraday(row),
-                        'fire_signals': details,
-                    })
+            if fc == 0:
+                continue
+            # N15 extra filter: VIX9D/VIX < 1.0 (normal term structure)
+            if strat.get('type') == 'phoenix_clear':
+                date_str = str(row['date'])[:10]
+                vix9d_val = vix9d_data.get(date_str)
+                vix_val = row.get('vix', 99)
+                if vix9d_val is None or pd.isna(vix9d_val) or vix_val <= 0:
+                    continue  # skip: no VIX9D data
+                ts_ratio = float(vix9d_val) / float(vix_val)
+                if ts_ratio >= 1.0:
+                    continue  # kill signal: inverted term structure
+            result = compute_pnl(row, strat, fc)
+            if result:
+                result['date'] = str(row['date'])[:10]
+                trades.append(result)
+                all_trades_export.append({
+                    'date': result['date'], 'ver': ver,
+                    'pnl': round(result['dollar_pnl']),
+                    'qty': result['qty'], 'exit': result['exit_type'],
+                    'fire_count': fc, 'risk_budget': result['risk_budget'],
+                    'pnl_ps': round(result['pnl_per_spread'], 2),
+                    'is_win': result['is_win'],
+                    'entry_time': strat['entry'],
+                    'exit_time': _get_exit_time(result, row),
+                    'wing_width': int(result['ww']),
+                    'entry_credit': round(result['entry_credit'], 2),
+                    'vix': _safe_f(row.get('vix')),
+                    'score': _safe_f(row.get('score'), 0),
+                    'vp_ratio': _safe_f(row.get('vp_ratio'), 3),
+                    'rv': _safe_f(row.get('rv')),
+                    'prior_5d': _safe_f(row.get('prior_5d_return'), 3),
+                    'prior_1d': _safe_f(row.get('prior_day_return'), 3),
+                    'prior_dir': _safe_s(row.get('prior_day_direction')),
+                    'max_ps': _safe_f(row.get('max_pnl')),
+                    'min_ps': _safe_f(row.get('min_pnl')),
+                    'intraday': _build_intraday(row),
+                    'fire_signals': details,
+                })
         else:
             vix_range = strat.get('vix')
             if not vix_range: continue
@@ -322,7 +359,8 @@ for strat in strats:
 
         stats = {
             'ver': ver, 'mech': strat['mech'], 'entry_time': strat['entry'],
-            'filter': strat.get('filter') or ('PHOENIX 5-signal confluence' if ver == 'v3' else 'None'),
+            'filter': strat.get('filter') or ('PHOENIX 5-signal confluence' if ver == 'v3' else ('PHOENIX + VIX9D/VIX<1.0' if ver == 'n15' else 'None')),
+            'name': strat.get('name', ver.upper()),
             'desc': strat.get('desc', ''),
             'total_trades': len(trades), 'wins': len(wins), 'losses': len(losses),
             'win_rate': round(len(wins) / len(trades) * 100, 1),
@@ -341,11 +379,77 @@ for strat in strats:
             'avg_entry_credit': round(np.mean([t['entry_credit'] for t in trades]), 2),
             'avg_ww': round(np.mean([t['ww'] for t in trades]), 1),
         }
-        if ver == 'v3':
+        if ver in ('v3', 'n15'):
             stats['fire_count_dist'] = {str(k): v for k, v in sorted(fc_dist.items())}
         all_stats[ver] = stats
     else:
         all_stats[ver] = {'ver': ver, 'total_trades': 0, 'total_pnl': 0, 'desc': strat.get('desc','')}
+
+# ── N17 / N18: build from real_fills.json ────────────────────────────────────
+for rf_strat in REAL_FILL_STRATS:
+    ver = rf_strat['ver']
+    strat_key = ver.upper()  # 'N17' or 'N18'
+    fills = real_fills_data.get(strat_key, {})
+    trades = []
+    for date, fill in sorted(fills.items()):
+        if fill.get('status') != 'ok':
+            continue
+        pnl = fill['total_pnl']
+        pnl_ps = fill['pnl_per_spread']
+        qty = fill['qty']
+        ww = fill.get('width', 10)
+        credit = fill.get('total_credit', 0)
+        is_win = pnl > 0
+        trade = {
+            'dollar_pnl': pnl, 'pnl_per_spread': pnl_ps,
+            'entry_credit': credit, 'exit_type': 'CLOSE', 'exit_slot': 'close',
+            'qty': qty, 'risk_budget': 50000, 'ww': ww,
+            'fire_count': None, 'is_win': is_win, 'date': date,
+        }
+        trades.append(trade)
+        all_trades_export.append({
+            'date': date, 'ver': ver,
+            'pnl': round(pnl), 'qty': qty, 'exit': 'CLOSE',
+            'fire_count': None, 'risk_budget': 50000,
+            'pnl_ps': round(pnl_ps, 2), 'is_win': is_win,
+            'entry_time': rf_strat['entry'],
+            'exit_time': '16:15 ET',
+            'wing_width': int(ww),
+            'entry_credit': round(credit, 3),
+        })
+
+    if trades:
+        pnls = [t['dollar_pnl'] for t in trades]
+        wins = [t for t in trades if t['is_win']]
+        losses = [t for t in trades if not t['is_win']]
+        gross_wins = sum(t['dollar_pnl'] for t in wins)
+        gross_losses = abs(sum(t['dollar_pnl'] for t in losses))
+
+        equity = peak = max_dd = 0
+        for t in trades:
+            equity += t['dollar_pnl']; peak = max(peak, equity); max_dd = max(max_dd, peak - equity)
+
+        all_stats[ver] = {
+            'ver': ver, 'mech': rf_strat['mech'], 'entry_time': rf_strat['entry'],
+            'filter': rf_strat.get('filter', ''), 'desc': rf_strat.get('desc', ''),
+            'name': rf_strat.get('name', ver.upper()),
+            'total_trades': len(trades), 'wins': len(wins), 'losses': len(losses),
+            'win_rate': round(len(wins) / len(trades) * 100, 1),
+            'total_pnl': round(sum(pnls)), 'avg_pnl': round(sum(pnls) / len(trades)),
+            'max_win': round(max(pnls)), 'max_loss': round(min(pnls)),
+            'median_pnl': round(float(np.median(pnls))),
+            'gross_wins': round(gross_wins), 'gross_losses': round(gross_losses),
+            'profit_factor': round(gross_wins / gross_losses, 2) if gross_losses > 0 else 999,
+            'avg_win': round(gross_wins / len(wins)) if wins else 0,
+            'avg_loss': round(-gross_losses / len(losses)) if losses else 0,
+            'max_drawdown': round(max_dd), 'final_equity': round(equity),
+            'avg_qty': round(np.mean([t['qty'] for t in trades]), 1),
+            'avg_entry_credit': round(np.mean([t['entry_credit'] for t in trades]), 3),
+            'avg_ww': round(np.mean([t['ww'] for t in trades]), 1),
+            'data_source': 'real_fills',
+        }
+    else:
+        all_stats[ver] = {'ver': ver, 'total_trades': 0, 'total_pnl': 0, 'desc': rf_strat.get('desc', '')}
 
 with open(os.path.join(_DIR, 'strategy_trades.json'), 'w') as f:
     json.dump(all_trades_export, f, indent=2)
@@ -353,16 +457,16 @@ with open(os.path.join(_DIR, 'strategy_trades.json'), 'w') as f:
 with open(os.path.join(_DIR, 'strategy_stats.json'), 'w') as f:
     json.dump(all_stats, f, indent=2)
 
-print(f"{'Ver':<5} {'N':>4} {'WR%':>6} {'TotalP&L':>12} {'AvgP&L':>9} {'PF':>6} {'MaxDD':>9} {'AvgWin':>8} {'AvgLoss':>9}")
-print("-" * 80)
+print(f"{'Ver':<8} {'N':>4} {'WR%':>6} {'TotalP&L':>12} {'AvgP&L':>9} {'PF':>6} {'MaxDD':>9} {'AvgWin':>8} {'AvgLoss':>9}")
+print("-" * 85)
 total_pnl = 0
-for ver in ['v3','v6','v7','v8','v9','v10','v12','v14']:
+for ver in ['v3','n15','v6','v7','v8','v9','v10','v12','v14','n17','n18']:
     s = all_stats.get(ver, {})
     n = s.get('total_trades', 0)
     total_pnl += s.get('total_pnl', 0)
     if n > 0:
-        print(f"{ver:<5} {n:>4} {s['win_rate']:>5.1f}% ${s['total_pnl']:>10,} ${s['avg_pnl']:>7,} {s['profit_factor']:>5.2f} ${s['max_drawdown']:>7,} ${s['avg_win']:>6,} ${s['avg_loss']:>7,}")
+        print(f"{ver:<8} {n:>4} {s['win_rate']:>5.1f}% ${s['total_pnl']:>10,} ${s['avg_pnl']:>7,} {s['profit_factor']:>5.2f} ${s['max_drawdown']:>7,} ${s['avg_win']:>6,} ${s['avg_loss']:>7,}")
     else:
-        print(f"{ver:<5}    0    ---")
+        print(f"{ver:<8}    0    ---")
 print(f"\nCombined: ${total_pnl:,}")
 print(f"Period: {df['date'].min()} to {df['date'].max()} ({len(df)} days)")

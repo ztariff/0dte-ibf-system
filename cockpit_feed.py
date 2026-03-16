@@ -78,6 +78,16 @@ STRATEGIES = [
     {"ver":"v14","name":"ORDERLY DIP","regime":"MID_DN_IN_GDN","entry":"10:00","mech":"50%/close/1T","filter":"ScoreVol<18",
      "desc":"ORDERLY DIP — Mid VIX | Prior Day Down | In Range | Gap Down","color":"#64748b",
      "vix":[15,20],"pd":"DN","rng":"IN","gap":"GDN"},
+    # ── New edges (N15/N17/N18) ──────────────────────────────────────────────
+    {"ver":"n15","name":"PHOENIX CLEAR","regime":"PHOENIX_CLEAR","entry":"10:00","mech":"50%/close/1T","filter":"VIX9D/VIX<1.0",
+     "desc":"PHOENIX CLEAR — PHOENIX + Normal Term Structure (VIX9D/VIX < 1.0)","color":"#22c55e",
+     "type":"phoenix_clear","vix":None,"pd":None,"rng":None,"gap":None},
+    {"ver":"n17","name":"AFTERNOON LOCK","regime":"PHOENIX_AFT","entry":"13:00","mech":"50%/close/1T","filter":"VVIX<100",
+     "desc":"AFTERNOON LOCK — PHOENIX + VVIX<100 | 13:00 Entry | ±25/±40 Iron Condor | $50K","color":"#7c3aed",
+     "type":"phoenix_afternoon","vix":None,"pd":None,"rng":None,"gap":None},
+    {"ver":"n18","name":"LATE SQUEEZE","regime":"LATE_SQUEEZE","entry":"14:00","mech":"50%/close/1T","filter":"5dRet>1+VP<2",
+     "desc":"LATE SQUEEZE — 5dRet>1% + VP<2 + Prior≠FLAT | 14:00 Entry | ±10/±20 Iron Condor | $50K","color":"#0ea5e9",
+     "type":"late_squeeze","vix":None,"pd":None,"rng":None,"gap":None},
 ]
 
 TRANCHE_CONFIGS = {
@@ -91,6 +101,8 @@ TRANCHE_CONFIGS = {
 REGIME_MAX_BUDGET = {
     "v6":  75000, "v7":  100000, "v8":  50000, "v9":  75000,
     "v10": 100000, "v12": 100000, "v14": 100000,
+    # N15 uses tiered Phoenix sizing; N17/N18 are fixed $50K (set directly in signal matching)
+    "n17": 50000, "n18": 50000,
 }
 
 def regime_budget_cockpit(ver, vp):
@@ -351,6 +363,34 @@ def get_spx_price():
     # Fallback: try aggs
     today = datetime.now().strftime("%Y-%m-%d")
     data = poly_get(f"/v2/aggs/ticker/I:SPX/range/1/minute/{today}/{today}", params={"limit": 1, "sort": "desc"})
+    if data and data.get("results"):
+        return data["results"][0].get("c")
+    return None
+
+def get_vix9d_price():
+    """Get current VIX9D level (9-day VIX, tracks near-term vol)."""
+    data = poly_get("/v3/snapshot", params={"ticker.any_of": "I:VIX9D"})
+    if data and data.get("results"):
+        for r in data["results"]:
+            if r.get("ticker") == "I:VIX9D":
+                session = r.get("session", {})
+                return session.get("price") or session.get("close") or session.get("previous_close")
+    today = datetime.now().strftime("%Y-%m-%d")
+    data = poly_get(f"/v2/aggs/ticker/I:VIX9D/range/1/minute/{today}/{today}", params={"limit": 1, "sort": "desc"})
+    if data and data.get("results"):
+        return data["results"][0].get("c")
+    return None
+
+def get_vvix_price():
+    """Get current VVIX level (vol-of-vol, measures option demand)."""
+    data = poly_get("/v3/snapshot", params={"ticker.any_of": "I:VVIX"})
+    if data and data.get("results"):
+        for r in data["results"]:
+            if r.get("ticker") == "I:VVIX":
+                session = r.get("session", {})
+                return session.get("price") or session.get("close") or session.get("previous_close")
+    today = datetime.now().strftime("%Y-%m-%d")
+    data = poly_get(f"/v2/aggs/ticker/I:VVIX/range/1/minute/{today}/{today}", params={"limit": 1, "sort": "desc"})
     if data and data.get("results"):
         return data["results"][0].get("c")
     return None
@@ -899,12 +939,37 @@ def poll():
         vix = 18.0  # fallback
     print(f"  VIX: {vix:.2f}")
 
-    # ─── Daily data (cached — these come from completed bars, can't change intraday) ───
+    # 2b. Get VIX9D + VVIX (for N15/N17 signal matching — daily values, cache them)
     global _daily_cache, _daily_cache_date
     today_str = now.strftime("%Y-%m-%d")
     if _daily_cache_date != today_str:
         _daily_cache.clear()
         _daily_cache_date = today_str
+
+    if "vix9d" not in _daily_cache:
+        vix9d = get_vix9d_price()
+        if vix9d:
+            _daily_cache["vix9d"] = vix9d
+            print(f"  VIX9D: {vix9d:.2f} [CACHED]")
+        else:
+            print(f"  VIX9D: unavailable — N15 will not match")
+    else:
+        vix9d = _daily_cache["vix9d"]
+        print(f"  VIX9D: {vix9d:.2f} [cached]")
+
+    if "vvix" not in _daily_cache:
+        vvix = get_vvix_price()
+        if vvix:
+            _daily_cache["vvix"] = vvix
+            print(f"  VVIX: {vvix:.1f} [CACHED]")
+        else:
+            print(f"  VVIX: unavailable — N17 will not match")
+    else:
+        vvix = _daily_cache["vvix"]
+        print(f"  VVIX: {vvix:.1f} [cached]")
+
+    # ─── Daily data (cached — these come from completed bars, can't change intraday) ───
+    # Note: _daily_cache and _daily_cache_date already declared global above (VIX9D/VVIX section)
 
     # 3. Prior day data (cached after first successful fetch)
     if "prior" not in _daily_cache:
@@ -1063,6 +1128,129 @@ def poll():
 
         # ── Entry-time regime check: only evaluate ONCE at the strategy's entry time ──
         et_str = now.strftime("%H:%M")
+
+        # ── N15 / N17 / N18: special type-based matching (not regime-label driven) ──
+        strat_type = strat.get("type")
+        if strat_type in ("phoenix_clear", "phoenix_afternoon", "late_squeeze"):
+            if ver not in _entry_regime:
+                if et_str < entry_time_str:
+                    signals.append({
+                        **strat,
+                        "matched": False,
+                        "match_reason": f"Waiting for entry time ({entry_time_str} ET)",
+                        "regime_match": False,
+                        "filter_pass": False,
+                        "half_size": False,
+                        "half_size_reason": None,
+                        "risk_budget": 0,
+                    })
+                    continue
+
+                # At or past entry time — evaluate and lock for the day
+                if strat_type == "phoenix_clear":
+                    # N15: PHOENIX fire_count > 0 AND VIX9D/VIX < 1.0 (normal term structure)
+                    if _phoenix_lock is not None:
+                        phx_fc = _phoenix_lock["result"]["fire_count"]
+                    else:
+                        phx_ctx = {
+                            "vix": vix, "vp": vp, "ret5d": ret5d, "rv_1d_change": rv_1d_chg,
+                            "prior_direction": prior["prior_direction"], "in_range": in_range,
+                            "rv_slope_label": rv_slope_label,
+                        }
+                        phx_fc = evaluate_phoenix(phx_ctx)["fire_count"]
+                    vix9d_val = _daily_cache.get("vix9d")
+                    ts_ratio = (float(vix9d_val) / float(vix)) if vix9d_val and vix > 0 else 1.0
+                    if phx_fc > 0 and ts_ratio < 1.0:
+                        tier_map = {1: 25000, 2: 50000, 3: 75000}
+                        rb = tier_map.get(phx_fc, 100000)
+                        _entry_regime[ver] = {
+                            "matched": True,
+                            "reason": f"PHOENIX {phx_fc} sig + VIX9D/VIX={ts_ratio:.3f}<1.0",
+                            "risk_budget": rb, "half_size": False, "half_size_reason": None,
+                        }
+                        print(f"  SIGNAL: {ver} — PHOENIX CLEAR matched ({phx_fc} sig, VIX9D/VIX={ts_ratio:.3f}) risk_budget=${rb:,}")
+                    else:
+                        reason = (f"No PHOENIX signals at {entry_time_str}" if phx_fc == 0
+                                  else f"Term structure inverted (VIX9D/VIX={ts_ratio:.3f}≥1.0)")
+                        _entry_regime[ver] = {
+                            "matched": False, "reason": reason,
+                            "risk_budget": 0, "half_size": False, "half_size_reason": None,
+                        }
+                        print(f"  {ver}: NO MATCH — {reason}")
+
+                elif strat_type == "phoenix_afternoon":
+                    # N17: PHOENIX fire_count > 0 AND VVIX < 100 at 13:00
+                    if _phoenix_lock is not None:
+                        phx_fc = _phoenix_lock["result"]["fire_count"]
+                    else:
+                        phx_ctx = {
+                            "vix": vix, "vp": vp, "ret5d": ret5d, "rv_1d_change": rv_1d_chg,
+                            "prior_direction": prior["prior_direction"], "in_range": in_range,
+                            "rv_slope_label": rv_slope_label,
+                        }
+                        phx_fc = evaluate_phoenix(phx_ctx)["fire_count"]
+                    vvix_val = _daily_cache.get("vvix")
+                    vvix_num = float(vvix_val) if vvix_val is not None else None
+                    vvix_str = f"{vvix_num:.1f}" if vvix_num is not None else "N/A"
+                    vvix_ok = vvix_num is not None and vvix_num < 100.0
+                    if phx_fc > 0 and vvix_ok:
+                        _entry_regime[ver] = {
+                            "matched": True,
+                            "reason": f"PHOENIX {phx_fc} sig + VVIX={vvix_str}<100 at {entry_time_str}",
+                            "risk_budget": 50000, "half_size": False, "half_size_reason": None,
+                        }
+                        print(f"  SIGNAL: {ver} — AFTERNOON LOCK matched ({phx_fc} sig, VVIX={vvix_str}) risk_budget=$50,000")
+                    else:
+                        reason = (f"No PHOENIX signals at lock time" if phx_fc == 0
+                                  else f"VVIX={vvix_str}≥100 — high vol-of-vol")
+                        _entry_regime[ver] = {
+                            "matched": False, "reason": reason,
+                            "risk_budget": 0, "half_size": False, "half_size_reason": None,
+                        }
+                        print(f"  {ver}: NO MATCH — {reason}")
+
+                elif strat_type == "late_squeeze":
+                    # N18: 5d return > 1% AND VP < 2.0 AND prior day direction != FLAT
+                    prior_dir = prior.get("prior_direction", "FLAT")
+                    ret5d_ok = ret5d > 1.0
+                    vp_ok = vp < 2.0
+                    prior_ok = prior_dir != "FLAT"
+                    if ret5d_ok and vp_ok and prior_ok:
+                        _entry_regime[ver] = {
+                            "matched": True,
+                            "reason": f"3-Laws: ret5d={ret5d:.2f}%>1 + VP={vp:.2f}<2 + Prior={prior_dir}≠FLAT",
+                            "risk_budget": 50000, "half_size": False, "half_size_reason": None,
+                        }
+                        print(f"  SIGNAL: {ver} — LATE SQUEEZE matched (ret5d={ret5d:.2f}%, VP={vp:.2f}, prior={prior_dir}) risk_budget=$50,000")
+                    else:
+                        fails = []
+                        if not ret5d_ok: fails.append(f"ret5d={ret5d:.2f}%≤1%")
+                        if not vp_ok: fails.append(f"VP={vp:.2f}≥2.0")
+                        if not prior_ok: fails.append(f"Prior={prior_dir}=FLAT")
+                        reason = "3-Laws fail: " + ", ".join(fails)
+                        _entry_regime[ver] = {
+                            "matched": False, "reason": reason,
+                            "risk_budget": 0, "half_size": False, "half_size_reason": None,
+                        }
+                        print(f"  {ver}: NO MATCH — {reason}")
+
+            # Use locked entry-time result
+            er = _entry_regime[ver]
+            signals.append({
+                **strat,
+                "matched": er["matched"],
+                "match_reason": er["reason"],
+                "regime_match": er["matched"],
+                "filter_pass": er["matched"],
+                "half_size": er.get("half_size", False),
+                "half_size_reason": er.get("half_size_reason"),
+                "risk_budget": er.get("risk_budget", 0),
+            })
+            if er["matched"]:
+                print(f"  {ver}: ACTIVE (locked at entry — {er['reason']})")
+            continue
+
+        # ── Standard regime-based matching (v6–v14) ──
         if ver not in _entry_regime:
             # Haven't checked this strategy yet today
             if et_str < entry_time_str:
