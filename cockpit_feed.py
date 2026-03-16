@@ -1523,6 +1523,15 @@ class QuietHandler(SimpleHTTPRequestHandler):
         self.send_header("Access-Control-Allow-Origin", "*")
         super().end_headers()
 
+    def do_GET(self):
+        """Redirect / to /trading_cockpit.html instead of showing directory listing."""
+        if self.path == "/" or self.path == "":
+            self.send_response(302)
+            self.send_header("Location", "/trading_cockpit.html")
+            self.end_headers()
+            return
+        super().do_GET()
+
     def do_OPTIONS(self):
         self.send_response(200)
         self.send_header("Access-Control-Allow-Origin", "*")
