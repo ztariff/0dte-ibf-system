@@ -2,19 +2,12 @@
 <html>
 <head>
 <meta charset="utf-8">
-<title>Strategy Calendar — v3-v14 Dollar P&L</title>
+<title>Strategy Calendar -- v3-v14 Dollar P&L ($100K Risk)</title>
 <style>
 * { box-sizing: border-box; margin: 0; padding: 0; }
 body { background: #0a0a0f; color: #e0e0e0; font-family: 'Consolas', 'Monaco', monospace; padding: 20px; }
 h1 { color: #f59e0b; font-size: 20px; margin-bottom: 4px; }
-.subtitle { color: #888; font-size: 11px; margin-bottom: 12px; }
-.refresh-bar { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; padding: 8px 12px; background: #111118; border-radius: 6px; border: 1px solid #222; font-size: 11px; }
-.refresh-bar .status { color: #888; }
-.refresh-bar .status.loading { color: #f59e0b; }
-.refresh-bar .status.ok { color: #22c55e; }
-.refresh-bar .status.err { color: #ef4444; }
-.spinner { display: inline-block; width: 10px; height: 10px; border: 2px solid #333; border-top-color: #f59e0b; border-radius: 50%; animation: spin 0.7s linear infinite; margin-right: 4px; vertical-align: middle; }
-@keyframes spin { to { transform: rotate(360deg); } }
+.subtitle { color: #888; font-size: 11px; margin-bottom: 16px; }
 .legend { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px; padding: 10px; background: #111118; border-radius: 6px; border: 1px solid #222; }
 .legend-item { display: flex; align-items: center; gap: 4px; font-size: 10px; }
 .legend-dot { width: 10px; height: 10px; border-radius: 2px; }
@@ -32,549 +25,3548 @@ h1 { color: #f59e0b; font-size: 20px; margin-bottom: 4px; }
 .cal-day .day-num { color: #666; font-size: 10px; margin-bottom: 2px; }
 .cal-day .day-num.weekend { color: #333; }
 .strat-tag { display: inline-block; padding: 1px 4px; border-radius: 2px; font-size: 8px; font-weight: bold; margin: 1px; line-height: 1.4; white-space: nowrap; }
+.strat-tag.win { opacity: 1; }
+.strat-tag.loss { opacity: 0.7; }
 .pnl-pos { color: #22c55e; }
 .pnl-neg { color: #ef4444; }
 .day-total { font-size: 9px; font-weight: bold; margin-top: 2px; padding-top: 2px; border-top: 1px solid #222; }
-#calendar-container { display: none; }
-#error-msg { display: none; color: #ef4444; background: #1a0a0a; border: 1px solid #4a1a1a; padding: 12px; border-radius: 6px; margin-bottom: 16px; font-size: 11px; white-space: pre-wrap; }
-
-/* ── Trade detail modal ────────────────────────────────── */
-#trade-modal { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.82); z-index:1000; align-items:center; justify-content:center; }
-#trade-modal.open { display:flex; }
-.modal-box { background:#0d0d14; border:1px solid #2a2a3a; border-radius:10px; padding:20px 22px; max-width:490px; width:94%; max-height:88vh; overflow-y:auto; position:relative; }
-.modal-close { position:absolute; top:10px; right:14px; background:none; border:none; color:#555; font-size:18px; cursor:pointer; line-height:1; font-family:inherit; }
-.modal-close:hover { color:#ccc; }
-.modal-date { font-size:11px; color:#666; margin-bottom:2px; }
-.modal-pnl { font-size:28px; font-weight:bold; line-height:1; margin-bottom:2px; }
-.modal-pnl-sub { font-size:10px; color:#666; margin-bottom:10px; }
-.modal-badge { display:inline-block; font-size:8px; padding:2px 6px; border-radius:3px; font-weight:bold; letter-spacing:1px; vertical-align:middle; margin-left:8px; }
-.badge-win  { background:#14532d; color:#4ade80; }
-.badge-loss { background:#450a0a; color:#f87171; }
-.modal-sep { border:none; border-top:1px solid #1c1c28; margin:12px 0 10px; }
-.modal-strat-hdr { display:flex; align-items:baseline; gap:8px; margin-bottom:8px; }
-.modal-strat-ver { font-size:16px; font-weight:bold; }
-.modal-strat-desc { font-size:9px; color:#666; }
-.modal-sec { font-size:9px; color:#444; text-transform:uppercase; letter-spacing:1.5px; margin-bottom:5px; display:flex; justify-content:space-between; align-items:center; }
-.modal-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:8px 6px; margin-bottom:10px; }
-.modal-kv .k { font-size:9px; color:#555; }
-.modal-kv .v { font-size:12px; color:#ddd; font-weight:bold; }
-.sparkline-wrap { width:100%; margin-top:4px; margin-bottom:2px; }
-.signal-row { display:flex; gap:5px; flex-wrap:wrap; margin-top:4px; }
-.sig-chip { font-size:9px; padding:2px 7px; border-radius:3px; font-weight:bold; letter-spacing:0.3px; }
-.sig-on  { background:#14532d44; color:#4ade80; border:1px solid #14532d88; }
-.sig-off { background:#111; color:#444; border:1px solid #222; }
-.cal-day.has-trades { cursor:pointer; transition:background 0.1s,border-color 0.1s; }
-.cal-day.has-trades:hover { background:#181826; border-color:#444; }
 </style>
 </head>
 <body>
-<h1>STRATEGY CALENDAR — v3-v14 Dollar P&amp;L</h1>
-<div class="subtitle">$100K daily risk | V3 tiered by confluence (1=$25K, 2=$50K, 3=$75K, 4+=$100K) | Regimes: A+C sizing | $1/spread slippage</div>
+<h1>STRATEGY CALENDAR -- v3-v14 Dollar P&L</h1>
+<div class="subtitle">Risk: V3 tiered $25K–$100K | V6/V10/V12/V14 $75K | V9 $100K | V7/V8 $25K | VP-scaled per trade | $1/spread slippage</div>
 
-<div class="refresh-bar">
-  <span id="refresh-status" class="status loading"><span class="spinner"></span>Refreshing stats from CSV…</span>
-  <span id="refresh-ts" style="color:#555;margin-left:auto;font-size:10px;"></span>
+<div class="legend">
+<div class="legend-item"><div class="legend-dot" style="background:#f59e0b"></div>V3</div>
+<div class="legend-item"><div class="legend-dot" style="background:#06b6d4"></div>V6</div>
+<div class="legend-item"><div class="legend-dot" style="background:#a855f7"></div>V7</div>
+<div class="legend-item"><div class="legend-dot" style="background:#ef4444"></div>V8</div>
+<div class="legend-item"><div class="legend-dot" style="background:#eab308"></div>V9</div>
+<div class="legend-item"><div class="legend-dot" style="background:#ec4899"></div>V10</div>
+<div class="legend-item"><div class="legend-dot" style="background:#f97316"></div>V12</div>
+<div class="legend-item"><div class="legend-dot" style="background:#64748b"></div>V14</div>
 </div>
-
-<div id="error-msg"></div>
-<div id="calendar-container">
-  <div class="legend" id="legend"></div>
-  <table class="stats-table" id="stats-table">
-    <thead>
-      <tr>
-        <th>Strategy</th><th>Regime</th><th>Mech</th><th>Filter</th>
-        <th>Days</th><th>W/L</th><th>Win Rate</th>
-        <th>Total P&amp;L</th><th>Avg P&amp;L</th><th>PF</th><th>Max DD</th>
-      </tr>
-    </thead>
-    <tbody id="stats-body"></tbody>
-  </table>
-  <div id="months"></div>
+<table class="stats-table">
+<tr><th>Strategy</th><th>Regime</th><th>Mech</th><th>Filter</th><th>Days</th><th>W/L</th><th>Win Rate</th><th>Total P&L</th><th>Avg P&L</th><th>PF</th><th>Max DD</th></tr>
+<tr><td style="color:#f59e0b;font-weight:bold">V3</td><td>PHOENIX</td><td>50%/close/1T</td><td>--</td><td>113</td><td>78/35</td><td>69.0%</td><td class="pnl-pos">$886,626</td><td class="pnl-pos">$7,846</td><td>2.01</td><td class="pnl-neg">$142,340</td></tr>
+<tr><td style="color:#06b6d4;font-weight:bold">V6</td><td>LOW_DN_IN_GFL</td><td>50%/1530/1T</td><td>VP<=1.7</td><td>16</td><td>12/4</td><td>75.0%</td><td class="pnl-pos">$127,502</td><td class="pnl-pos">$7,969</td><td>3.11</td><td class="pnl-neg">$27,829</td></tr>
+<tr><td style="color:#a855f7;font-weight:bold">V7</td><td>LOW_FL_IN_GUP</td><td>40%/close/1T</td><td>--</td><td>5</td><td>4/1</td><td>80.0%</td><td class="pnl-pos">$5,598</td><td class="pnl-pos">$1,120</td><td>3.31</td><td class="pnl-neg">$2,420</td></tr>
+<tr><td style="color:#ef4444;font-weight:bold">V8</td><td>ELEV_UP_IN_GDN</td><td>40%/1530/1T</td><td>--</td><td>11</td><td>7/4</td><td>63.6%</td><td class="pnl-pos">$15,072</td><td class="pnl-pos">$1,370</td><td>1.35</td><td class="pnl-neg">$29,749</td></tr>
+<tr><td style="color:#eab308;font-weight:bold">V9</td><td>MID_UP_OT_GFL</td><td>70%/1545/1T</td><td>!RISING</td><td>20</td><td>16/4</td><td>80.0%</td><td class="pnl-pos">$161,846</td><td class="pnl-pos">$8,092</td><td>4.01</td><td class="pnl-neg">$21,792</td></tr>
+<tr><td style="color:#ec4899;font-weight:bold">V10</td><td>MID_DN_OT_GFL</td><td>70%/1545/1T</td><td>--</td><td>19</td><td>13/6</td><td>68.4%</td><td class="pnl-pos">$140,110</td><td class="pnl-pos">$7,374</td><td>2.37</td><td class="pnl-neg">$87,695</td></tr>
+<tr><td style="color:#f97316;font-weight:bold">V12</td><td>LOW_UP_OT_GUP</td><td>40%/close/1T</td><td>5dRet>1</td><td>11</td><td>8/3</td><td>72.7%</td><td class="pnl-pos">$71,683</td><td class="pnl-pos">$6,517</td><td>2.86</td><td class="pnl-neg">$29,600</td></tr>
+<tr><td style="color:#64748b;font-weight:bold">V14</td><td>MID_DN_IN_GDN</td><td>50%/close/1T</td><td>ScoreVol<18</td><td>9</td><td>8/1</td><td>88.9%</td><td class="pnl-pos">$227,562</td><td class="pnl-pos">$25,285</td><td>5.08</td><td class="pnl-neg">$55,831</td></tr>
+<tr style="border-top:2px solid #444;font-weight:bold"><td colspan="7" style="color:#f59e0b">COMBINED</td><td class="pnl-pos">$1,635,999</td><td colspan="3"></td></tr>
+</table>
+<div class="month-section">
+<div class="month-title">November 2023 <span class="pnl-pos" style="margin-left:12px">$33,410</span></div>
+<div class="cal-grid">
+<div class="cal-hdr">Mon</div>
+<div class="cal-hdr">Tue</div>
+<div class="cal-hdr">Wed</div>
+<div class="cal-hdr">Thu</div>
+<div class="cal-hdr">Fri</div>
+<div class="cal-hdr">Sat</div>
+<div class="cal-hdr">Sun</div>
+<div class="cal-day empty"></div>
+<div class="cal-day empty"></div>
+<div class="cal-day">
+<div class="day-num">1</div>
 </div>
-
-<script>
-// ─── Backend URL (set to Railway URL for cloud; leave empty for local/GH Pages) ─
-// e.g. const COCKPIT_BACKEND = 'https://your-app.up.railway.app';
-const COCKPIT_BACKEND = 'https://web-production-fb57f.up.railway.app';
-
-// ─── Strategy metadata ────────────────────────────────────────────────────────
-const STRATEGIES = [
-  {ver:"v3",  regime:"PHOENIX",        mech:"50%/close/1T", filter:"--",          color:"#f59e0b", desc:"PHOENIX Concentrated Signal Model"},
-  {ver:"v6",  regime:"LOW_DN_IN_GFL",  mech:"50%/1530/1T",  filter:"VP\u22641.7", color:"#06b6d4", desc:"Low VIX | Prior Down | In Range | Flat Gap"},
-  {ver:"v7",  regime:"LOW_FL_IN_GUP",  mech:"40%/close/1T", filter:"--",          color:"#a855f7", desc:"Low VIX | Prior Flat | In Range | Gap Up"},
-  {ver:"v8",  regime:"ELEV_UP_IN_GDN", mech:"40%/1530/1T",  filter:"--",          color:"#ef4444", desc:"Elev VIX | Prior Up | In Range | Gap Down"},
-  {ver:"v9",  regime:"MID_UP_OT_GFL",  mech:"70%/1545/1T",  filter:"!RISING",     color:"#eab308", desc:"Mid VIX | Prior Up | Outside Range | Flat Gap"},
-  {ver:"v10", regime:"MID_DN_OT_GFL",  mech:"70%/1545/1T",  filter:"--",          color:"#ec4899", desc:"Mid VIX | Prior Down | Outside Range | Flat Gap"},
-  {ver:"v12", regime:"LOW_UP_OT_GUP",  mech:"40%/close/1T", filter:"5dRet>1",     color:"#f97316", desc:"Low VIX | Prior Up | Outside Range | Gap Up"},
-  {ver:"v14", regime:"MID_DN_IN_GDN",  mech:"50%/close/1T", filter:"ScoreVol<18", color:"#64748b", desc:"Mid VIX | Prior Down | In Range | Gap Down"},
-];
-const colorMap = Object.fromEntries(STRATEGIES.map(s => [s.ver, s.color]));
-const stratMap  = Object.fromEntries(STRATEGIES.map(s => [s.ver, s]));
-const verList   = STRATEGIES.map(s => s.ver);
-
-// ─── Helpers ──────────────────────────────────────────────────────────────────
-function fmtPnl(v) {
-  if (Math.abs(v) >= 1000) return (v >= 0 ? '+' : '') + (v/1000).toFixed(1) + 'K';
-  return (v >= 0 ? '+' : '') + Math.round(v).toString();
-}
-function fmtDollar(v) {
-  const sign = v >= 0 ? '+$' : '-$';
-  return sign + Math.abs(v).toLocaleString('en-US', {maximumFractionDigits:0});
-}
-function posneg(v) { return v >= 0 ? 'pnl-pos' : 'pnl-neg'; }
-
-// ─── Build legend ─────────────────────────────────────────────────────────────
-const legendEl = document.getElementById('legend');
-STRATEGIES.forEach(s => {
-  const item = document.createElement('div');
-  item.className = 'legend-item';
-  item.innerHTML = `<div class="legend-dot" style="background:${s.color}"></div>${s.ver.toUpperCase()}`;
-  legendEl.appendChild(item);
-});
-
-// ─── Render stats summary table ───────────────────────────────────────────────
-function renderStats(stats) {
-  const tbody = document.getElementById('stats-body');
-  tbody.innerHTML = '';
-  let totalAll = 0;
-
-  STRATEGIES.forEach(s => {
-    const st = stats[s.ver] || {};
-    const n = st.total_trades || 0;
-    if (!n) return;
-    const wr     = st.win_rate || 0;
-    const wins   = st.wins || 0;
-    const losses = st.losses || 0;
-    const total  = st.total_pnl || 0;
-    const avg    = st.avg_pnl || 0;
-    const pf     = st.profit_factor || 0;
-    const mdd    = st.max_drawdown || 0;
-    totalAll += total;
-
-    const tr = document.createElement('tr');
-    tr.innerHTML =
-      `<td style="color:${s.color};font-weight:bold">${s.ver.toUpperCase()}</td>` +
-      `<td>${s.regime}</td><td>${s.mech}</td><td>${s.filter}</td>` +
-      `<td>${n}</td><td>${wins}/${losses}</td>` +
-      `<td>${wr.toFixed(1)}%</td>` +
-      `<td class="${posneg(total)}">${fmtDollar(total)}</td>` +
-      `<td class="${posneg(avg)}">${fmtDollar(avg)}</td>` +
-      `<td>${pf.toFixed(2)}</td>` +
-      `<td class="pnl-neg">-$${Math.abs(mdd).toLocaleString('en-US',{maximumFractionDigits:0})}</td>`;
-    tbody.appendChild(tr);
-  });
-
-  // Combined totals row
-  const tr = document.createElement('tr');
-  tr.style.cssText = 'border-top:2px solid #444;font-weight:bold';
-  tr.innerHTML =
-    `<td colspan="7" style="color:#f59e0b">COMBINED</td>` +
-    `<td class="${posneg(totalAll)}">${fmtDollar(totalAll)}</td>` +
-    `<td colspan="3"></td>`;
-  tbody.appendChild(tr);
-}
-
-// ─── Render monthly calendars ─────────────────────────────────────────────────
-const DOW_NAMES   = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
-const MONTH_NAMES = ['','January','February','March','April','May','June',
-                     'July','August','September','October','November','December'];
-
-function daysInMonth(y, m) { return new Date(y, m, 0).getDate(); }
-function firstDow(y, m) {
-  // Returns 0=Mon … 6=Sun (ISO week start)
-  return (new Date(y, m-1, 1).getDay() + 6) % 7;
-}
-
-function renderCalendar(trades) {
-  // Group by date
-  const calData = {};
-  const combinedDaily = {};
-  trades.forEach(t => {
-    if (!calData[t.date]) calData[t.date] = {};
-    calData[t.date][t.ver] = t;
-  });
-  Object.entries(calData).forEach(([d, dt]) => {
-    combinedDaily[d] = Object.values(dt).reduce((s, t) => s + t.pnl, 0);
-  });
-
-  const sortedDates = Object.keys(calData).sort();
-  if (!sortedDates.length) return;
-
-  const [fy, fm] = sortedDates[0].split('-').map(Number);
-  const [ly, lm] = sortedDates[sortedDates.length-1].split('-').map(Number);
-
-  // Enumerate months
-  const months = [];
-  let [cy, cm] = [fy, fm];
-  while (cy < ly || (cy === ly && cm <= lm)) {
-    months.push([cy, cm]);
-    cm++; if (cm > 12) { cm = 1; cy++; }
-  }
-  months.reverse();
-
-  const container = document.getElementById('months');
-  container.innerHTML = '';
-
-  months.forEach(([year, month]) => {
-    let monthTotal = 0;
-    Object.entries(combinedDaily).forEach(([d, pnl]) => {
-      const [dy, dm] = d.split('-').map(Number);
-      if (dy === year && dm === month) monthTotal += pnl;
-    });
-
-    const section = document.createElement('div');
-    section.className = 'month-section';
-
-    const title = document.createElement('div');
-    title.className = 'month-title';
-    title.innerHTML =
-      `${MONTH_NAMES[month]} ${year}` +
-      ` <span class="${posneg(monthTotal)}" style="margin-left:12px">${fmtDollar(monthTotal)}</span>`;
-    section.appendChild(title);
-
-    const grid = document.createElement('div');
-    grid.className = 'cal-grid';
-
-    // Day-of-week header
-    DOW_NAMES.forEach(name => {
-      const h = document.createElement('div');
-      h.className = 'cal-hdr';
-      h.textContent = name;
-      grid.appendChild(h);
-    });
-
-    const fd      = firstDow(year, month);
-    const numDays = daysInMonth(year, month);
-
-    // Leading blanks
-    for (let i = 0; i < fd; i++) {
-      const e = document.createElement('div');
-      e.className = 'cal-day empty';
-      grid.appendChild(e);
-    }
-
-    // Day cells
-    for (let day = 1; day <= numDays; day++) {
-      const dStr = `${year}-${String(month).padStart(2,'0')}-${String(day).padStart(2,'0')}`;
-      const dow  = (fd + day - 1) % 7;
-      const isWE = dow >= 5;
-      const dt   = calData[dStr] || {};
-      const hasTrades = Object.keys(dt).length > 0;
-
-      const cell = document.createElement('div');
-      cell.className = 'cal-day' + (hasTrades ? ' has-trades' : '');
-
-      const dn = document.createElement('div');
-      dn.className = 'day-num' + (isWE ? ' weekend' : '');
-      dn.textContent = day;
-      cell.appendChild(dn);
-
-      if (hasTrades) {
-        cell.addEventListener('click', () => openModal(dStr, dt));
-        let dayPnl = 0;
-        verList.forEach(ver => {
-          const t = dt[ver];
-          if (!t) return;
-          const pnl   = t.pnl;
-          dayPnl     += pnl;
-          const color  = colorMap[ver];
-          const riskK  = (t.risk_budget || 100000) / 1000;
-          const fcStr  = t.fire_count ? ` (${t.fire_count}sig)` : '';
-          const tip    = `${ver.toUpperCase()} ${t.exit||'?'} | ${t.qty}x${fcStr} | $${pnl>=0?'+':''}${Math.round(pnl).toLocaleString()} ($${riskK.toFixed(0)}K risk)`;
-          const tag    = document.createElement('span');
-          tag.className = 'strat-tag ' + (pnl >= 0 ? 'win' : 'loss');
-          tag.style.cssText = `background:${color}22;color:${color};border:1px solid ${color}44`;
-          tag.title = tip;
-          tag.innerHTML = `${ver.slice(1)} <span class="${posneg(pnl)}">${fmtPnl(pnl)}</span>${t.live ? ' <span style="color:#60a5fa;font-size:8px" title="Live trade">●</span>' : ''}`;
-          cell.appendChild(tag);
-        });
-
-        const tot = document.createElement('div');
-        tot.className = `day-total ${posneg(dayPnl)}`;
-        tot.textContent = fmtPnl(dayPnl);
-        cell.appendChild(tot);
-      }
-
-      grid.appendChild(cell);
-    }
-
-    // Trailing blanks
-    const used     = (fd + numDays) % 7;
-    const trailing = used === 0 ? 0 : 7 - used;
-    for (let i = 0; i < trailing; i++) {
-      const e = document.createElement('div');
-      e.className = 'cal-day empty';
-      grid.appendChild(e);
-    }
-
-    section.appendChild(grid);
-    container.appendChild(section);
-  });
-}
-
-// ─── Main boot sequence (runs on every page load) ─────────────────────────────
-async function loadCalendar() {
-  const statusEl = document.getElementById('refresh-status');
-  const tsEl     = document.getElementById('refresh-ts');
-  const errEl    = document.getElementById('error-msg');
-  const calEl    = document.getElementById('calendar-container');
-
-  function setStatus(msg, state, spin) {
-    statusEl.innerHTML = (spin ? '<span class="spinner"></span>' : '') + msg;
-    statusEl.className = `status ${state}`;
-  }
-
-  async function tryLoadJson() {
-    const bust = '?_=' + Date.now();
-    const [tr, sr, lr] = await Promise.all([
-      fetch('strategy_trades.json' + bust),
-      fetch('strategy_stats.json'  + bust),
-      fetch('live_trades.json'     + bust).catch(() => null),  // optional — graceful if missing
-    ]);
-    if (!tr.ok) throw new Error('strategy_trades.json missing — run compute_stats.py');
-    if (!sr.ok) throw new Error('strategy_stats.json missing — run compute_stats.py');
-
-    let trades = await tr.json();
-    const stats = await sr.json();
-
-    // Merge live trades — live records override backtest on same date+ver
-    if (lr && lr.ok) {
-      try {
-        const live = await lr.json();
-        if (live.length) {
-          const liveKeys = new Set(live.map(t => t.date + '|' + t.ver));
-          trades = trades.filter(t => !liveKeys.has(t.date + '|' + t.ver));
-          trades = trades.concat(live);
-          trades.sort((a, b) => a.date < b.date ? -1 : 1);
-        }
-      } catch (_) {}
-    }
-
-    return [trades, stats];
-  }
-
-  const isGitHubPages = window.location.hostname.includes('github.io')
-                     || window.location.protocol === 'file:';
-  // Calendar stats/trades come from static JSON files (GitHub Actions keeps them fresh).
-  // Only use the local backend for /api/refresh_stats when running locally.
-  // Railway doesn't have research_all_trades.csv so can't regenerate stats.
-  const hasBackend = !isGitHubPages;
-
-  if (!hasBackend) {
-    // ── Static / GitHub Pages mode ──────────────────────────────────────────
-    // Load committed JSON files directly.
-    // Data is kept current by push_cockpit.py (live_trades.json) and
-    // the daily GitHub Actions job (strategy_stats.json / strategy_trades.json).
-    try {
-      setStatus('Loading trade data…', 'loading', true);
-      const [trades, stats] = await tryLoadJson();
-      renderStats(stats);
-      renderCalendar(trades);
-      calEl.style.display = 'block';
-      const liveCount = trades.filter(t => t.live).length;
-      const now = new Date().toLocaleString('en-US', {
-        timeZone:'America/New_York', hour12:true,
-        month:'short', day:'numeric', hour:'numeric', minute:'2-digit'
-      });
-      setStatus(`Updated ${now} ET`, 'ok', false);
-      tsEl.textContent = liveCount > 0
-        ? `${trades.length} trades (${liveCount} live)`
-        : `${trades.length} trades`;
-    } catch (err) {
-      setStatus('Failed to load trade data', 'err', false);
-      errEl.textContent = 'Error: ' + err.message;
-      errEl.style.display = 'block';
-    }
-
-  } else {
-    // ── Backend mode — local or Railway ─────────────────────────────────────
-    const backendBase = COCKPIT_BACKEND || '';
-    try {
-      // Step 1 — Ask server to regenerate JSON from the CSV
-      setStatus('Refreshing stats from CSV…', 'loading', true);
-      const r = await fetch(backendBase + '/api/refresh_stats', {method:'POST'});
-      if (!r.ok) {
-        const body = await r.json().catch(() => ({}));
-        throw new Error(body.error || `refresh_stats returned HTTP ${r.status}`);
-      }
-
-      // Step 2 — Fetch freshly generated JSON
-      setStatus('Loading trade data…', 'loading', true);
-      const [trades, stats] = await tryLoadJson();
-
-      // Step 3 — Render
-      renderStats(stats);
-      renderCalendar(trades);
-      calEl.style.display = 'block';
-
-      const now = new Date().toLocaleString('en-US', {
-        timeZone:'America/New_York', hour12:true,
-        month:'short', day:'numeric', hour:'numeric', minute:'2-digit'
-      });
-      setStatus(`Live — updated ${now} ET`, 'ok', false);
-      const liveCount = trades.filter(t => t.live).length;
-      tsEl.textContent = liveCount > 0
-        ? `${trades.length} trades (${liveCount} live)`
-        : `${trades.length} trades`;
-
-    } catch (err) {
-      setStatus('Refresh failed — showing cached data', 'err', false);
-      const hint = COCKPIT_BACKEND
-        ? `\n\nMake sure cockpit_feed.py is running at ${COCKPIT_BACKEND}`
-        : '\n\nMake sure cockpit_feed.py is running at http://localhost:8811/';
-      errEl.textContent = 'Error: ' + err.message + hint;
-      errEl.style.display = 'block';
-
-      // Graceful fallback: show whatever JSON is on disk
-      try {
-        const [trades, stats] = await tryLoadJson();
-        renderStats(stats);
-        renderCalendar(trades);
-        calEl.style.display = 'block';
-        const liveCached = trades.filter(t => t.live).length;
-        tsEl.textContent = liveCached > 0
-          ? `${trades.length} trades (${liveCached} live, cached)`
-          : `${trades.length} trades (cached)`;
-      } catch (_) {}
-    }
-  }
-}
-
-document.addEventListener('DOMContentLoaded', loadCalendar);
-
-// ─── Sparkline builder ────────────────────────────────────────────────────────
-function buildSparkline(intraday, pnlPs) {
-  const keys = ['10:30','11:00','11:30','12:00','12:30','13:00','13:30','14:00','14:30','15:00','15:30','15:45'];
-  const pairs = keys.map(k => [k, intraday[k]]).filter(([,v]) => v !== null && v !== undefined);
-  if (!pairs.length) return '<div style="color:#444;font-size:9px;padding:6px 0">no intraday data</div>';
-
-  const vals = pairs.map(([,v]) => v);
-  const W = 440, H = 54, px = 4, py = 5;
-  const minV = Math.min(0, ...vals);
-  const maxV = Math.max(0, ...vals);
-  const span = (maxV - minV) || 1;
-  const n = pairs.length;
-
-  const xOf = i => px + (W - 2*px) * i / Math.max(n - 1, 1);
-  const yOf = v => py + (H - 2*py) * (1 - (v - minV) / span);
-  const zy  = yOf(0);
-
-  const pts = pairs.map(([,v], i) => `${xOf(i).toFixed(1)},${yOf(v).toFixed(1)}`).join(' ');
-  const fillPts = `${xOf(0).toFixed(1)},${zy.toFixed(1)} ${pts} ${xOf(n-1).toFixed(1)},${zy.toFixed(1)}`;
-  const color = pnlPs >= 0 ? '#22c55e' : '#ef4444';
-
-  // First/last time labels
-  const lblFirst = pairs[0][0];
-  const lblLast  = pairs[n-1][0];
-
-  return `<svg viewBox="0 0 ${W} ${H+14}" style="width:100%;height:${H+14}px;display:block;overflow:visible">
-    <polygon points="${fillPts}" fill="${color}18"/>
-    <line x1="${px}" y1="${zy.toFixed(1)}" x2="${W-px}" y2="${zy.toFixed(1)}" stroke="#2a2a3a" stroke-width="1"/>
-    <polyline points="${pts}" fill="none" stroke="${color}" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round"/>
-    <circle cx="${xOf(0).toFixed(1)}" cy="${yOf(vals[0]).toFixed(1)}" r="2.5" fill="${color}"/>
-    <circle cx="${xOf(n-1).toFixed(1)}" cy="${yOf(vals[n-1]).toFixed(1)}" r="3" fill="${color}" stroke="#0d0d14" stroke-width="1.5"/>
-    <text x="${px}" y="${H+11}" font-size="8" fill="#444" font-family="monospace">${lblFirst}</text>
-    <text x="${(W-px).toFixed(0)}" y="${H+11}" font-size="8" fill="#444" font-family="monospace" text-anchor="end">${lblLast}</text>
-  </svg>`;
-}
-
-// ─── Trade detail modal ───────────────────────────────────────────────────────
-function openModal(dStr, dayTrades) {
-  const date = new Date(dStr + 'T12:00:00');
-  const DOWS = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
-  const MONS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-  const dateLabel = `${DOWS[date.getDay()]}, ${MONS[date.getMonth()]} ${date.getDate()}, ${date.getFullYear()}`;
-
-  const tradeList = verList.map(v => dayTrades[v]).filter(Boolean);
-  const dayTotal  = tradeList.reduce((s, t) => s + t.pnl, 0);
-  const multiDay  = tradeList.length > 1;
-
-  let html = `<div class="modal-date">${dateLabel}`;
-  if (multiDay) html += ` <span style="color:#555">— ${tradeList.length} strategies</span>`;
-  html += '</div>';
-  if (multiDay) {
-    html += `<div class="modal-pnl ${dayTotal>=0?'pnl-pos':'pnl-neg'}">${fmtDollar(dayTotal)}<span class="modal-badge ${dayTotal>=0?'badge-win':'badge-loss'}">${dayTotal>=0?'WIN':'LOSS'}</span></div>`;
-    html += `<div class="modal-pnl-sub">Combined day P&amp;L</div>`;
-  }
-
-  tradeList.forEach((t, idx) => {
-    const sm    = stratMap[t.ver];
-    const color = sm.color;
-    const isWin = t.pnl >= 0;
-    const fc    = t.fire_count;
-
-    if (multiDay || idx > 0) html += '<hr class="modal-sep">';
-
-    html += `<div class="modal-strat-hdr">
-      <span class="modal-strat-ver" style="color:${color}">${t.ver.toUpperCase()}</span>
-      <span class="modal-strat-desc">${sm.desc}</span>
-      ${t.live ? '<span style="background:#1e3a5f;color:#60a5fa;font-size:8px;padding:2px 6px;border-radius:3px;font-weight:bold;letter-spacing:1px;margin-left:6px;">LIVE</span>' : ''}
-    </div>`;
-
-    html += `<div class="modal-pnl ${isWin?'pnl-pos':'pnl-neg'}">${fmtDollar(t.pnl)}<span class="modal-badge ${isWin?'badge-win':'badge-loss'}">${isWin?'WIN':'LOSS'}</span></div>`;
-    html += `<div class="modal-pnl-sub">${t.pnl_ps >= 0 ? '+' : ''}${t.pnl_ps} pts/spread &nbsp;·&nbsp; ${t.qty} contracts &nbsp;·&nbsp; $${((t.risk_budget||0)/1000).toFixed(0)}K risk</div>`;
-
-    // ── Market setup ──
-    html += `<div class="modal-sec"><span>Market Setup</span></div>
-    <div class="modal-grid">
-      <div class="modal-kv"><span class="k">VIX</span><span class="v">${t.vix ?? '—'}</span></div>
-      <div class="modal-kv"><span class="k">Score</span><span class="v">${t.score != null ? Math.round(t.score) : '—'}</span></div>
-      <div class="modal-kv"><span class="k">VP Ratio</span><span class="v">${t.vp_ratio ?? '—'}</span></div>
-      <div class="modal-kv"><span class="k">RV</span><span class="v">${t.rv ?? '—'}</span></div>
-      <div class="modal-kv"><span class="k">Prior 1d</span><span class="v ${t.prior_1d!=null?(t.prior_1d>=0?'pnl-pos':'pnl-neg'):''}">${t.prior_1d != null ? (t.prior_1d>0?'+':'')+t.prior_1d+'%' : '—'}</span></div>
-      <div class="modal-kv"><span class="k">Prior 5d</span><span class="v ${t.prior_5d!=null?(t.prior_5d>=0?'pnl-pos':'pnl-neg'):''}">${t.prior_5d != null ? (t.prior_5d>0?'+':'')+t.prior_5d+'%' : '—'}</span></div>
-    </div>`;
-
-    // ── Trade details ──
-    html += `<div class="modal-sec"><span>Trade Details</span></div>
-    <div class="modal-grid">
-      <div class="modal-kv"><span class="k">Entry</span><span class="v">${t.entry_time ? t.entry_time+' ET' : '—'}</span></div>
-      <div class="modal-kv"><span class="k">Exit</span><span class="v">${t.exit_time ?? '—'}</span></div>
-      <div class="modal-kv"><span class="k">Exit Type</span><span class="v">${t.exit ?? '—'}</span></div>
-      <div class="modal-kv"><span class="k">Wing Width</span><span class="v">±${t.wing_width ?? '—'} pts</span></div>
-      <div class="modal-kv"><span class="k">Entry Credit</span><span class="v">${t.entry_credit ?? '—'} pts</span></div>
-      <div class="modal-kv"><span class="k">Mech</span><span class="v">${sm.mech}</span></div>
-    </div>`;
-
-    // ── Intraday P&L ──
-    if (t.intraday && Object.keys(t.intraday).length > 0) {
-      const peakStr   = t.max_ps != null ? `+${t.max_ps}` : '—';
-      const troughStr = t.min_ps != null ? `${t.min_ps}` : '—';
-      html += `<div class="modal-sec">
-        <span>Intraday P&amp;L (pts/spread)</span>
-        <span style="font-weight:normal;font-size:9px">
-          <span style="color:#22c55e">▲ ${peakStr}</span> &nbsp;
-          <span style="color:#ef4444">▼ ${troughStr}</span>
-        </span>
-      </div>`;
-      html += `<div class="sparkline-wrap">${buildSparkline(t.intraday, t.pnl_ps)}</div>`;
-    }
-
-    // ── PHOENIX signals (V3 only) ──
-    if (t.ver === 'v3' && t.fire_signals) {
-      const sigLabels = ['S1: VIX≤20+VP≤1.0','S2: VP≤1.3+Prior↓','S3: VP≤1.2+RV↑','S4: VP≤1.5+OutRng','S5: VP≤1.3+Stable'];
-      html += `<div class="modal-sec" style="margin-top:8px"><span>PHOENIX Signals — ${fc}/5 fired</span></div>`;
-      html += '<div class="signal-row">';
-      t.fire_signals.forEach((on, i) => {
-        html += `<span class="sig-chip ${on?'sig-on':'sig-off'}">${sigLabels[i]}</span>`;
-      });
-      html += '</div>';
-    }
-  });
-
-  document.getElementById('modal-content').innerHTML = html;
-  document.getElementById('trade-modal').classList.add('open');
-}
-
-function closeModal() {
-  document.getElementById('trade-modal').classList.remove('open');
-}
-</script>
-<div id="trade-modal" onclick="if(event.target===this)closeModal()">
-  <div class="modal-box">
-    <button class="modal-close" onclick="closeModal()">✕</button>
-    <div id="modal-content"></div>
-  </div>
+<div class="cal-day">
+<div class="day-num">2</div>
 </div>
-</body>
-</html>
+<div class="cal-day">
+<div class="day-num">3</div>
+</div>
+<div class="cal-day">
+<div class="day-num weekend">4</div>
+</div>
+<div class="cal-day">
+<div class="day-num weekend">5</div>
+</div>
+<div class="cal-day">
+<div class="day-num">6</div>
+</div>
+<div class="cal-day">
+<div class="day-num">7</div>
+</div>
+<div class="cal-day">
+<div class="day-num">8</div>
+</div>
+<div class="cal-day">
+<div class="day-num">9</div>
+</div>
+<div class="cal-day">
+<div class="day-num">10</div>
+</div>
+<div class="cal-day">
+<div class="day-num weekend">11</div>
+</div>
+<div class="cal-day">
+<div class="day-num weekend">12</div>
+</div>
+<div class="cal-day">
+<div class="day-num">13</div>
+</div>
+<div class="cal-day">
+<div class="day-num">14</div>
+</div>
+<div class="cal-day">
+<div class="day-num">15</div>
+</div>
+<div class="cal-day">
+<div class="day-num">16</div>
+</div>
+<div class="cal-day">
+<div class="day-num">17</div>
+</div>
+<div class="cal-day">
+<div class="day-num weekend">18</div>
+</div>
+<div class="cal-day">
+<div class="day-num weekend">19</div>
+</div>
+<div class="cal-day">
+<div class="day-num">20</div>
+</div>
+<div class="cal-day">
+<div class="day-num">21</div>
+</div>
+<div class="cal-day has-trades">
+<div class="day-num">22</div>
+<span class="strat-tag win" style="background:#f59e0b22;color:#f59e0b;border:1px solid #f59e0b44" title="V3 TARGET | 20x (2sig) | $+13,900 ($50K risk)">3 <span class="pnl-pos">+13.9K</span></span>
+<span class="strat-tag win" style="background:#a855f722;color:#a855f7;border:1px solid #a855f744" title="V7 TARGET | 10x | $+5,360 ($25K risk)">7 <span class="pnl-pos">+5.4K</span></span>
+<div class="day-total pnl-pos">+19.3K</div>
+</div>
+<div class="cal-day">
+<div class="day-num">23</div>
+</div>
+<div class="cal-day">
+<div class="day-num">24</div>
+</div>
+<div class="cal-day">
+<div class="day-num weekend">25</div>
+</div>
+<div class="cal-day">
+<div class="day-num weekend">26</div>
+</div>
+<div class="cal-day">
+<div class="day-num">27</div>
+</div>
+<div class="cal-day">
+<div class="day-num">28</div>
+</div>
+<div class="cal-day">
+<div class="day-num">29</div>
+</div>
+<div class="cal-day has-trades">
+<div class="day-num">30</div>
+<span class="strat-tag win" style="background:#f59e0b22;color:#f59e0b;border:1px solid #f59e0b44" title="V3 TARGET | 20x (2sig) | $+14,150 ($50K risk)">3 <span class="pnl-pos">+14.2K</span></span>
+<div class="day-total pnl-pos">+14.2K</div>
+</div>
+<div class="cal-day empty"></div>
+<div class="cal-day empty"></div>
+<div class="cal-day empty"></div>
+</div></div>
+<div class="month-section">
+<div class="month-title">December 2023 <span class="pnl-pos" style="margin-left:12px">$84,157</span></div>
+<div class="cal-grid">
+<div class="cal-hdr">Mon</div>
+<div class="cal-hdr">Tue</div>
+<div class="cal-hdr">Wed</div>
+<div class="cal-hdr">Thu</div>
+<div class="cal-hdr">Fri</div>
+<div class="cal-hdr">Sat</div>
+<div class="cal-hdr">Sun</div>
+<div class="cal-day empty"></div>
+<div class="cal-day empty"></div>
+<div class="cal-day empty"></div>
+<div class="cal-day empty"></div>
+<div class="cal-day">
+<div class="day-num">1</div>
+</div>
+<div class="cal-day">
+<div class="day-num weekend">2</div>
+</div>
+<div class="cal-day">
+<div class="day-num weekend">3</div>
+</div>
+<div class="cal-day">
+<div class="day-num">4</div>
+</div>
+<div class="cal-day has-trades">
+<div class="day-num">5</div>
+<span class="strat-tag win" style="background:#f59e0b22;color:#f59e0b;border:1px solid #f59e0b44" title="V3 CLOSE | 11x (1sig) | $+8,690 ($25K risk)">3 <span class="pnl-pos">+8.7K</span></span>
+<div class="day-total pnl-pos">+8.7K</div>
+</div>
+<div class="cal-day">
+<div class="day-num">6</div>
+</div>
+<div class="cal-day">
+<div class="day-num">7</div>
+</div>
+<div class="cal-day has-trades">
+<div class="day-num">8</div>
+<span class="strat-tag loss" style="background:#f59e0b22;color:#f59e0b;border:1px solid #f59e0b44" title="V3 CLOSE | 11x (1sig) | $-2,805 ($25K risk)">3 <span class="pnl-neg">-2.8K</span></span>
+<div class="day-total pnl-neg">-2.8K</div>
+</div>
+<div class="cal-day">
+<div class="day-num weekend">9</div>
+</div>
+<div class="cal-day">
+<div class="day-num weekend">10</div>
+</div>
+<div class="cal-day has-trades">
+<div class="day-num">11</div>
+<span class="strat-tag loss" style="background:#f59e0b22;color:#f59e0b;border:1px solid #f59e0b44" title="V3 CLOSE | 18x (2sig) | $-10,620 ($50K risk)">3 <span class="pnl-neg">-10.6K</span></span>
+<div class="day-total pnl-neg">-10.6K</div>
+</div>
+<div class="cal-day">
+<div class="day-num">12</div>
+</div>
+<div class="cal-day">
+<div class="day-num">13</div>
+</div>
+<div class="cal-day has-trades">
+<div class="day-num">14</div>
+<span class="strat-tag win" style="background:#f59e0b22;color:#f59e0b;border:1px solid #f59e0b44" title="V3 CLOSE | 46x (4sig) | $+40,618 ($100K risk)">3 <span class="pnl-pos">+40.6K</span></span>
+<span class="strat-tag win" style="background:#f9731622;color:#f97316;border:1px solid #f9731644" title="V12 CLOSE | 35x | $+30,905 ($75K risk)">12 <span class="pnl-pos">+30.9K</span></span>
+<div class="day-total pnl-pos">+71.5K</div>
+</div>
+<div class="cal-day has-trades">
+<div class="day-num">15</div>
+<span class="strat-tag win" style="background:#f59e0b22;color:#f59e0b;border:1px solid #f59e0b44" title="V3 TARGET | 22x (2sig) | $+17,369 ($50K risk)">3 <span class="pnl-pos">+17.4K</span></span>
+<div class="day-total pnl-pos">+17.4K</div>
+</div>
+<div class="cal-day">
+<div class="day-num weekend">16</div>
+</div>
+<div class="cal-day">
+<div class="day-num weekend">17</div>
+</div>
+<div class="cal-day">
+<div class="day-num">18</div>
+</div>
+<div class="cal-day">
+<div class="day-num">19</div>
+</div>
+<div class="cal-day">
+<div class="day-num">20</div>
+</div>
+<div class="cal-day">
+<div class="day-num">21</div>
+</div>
+<div class="cal-day">
+<div class="day-num">22</div>
+</div>
+<div class="cal-day">
+<div class="day-num weekend">23</div>
+</div>
+<div class="cal-day">
+<div class="day-num weekend">24</div>
+</div>
+<div class="cal-day">
+<div class="day-num">25</div>
+</div>
+<div class="cal-day">
+<div class="day-num">26</div>
+</div>
+<div class="cal-day">
+<div class="day-num">27</div>
+</div>
+<div class="cal-day">
+<div class="day-num">28</div>
+</div>
+<div class="cal-day">
+<div class="day-num">29</div>
+</div>
+<div class="cal-day">
+<div class="day-num weekend">30</div>
+</div>
+<div class="cal-day">
+<div class="day-num weekend">31</div>
+</div>
+</div></div>
+<div class="month-section">
+<div class="month-title">January 2024 <span class="pnl-pos" style="margin-left:12px">$101,017</span></div>
+<div class="cal-grid">
+<div class="cal-hdr">Mon</div>
+<div class="cal-hdr">Tue</div>
+<div class="cal-hdr">Wed</div>
+<div class="cal-hdr">Thu</div>
+<div class="cal-hdr">Fri</div>
+<div class="cal-hdr">Sat</div>
+<div class="cal-hdr">Sun</div>
+<div class="cal-day">
+<div class="day-num">1</div>
+</div>
+<div class="cal-day has-trades">
+<div class="day-num">2</div>
+<span class="strat-tag win" style="background:#f59e0b22;color:#f59e0b;border:1px solid #f59e0b44" title="V3 TARGET | 20x (2sig) | $+13,980 ($50K risk)">3 <span class="pnl-pos">+14.0K</span></span>
+<div class="day-total pnl-pos">+14.0K</div>
+</div>
+<div class="cal-day">
+<div class="day-num">3</div>
+</div>
+<div class="cal-day">
+<div class="day-num">4</div>
+</div>
+<div class="cal-day">
+<div class="day-num">5</div>
+</div>
+<div class="cal-day">
+<div class="day-num weekend">6</div>
+</div>
+<div class="cal-day">
+<div class="day-num weekend">7</div>
+</div>
+<div class="cal-day">
+<div class="day-num">8</div>
+</div>
+<div class="cal-day">
+<div class="day-num">9</div>
+</div>
+<div class="cal-day">
+<div class="day-num">10</div>
+</div>
+<div class="cal-day has-trades">
+<div class="day-num">11</div>
+<span class="strat-tag win" style="background:#f59e0b22;color:#f59e0b;border:1px solid #f59e0b44" title="V3 TARGET | 37x (3sig) | $+33,374 ($75K risk)">3 <span class="pnl-pos">+33.4K</span></span>
+<div class="day-total pnl-pos">+33.4K</div>
+</div>
+<div class="cal-day has-trades">
+<div class="day-num">12</div>
+<span class="strat-tag win" style="background:#f59e0b22;color:#f59e0b;border:1px solid #f59e0b44" title="V3 TARGET | 23x (2sig) | $+18,768 ($50K risk)">3 <span class="pnl-pos">+18.8K</span></span>
+<div class="day-total pnl-pos">+18.8K</div>
+</div>
+<div class="cal-day">
+<div class="day-num weekend">13</div>
+</div>
+<div class="cal-day">
+<div class="day-num weekend">14</div>
+</div>
+<div class="cal-day">
+<div class="day-num">15</div>
+</div>
+<div class="cal-day has-trades">
+<div class="day-num">16</div>
+<span class="strat-tag win" style="background:#06b6d422;color:#06b6d4;border:1px solid #06b6d444" title="V6 TARGET | 16x | $+12,488 ($38K risk)">6 <span class="pnl-pos">+12.5K</span></span>
+<div class="day-total pnl-pos">+12.5K</div>
+</div>
+<div class="cal-day has-trades">
+<div class="day-num">17</div>
+<span class="strat-tag win" style="background:#64748b22;color:#64748b;border:1px solid #64748b44" title="V14 TARGET | 9x | $+7,852 ($19K risk)">14 <span class="pnl-pos">+7.9K</span></span>
+<div class="day-total pnl-pos">+7.9K</div>
+</div>
+<div class="cal-day has-trades">
+<div class="day-num">18</div>
+<span class="strat-tag win" style="background:#a855f722;color:#a855f7;border:1px solid #a855f744" title="V7 TARGET | 2x | $+1,156 ($6K risk)">7 <span class="pnl-pos">+1.2K</span></span>
+<div class="day-total pnl-pos">+1.2K</div>
+</div>
+<div class="cal-day">
+<div class="day-num">19</div>
+</div>
+<div class="cal-day">
+<div class="day-num weekend">20</div>
+</div>
+<div class="cal-day">
+<div class="day-num weekend">21</div>
+</div>
+<div class="cal-day has-trades">
+<div class="day-num">22</div>
+<span class="strat-tag win" style="background:#f59e0b22;color:#f59e0b;border:1px solid #f59e0b44" title="V3 CLOSE | 10x (1sig) | $+830 ($25K risk)">3 <span class="pnl-pos">+830</span></span>
+<span class="strat-tag win" style="background:#f9731622;color:#f97316;border:1px solid #f9731644" title="V12 TARGET | 16x | $+9,139 ($38K risk)">12 <span class="pnl-pos">+9.1K</span></span>
+<div class="day-total pnl-pos">+10.0K</div>
+</div>
+<div class="cal-day">
+<div class="day-num">23</div>
+</div>
+<div class="cal-day has-trades">
+<div class="day-num">24</div>
+<span class="strat-tag win" style="background:#f9731622;color:#f97316;border:1px solid #f9731644" title="V12 TARGET | 7x | $+3,430 ($19K risk)">12 <span class="pnl-pos">+3.4K</span></span>
+<div class="day-total pnl-pos">+3.4K</div>
+</div>
+<div class="cal-day">
+<div class="day-num">25</div>
+</div>
+<div class="cal-day">
+<div class="day-num">26</div>
+</div>
+<div class="cal-day">
+<div class="day-num weekend">27</div>
+</div>
+<div class="cal-day">
+<div class="day-num weekend">28</div>
+</div>
+<div class="cal-day">
+<div class="day-num">29</div>
+</div>
+<div class="cal-day">
+<div class="day-num">30</div>
+</div>
+<div class="cal-day">
+<div class="day-num">31</div>
+</div>
+<div class="cal-day empty"></div>
+<div class="cal-day empty"></div>
+<div class="cal-day empty"></div>
+<div class="cal-day empty"></div>
+</div></div>
+<div class="month-section">
+<div class="month-title">February 2024 <span class="pnl-pos" style="margin-left:12px">$35,201</span></div>
+<div class="cal-grid">
+<div class="cal-hdr">Mon</div>
+<div class="cal-hdr">Tue</div>
+<div class="cal-hdr">Wed</div>
+<div class="cal-hdr">Thu</div>
+<div class="cal-hdr">Fri</div>
+<div class="cal-hdr">Sat</div>
+<div class="cal-hdr">Sun</div>
+<div class="cal-day empty"></div>
+<div class="cal-day empty"></div>
+<div class="cal-day empty"></div>
+<div class="cal-day">
+<div class="day-num">1</div>
+</div>
+<div class="cal-day has-trades">
+<div class="day-num">2</div>
+<span class="strat-tag loss" style="background:#f59e0b22;color:#f59e0b;border:1px solid #f59e0b44" title="V3 WING_STOP | 24x (2sig) | $-44,280 ($50K risk)">3 <span class="pnl-neg">-44.3K</span></span>
+<div class="day-total pnl-neg">-44.3K</div>
+</div>
+<div class="cal-day">
+<div class="day-num weekend">3</div>
+</div>
+<div class="cal-day">
+<div class="day-num weekend">4</div>
+</div>
+<div class="cal-day has-trades">
+<div class="day-num">5</div>
+<span class="strat-tag win" style="background:#f59e0b22;color:#f59e0b;border:1px solid #f59e0b44" title="V3 TARGET | 22x (2sig) | $+17,655 ($50K risk)">3 <span class="pnl-pos">+17.7K</span></span>
+<div class="day-total pnl-pos">+17.7K</div>
+</div>
+<div class="cal-day has-trades">
+<div class="day-num">6</div>
+<span class="strat-tag win" style="background:#f59e0b22;color:#f59e0b;border:1px solid #f59e0b44" title="V3 TARGET | 22x (2sig) | $+16,973 ($50K risk)">3 <span class="pnl-pos">+17.0K</span></span>
+<span class="strat-tag win" style="background:#06b6d422;color:#06b6d4;border:1px solid #06b6d444" title="V6 TARGET | 16x | $+12,344 ($38K risk)">6 <span class="pnl-pos">+12.3K</span></span>
+<div class="day-total pnl-pos">+29.3K</div>
+</div>
+<div class="cal-day has-trades">
+<div class="day-num">7</div>
+<span class="strat-tag loss" style="background:#a855f722;color:#a855f7;border:1px solid #a855f744" title="V7 CLOSE | 5x | $-2,420 ($12K risk)">7 <span class="pnl-neg">-2.4K</span></span>
+<div class="day-total pnl-neg">-2.4K</div>
+</div>
+<div class="cal-day">
+<div class="day-num">8</div>
+</div>
+<div class="cal-day">
+<div class="day-num">9</div>
+</div>
+<div class="cal-day">
+<div class="day-num weekend">10</div>
+</div>
+<div class="cal-day">
+<div class="day-num weekend">11</div>
+</div>
+<div class="cal-day">
+<div class="day-num">12</div>
+</div>
+<div class="cal-day has-trades">
+<div class="day-num">13</div>
+<span class="strat-tag win" style="background:#f59e0b22;color:#f59e0b;border:1px solid #f59e0b44" title="V3 CLOSE | 13x (1sig) | $+22,100 ($25K risk)">3 <span class="pnl-pos">+22.1K</span></span>
+<div class="day-total pnl-pos">+22.1K</div>
+</div>
+<div class="cal-day">
+<div class="day-num">14</div>
+</div>
+<div class="cal-day">
+<div class="day-num">15</div>
+</div>
+<div class="cal-day">
+<div class="day-num">16</div>
+</div>
+<div class="cal-day">
+<div class="day-num weekend">17</div>
+</div>
+<div class="cal-day">
+<div class="day-num weekend">18</div>
+</div>
+<div class="cal-day">
+<div class="day-num">19</div>
+</div>
+<div class="cal-day has-trades">
+<div class="day-num">20</div>
+<span class="strat-tag win" style="background:#64748b22;color:#64748b;border:1px solid #64748b44" title="V14 TARGET | 27x | $+23,355 ($56K risk)">14 <span class="pnl-pos">+23.4K</span></span>
+<div class="day-total pnl-pos">+23.4K</div>
+</div>
+<div class="cal-day">
+<div class="day-num">21</div>
+</div>
+<div class="cal-day has-trades">
+<div class="day-num">22</div>
+<span class="strat-tag loss" style="background:#f59e0b22;color:#f59e0b;border:1px solid #f59e0b44" title="V3 CLOSE | 12x (1sig) | $-9,348 ($25K risk)">3 <span class="pnl-neg">-9.3K</span></span>
+<div class="day-total pnl-neg">-9.3K</div>
+</div>
+<div class="cal-day has-trades">
+<div class="day-num">23</div>
+<span class="strat-tag loss" style="background:#f59e0b22;color:#f59e0b;border:1px solid #f59e0b44" title="V3 CLOSE | 11x (1sig) | $-2,354 ($25K risk)">3 <span class="pnl-neg">-2.4K</span></span>
+<span class="strat-tag loss" style="background:#f9731622;color:#f97316;border:1px solid #f9731644" title="V12 CLOSE | 17x | $-3,638 ($38K risk)">12 <span class="pnl-neg">-3.6K</span></span>
+<div class="day-total pnl-neg">-6.0K</div>
+</div>
+<div class="cal-day">
+<div class="day-num weekend">24</div>
+</div>
+<div class="cal-day">
+<div class="day-num weekend">25</div>
+</div>
+<div class="cal-day has-trades">
+<div class="day-num">26</div>
+<span class="strat-tag loss" style="background:#06b6d422;color:#06b6d4;border:1px solid #06b6d444" title="V6 TIME | 7x | $-1,351 ($19K risk)">6 <span class="pnl-neg">-1.4K</span></span>
+<div class="day-total pnl-neg">-1.4K</div>
+</div>
+<div class="cal-day has-trades">
+<div class="day-num">27</div>
+<span class="strat-tag win" style="background:#06b6d422;color:#06b6d4;border:1px solid #06b6d444" title="V6 TARGET | 7x | $+4,928 ($19K risk)">6 <span class="pnl-pos">+4.9K</span></span>
+<div class="day-total pnl-pos">+4.9K</div>
+</div>
+<div class="cal-day">
+<div class="day-num">28</div>
+</div>
+<div class="cal-day has-trades">
+<div class="day-num">29</div>
+<span class="strat-tag win" style="background:#a855f722;color:#a855f7;border:1px solid #a855f744" title="V7 TARGET | 2x | $+1,237 ($6K risk)">7 <span class="pnl-pos">+1.2K</span></span>
+<div class="day-total pnl-pos">+1.2K</div>
+</div>
+<div class="cal-day empty"></div>
+<div class="cal-day empty"></div>
+<div class="cal-day empty"></div>
+</div></div>
+<div class="month-section">
+<div class="month-title">March 2024 <span class="pnl-pos" style="margin-left:12px">$432</span></div>
+<div class="cal-grid">
+<div class="cal-hdr">Mon</div>
+<div class="cal-hdr">Tue</div>
+<div class="cal-hdr">Wed</div>
+<div class="cal-hdr">Thu</div>
+<div class="cal-hdr">Fri</div>
+<div class="cal-hdr">Sat</div>
+<div class="cal-hdr">Sun</div>
+<div class="cal-day empty"></div>
+<div class="cal-day empty"></div>
+<div class="cal-day empty"></div>
+<div class="cal-day empty"></div>
+<div class="cal-day">
+<div class="day-num">1</div>
+</div>
+<div class="cal-day">
+<div class="day-num weekend">2</div>
+</div>
+<div class="cal-day">
+<div class="day-num weekend">3</div>
+</div>
+<div class="cal-day">
+<div class="day-num">4</div>
+</div>
+<div class="cal-day">
+<div class="day-num">5</div>
+</div>
+<div class="cal-day">
+<div class="day-num">6</div>
+</div>
+<div class="cal-day has-trades">
+<div class="day-num">7</div>
+<span class="strat-tag win" style="background:#a855f722;color:#a855f7;border:1px solid #a855f744" title="V7 CLOSE | 5x | $+265 ($12K risk)">7 <span class="pnl-pos">+265</span></span>
+<div class="day-total pnl-pos">+265</div>
+</div>
+<div class="cal-day has-trades">
+<div class="day-num">8</div>
+<span class="strat-tag loss" style="background:#f59e0b22;color:#f59e0b;border:1px solid #f59e0b44" title="V3 WING_STOP | 12x (1sig) | $-25,848 ($25K risk)">3 <span class="pnl-neg">-25.8K</span></span>
+<div class="day-total pnl-neg">-25.8K</div>
+</div>
+<div class="cal-day">
+<div class="day-num weekend">9</div>
+</div>
+<div class="cal-day">
+<div class="day-num weekend">10</div>
+</div>
+<div class="cal-day">
+<div class="day-num">11</div>
+</div>
+<div class="cal-day">
+<div class="day-num">12</div>
+</div>
+<div class="cal-day">
+<div class="day-num">13</div>
+</div>
+<div class="cal-day has-trades">
+<div class="day-num">14</div>
+<span class="strat-tag win" style="background:#f59e0b22;color:#f59e0b;border:1px solid #f59e0b44" title="V3 TARGET | 14x (1sig) | $+14,896 ($25K risk)">3 <span class="pnl-pos">+14.9K</span></span>
+<span class="strat-tag win" style="background:#06b6d422;color:#06b6d4;border:1px solid #06b6d444" title="V6 TARGET | 33x | $+35,112 ($56K risk)">6 <span class="pnl-pos">+35.1K</span></span>
+<div class="day-total pnl-pos">+50.0K</div>
+</div>
+<div class="cal-day">
+<div class="day-num">15</div>
+</div>
+<div class="cal-day">
+<div class="day-num weekend">16</div>
+</div>
+<div class="cal-day">
+<div class="day-num weekend">17</div>
+</div>
+<div class="cal-day">
+<div class="day-num">18</div>
+</div>
+<div class="cal-day has-trades">
+<div class="day-num">19</div>
+<span class="strat-tag loss" style="background:#06b6d422;color:#06b6d4;border:1px solid #06b6d444" title="V6 WING_STOP | 17x | $-27,829 ($38K risk)">6 <span class="pnl-neg">-27.8K</span></span>
+<div class="day-total pnl-neg">-27.8K</div>
+</div>
+<div class="cal-day">
+<div class="day-num">20</div>
+</div>
+<div class="cal-day has-trades">
+<div class="day-num">21</div>
+<span class="strat-tag win" style="background:#f9731622;color:#f97316;border:1px solid #f9731644" title="V12 TARGET | 7x | $+3,836 ($19K risk)">12 <span class="pnl-pos">+3.8K</span></span>
+<div class="day-total pnl-pos">+3.8K</div>
+</div>
+<div class="cal-day">
+<div class="day-num">22</div>
+</div>
+<div class="cal-day">
+<div class="day-num weekend">23</div>
+</div>
+<div class="cal-day">
+<div class="day-num weekend">24</div>
+</div>
+<div class="cal-day">
+<div class="day-num">25</div>
+</div>
+<div class="cal-day">
+<div class="day-num">26</div>
+</div>
+<div class="cal-day">
+<div class="day-num">27</div>
+</div>
+<div class="cal-day">
+<div class="day-num">28</div>
+</div>
+<div class="cal-day">
+<div class="day-num">29</div>
+</div>
+<div class="cal-day">
+<div class="day-num weekend">30</div>
+</div>
+<div class="cal-day">
+<div class="day-num weekend">31</div>
+</div>
+</div></div>
+<div class="month-section">
+<div class="month-title">April 2024 <span class="pnl-pos" style="margin-left:12px">$176,453</span></div>
+<div class="cal-grid">
+<div class="cal-hdr">Mon</div>
+<div class="cal-hdr">Tue</div>
+<div class="cal-hdr">Wed</div>
+<div class="cal-hdr">Thu</div>
+<div class="cal-hdr">Fri</div>
+<div class="cal-hdr">Sat</div>
+<div class="cal-hdr">Sun</div>
+<div class="cal-day">
+<div class="day-num">1</div>
+</div>
+<div class="cal-day">
+<div class="day-num">2</div>
+</div>
+<div class="cal-day">
+<div class="day-num">3</div>
+</div>
+<div class="cal-day">
+<div class="day-num">4</div>
+</div>
+<div class="cal-day has-trades">
+<div class="day-num">5</div>
+<span class="strat-tag win" style="background:#ec489922;color:#ec4899;border:1px solid #ec489944" title="V10 TIME | 10x | $+990 ($19K risk)">10 <span class="pnl-pos">+990</span></span>
+<div class="day-total pnl-pos">+990</div>
+</div>
+<div class="cal-day">
+<div class="day-num weekend">6</div>
+</div>
+<div class="cal-day">
+<div class="day-num weekend">7</div>
+</div>
+<div class="cal-day">
+<div class="day-num">8</div>
+</div>
+<div class="cal-day">
+<div class="day-num">9</div>
+</div>
+<div class="cal-day has-trades">
+<div class="day-num">10</div>
+<span class="strat-tag win" style="background:#f59e0b22;color:#f59e0b;border:1px solid #f59e0b44" title="V3 TARGET | 68x (4sig) | $+79,220 ($100K risk)">3 <span class="pnl-pos">+79.2K</span></span>
+<span class="strat-tag win" style="background:#64748b22;color:#64748b;border:1px solid #64748b44" title="V14 TARGET | 51x | $+59,415 ($75K risk)">14 <span class="pnl-pos">+59.4K</span></span>
+<div class="day-total pnl-pos">+138.6K</div>
+</div>
+<div class="cal-day">
+<div class="day-num">11</div>
+</div>
+<div class="cal-day">
+<div class="day-num">12</div>
+</div>
+<div class="cal-day">
+<div class="day-num weekend">13</div>
+</div>
+<div class="cal-day">
+<div class="day-num weekend">14</div>
+</div>
+<div class="cal-day">
+<div class="day-num">15</div>
+</div>
+<div class="cal-day has-trades">
+<div class="day-num">16</div>
+<span class="strat-tag win" style="background:#ec489922;color:#ec4899;border:1px solid #ec489944" title="V10 TARGET | 11x | $+21,122 ($19K risk)">10 <span class="pnl-pos">+21.1K</span></span>
+<div class="day-total pnl-pos">+21.1K</div>
+</div>
+<div class="cal-day">
+<div class="day-num">17</div>
+</div>
+<div class="cal-day has-trades">
+<div class="day-num">18</div>
+<span class="strat-tag win" style="background:#ec489922;color:#ec4899;border:1px solid #ec489944" title="V10 TIME | 9x | $+12,870 ($19K risk)">10 <span class="pnl-pos">+12.9K</span></span>
+<div class="day-total pnl-pos">+12.9K</div>
+</div>
+<div class="cal-day has-trades">
+<div class="day-num">19</div>
+<span class="strat-tag loss" style="background:#ec489922;color:#ec4899;border:1px solid #ec489944" title="V10 WING_STOP | 10x | $-13,430 ($19K risk)">10 <span class="pnl-neg">-13.4K</span></span>
+<div class="day-total pnl-neg">-13.4K</div>
+</div>
+<div class="cal-day">
+<div class="day-num weekend">20</div>
+</div>
+<div class="cal-day">
+<div class="day-num weekend">21</div>
+</div>
+<div class="cal-day">
+<div class="day-num">22</div>
+</div>
+<div class="cal-day">
+<div class="day-num">23</div>
+</div>
+<div class="cal-day has-trades">
+<div class="day-num">24</div>
+<span class="strat-tag win" style="background:#f59e0b22;color:#f59e0b;border:1px solid #f59e0b44" title="V3 TARGET | 24x (2sig) | $+21,420 ($50K risk)">3 <span class="pnl-pos">+21.4K</span></span>
+<div class="day-total pnl-pos">+21.4K</div>
+</div>
+<div class="cal-day has-trades">
+<div class="day-num">25</div>
+<span class="strat-tag loss" style="background:#f59e0b22;color:#f59e0b;border:1px solid #f59e0b44" title="V3 WING_STOP | 29x (2sig) | $-42,427 ($50K risk)">3 <span class="pnl-neg">-42.4K</span></span>
+<div class="day-total pnl-neg">-42.4K</div>
+</div>
+<div class="cal-day has-trades">
+<div class="day-num">26</div>
+<span class="strat-tag win" style="background:#f59e0b22;color:#f59e0b;border:1px solid #f59e0b44" title="V3 TARGET | 28x (2sig) | $+28,280 ($50K risk)">3 <span class="pnl-pos">+28.3K</span></span>
+<div class="day-total pnl-pos">+28.3K</div>
+</div>
+<div class="cal-day">
+<div class="day-num weekend">27</div>
+</div>
+<div class="cal-day">
+<div class="day-num weekend">28</div>
+</div>
+<div class="cal-day has-trades">
+<div class="day-num">29</div>
+<span class="strat-tag win" style="background:#f59e0b22;color:#f59e0b;border:1px solid #f59e0b44" title="V3 TARGET | 11x (1sig) | $+8,993 ($25K risk)">3 <span class="pnl-pos">+9.0K</span></span>
+<div class="day-total pnl-pos">+9.0K</div>
+</div>
+<div class="cal-day">
+<div class="day-num">30</div>
+</div>
+<div class="cal-day empty"></div>
+<div class="cal-day empty"></div>
+<div class="cal-day empty"></div>
+<div class="cal-day empty"></div>
+<div class="cal-day empty"></div>
+</div></div>
+<div class="month-section">
+<div class="month-title">May 2024 <span class="pnl-neg" style="margin-left:12px">$-49,112</span></div>
+<div class="cal-grid">
+<div class="cal-hdr">Mon</div>
+<div class="cal-hdr">Tue</div>
+<div class="cal-hdr">Wed</div>
+<div class="cal-hdr">Thu</div>
+<div class="cal-hdr">Fri</div>
+<div class="cal-hdr">Sat</div>
+<div class="cal-hdr">Sun</div>
+<div class="cal-day empty"></div>
+<div class="cal-day empty"></div>
+<div class="cal-day">
+<div class="day-num">1</div>
+</div>
+<div class="cal-day">
+<div class="day-num">2</div>
+</div>
+<div class="cal-day has-trades">
+<div class="day-num">3</div>
+<span class="strat-tag win" style="background:#f59e0b22;color:#f59e0b;border:1px solid #f59e0b44" title="V3 TARGET | 14x (1sig) | $+14,546 ($25K risk)">3 <span class="pnl-pos">+14.5K</span></span>
+<div class="day-total pnl-pos">+14.5K</div>
+</div>
+<div class="cal-day">
+<div class="day-num weekend">4</div>
+</div>
+<div class="cal-day">
+<div class="day-num weekend">5</div>
+</div>
+<div class="cal-day">
+<div class="day-num">6</div>
+</div>
+<div class="cal-day">
+<div class="day-num">7</div>
+</div>
+<div class="cal-day">
+<div class="day-num">8</div>
+</div>
+<div class="cal-day">
+<div class="day-num">9</div>
+</div>
+<div class="cal-day has-trades">
+<div class="day-num">10</div>
+<span class="strat-tag win" style="background:#f59e0b22;color:#f59e0b;border:1px solid #f59e0b44" title="V3 CLOSE | 10x (1sig) | $+2,480 ($25K risk)">3 <span class="pnl-pos">+2.5K</span></span>
+<div class="day-total pnl-pos">+2.5K</div>
+</div>
+<div class="cal-day">
+<div class="day-num weekend">11</div>
+</div>
+<div class="cal-day">
+<div class="day-num weekend">12</div>
+</div>
+<div class="cal-day">
+<div class="day-num">13</div>
+</div>
+<div class="cal-day">
+<div class="day-num">14</div>
+</div>
+<div class="cal-day has-trades">
+<div class="day-num">15</div>
+<span class="strat-tag loss" style="background:#f59e0b22;color:#f59e0b;border:1px solid #f59e0b44" title="V3 WING_STOP | 21x (2sig) | $-38,850 ($50K risk)">3 <span class="pnl-neg">-38.9K</span></span>
+<span class="strat-tag loss" style="background:#f9731622;color:#f97316;border:1px solid #f9731644" title="V12 WING_STOP | 16x | $-29,600 ($38K risk)">12 <span class="pnl-neg">-29.6K</span></span>
+<div class="day-total pnl-neg">-68.5K</div>
+</div>
+<div class="cal-day">
+<div class="day-num">16</div>
+</div>
+<div class="cal-day">
+<div class="day-num">17</div>
+</div>
+<div class="cal-day">
+<div class="day-num weekend">18</div>
+</div>
+<div class="cal-day">
+<div class="day-num weekend">19</div>
+</div>
+<div class="cal-day">
+<div class="day-num">20</div>
+</div>
+<div class="cal-day">
+<div class="day-num">21</div>
+</div>
+<div class="cal-day">
+<div class="day-num">22</div>
+</div>
+<div class="cal-day">
+<div class="day-num">23</div>
+</div>
+<div class="cal-day">
+<div class="day-num">24</div>
+</div>
+<div class="cal-day">
+<div class="day-num weekend">25</div>
+</div>
+<div class="cal-day">
+<div class="day-num weekend">26</div>
+</div>
+<div class="cal-day">
+<div class="day-num">27</div>
+</div>
+<div class="cal-day">
+<div class="day-num">28</div>
+</div>
+<div class="cal-day">
+<div class="day-num">29</div>
+</div>
+<div class="cal-day has-trades">
+<div class="day-num">30</div>
+<span class="strat-tag win" style="background:#06b6d422;color:#06b6d4;border:1px solid #06b6d444" title="V6 TIME | 8x | $+2,312 ($19K risk)">6 <span class="pnl-pos">+2.3K</span></span>
+<div class="day-total pnl-pos">+2.3K</div>
+</div>
+<div class="cal-day">
+<div class="day-num">31</div>
+</div>
+<div class="cal-day empty"></div>
+<div class="cal-day empty"></div>
+</div></div>
+<div class="month-section">
+<div class="month-title">June 2024 <span class="pnl-pos" style="margin-left:12px">$251,326</span></div>
+<div class="cal-grid">
+<div class="cal-hdr">Mon</div>
+<div class="cal-hdr">Tue</div>
+<div class="cal-hdr">Wed</div>
+<div class="cal-hdr">Thu</div>
+<div class="cal-hdr">Fri</div>
+<div class="cal-hdr">Sat</div>
+<div class="cal-hdr">Sun</div>
+<div class="cal-day empty"></div>
+<div class="cal-day empty"></div>
+<div class="cal-day empty"></div>
+<div class="cal-day empty"></div>
+<div class="cal-day empty"></div>
+<div class="cal-day">
+<div class="day-num weekend">1</div>
+</div>
+<div class="cal-day">
+<div class="day-num weekend">2</div>
+</div>
+<div class="cal-day has-trades">
+<div class="day-num">3</div>
+<span class="strat-tag win" style="background:#f59e0b22;color:#f59e0b;border:1px solid #f59e0b44" title="V3 CLOSE | 11x (1sig) | $+17,468 ($25K risk)">3 <span class="pnl-pos">+17.5K</span></span>
+<div class="day-total pnl-pos">+17.5K</div>
+</div>
+<div class="cal-day has-trades">
+<div class="day-num">4</div>
+<span class="strat-tag win" style="background:#06b6d422;color:#06b6d4;border:1px solid #06b6d444" title="V6 TIME | 38x | $+29,868 ($75K risk)">6 <span class="pnl-pos">+29.9K</span></span>
+<div class="day-total pnl-pos">+29.9K</div>
+</div>
+<div class="cal-day">
+<div class="day-num">5</div>
+</div>
+<div class="cal-day">
+<div class="day-num">6</div>
+</div>
+<div class="cal-day has-trades">
+<div class="day-num">7</div>
+<span class="strat-tag win" style="background:#f59e0b22;color:#f59e0b;border:1px solid #f59e0b44" title="V3 TARGET | 24x (2sig) | $+20,940 ($50K risk)">3 <span class="pnl-pos">+20.9K</span></span>
+<div class="day-total pnl-pos">+20.9K</div>
+</div>
+<div class="cal-day">
+<div class="day-num weekend">8</div>
+</div>
+<div class="cal-day">
+<div class="day-num weekend">9</div>
+</div>
+<div class="cal-day">
+<div class="day-num">10</div>
+</div>
+<div class="cal-day">
+<div class="day-num">11</div>
+</div>
+<div class="cal-day has-trades">
+<div class="day-num">12</div>
+<span class="strat-tag win" style="background:#f59e0b22;color:#f59e0b;border:1px solid #f59e0b44" title="V3 CLOSE | 18x (1sig) | $+23,958 ($25K risk)">3 <span class="pnl-pos">+24.0K</span></span>
+<span class="strat-tag win" style="background:#f9731622;color:#f97316;border:1px solid #f9731644" title="V12 CLOSE | 28x | $+37,268 ($38K risk)">12 <span class="pnl-pos">+37.3K</span></span>
+<div class="day-total pnl-pos">+61.2K</div>
+</div>
+<div class="cal-day has-trades">
+<div class="day-num">13</div>
+<span class="strat-tag win" style="background:#f59e0b22;color:#f59e0b;border:1px solid #f59e0b44" title="V3 TARGET | 11x (1sig) | $+9,157 ($25K risk)">3 <span class="pnl-pos">+9.2K</span></span>
+<span class="strat-tag win" style="background:#f9731622;color:#f97316;border:1px solid #f9731644" title="V12 TARGET | 17x | $+10,982 ($38K risk)">12 <span class="pnl-pos">+11.0K</span></span>
+<div class="day-total pnl-pos">+20.1K</div>
+</div>
+<div class="cal-day has-trades">
+<div class="day-num">14</div>
+<span class="strat-tag win" style="background:#06b6d422;color:#06b6d4;border:1px solid #06b6d444" title="V6 TARGET | 17x | $+13,600 ($38K risk)">6 <span class="pnl-pos">+13.6K</span></span>
+<div class="day-total pnl-pos">+13.6K</div>
+</div>
+<div class="cal-day">
+<div class="day-num weekend">15</div>
+</div>
+<div class="cal-day">
+<div class="day-num weekend">16</div>
+</div>
+<div class="cal-day">
+<div class="day-num">17</div>
+</div>
+<div class="cal-day has-trades">
+<div class="day-num">18</div>
+<span class="strat-tag win" style="background:#f59e0b22;color:#f59e0b;border:1px solid #f59e0b44" title="V3 TARGET | 11x (1sig) | $+8,619 ($25K risk)">3 <span class="pnl-pos">+8.6K</span></span>
+<div class="day-total pnl-pos">+8.6K</div>
+</div>
+<div class="cal-day">
+<div class="day-num">19</div>
+</div>
+<div class="cal-day">
+<div class="day-num">20</div>
+</div>
+<div class="cal-day has-trades">
+<div class="day-num">21</div>
+<span class="strat-tag win" style="background:#f59e0b22;color:#f59e0b;border:1px solid #f59e0b44" title="V3 TARGET | 50x (4sig) | $+45,500 ($100K risk)">3 <span class="pnl-pos">+45.5K</span></span>
+<span class="strat-tag win" style="background:#06b6d422;color:#06b6d4;border:1px solid #06b6d444" title="V6 TARGET | 37x | $+33,670 ($75K risk)">6 <span class="pnl-pos">+33.7K</span></span>
+<div class="day-total pnl-pos">+79.2K</div>
+</div>
+<div class="cal-day">
+<div class="day-num weekend">22</div>
+</div>
+<div class="cal-day">
+<div class="day-num weekend">23</div>
+</div>
+<div class="cal-day">
+<div class="day-num">24</div>
+</div>
+<div class="cal-day has-trades">
+<div class="day-num">25</div>
+<span class="strat-tag win" style="background:#06b6d422;color:#06b6d4;border:1px solid #06b6d444" title="V6 TIME | 8x | $+296 ($19K risk)">6 <span class="pnl-pos">+296</span></span>
+<div class="day-total pnl-pos">+296</div>
+</div>
+<div class="cal-day">
+<div class="day-num">26</div>
+</div>
+<div class="cal-day">
+<div class="day-num">27</div>
+</div>
+<div class="cal-day">
+<div class="day-num">28</div>
+</div>
+<div class="cal-day">
+<div class="day-num weekend">29</div>
+</div>
+<div class="cal-day">
+<div class="day-num weekend">30</div>
+</div>
+</div></div>
+<div class="month-section">
+<div class="month-title">July 2024 <span class="pnl-neg" style="margin-left:12px">$-89,824</span></div>
+<div class="cal-grid">
+<div class="cal-hdr">Mon</div>
+<div class="cal-hdr">Tue</div>
+<div class="cal-hdr">Wed</div>
+<div class="cal-hdr">Thu</div>
+<div class="cal-hdr">Fri</div>
+<div class="cal-hdr">Sat</div>
+<div class="cal-hdr">Sun</div>
+<div class="cal-day has-trades">
+<div class="day-num">1</div>
+<span class="strat-tag win" style="background:#06b6d422;color:#06b6d4;border:1px solid #06b6d444" title="V6 TARGET | 26x | $+21,710 ($56K risk)">6 <span class="pnl-pos">+21.7K</span></span>
+<div class="day-total pnl-pos">+21.7K</div>
+</div>
+<div class="cal-day has-trades">
+<div class="day-num">2</div>
+<span class="strat-tag loss" style="background:#f59e0b22;color:#f59e0b;border:1px solid #f59e0b44" title="V3 CLOSE | 11x (1sig) | $-17,270 ($25K risk)">3 <span class="pnl-neg">-17.3K</span></span>
+<div class="day-total pnl-neg">-17.3K</div>
+</div>
+<div class="cal-day">
+<div class="day-num">3</div>
+</div>
+<div class="cal-day">
+<div class="day-num">4</div>
+</div>
+<div class="cal-day has-trades">
+<div class="day-num">5</div>
+<span class="strat-tag loss" style="background:#f59e0b22;color:#f59e0b;border:1px solid #f59e0b44" title="V3 CLOSE | 10x (1sig) | $-8,750 ($25K risk)">3 <span class="pnl-neg">-8.8K</span></span>
+<div class="day-total pnl-neg">-8.8K</div>
+</div>
+<div class="cal-day">
+<div class="day-num weekend">6</div>
+</div>
+<div class="cal-day">
+<div class="day-num weekend">7</div>
+</div>
+<div class="cal-day has-trades">
+<div class="day-num">8</div>
+<span class="strat-tag win" style="background:#f59e0b22;color:#f59e0b;border:1px solid #f59e0b44" title="V3 CLOSE | 9x (1sig) | $+6,156 ($25K risk)">3 <span class="pnl-pos">+6.2K</span></span>
+<div class="day-total pnl-pos">+6.2K</div>
+</div>
+<div class="cal-day">
+<div class="day-num">9</div>
+</div>
+<div class="cal-day">
+<div class="day-num">10</div>
+</div>
+<div class="cal-day has-trades">
+<div class="day-num">11</div>
+<span class="strat-tag loss" style="background:#f59e0b22;color:#f59e0b;border:1px solid #f59e0b44" title="V3 WING_STOP | 11x (1sig) | $-17,655 ($25K risk)">3 <span class="pnl-neg">-17.7K</span></span>
+<div class="day-total pnl-neg">-17.7K</div>
+</div>
+<div class="cal-day has-trades">
+<div class="day-num">12</div>
+<span class="strat-tag loss" style="background:#06b6d422;color:#06b6d4;border:1px solid #06b6d444" title="V6 WING_STOP | 8x | $-14,864 ($19K risk)">6 <span class="pnl-neg">-14.9K</span></span>
+<div class="day-total pnl-neg">-14.9K</div>
+</div>
+<div class="cal-day">
+<div class="day-num weekend">13</div>
+</div>
+<div class="cal-day">
+<div class="day-num weekend">14</div>
+</div>
+<div class="cal-day has-trades">
+<div class="day-num">15</div>
+<span class="strat-tag win" style="background:#f59e0b22;color:#f59e0b;border:1px solid #f59e0b44" title="V3 TARGET | 12x (1sig) | $+10,668 ($25K risk)">3 <span class="pnl-pos">+10.7K</span></span>
+<div class="day-total pnl-pos">+10.7K</div>
+</div>
+<div class="cal-day has-trades">
+<div class="day-num">16</div>
+<span class="strat-tag win" style="background:#f59e0b22;color:#f59e0b;border:1px solid #f59e0b44" title="V3 CLOSE | 23x (2sig) | $+3,197 ($50K risk)">3 <span class="pnl-pos">+3.2K</span></span>
+<span class="strat-tag win" style="background:#06b6d422;color:#06b6d4;border:1px solid #06b6d444" title="V6 TIME | 17x | $+7,684 ($38K risk)">6 <span class="pnl-pos">+7.7K</span></span>
+<div class="day-total pnl-pos">+10.9K</div>
+</div>
+<div class="cal-day has-trades">
+<div class="day-num">17</div>
+<span class="strat-tag loss" style="background:#f59e0b22;color:#f59e0b;border:1px solid #f59e0b44" title="V3 CLOSE | 13x (1sig) | $-6,435 ($25K risk)">3 <span class="pnl-neg">-6.4K</span></span>
+<div class="day-total pnl-neg">-6.4K</div>
+</div>
+<div class="cal-day">
+<div class="day-num">18</div>
+</div>
+<div class="cal-day has-trades">
+<div class="day-num">19</div>
+<span class="strat-tag loss" style="background:#ec489922;color:#ec4899;border:1px solid #ec489944" title="V10 WING_STOP | 35x | $-44,905 ($56K risk)">10 <span class="pnl-neg">-44.9K</span></span>
+<div class="day-total pnl-neg">-44.9K</div>
+</div>
+<div class="cal-day">
+<div class="day-num weekend">20</div>
+</div>
+<div class="cal-day">
+<div class="day-num weekend">21</div>
+</div>
+<div class="cal-day">
+<div class="day-num">22</div>
+</div>
+<div class="cal-day">
+<div class="day-num">23</div>
+</div>
+<div class="cal-day">
+<div class="day-num">24</div>
+</div>
+<div class="cal-day has-trades">
+<div class="day-num">25</div>
+<span class="strat-tag loss" style="background:#ec489922;color:#ec4899;border:1px solid #ec489944" title="V10 WING_STOP | 20x | $-29,360 ($38K risk)">10 <span class="pnl-neg">-29.4K</span></span>
+<div class="day-total pnl-neg">-29.4K</div>
+</div>
+<div class="cal-day">
+<div class="day-num">26</div>
+</div>
+<div class="cal-day">
+<div class="day-num weekend">27</div>
+</div>
+<div class="cal-day">
+<div class="day-num weekend">28</div>
+</div>
+<div class="cal-day">
+<div class="day-num">29</div>
+</div>
+<div class="cal-day">
+<div class="day-num">30</div>
+</div>
+<div class="cal-day">
+<div class="day-num">31</div>
+</div>
+<div class="cal-day empty"></div>
+<div class="cal-day empty"></div>
+<div class="cal-day empty"></div>
+<div class="cal-day empty"></div>
+</div></div>
+<div class="month-section">
+<div class="month-title">August 2024 <span class="pnl-pos" style="margin-left:12px">$177,308</span></div>
+<div class="cal-grid">
+<div class="cal-hdr">Mon</div>
+<div class="cal-hdr">Tue</div>
+<div class="cal-hdr">Wed</div>
+<div class="cal-hdr">Thu</div>
+<div class="cal-hdr">Fri</div>
+<div class="cal-hdr">Sat</div>
+<div class="cal-hdr">Sun</div>
+<div class="cal-day empty"></div>
+<div class="cal-day empty"></div>
+<div class="cal-day empty"></div>
+<div class="cal-day has-trades">
+<div class="day-num">1</div>
+<span class="strat-tag loss" style="background:#f59e0b22;color:#f59e0b;border:1px solid #f59e0b44" title="V3 WING_STOP | 28x (2sig) | $-50,820 ($50K risk)">3 <span class="pnl-neg">-50.8K</span></span>
+<div class="day-total pnl-neg">-50.8K</div>
+</div>
+<div class="cal-day has-trades">
+<div class="day-num">2</div>
+<span class="strat-tag win" style="background:#f59e0b22;color:#f59e0b;border:1px solid #f59e0b44" title="V3 CLOSE | 54x (4sig) | $+144,882 ($100K risk)">3 <span class="pnl-pos">+144.9K</span></span>
+<div class="day-total pnl-pos">+144.9K</div>
+</div>
+<div class="cal-day">
+<div class="day-num weekend">3</div>
+</div>
+<div class="cal-day">
+<div class="day-num weekend">4</div>
+</div>
+<div class="cal-day">
+<div class="day-num">5</div>
+</div>
+<div class="cal-day">
+<div class="day-num">6</div>
+</div>
+<div class="cal-day">
+<div class="day-num">7</div>
+</div>
+<div class="cal-day">
+<div class="day-num">8</div>
+</div>
+<div class="cal-day">
+<div class="day-num">9</div>
+</div>
+<div class="cal-day">
+<div class="day-num weekend">10</div>
+</div>
+<div class="cal-day">
+<div class="day-num weekend">11</div>
+</div>
+<div class="cal-day">
+<div class="day-num">12</div>
+</div>
+<div class="cal-day">
+<div class="day-num">13</div>
+</div>
+<div class="cal-day has-trades">
+<div class="day-num">14</div>
+<span class="strat-tag loss" style="background:#f59e0b22;color:#f59e0b;border:1px solid #f59e0b44" title="V3 CLOSE | 13x (1sig) | $-1,170 ($25K risk)">3 <span class="pnl-neg">-1.2K</span></span>
+<span class="strat-tag win" style="background:#eab30822;color:#eab308;border:1px solid #eab30844" title="V9 TIME | 26x | $+14,768 ($50K risk)">9 <span class="pnl-pos">+14.8K</span></span>
+<div class="day-total pnl-pos">+13.6K</div>
+</div>
+<div class="cal-day has-trades">
+<div class="day-num">15</div>
+<span class="strat-tag loss" style="background:#f59e0b22;color:#f59e0b;border:1px solid #f59e0b44" title="V3 CLOSE | 12x (1sig) | $-492 ($25K risk)">3 <span class="pnl-neg">-492</span></span>
+<div class="day-total pnl-neg">-492</div>
+</div>
+<div class="cal-day has-trades">
+<div class="day-num">16</div>
+<span class="strat-tag win" style="background:#f59e0b22;color:#f59e0b;border:1px solid #f59e0b44" title="V3 CLOSE | 14x (1sig) | $+6,006 ($25K risk)">3 <span class="pnl-pos">+6.0K</span></span>
+<span class="strat-tag win" style="background:#eab30822;color:#eab308;border:1px solid #eab30844" title="V9 TIME | 29x | $+18,009 ($50K risk)">9 <span class="pnl-pos">+18.0K</span></span>
+<div class="day-total pnl-pos">+24.0K</div>
+</div>
+<div class="cal-day">
+<div class="day-num weekend">17</div>
+</div>
+<div class="cal-day">
+<div class="day-num weekend">18</div>
+</div>
+<div class="cal-day has-trades">
+<div class="day-num">19</div>
+<span class="strat-tag loss" style="background:#eab30822;color:#eab308;border:1px solid #eab30844" title="V9 TIME | 11x | $-15,554 ($25K risk)">9 <span class="pnl-neg">-15.6K</span></span>
+<div class="day-total pnl-neg">-15.6K</div>
+</div>
+<div class="cal-day">
+<div class="day-num">20</div>
+</div>
+<div class="cal-day">
+<div class="day-num">21</div>
+</div>
+<div class="cal-day">
+<div class="day-num">22</div>
+</div>
+<div class="cal-day has-trades">
+<div class="day-num">23</div>
+<span class="strat-tag win" style="background:#f59e0b22;color:#f59e0b;border:1px solid #f59e0b44" title="V3 TARGET | 34x (2sig) | $+48,314 ($50K risk)">3 <span class="pnl-pos">+48.3K</span></span>
+<div class="day-total pnl-pos">+48.3K</div>
+</div>
+<div class="cal-day">
+<div class="day-num weekend">24</div>
+</div>
+<div class="cal-day">
+<div class="day-num weekend">25</div>
+</div>
+<div class="cal-day">
+<div class="day-num">26</div>
+</div>
+<div class="cal-day">
+<div class="day-num">27</div>
+</div>
+<div class="cal-day">
+<div class="day-num">28</div>
+</div>
+<div class="cal-day">
+<div class="day-num">29</div>
+</div>
+<div class="cal-day has-trades">
+<div class="day-num">30</div>
+<span class="strat-tag win" style="background:#f59e0b22;color:#f59e0b;border:1px solid #f59e0b44" title="V3 CLOSE | 27x (2sig) | $+13,365 ($50K risk)">3 <span class="pnl-pos">+13.4K</span></span>
+<div class="day-total pnl-pos">+13.4K</div>
+</div>
+<div class="cal-day">
+<div class="day-num weekend">31</div>
+</div>
+<div class="cal-day empty"></div>
+</div></div>
+<div class="month-section">
+<div class="month-title">September 2024 <span class="pnl-pos" style="margin-left:12px">$90,069</span></div>
+<div class="cal-grid">
+<div class="cal-hdr">Mon</div>
+<div class="cal-hdr">Tue</div>
+<div class="cal-hdr">Wed</div>
+<div class="cal-hdr">Thu</div>
+<div class="cal-hdr">Fri</div>
+<div class="cal-hdr">Sat</div>
+<div class="cal-hdr">Sun</div>
+<div class="cal-day empty"></div>
+<div class="cal-day empty"></div>
+<div class="cal-day empty"></div>
+<div class="cal-day empty"></div>
+<div class="cal-day empty"></div>
+<div class="cal-day empty"></div>
+<div class="cal-day">
+<div class="day-num weekend">1</div>
+</div>
+<div class="cal-day">
+<div class="day-num">2</div>
+</div>
+<div class="cal-day">
+<div class="day-num">3</div>
+</div>
+<div class="cal-day">
+<div class="day-num">4</div>
+</div>
+<div class="cal-day">
+<div class="day-num">5</div>
+</div>
+<div class="cal-day">
+<div class="day-num">6</div>
+</div>
+<div class="cal-day">
+<div class="day-num weekend">7</div>
+</div>
+<div class="cal-day">
+<div class="day-num weekend">8</div>
+</div>
+<div class="cal-day">
+<div class="day-num">9</div>
+</div>
+<div class="cal-day">
+<div class="day-num">10</div>
+</div>
+<div class="cal-day">
+<div class="day-num">11</div>
+</div>
+<div class="cal-day has-trades">
+<div class="day-num">12</div>
+<span class="strat-tag loss" style="background:#f59e0b22;color:#f59e0b;border:1px solid #f59e0b44" title="V3 WING_STOP | 23x (2sig) | $-39,813 ($50K risk)">3 <span class="pnl-neg">-39.8K</span></span>
+<div class="day-total pnl-neg">-39.8K</div>
+</div>
+<div class="cal-day has-trades">
+<div class="day-num">13</div>
+<span class="strat-tag win" style="background:#eab30822;color:#eab308;border:1px solid #eab30844" title="V9 TIME | 12x | $+13,308 ($25K risk)">9 <span class="pnl-pos">+13.3K</span></span>
+<div class="day-total pnl-pos">+13.3K</div>
+</div>
+<div class="cal-day">
+<div class="day-num weekend">14</div>
+</div>
+<div class="cal-day">
+<div class="day-num weekend">15</div>
+</div>
+<div class="cal-day has-trades">
+<div class="day-num">16</div>
+<span class="strat-tag win" style="background:#eab30822;color:#eab308;border:1px solid #eab30844" title="V9 TARGET | 10x | $+14,211 ($25K risk)">9 <span class="pnl-pos">+14.2K</span></span>
+<div class="day-total pnl-pos">+14.2K</div>
+</div>
+<div class="cal-day">
+<div class="day-num">17</div>
+</div>
+<div class="cal-day has-trades">
+<div class="day-num">18</div>
+<span class="strat-tag win" style="background:#ec489922;color:#ec4899;border:1px solid #ec489944" title="V10 TIME | 15x | $+31,725 ($19K risk)">10 <span class="pnl-pos">+31.7K</span></span>
+<div class="day-total pnl-pos">+31.7K</div>
+</div>
+<div class="cal-day has-trades">
+<div class="day-num">19</div>
+<span class="strat-tag win" style="background:#f59e0b22;color:#f59e0b;border:1px solid #f59e0b44" title="V3 CLOSE | 40x (3sig) | $+43,640 ($75K risk)">3 <span class="pnl-pos">+43.6K</span></span>
+<div class="day-total pnl-pos">+43.6K</div>
+</div>
+<div class="cal-day has-trades">
+<div class="day-num">20</div>
+<span class="strat-tag win" style="background:#eab30822;color:#eab308;border:1px solid #eab30844" title="V9 TIME | 12x | $+4,824 ($25K risk)">9 <span class="pnl-pos">+4.8K</span></span>
+<div class="day-total pnl-pos">+4.8K</div>
+</div>
+<div class="cal-day">
+<div class="day-num weekend">21</div>
+</div>
+<div class="cal-day">
+<div class="day-num weekend">22</div>
+</div>
+<div class="cal-day has-trades">
+<div class="day-num">23</div>
+<span class="strat-tag win" style="background:#f59e0b22;color:#f59e0b;border:1px solid #f59e0b44" title="V3 TARGET | 20x (2sig) | $+18,350 ($50K risk)">3 <span class="pnl-pos">+18.4K</span></span>
+<div class="day-total pnl-pos">+18.4K</div>
+</div>
+<div class="cal-day">
+<div class="day-num">24</div>
+</div>
+<div class="cal-day">
+<div class="day-num">25</div>
+</div>
+<div class="cal-day">
+<div class="day-num">26</div>
+</div>
+<div class="cal-day has-trades">
+<div class="day-num">27</div>
+<span class="strat-tag win" style="background:#ec489922;color:#ec4899;border:1px solid #ec489944" title="V10 TIME | 8x | $+3,824 ($19K risk)">10 <span class="pnl-pos">+3.8K</span></span>
+<div class="day-total pnl-pos">+3.8K</div>
+</div>
+<div class="cal-day">
+<div class="day-num weekend">28</div>
+</div>
+<div class="cal-day">
+<div class="day-num weekend">29</div>
+</div>
+<div class="cal-day">
+<div class="day-num">30</div>
+</div>
+<div class="cal-day empty"></div>
+<div class="cal-day empty"></div>
+<div class="cal-day empty"></div>
+<div class="cal-day empty"></div>
+<div class="cal-day empty"></div>
+<div class="cal-day empty"></div>
+</div></div>
+<div class="month-section">
+<div class="month-title">October 2024 <span class="pnl-pos" style="margin-left:12px">$45,392</span></div>
+<div class="cal-grid">
+<div class="cal-hdr">Mon</div>
+<div class="cal-hdr">Tue</div>
+<div class="cal-hdr">Wed</div>
+<div class="cal-hdr">Thu</div>
+<div class="cal-hdr">Fri</div>
+<div class="cal-hdr">Sat</div>
+<div class="cal-hdr">Sun</div>
+<div class="cal-day empty"></div>
+<div class="cal-day has-trades">
+<div class="day-num">1</div>
+<span class="strat-tag win" style="background:#f59e0b22;color:#f59e0b;border:1px solid #f59e0b44" title="V3 TARGET | 23x (2sig) | $+30,992 ($50K risk)">3 <span class="pnl-pos">+31.0K</span></span>
+<div class="day-total pnl-pos">+31.0K</div>
+</div>
+<div class="cal-day has-trades">
+<div class="day-num">2</div>
+<span class="strat-tag win" style="background:#ec489922;color:#ec4899;border:1px solid #ec489944" title="V10 TIME | 13x | $+7,774 ($38K risk)">10 <span class="pnl-pos">+7.8K</span></span>
+<div class="day-total pnl-pos">+7.8K</div>
+</div>
+<div class="cal-day">
+<div class="day-num">3</div>
+</div>
+<div class="cal-day">
+<div class="day-num">4</div>
+</div>
+<div class="cal-day">
+<div class="day-num weekend">5</div>
+</div>
+<div class="cal-day">
+<div class="day-num weekend">6</div>
+</div>
+<div class="cal-day">
+<div class="day-num">7</div>
+</div>
+<div class="cal-day">
+<div class="day-num">8</div>
+</div>
+<div class="cal-day">
+<div class="day-num">9</div>
+</div>
+<div class="cal-day">
+<div class="day-num">10</div>
+</div>
+<div class="cal-day">
+<div class="day-num">11</div>
+</div>
+<div class="cal-day">
+<div class="day-num weekend">12</div>
+</div>
+<div class="cal-day">
+<div class="day-num weekend">13</div>
+</div>
+<div class="cal-day">
+<div class="day-num">14</div>
+</div>
+<div class="cal-day">
+<div class="day-num">15</div>
+</div>
+<div class="cal-day">
+<div class="day-num">16</div>
+</div>
+<div class="cal-day has-trades">
+<div class="day-num">17</div>
+<span class="strat-tag win" style="background:#f59e0b22;color:#f59e0b;border:1px solid #f59e0b44" title="V3 TARGET | 7x (1sig) | $+6,626 ($25K risk)">3 <span class="pnl-pos">+6.6K</span></span>
+<div class="day-total pnl-pos">+6.6K</div>
+</div>
+<div class="cal-day">
+<div class="day-num">18</div>
+</div>
+<div class="cal-day">
+<div class="day-num weekend">19</div>
+</div>
+<div class="cal-day">
+<div class="day-num weekend">20</div>
+</div>
+<div class="cal-day">
+<div class="day-num">21</div>
+</div>
+<div class="cal-day">
+<div class="day-num">22</div>
+</div>
+<div class="cal-day">
+<div class="day-num">23</div>
+</div>
+<div class="cal-day">
+<div class="day-num">24</div>
+</div>
+<div class="cal-day">
+<div class="day-num">25</div>
+</div>
+<div class="cal-day">
+<div class="day-num weekend">26</div>
+</div>
+<div class="cal-day">
+<div class="day-num weekend">27</div>
+</div>
+<div class="cal-day">
+<div class="day-num">28</div>
+</div>
+<div class="cal-day">
+<div class="day-num">29</div>
+</div>
+<div class="cal-day">
+<div class="day-num">30</div>
+</div>
+<div class="cal-day">
+<div class="day-num">31</div>
+</div>
+<div class="cal-day empty"></div>
+<div class="cal-day empty"></div>
+<div class="cal-day empty"></div>
+</div></div>
+<div class="month-section">
+<div class="month-title">November 2024 <span class="pnl-neg" style="margin-left:12px">$-13,184</span></div>
+<div class="cal-grid">
+<div class="cal-hdr">Mon</div>
+<div class="cal-hdr">Tue</div>
+<div class="cal-hdr">Wed</div>
+<div class="cal-hdr">Thu</div>
+<div class="cal-hdr">Fri</div>
+<div class="cal-hdr">Sat</div>
+<div class="cal-hdr">Sun</div>
+<div class="cal-day empty"></div>
+<div class="cal-day empty"></div>
+<div class="cal-day empty"></div>
+<div class="cal-day empty"></div>
+<div class="cal-day">
+<div class="day-num">1</div>
+</div>
+<div class="cal-day">
+<div class="day-num weekend">2</div>
+</div>
+<div class="cal-day">
+<div class="day-num weekend">3</div>
+</div>
+<div class="cal-day">
+<div class="day-num">4</div>
+</div>
+<div class="cal-day">
+<div class="day-num">5</div>
+</div>
+<div class="cal-day">
+<div class="day-num">6</div>
+</div>
+<div class="cal-day">
+<div class="day-num">7</div>
+</div>
+<div class="cal-day">
+<div class="day-num">8</div>
+</div>
+<div class="cal-day">
+<div class="day-num weekend">9</div>
+</div>
+<div class="cal-day">
+<div class="day-num weekend">10</div>
+</div>
+<div class="cal-day has-trades">
+<div class="day-num">11</div>
+<span class="strat-tag win" style="background:#eab30822;color:#eab308;border:1px solid #eab30844" title="V9 TIME | 8x | $+3,632 ($25K risk)">9 <span class="pnl-pos">+3.6K</span></span>
+<div class="day-total pnl-pos">+3.6K</div>
+</div>
+<div class="cal-day">
+<div class="day-num">12</div>
+</div>
+<div class="cal-day has-trades">
+<div class="day-num">13</div>
+<span class="strat-tag win" style="background:#06b6d422;color:#06b6d4;border:1px solid #06b6d444" title="V6 TARGET | 17x | $+13,872 ($38K risk)">6 <span class="pnl-pos">+13.9K</span></span>
+<div class="day-total pnl-pos">+13.9K</div>
+</div>
+<div class="cal-day has-trades">
+<div class="day-num">14</div>
+<span class="strat-tag loss" style="background:#f59e0b22;color:#f59e0b;border:1px solid #f59e0b44" title="V3 CLOSE | 23x (2sig) | $-28,083 ($50K risk)">3 <span class="pnl-neg">-28.1K</span></span>
+<div class="day-total pnl-neg">-28.1K</div>
+</div>
+<div class="cal-day">
+<div class="day-num">15</div>
+</div>
+<div class="cal-day">
+<div class="day-num weekend">16</div>
+</div>
+<div class="cal-day">
+<div class="day-num weekend">17</div>
+</div>
+<div class="cal-day has-trades">
+<div class="day-num">18</div>
+<span class="strat-tag loss" style="background:#ec489922;color:#ec4899;border:1px solid #ec489944" title="V10 TIME | 3x | $-1,626 ($9K risk)">10 <span class="pnl-neg">-1.6K</span></span>
+<div class="day-total pnl-neg">-1.6K</div>
+</div>
+<div class="cal-day">
+<div class="day-num">19</div>
+</div>
+<div class="cal-day">
+<div class="day-num">20</div>
+</div>
+<div class="cal-day">
+<div class="day-num">21</div>
+</div>
+<div class="cal-day">
+<div class="day-num">22</div>
+</div>
+<div class="cal-day">
+<div class="day-num weekend">23</div>
+</div>
+<div class="cal-day">
+<div class="day-num weekend">24</div>
+</div>
+<div class="cal-day has-trades">
+<div class="day-num">25</div>
+<span class="strat-tag loss" style="background:#f59e0b22;color:#f59e0b;border:1px solid #f59e0b44" title="V3 CLOSE | 22x (2sig) | $-4,598 ($50K risk)">3 <span class="pnl-neg">-4.6K</span></span>
+<span class="strat-tag loss" style="background:#f9731622;color:#f97316;border:1px solid #f9731644" title="V12 CLOSE | 25x | $-5,225 ($56K risk)">12 <span class="pnl-neg">-5.2K</span></span>
+<div class="day-total pnl-neg">-9.8K</div>
+</div>
+<div class="cal-day has-trades">
+<div class="day-num">26</div>
+<span class="strat-tag win" style="background:#f59e0b22;color:#f59e0b;border:1px solid #f59e0b44" title="V3 TARGET | 11x (1sig) | $+8,844 ($25K risk)">3 <span class="pnl-pos">+8.8K</span></span>
+<div class="day-total pnl-pos">+8.8K</div>
+</div>
+<div class="cal-day">
+<div class="day-num">27</div>
+</div>
+<div class="cal-day">
+<div class="day-num">28</div>
+</div>
+<div class="cal-day">
+<div class="day-num">29</div>
+</div>
+<div class="cal-day">
+<div class="day-num weekend">30</div>
+</div>
+<div class="cal-day empty"></div>
+</div></div>
+<div class="month-section">
+<div class="month-title">December 2024 <span class="pnl-neg" style="margin-left:12px">$-83,988</span></div>
+<div class="cal-grid">
+<div class="cal-hdr">Mon</div>
+<div class="cal-hdr">Tue</div>
+<div class="cal-hdr">Wed</div>
+<div class="cal-hdr">Thu</div>
+<div class="cal-hdr">Fri</div>
+<div class="cal-hdr">Sat</div>
+<div class="cal-hdr">Sun</div>
+<div class="cal-day empty"></div>
+<div class="cal-day empty"></div>
+<div class="cal-day empty"></div>
+<div class="cal-day empty"></div>
+<div class="cal-day empty"></div>
+<div class="cal-day empty"></div>
+<div class="cal-day">
+<div class="day-num weekend">1</div>
+</div>
+<div class="cal-day">
+<div class="day-num">2</div>
+</div>
+<div class="cal-day">
+<div class="day-num">3</div>
+</div>
+<div class="cal-day">
+<div class="day-num">4</div>
+</div>
+<div class="cal-day">
+<div class="day-num">5</div>
+</div>
+<div class="cal-day">
+<div class="day-num">6</div>
+</div>
+<div class="cal-day">
+<div class="day-num weekend">7</div>
+</div>
+<div class="cal-day">
+<div class="day-num weekend">8</div>
+</div>
+<div class="cal-day">
+<div class="day-num">9</div>
+</div>
+<div class="cal-day has-trades">
+<div class="day-num">10</div>
+<span class="strat-tag loss" style="background:#06b6d422;color:#06b6d4;border:1px solid #06b6d444" title="V6 TIME | 14x | $-16,338 ($38K risk)">6 <span class="pnl-neg">-16.3K</span></span>
+<div class="day-total pnl-neg">-16.3K</div>
+</div>
+<div class="cal-day">
+<div class="day-num">11</div>
+</div>
+<div class="cal-day">
+<div class="day-num">12</div>
+</div>
+<div class="cal-day">
+<div class="day-num">13</div>
+</div>
+<div class="cal-day">
+<div class="day-num weekend">14</div>
+</div>
+<div class="cal-day">
+<div class="day-num weekend">15</div>
+</div>
+<div class="cal-day">
+<div class="day-num">16</div>
+</div>
+<div class="cal-day">
+<div class="day-num">17</div>
+</div>
+<div class="cal-day">
+<div class="day-num">18</div>
+</div>
+<div class="cal-day">
+<div class="day-num">19</div>
+</div>
+<div class="cal-day">
+<div class="day-num">20</div>
+</div>
+<div class="cal-day">
+<div class="day-num weekend">21</div>
+</div>
+<div class="cal-day">
+<div class="day-num weekend">22</div>
+</div>
+<div class="cal-day">
+<div class="day-num">23</div>
+</div>
+<div class="cal-day">
+<div class="day-num">24</div>
+</div>
+<div class="cal-day">
+<div class="day-num">25</div>
+</div>
+<div class="cal-day">
+<div class="day-num">26</div>
+</div>
+<div class="cal-day">
+<div class="day-num">27</div>
+</div>
+<div class="cal-day">
+<div class="day-num weekend">28</div>
+</div>
+<div class="cal-day">
+<div class="day-num weekend">29</div>
+</div>
+<div class="cal-day has-trades">
+<div class="day-num">30</div>
+<span class="strat-tag loss" style="background:#f59e0b22;color:#f59e0b;border:1px solid #f59e0b44" title="V3 WING_STOP | 30x (3sig) | $-67,650 ($75K risk)">3 <span class="pnl-neg">-67.7K</span></span>
+<div class="day-total pnl-neg">-67.7K</div>
+</div>
+<div class="cal-day">
+<div class="day-num">31</div>
+</div>
+<div class="cal-day empty"></div>
+<div class="cal-day empty"></div>
+<div class="cal-day empty"></div>
+<div class="cal-day empty"></div>
+<div class="cal-day empty"></div>
+</div></div>
+<div class="month-section">
+<div class="month-title">January 2025 <span class="pnl-pos" style="margin-left:12px">$49,477</span></div>
+<div class="cal-grid">
+<div class="cal-hdr">Mon</div>
+<div class="cal-hdr">Tue</div>
+<div class="cal-hdr">Wed</div>
+<div class="cal-hdr">Thu</div>
+<div class="cal-hdr">Fri</div>
+<div class="cal-hdr">Sat</div>
+<div class="cal-hdr">Sun</div>
+<div class="cal-day empty"></div>
+<div class="cal-day empty"></div>
+<div class="cal-day">
+<div class="day-num">1</div>
+</div>
+<div class="cal-day">
+<div class="day-num">2</div>
+</div>
+<div class="cal-day">
+<div class="day-num">3</div>
+</div>
+<div class="cal-day">
+<div class="day-num weekend">4</div>
+</div>
+<div class="cal-day">
+<div class="day-num weekend">5</div>
+</div>
+<div class="cal-day">
+<div class="day-num">6</div>
+</div>
+<div class="cal-day has-trades">
+<div class="day-num">7</div>
+<span class="strat-tag loss" style="background:#f59e0b22;color:#f59e0b;border:1px solid #f59e0b44" title="V3 WING_STOP | 23x (2sig) | $-50,853 ($50K risk)">3 <span class="pnl-neg">-50.9K</span></span>
+<div class="day-total pnl-neg">-50.9K</div>
+</div>
+<div class="cal-day has-trades">
+<div class="day-num">8</div>
+<span class="strat-tag win" style="background:#f59e0b22;color:#f59e0b;border:1px solid #f59e0b44" title="V3 CLOSE | 31x (3sig) | $+25,885 ($75K risk)">3 <span class="pnl-pos">+25.9K</span></span>
+<div class="day-total pnl-pos">+25.9K</div>
+</div>
+<div class="cal-day">
+<div class="day-num">9</div>
+</div>
+<div class="cal-day has-trades">
+<div class="day-num">10</div>
+<span class="strat-tag win" style="background:#f59e0b22;color:#f59e0b;border:1px solid #f59e0b44" title="V3 CLOSE | 23x (2sig) | $+16,790 ($50K risk)">3 <span class="pnl-pos">+16.8K</span></span>
+<div class="day-total pnl-pos">+16.8K</div>
+</div>
+<div class="cal-day">
+<div class="day-num weekend">11</div>
+</div>
+<div class="cal-day">
+<div class="day-num weekend">12</div>
+</div>
+<div class="cal-day">
+<div class="day-num">13</div>
+</div>
+<div class="cal-day">
+<div class="day-num">14</div>
+</div>
+<div class="cal-day">
+<div class="day-num">15</div>
+</div>
+<div class="cal-day">
+<div class="day-num">16</div>
+</div>
+<div class="cal-day has-trades">
+<div class="day-num">17</div>
+<span class="strat-tag win" style="background:#f59e0b22;color:#f59e0b;border:1px solid #f59e0b44" title="V3 CLOSE | 35x (3sig) | $+38,675 ($75K risk)">3 <span class="pnl-pos">+38.7K</span></span>
+<div class="day-total pnl-pos">+38.7K</div>
+</div>
+<div class="cal-day">
+<div class="day-num weekend">18</div>
+</div>
+<div class="cal-day">
+<div class="day-num weekend">19</div>
+</div>
+<div class="cal-day">
+<div class="day-num">20</div>
+</div>
+<div class="cal-day has-trades">
+<div class="day-num">21</div>
+<span class="strat-tag loss" style="background:#f59e0b22;color:#f59e0b;border:1px solid #f59e0b44" title="V3 CLOSE | 22x (2sig) | $-1,276 ($50K risk)">3 <span class="pnl-neg">-1.3K</span></span>
+<div class="day-total pnl-neg">-1.3K</div>
+</div>
+<div class="cal-day">
+<div class="day-num">22</div>
+</div>
+<div class="cal-day">
+<div class="day-num">23</div>
+</div>
+<div class="cal-day">
+<div class="day-num">24</div>
+</div>
+<div class="cal-day">
+<div class="day-num weekend">25</div>
+</div>
+<div class="cal-day">
+<div class="day-num weekend">26</div>
+</div>
+<div class="cal-day has-trades">
+<div class="day-num">27</div>
+<span class="strat-tag win" style="background:#f59e0b22;color:#f59e0b;border:1px solid #f59e0b44" title="V3 TARGET | 31x (3sig) | $+38,006 ($75K risk)">3 <span class="pnl-pos">+38.0K</span></span>
+<div class="day-total pnl-pos">+38.0K</div>
+</div>
+<div class="cal-day has-trades">
+<div class="day-num">28</div>
+<span class="strat-tag loss" style="background:#f59e0b22;color:#f59e0b;border:1px solid #f59e0b44" title="V3 WING_STOP | 10x (1sig) | $-17,750 ($25K risk)">3 <span class="pnl-neg">-17.8K</span></span>
+<div class="day-total pnl-neg">-17.8K</div>
+</div>
+<div class="cal-day">
+<div class="day-num">29</div>
+</div>
+<div class="cal-day">
+<div class="day-num">30</div>
+</div>
+<div class="cal-day">
+<div class="day-num">31</div>
+</div>
+<div class="cal-day empty"></div>
+<div class="cal-day empty"></div>
+</div></div>
+<div class="month-section">
+<div class="month-title">February 2025 <span class="pnl-neg" style="margin-left:12px">$-50,398</span></div>
+<div class="cal-grid">
+<div class="cal-hdr">Mon</div>
+<div class="cal-hdr">Tue</div>
+<div class="cal-hdr">Wed</div>
+<div class="cal-hdr">Thu</div>
+<div class="cal-hdr">Fri</div>
+<div class="cal-hdr">Sat</div>
+<div class="cal-hdr">Sun</div>
+<div class="cal-day empty"></div>
+<div class="cal-day empty"></div>
+<div class="cal-day empty"></div>
+<div class="cal-day empty"></div>
+<div class="cal-day empty"></div>
+<div class="cal-day">
+<div class="day-num weekend">1</div>
+</div>
+<div class="cal-day">
+<div class="day-num weekend">2</div>
+</div>
+<div class="cal-day has-trades">
+<div class="day-num">3</div>
+<span class="strat-tag loss" style="background:#64748b22;color:#64748b;border:1px solid #64748b44" title="V14 WING_STOP | 31x | $-55,831 ($75K risk)">14 <span class="pnl-neg">-55.8K</span></span>
+<div class="day-total pnl-neg">-55.8K</div>
+</div>
+<div class="cal-day">
+<div class="day-num">4</div>
+</div>
+<div class="cal-day">
+<div class="day-num">5</div>
+</div>
+<div class="cal-day">
+<div class="day-num">6</div>
+</div>
+<div class="cal-day has-trades">
+<div class="day-num">7</div>
+<span class="strat-tag loss" style="background:#f59e0b22;color:#f59e0b;border:1px solid #f59e0b44" title="V3 WING_STOP | 11x (1sig) | $-21,560 ($25K risk)">3 <span class="pnl-neg">-21.6K</span></span>
+<div class="day-total pnl-neg">-21.6K</div>
+</div>
+<div class="cal-day">
+<div class="day-num weekend">8</div>
+</div>
+<div class="cal-day">
+<div class="day-num weekend">9</div>
+</div>
+<div class="cal-day">
+<div class="day-num">10</div>
+</div>
+<div class="cal-day">
+<div class="day-num">11</div>
+</div>
+<div class="cal-day has-trades">
+<div class="day-num">12</div>
+<span class="strat-tag win" style="background:#f59e0b22;color:#f59e0b;border:1px solid #f59e0b44" title="V3 CLOSE | 11x (1sig) | $+1,661 ($25K risk)">3 <span class="pnl-pos">+1.7K</span></span>
+<div class="day-total pnl-pos">+1.7K</div>
+</div>
+<div class="cal-day">
+<div class="day-num">13</div>
+</div>
+<div class="cal-day">
+<div class="day-num">14</div>
+</div>
+<div class="cal-day">
+<div class="day-num weekend">15</div>
+</div>
+<div class="cal-day">
+<div class="day-num weekend">16</div>
+</div>
+<div class="cal-day">
+<div class="day-num">17</div>
+</div>
+<div class="cal-day">
+<div class="day-num">18</div>
+</div>
+<div class="cal-day">
+<div class="day-num">19</div>
+</div>
+<div class="cal-day has-trades">
+<div class="day-num">20</div>
+<span class="strat-tag win" style="background:#f59e0b22;color:#f59e0b;border:1px solid #f59e0b44" title="V3 TARGET | 10x (1sig) | $+11,700 ($25K risk)">3 <span class="pnl-pos">+11.7K</span></span>
+<div class="day-total pnl-pos">+11.7K</div>
+</div>
+<div class="cal-day">
+<div class="day-num">21</div>
+</div>
+<div class="cal-day">
+<div class="day-num weekend">22</div>
+</div>
+<div class="cal-day">
+<div class="day-num weekend">23</div>
+</div>
+<div class="cal-day has-trades">
+<div class="day-num">24</div>
+<span class="strat-tag win" style="background:#ec489922;color:#ec4899;border:1px solid #ec489944" title="V10 TARGET | 7x | $+13,632 ($19K risk)">10 <span class="pnl-pos">+13.6K</span></span>
+<div class="day-total pnl-pos">+13.6K</div>
+</div>
+<div class="cal-day">
+<div class="day-num">25</div>
+</div>
+<div class="cal-day">
+<div class="day-num">26</div>
+</div>
+<div class="cal-day">
+<div class="day-num">27</div>
+</div>
+<div class="cal-day">
+<div class="day-num">28</div>
+</div>
+<div class="cal-day empty"></div>
+<div class="cal-day empty"></div>
+</div></div>
+<div class="month-section">
+<div class="month-title">March 2025 <span class="pnl-pos" style="margin-left:12px">$177,132</span></div>
+<div class="cal-grid">
+<div class="cal-hdr">Mon</div>
+<div class="cal-hdr">Tue</div>
+<div class="cal-hdr">Wed</div>
+<div class="cal-hdr">Thu</div>
+<div class="cal-hdr">Fri</div>
+<div class="cal-hdr">Sat</div>
+<div class="cal-hdr">Sun</div>
+<div class="cal-day empty"></div>
+<div class="cal-day empty"></div>
+<div class="cal-day empty"></div>
+<div class="cal-day empty"></div>
+<div class="cal-day empty"></div>
+<div class="cal-day">
+<div class="day-num weekend">1</div>
+</div>
+<div class="cal-day">
+<div class="day-num weekend">2</div>
+</div>
+<div class="cal-day">
+<div class="day-num">3</div>
+</div>
+<div class="cal-day">
+<div class="day-num">4</div>
+</div>
+<div class="cal-day">
+<div class="day-num">5</div>
+</div>
+<div class="cal-day has-trades">
+<div class="day-num">6</div>
+<span class="strat-tag win" style="background:#ef444422;color:#ef4444;border:1px solid #ef444444" title="V8 TIME | 8x | $+12,600 ($19K risk)">8 <span class="pnl-pos">+12.6K</span></span>
+<div class="day-total pnl-pos">+12.6K</div>
+</div>
+<div class="cal-day">
+<div class="day-num">7</div>
+</div>
+<div class="cal-day">
+<div class="day-num weekend">8</div>
+</div>
+<div class="cal-day">
+<div class="day-num weekend">9</div>
+</div>
+<div class="cal-day">
+<div class="day-num">10</div>
+</div>
+<div class="cal-day">
+<div class="day-num">11</div>
+</div>
+<div class="cal-day">
+<div class="day-num">12</div>
+</div>
+<div class="cal-day">
+<div class="day-num">13</div>
+</div>
+<div class="cal-day">
+<div class="day-num">14</div>
+</div>
+<div class="cal-day">
+<div class="day-num weekend">15</div>
+</div>
+<div class="cal-day">
+<div class="day-num weekend">16</div>
+</div>
+<div class="cal-day">
+<div class="day-num">17</div>
+</div>
+<div class="cal-day has-trades">
+<div class="day-num">18</div>
+<span class="strat-tag win" style="background:#f59e0b22;color:#f59e0b;border:1px solid #f59e0b44" title="V3 TARGET | 9x (1sig) | $+14,738 ($25K risk)">3 <span class="pnl-pos">+14.7K</span></span>
+<span class="strat-tag win" style="background:#ef444422;color:#ef4444;border:1px solid #ef444444" title="V8 TARGET | 7x | $+9,030 ($19K risk)">8 <span class="pnl-pos">+9.0K</span></span>
+<div class="day-total pnl-pos">+23.8K</div>
+</div>
+<div class="cal-day has-trades">
+<div class="day-num">19</div>
+<span class="strat-tag win" style="background:#f59e0b22;color:#f59e0b;border:1px solid #f59e0b44" title="V3 CLOSE | 28x (2sig) | $+14,392 ($50K risk)">3 <span class="pnl-pos">+14.4K</span></span>
+<div class="day-total pnl-pos">+14.4K</div>
+</div>
+<div class="cal-day has-trades">
+<div class="day-num">20</div>
+<span class="strat-tag win" style="background:#f59e0b22;color:#f59e0b;border:1px solid #f59e0b44" title="V3 TARGET | 11x (1sig) | $+16,775 ($25K risk)">3 <span class="pnl-pos">+16.8K</span></span>
+<div class="day-total pnl-pos">+16.8K</div>
+</div>
+<div class="cal-day has-trades">
+<div class="day-num">21</div>
+<span class="strat-tag loss" style="background:#f59e0b22;color:#f59e0b;border:1px solid #f59e0b44" title="V3 CLOSE | 12x (1sig) | $-13,596 ($25K risk)">3 <span class="pnl-neg">-13.6K</span></span>
+<span class="strat-tag win" style="background:#ef444422;color:#ef4444;border:1px solid #ef444444" title="V8 TIME | 12x | $+13,140 ($25K risk)">8 <span class="pnl-pos">+13.1K</span></span>
+<div class="day-total pnl-neg">-456</div>
+</div>
+<div class="cal-day">
+<div class="day-num weekend">22</div>
+</div>
+<div class="cal-day">
+<div class="day-num weekend">23</div>
+</div>
+<div class="cal-day">
+<div class="day-num">24</div>
+</div>
+<div class="cal-day has-trades">
+<div class="day-num">25</div>
+<span class="strat-tag win" style="background:#f59e0b22;color:#f59e0b;border:1px solid #f59e0b44" title="V3 TARGET | 9x (1sig) | $+9,248 ($25K risk)">3 <span class="pnl-pos">+9.2K</span></span>
+<span class="strat-tag win" style="background:#eab30822;color:#eab308;border:1px solid #eab30844" title="V9 TARGET | 18x | $+26,613 ($50K risk)">9 <span class="pnl-pos">+26.6K</span></span>
+<div class="day-total pnl-pos">+35.9K</div>
+</div>
+<div class="cal-day">
+<div class="day-num">26</div>
+</div>
+<div class="cal-day has-trades">
+<div class="day-num">27</div>
+<span class="strat-tag win" style="background:#f59e0b22;color:#f59e0b;border:1px solid #f59e0b44" title="V3 TARGET | 48x (4sig) | $+66,048 ($100K risk)">3 <span class="pnl-pos">+66.0K</span></span>
+<span class="strat-tag win" style="background:#64748b22;color:#64748b;border:1px solid #64748b44" title="V14 TARGET | 36x | $+49,536 ($75K risk)">14 <span class="pnl-pos">+49.5K</span></span>
+<div class="day-total pnl-pos">+115.6K</div>
+</div>
+<div class="cal-day has-trades">
+<div class="day-num">28</div>
+<span class="strat-tag loss" style="background:#f59e0b22;color:#f59e0b;border:1px solid #f59e0b44" title="V3 WING_STOP | 26x (2sig) | $-41,392 ($50K risk)">3 <span class="pnl-neg">-41.4K</span></span>
+<div class="day-total pnl-neg">-41.4K</div>
+</div>
+<div class="cal-day">
+<div class="day-num weekend">29</div>
+</div>
+<div class="cal-day">
+<div class="day-num weekend">30</div>
+</div>
+<div class="cal-day">
+<div class="day-num">31</div>
+</div>
+<div class="cal-day empty"></div>
+<div class="cal-day empty"></div>
+<div class="cal-day empty"></div>
+<div class="cal-day empty"></div>
+<div class="cal-day empty"></div>
+<div class="cal-day empty"></div>
+</div></div>
+<div class="month-section">
+<div class="month-title">April 2025 <span class="pnl-pos" style="margin-left:12px">$11,854</span></div>
+<div class="cal-grid">
+<div class="cal-hdr">Mon</div>
+<div class="cal-hdr">Tue</div>
+<div class="cal-hdr">Wed</div>
+<div class="cal-hdr">Thu</div>
+<div class="cal-hdr">Fri</div>
+<div class="cal-hdr">Sat</div>
+<div class="cal-hdr">Sun</div>
+<div class="cal-day empty"></div>
+<div class="cal-day has-trades">
+<div class="day-num">1</div>
+<span class="strat-tag win" style="background:#ef444422;color:#ef4444;border:1px solid #ef444444" title="V8 TARGET | 7x | $+8,929 ($19K risk)">8 <span class="pnl-pos">+8.9K</span></span>
+<div class="day-total pnl-pos">+8.9K</div>
+</div>
+<div class="cal-day has-trades">
+<div class="day-num">2</div>
+<span class="strat-tag loss" style="background:#ef444422;color:#ef4444;border:1px solid #ef444444" title="V8 WING_STOP | 7x | $-12,467 ($19K risk)">8 <span class="pnl-neg">-12.5K</span></span>
+<div class="day-total pnl-neg">-12.5K</div>
+</div>
+<div class="cal-day">
+<div class="day-num">3</div>
+</div>
+<div class="cal-day">
+<div class="day-num">4</div>
+</div>
+<div class="cal-day">
+<div class="day-num weekend">5</div>
+</div>
+<div class="cal-day">
+<div class="day-num weekend">6</div>
+</div>
+<div class="cal-day">
+<div class="day-num">7</div>
+</div>
+<div class="cal-day">
+<div class="day-num">8</div>
+</div>
+<div class="cal-day">
+<div class="day-num">9</div>
+</div>
+<div class="cal-day">
+<div class="day-num">10</div>
+</div>
+<div class="cal-day">
+<div class="day-num">11</div>
+</div>
+<div class="cal-day">
+<div class="day-num weekend">12</div>
+</div>
+<div class="cal-day">
+<div class="day-num weekend">13</div>
+</div>
+<div class="cal-day has-trades">
+<div class="day-num">14</div>
+<span class="strat-tag win" style="background:#f59e0b22;color:#f59e0b;border:1px solid #f59e0b44" title="V3 TARGET | 7x (1sig) | $+17,664 ($25K risk)">3 <span class="pnl-pos">+17.7K</span></span>
+<div class="day-total pnl-pos">+17.7K</div>
+</div>
+<div class="cal-day">
+<div class="day-num">15</div>
+</div>
+<div class="cal-day">
+<div class="day-num">16</div>
+</div>
+<div class="cal-day">
+<div class="day-num">17</div>
+</div>
+<div class="cal-day">
+<div class="day-num">18</div>
+</div>
+<div class="cal-day">
+<div class="day-num weekend">19</div>
+</div>
+<div class="cal-day">
+<div class="day-num weekend">20</div>
+</div>
+<div class="cal-day">
+<div class="day-num">21</div>
+</div>
+<div class="cal-day">
+<div class="day-num">22</div>
+</div>
+<div class="cal-day">
+<div class="day-num">23</div>
+</div>
+<div class="cal-day">
+<div class="day-num">24</div>
+</div>
+<div class="cal-day has-trades">
+<div class="day-num">25</div>
+<span class="strat-tag loss" style="background:#f59e0b22;color:#f59e0b;border:1px solid #f59e0b44" title="V3 CLOSE | 8x (1sig) | $-15,336 ($25K risk)">3 <span class="pnl-neg">-15.3K</span></span>
+<div class="day-total pnl-neg">-15.3K</div>
+</div>
+<div class="cal-day">
+<div class="day-num weekend">26</div>
+</div>
+<div class="cal-day">
+<div class="day-num weekend">27</div>
+</div>
+<div class="cal-day has-trades">
+<div class="day-num">28</div>
+<span class="strat-tag win" style="background:#f59e0b22;color:#f59e0b;border:1px solid #f59e0b44" title="V3 TARGET | 8x (1sig) | $+13,064 ($25K risk)">3 <span class="pnl-pos">+13.1K</span></span>
+<div class="day-total pnl-pos">+13.1K</div>
+</div>
+<div class="cal-day">
+<div class="day-num">29</div>
+</div>
+<div class="cal-day">
+<div class="day-num">30</div>
+</div>
+<div class="cal-day empty"></div>
+<div class="cal-day empty"></div>
+<div class="cal-day empty"></div>
+<div class="cal-day empty"></div>
+</div></div>
+<div class="month-section">
+<div class="month-title">May 2025 <span class="pnl-pos" style="margin-left:12px">$119,870</span></div>
+<div class="cal-grid">
+<div class="cal-hdr">Mon</div>
+<div class="cal-hdr">Tue</div>
+<div class="cal-hdr">Wed</div>
+<div class="cal-hdr">Thu</div>
+<div class="cal-hdr">Fri</div>
+<div class="cal-hdr">Sat</div>
+<div class="cal-hdr">Sun</div>
+<div class="cal-day empty"></div>
+<div class="cal-day empty"></div>
+<div class="cal-day empty"></div>
+<div class="cal-day has-trades">
+<div class="day-num">1</div>
+<span class="strat-tag win" style="background:#f59e0b22;color:#f59e0b;border:1px solid #f59e0b44" title="V3 CLOSE | 29x (3sig) | $+107,909 ($75K risk)">3 <span class="pnl-pos">+107.9K</span></span>
+<div class="day-total pnl-pos">+107.9K</div>
+</div>
+<div class="cal-day has-trades">
+<div class="day-num">2</div>
+<span class="strat-tag loss" style="background:#f59e0b22;color:#f59e0b;border:1px solid #f59e0b44" title="V3 CLOSE | 27x (3sig) | $-3,429 ($75K risk)">3 <span class="pnl-neg">-3.4K</span></span>
+<div class="day-total pnl-neg">-3.4K</div>
+</div>
+<div class="cal-day">
+<div class="day-num weekend">3</div>
+</div>
+<div class="cal-day">
+<div class="day-num weekend">4</div>
+</div>
+<div class="cal-day has-trades">
+<div class="day-num">5</div>
+<span class="strat-tag win" style="background:#ef444422;color:#ef4444;border:1px solid #ef444444" title="V8 TIME | 3x | $+2,385 ($12K risk)">8 <span class="pnl-pos">+2.4K</span></span>
+<div class="day-total pnl-pos">+2.4K</div>
+</div>
+<div class="cal-day">
+<div class="day-num">6</div>
+</div>
+<div class="cal-day">
+<div class="day-num">7</div>
+</div>
+<div class="cal-day">
+<div class="day-num">8</div>
+</div>
+<div class="cal-day">
+<div class="day-num">9</div>
+</div>
+<div class="cal-day">
+<div class="day-num weekend">10</div>
+</div>
+<div class="cal-day">
+<div class="day-num weekend">11</div>
+</div>
+<div class="cal-day">
+<div class="day-num">12</div>
+</div>
+<div class="cal-day has-trades">
+<div class="day-num">13</div>
+<span class="strat-tag loss" style="background:#eab30822;color:#eab308;border:1px solid #eab30844" title="V9 TIME | 9x | $-7,308 ($25K risk)">9 <span class="pnl-neg">-7.3K</span></span>
+<div class="day-total pnl-neg">-7.3K</div>
+</div>
+<div class="cal-day has-trades">
+<div class="day-num">14</div>
+<span class="strat-tag win" style="background:#f59e0b22;color:#f59e0b;border:1px solid #f59e0b44" title="V3 TARGET | 10x (1sig) | $+12,185 ($25K risk)">3 <span class="pnl-pos">+12.2K</span></span>
+<div class="day-total pnl-pos">+12.2K</div>
+</div>
+<div class="cal-day">
+<div class="day-num">15</div>
+</div>
+<div class="cal-day has-trades">
+<div class="day-num">16</div>
+<span class="strat-tag win" style="background:#eab30822;color:#eab308;border:1px solid #eab30844" title="V9 TIME | 9x | $+4,788 ($25K risk)">9 <span class="pnl-pos">+4.8K</span></span>
+<div class="day-total pnl-pos">+4.8K</div>
+</div>
+<div class="cal-day">
+<div class="day-num weekend">17</div>
+</div>
+<div class="cal-day">
+<div class="day-num weekend">18</div>
+</div>
+<div class="cal-day">
+<div class="day-num">19</div>
+</div>
+<div class="cal-day">
+<div class="day-num">20</div>
+</div>
+<div class="cal-day">
+<div class="day-num">21</div>
+</div>
+<div class="cal-day">
+<div class="day-num">22</div>
+</div>
+<div class="cal-day">
+<div class="day-num">23</div>
+</div>
+<div class="cal-day">
+<div class="day-num weekend">24</div>
+</div>
+<div class="cal-day">
+<div class="day-num weekend">25</div>
+</div>
+<div class="cal-day">
+<div class="day-num">26</div>
+</div>
+<div class="cal-day">
+<div class="day-num">27</div>
+</div>
+<div class="cal-day">
+<div class="day-num">28</div>
+</div>
+<div class="cal-day">
+<div class="day-num">29</div>
+</div>
+<div class="cal-day has-trades">
+<div class="day-num">30</div>
+<span class="strat-tag win" style="background:#f59e0b22;color:#f59e0b;border:1px solid #f59e0b44" title="V3 CLOSE | 20x (2sig) | $+3,340 ($50K risk)">3 <span class="pnl-pos">+3.3K</span></span>
+<div class="day-total pnl-pos">+3.3K</div>
+</div>
+<div class="cal-day">
+<div class="day-num weekend">31</div>
+</div>
+<div class="cal-day empty"></div>
+</div></div>
+<div class="month-section">
+<div class="month-title">June 2025 <span class="pnl-pos" style="margin-left:12px">$80,671</span></div>
+<div class="cal-grid">
+<div class="cal-hdr">Mon</div>
+<div class="cal-hdr">Tue</div>
+<div class="cal-hdr">Wed</div>
+<div class="cal-hdr">Thu</div>
+<div class="cal-hdr">Fri</div>
+<div class="cal-hdr">Sat</div>
+<div class="cal-hdr">Sun</div>
+<div class="cal-day empty"></div>
+<div class="cal-day empty"></div>
+<div class="cal-day empty"></div>
+<div class="cal-day empty"></div>
+<div class="cal-day empty"></div>
+<div class="cal-day empty"></div>
+<div class="cal-day">
+<div class="day-num weekend">1</div>
+</div>
+<div class="cal-day has-trades">
+<div class="day-num">2</div>
+<span class="strat-tag loss" style="background:#f59e0b22;color:#f59e0b;border:1px solid #f59e0b44" title="V3 WING_STOP | 9x (1sig) | $-19,116 ($25K risk)">3 <span class="pnl-neg">-19.1K</span></span>
+<div class="day-total pnl-neg">-19.1K</div>
+</div>
+<div class="cal-day">
+<div class="day-num">3</div>
+</div>
+<div class="cal-day">
+<div class="day-num">4</div>
+</div>
+<div class="cal-day has-trades">
+<div class="day-num">5</div>
+<span class="strat-tag win" style="background:#f59e0b22;color:#f59e0b;border:1px solid #f59e0b44" title="V3 TARGET | 48x (4sig) | $+65,544 ($100K risk)">3 <span class="pnl-pos">+65.5K</span></span>
+<span class="strat-tag win" style="background:#ec489922;color:#ec4899;border:1px solid #ec489944" title="V10 TIME | 27x | $+47,493 ($56K risk)">10 <span class="pnl-pos">+47.5K</span></span>
+<div class="day-total pnl-pos">+113.0K</div>
+</div>
+<div class="cal-day">
+<div class="day-num">6</div>
+</div>
+<div class="cal-day">
+<div class="day-num weekend">7</div>
+</div>
+<div class="cal-day">
+<div class="day-num weekend">8</div>
+</div>
+<div class="cal-day has-trades">
+<div class="day-num">9</div>
+<span class="strat-tag win" style="background:#eab30822;color:#eab308;border:1px solid #eab30844" title="V9 TIME | 8x | $+7,328 ($25K risk)">9 <span class="pnl-pos">+7.3K</span></span>
+<div class="day-total pnl-pos">+7.3K</div>
+</div>
+<div class="cal-day">
+<div class="day-num">10</div>
+</div>
+<div class="cal-day has-trades">
+<div class="day-num">11</div>
+<span class="strat-tag loss" style="background:#f59e0b22;color:#f59e0b;border:1px solid #f59e0b44" title="V3 CLOSE | 32x (3sig) | $-992 ($75K risk)">3 <span class="pnl-neg">-992</span></span>
+<span class="strat-tag loss" style="background:#eab30822;color:#eab308;border:1px solid #eab30844" title="V9 TIME | 32x | $-21,792 ($75K risk)">9 <span class="pnl-neg">-21.8K</span></span>
+<div class="day-total pnl-neg">-22.8K</div>
+</div>
+<div class="cal-day">
+<div class="day-num">12</div>
+</div>
+<div class="cal-day has-trades">
+<div class="day-num">13</div>
+<span class="strat-tag win" style="background:#ef444422;color:#ef4444;border:1px solid #ef444444" title="V8 TARGET | 2x | $+2,206 ($6K risk)">8 <span class="pnl-pos">+2.2K</span></span>
+<div class="day-total pnl-pos">+2.2K</div>
+</div>
+<div class="cal-day">
+<div class="day-num weekend">14</div>
+</div>
+<div class="cal-day">
+<div class="day-num weekend">15</div>
+</div>
+<div class="cal-day">
+<div class="day-num">16</div>
+</div>
+<div class="cal-day">
+<div class="day-num">17</div>
+</div>
+<div class="cal-day">
+<div class="day-num">18</div>
+</div>
+<div class="cal-day">
+<div class="day-num">19</div>
+</div>
+<div class="cal-day">
+<div class="day-num">20</div>
+</div>
+<div class="cal-day">
+<div class="day-num weekend">21</div>
+</div>
+<div class="cal-day">
+<div class="day-num weekend">22</div>
+</div>
+<div class="cal-day">
+<div class="day-num">23</div>
+</div>
+<div class="cal-day">
+<div class="day-num">24</div>
+</div>
+<div class="cal-day">
+<div class="day-num">25</div>
+</div>
+<div class="cal-day">
+<div class="day-num">26</div>
+</div>
+<div class="cal-day">
+<div class="day-num">27</div>
+</div>
+<div class="cal-day">
+<div class="day-num weekend">28</div>
+</div>
+<div class="cal-day">
+<div class="day-num weekend">29</div>
+</div>
+<div class="cal-day">
+<div class="day-num">30</div>
+</div>
+<div class="cal-day empty"></div>
+<div class="cal-day empty"></div>
+<div class="cal-day empty"></div>
+<div class="cal-day empty"></div>
+<div class="cal-day empty"></div>
+<div class="cal-day empty"></div>
+</div></div>
+<div class="month-section">
+<div class="month-title">July 2025 <span class="pnl-pos" style="margin-left:12px">$286</span></div>
+<div class="cal-grid">
+<div class="cal-hdr">Mon</div>
+<div class="cal-hdr">Tue</div>
+<div class="cal-hdr">Wed</div>
+<div class="cal-hdr">Thu</div>
+<div class="cal-hdr">Fri</div>
+<div class="cal-hdr">Sat</div>
+<div class="cal-hdr">Sun</div>
+<div class="cal-day empty"></div>
+<div class="cal-day">
+<div class="day-num">1</div>
+</div>
+<div class="cal-day">
+<div class="day-num">2</div>
+</div>
+<div class="cal-day">
+<div class="day-num">3</div>
+</div>
+<div class="cal-day">
+<div class="day-num">4</div>
+</div>
+<div class="cal-day">
+<div class="day-num weekend">5</div>
+</div>
+<div class="cal-day">
+<div class="day-num weekend">6</div>
+</div>
+<div class="cal-day">
+<div class="day-num">7</div>
+</div>
+<div class="cal-day">
+<div class="day-num">8</div>
+</div>
+<div class="cal-day">
+<div class="day-num">9</div>
+</div>
+<div class="cal-day">
+<div class="day-num">10</div>
+</div>
+<div class="cal-day">
+<div class="day-num">11</div>
+</div>
+<div class="cal-day">
+<div class="day-num weekend">12</div>
+</div>
+<div class="cal-day">
+<div class="day-num weekend">13</div>
+</div>
+<div class="cal-day">
+<div class="day-num">14</div>
+</div>
+<div class="cal-day">
+<div class="day-num">15</div>
+</div>
+<div class="cal-day">
+<div class="day-num">16</div>
+</div>
+<div class="cal-day">
+<div class="day-num">17</div>
+</div>
+<div class="cal-day">
+<div class="day-num">18</div>
+</div>
+<div class="cal-day">
+<div class="day-num weekend">19</div>
+</div>
+<div class="cal-day">
+<div class="day-num weekend">20</div>
+</div>
+<div class="cal-day has-trades">
+<div class="day-num">21</div>
+<span class="strat-tag loss" style="background:#ec489922;color:#ec4899;border:1px solid #ec489944" title="V10 TIME | 5x | $-510 ($19K risk)">10 <span class="pnl-neg">-510</span></span>
+<div class="day-total pnl-neg">-510</div>
+</div>
+<div class="cal-day">
+<div class="day-num">22</div>
+</div>
+<div class="cal-day">
+<div class="day-num">23</div>
+</div>
+<div class="cal-day has-trades">
+<div class="day-num">24</div>
+<span class="strat-tag win" style="background:#f59e0b22;color:#f59e0b;border:1px solid #f59e0b44" title="V3 TARGET | 8x (1sig) | $+5,780 ($25K risk)">3 <span class="pnl-pos">+5.8K</span></span>
+<span class="strat-tag win" style="background:#eab30822;color:#eab308;border:1px solid #eab30844" title="V9 TIME | 17x | $+17,136 ($50K risk)">9 <span class="pnl-pos">+17.1K</span></span>
+<div class="day-total pnl-pos">+22.9K</div>
+</div>
+<div class="cal-day">
+<div class="day-num">25</div>
+</div>
+<div class="cal-day">
+<div class="day-num weekend">26</div>
+</div>
+<div class="cal-day">
+<div class="day-num weekend">27</div>
+</div>
+<div class="cal-day">
+<div class="day-num">28</div>
+</div>
+<div class="cal-day">
+<div class="day-num">29</div>
+</div>
+<div class="cal-day">
+<div class="day-num">30</div>
+</div>
+<div class="cal-day has-trades">
+<div class="day-num">31</div>
+<span class="strat-tag loss" style="background:#f59e0b22;color:#f59e0b;border:1px solid #f59e0b44" title="V3 WING_STOP | 10x (1sig) | $-22,120 ($25K risk)">3 <span class="pnl-neg">-22.1K</span></span>
+<div class="day-total pnl-neg">-22.1K</div>
+</div>
+<div class="cal-day empty"></div>
+<div class="cal-day empty"></div>
+<div class="cal-day empty"></div>
+</div></div>
+<div class="month-section">
+<div class="month-title">August 2025 <span class="pnl-pos" style="margin-left:12px">$5,661</span></div>
+<div class="cal-grid">
+<div class="cal-hdr">Mon</div>
+<div class="cal-hdr">Tue</div>
+<div class="cal-hdr">Wed</div>
+<div class="cal-hdr">Thu</div>
+<div class="cal-hdr">Fri</div>
+<div class="cal-hdr">Sat</div>
+<div class="cal-hdr">Sun</div>
+<div class="cal-day empty"></div>
+<div class="cal-day empty"></div>
+<div class="cal-day empty"></div>
+<div class="cal-day empty"></div>
+<div class="cal-day">
+<div class="day-num">1</div>
+</div>
+<div class="cal-day">
+<div class="day-num weekend">2</div>
+</div>
+<div class="cal-day">
+<div class="day-num weekend">3</div>
+</div>
+<div class="cal-day">
+<div class="day-num">4</div>
+</div>
+<div class="cal-day">
+<div class="day-num">5</div>
+</div>
+<div class="cal-day">
+<div class="day-num">6</div>
+</div>
+<div class="cal-day">
+<div class="day-num">7</div>
+</div>
+<div class="cal-day">
+<div class="day-num">8</div>
+</div>
+<div class="cal-day">
+<div class="day-num weekend">9</div>
+</div>
+<div class="cal-day">
+<div class="day-num weekend">10</div>
+</div>
+<div class="cal-day">
+<div class="day-num">11</div>
+</div>
+<div class="cal-day has-trades">
+<div class="day-num">12</div>
+<span class="strat-tag loss" style="background:#f59e0b22;color:#f59e0b;border:1px solid #f59e0b44" title="V3 WING_STOP | 47x (5sig) | $-74,542 ($100K risk)">3 <span class="pnl-neg">-74.5K</span></span>
+<div class="day-total pnl-neg">-74.5K</div>
+</div>
+<div class="cal-day has-trades">
+<div class="day-num">13</div>
+<span class="strat-tag win" style="background:#f59e0b22;color:#f59e0b;border:1px solid #f59e0b44" title="V3 CLOSE | 8x (1sig) | $+5,624 ($25K risk)">3 <span class="pnl-pos">+5.6K</span></span>
+<span class="strat-tag win" style="background:#f9731622;color:#f97316;border:1px solid #f9731644" title="V12 CLOSE | 13x | $+9,139 ($38K risk)">12 <span class="pnl-pos">+9.1K</span></span>
+<div class="day-total pnl-pos">+14.8K</div>
+</div>
+<div class="cal-day has-trades">
+<div class="day-num">14</div>
+<span class="strat-tag win" style="background:#f59e0b22;color:#f59e0b;border:1px solid #f59e0b44" title="V3 TARGET | 19x (2sig) | $+16,254 ($50K risk)">3 <span class="pnl-pos">+16.3K</span></span>
+<div class="day-total pnl-pos">+16.3K</div>
+</div>
+<div class="cal-day">
+<div class="day-num">15</div>
+</div>
+<div class="cal-day">
+<div class="day-num weekend">16</div>
+</div>
+<div class="cal-day">
+<div class="day-num weekend">17</div>
+</div>
+<div class="cal-day">
+<div class="day-num">18</div>
+</div>
+<div class="cal-day">
+<div class="day-num">19</div>
+</div>
+<div class="cal-day">
+<div class="day-num">20</div>
+</div>
+<div class="cal-day has-trades">
+<div class="day-num">21</div>
+<span class="strat-tag win" style="background:#ec489922;color:#ec4899;border:1px solid #ec489944" title="V10 TARGET | 32x | $+56,496 ($75K risk)">10 <span class="pnl-pos">+56.5K</span></span>
+<div class="day-total pnl-pos">+56.5K</div>
+</div>
+<div class="cal-day">
+<div class="day-num">22</div>
+</div>
+<div class="cal-day">
+<div class="day-num weekend">23</div>
+</div>
+<div class="cal-day">
+<div class="day-num weekend">24</div>
+</div>
+<div class="cal-day">
+<div class="day-num">25</div>
+</div>
+<div class="cal-day">
+<div class="day-num">26</div>
+</div>
+<div class="cal-day">
+<div class="day-num">27</div>
+</div>
+<div class="cal-day has-trades">
+<div class="day-num">28</div>
+<span class="strat-tag loss" style="background:#f59e0b22;color:#f59e0b;border:1px solid #f59e0b44" title="V3 CLOSE | 20x (2sig) | $-16,140 ($50K risk)">3 <span class="pnl-neg">-16.1K</span></span>
+<div class="day-total pnl-neg">-16.1K</div>
+</div>
+<div class="cal-day has-trades">
+<div class="day-num">29</div>
+<span class="strat-tag win" style="background:#eab30822;color:#eab308;border:1px solid #eab30844" title="V9 TIME | 10x | $+8,830 ($25K risk)">9 <span class="pnl-pos">+8.8K</span></span>
+<div class="day-total pnl-pos">+8.8K</div>
+</div>
+<div class="cal-day">
+<div class="day-num weekend">30</div>
+</div>
+<div class="cal-day">
+<div class="day-num weekend">31</div>
+</div>
+</div></div>
+<div class="month-section">
+<div class="month-title">September 2025 <span class="pnl-pos" style="margin-left:12px">$5,465</span></div>
+<div class="cal-grid">
+<div class="cal-hdr">Mon</div>
+<div class="cal-hdr">Tue</div>
+<div class="cal-hdr">Wed</div>
+<div class="cal-hdr">Thu</div>
+<div class="cal-hdr">Fri</div>
+<div class="cal-hdr">Sat</div>
+<div class="cal-hdr">Sun</div>
+<div class="cal-day">
+<div class="day-num">1</div>
+</div>
+<div class="cal-day has-trades">
+<div class="day-num">2</div>
+<span class="strat-tag win" style="background:#64748b22;color:#64748b;border:1px solid #64748b44" title="V14 TARGET | 19x | $+23,370 ($56K risk)">14 <span class="pnl-pos">+23.4K</span></span>
+<div class="day-total pnl-pos">+23.4K</div>
+</div>
+<div class="cal-day">
+<div class="day-num">3</div>
+</div>
+<div class="cal-day">
+<div class="day-num">4</div>
+</div>
+<div class="cal-day has-trades">
+<div class="day-num">5</div>
+<span class="strat-tag loss" style="background:#f59e0b22;color:#f59e0b;border:1px solid #f59e0b44" title="V3 WING_STOP | 20x (2sig) | $-45,100 ($50K risk)">3 <span class="pnl-neg">-45.1K</span></span>
+<div class="day-total pnl-neg">-45.1K</div>
+</div>
+<div class="cal-day">
+<div class="day-num weekend">6</div>
+</div>
+<div class="cal-day">
+<div class="day-num weekend">7</div>
+</div>
+<div class="cal-day">
+<div class="day-num">8</div>
+</div>
+<div class="cal-day">
+<div class="day-num">9</div>
+</div>
+<div class="cal-day has-trades">
+<div class="day-num">10</div>
+<span class="strat-tag win" style="background:#f59e0b22;color:#f59e0b;border:1px solid #f59e0b44" title="V3 CLOSE | 8x (1sig) | $+3,352 ($25K risk)">3 <span class="pnl-pos">+3.4K</span></span>
+<span class="strat-tag win" style="background:#f9731622;color:#f97316;border:1px solid #f9731644" title="V12 CLOSE | 13x | $+5,447 ($38K risk)">12 <span class="pnl-pos">+5.4K</span></span>
+<div class="day-total pnl-pos">+8.8K</div>
+</div>
+<div class="cal-day">
+<div class="day-num">11</div>
+</div>
+<div class="cal-day">
+<div class="day-num">12</div>
+</div>
+<div class="cal-day">
+<div class="day-num weekend">13</div>
+</div>
+<div class="cal-day">
+<div class="day-num weekend">14</div>
+</div>
+<div class="cal-day">
+<div class="day-num">15</div>
+</div>
+<div class="cal-day">
+<div class="day-num">16</div>
+</div>
+<div class="cal-day">
+<div class="day-num">17</div>
+</div>
+<div class="cal-day has-trades">
+<div class="day-num">18</div>
+<span class="strat-tag win" style="background:#f59e0b22;color:#f59e0b;border:1px solid #f59e0b44" title="V3 TARGET | 18x (2sig) | $+18,396 ($50K risk)">3 <span class="pnl-pos">+18.4K</span></span>
+<div class="day-total pnl-pos">+18.4K</div>
+</div>
+<div class="cal-day">
+<div class="day-num">19</div>
+</div>
+<div class="cal-day">
+<div class="day-num weekend">20</div>
+</div>
+<div class="cal-day">
+<div class="day-num weekend">21</div>
+</div>
+<div class="cal-day">
+<div class="day-num">22</div>
+</div>
+<div class="cal-day">
+<div class="day-num">23</div>
+</div>
+<div class="cal-day">
+<div class="day-num">24</div>
+</div>
+<div class="cal-day">
+<div class="day-num">25</div>
+</div>
+<div class="cal-day">
+<div class="day-num">26</div>
+</div>
+<div class="cal-day">
+<div class="day-num weekend">27</div>
+</div>
+<div class="cal-day">
+<div class="day-num weekend">28</div>
+</div>
+<div class="cal-day">
+<div class="day-num">29</div>
+</div>
+<div class="cal-day">
+<div class="day-num">30</div>
+</div>
+<div class="cal-day empty"></div>
+<div class="cal-day empty"></div>
+<div class="cal-day empty"></div>
+<div class="cal-day empty"></div>
+<div class="cal-day empty"></div>
+</div></div>
+<div class="month-section">
+<div class="month-title">October 2025 <span class="pnl-pos" style="margin-left:12px">$81,663</span></div>
+<div class="cal-grid">
+<div class="cal-hdr">Mon</div>
+<div class="cal-hdr">Tue</div>
+<div class="cal-hdr">Wed</div>
+<div class="cal-hdr">Thu</div>
+<div class="cal-hdr">Fri</div>
+<div class="cal-hdr">Sat</div>
+<div class="cal-hdr">Sun</div>
+<div class="cal-day empty"></div>
+<div class="cal-day empty"></div>
+<div class="cal-day">
+<div class="day-num">1</div>
+</div>
+<div class="cal-day">
+<div class="day-num">2</div>
+</div>
+<div class="cal-day has-trades">
+<div class="day-num">3</div>
+<span class="strat-tag win" style="background:#ec489922;color:#ec4899;border:1px solid #ec489944" title="V10 TIME | 5x | $+5,555 ($19K risk)">10 <span class="pnl-pos">+5.6K</span></span>
+<div class="day-total pnl-pos">+5.6K</div>
+</div>
+<div class="cal-day">
+<div class="day-num weekend">4</div>
+</div>
+<div class="cal-day">
+<div class="day-num weekend">5</div>
+</div>
+<div class="cal-day">
+<div class="day-num">6</div>
+</div>
+<div class="cal-day">
+<div class="day-num">7</div>
+</div>
+<div class="cal-day">
+<div class="day-num">8</div>
+</div>
+<div class="cal-day has-trades">
+<div class="day-num">9</div>
+<span class="strat-tag win" style="background:#eab30822;color:#eab308;border:1px solid #eab30844" title="V9 TIME | 7x | $+7,322 ($25K risk)">9 <span class="pnl-pos">+7.3K</span></span>
+<div class="day-total pnl-pos">+7.3K</div>
+</div>
+<div class="cal-day">
+<div class="day-num">10</div>
+</div>
+<div class="cal-day">
+<div class="day-num weekend">11</div>
+</div>
+<div class="cal-day">
+<div class="day-num weekend">12</div>
+</div>
+<div class="cal-day">
+<div class="day-num">13</div>
+</div>
+<div class="cal-day has-trades">
+<div class="day-num">14</div>
+<span class="strat-tag loss" style="background:#ef444422;color:#ef4444;border:1px solid #ef444444" title="V8 WING_STOP | 5x | $-12,375 ($19K risk)">8 <span class="pnl-neg">-12.4K</span></span>
+<div class="day-total pnl-neg">-12.4K</div>
+</div>
+<div class="cal-day">
+<div class="day-num">15</div>
+</div>
+<div class="cal-day">
+<div class="day-num">16</div>
+</div>
+<div class="cal-day">
+<div class="day-num">17</div>
+</div>
+<div class="cal-day">
+<div class="day-num weekend">18</div>
+</div>
+<div class="cal-day">
+<div class="day-num weekend">19</div>
+</div>
+<div class="cal-day">
+<div class="day-num">20</div>
+</div>
+<div class="cal-day has-trades">
+<div class="day-num">21</div>
+<span class="strat-tag win" style="background:#eab30822;color:#eab308;border:1px solid #eab30844" title="V9 TIME | 6x | $+5,106 ($25K risk)">9 <span class="pnl-pos">+5.1K</span></span>
+<div class="day-total pnl-pos">+5.1K</div>
+</div>
+<div class="cal-day">
+<div class="day-num">22</div>
+</div>
+<div class="cal-day">
+<div class="day-num">23</div>
+</div>
+<div class="cal-day">
+<div class="day-num">24</div>
+</div>
+<div class="cal-day">
+<div class="day-num weekend">25</div>
+</div>
+<div class="cal-day">
+<div class="day-num weekend">26</div>
+</div>
+<div class="cal-day">
+<div class="day-num">27</div>
+</div>
+<div class="cal-day">
+<div class="day-num">28</div>
+</div>
+<div class="cal-day">
+<div class="day-num">29</div>
+</div>
+<div class="cal-day has-trades">
+<div class="day-num">30</div>
+<span class="strat-tag win" style="background:#f59e0b22;color:#f59e0b;border:1px solid #f59e0b44" title="V3 TARGET | 30x (3sig) | $+43,050 ($75K risk)">3 <span class="pnl-pos">+43.0K</span></span>
+<span class="strat-tag win" style="background:#64748b22;color:#64748b;border:1px solid #64748b44" title="V14 TARGET | 23x | $+33,005 ($56K risk)">14 <span class="pnl-pos">+33.0K</span></span>
+<div class="day-total pnl-pos">+76.1K</div>
+</div>
+<div class="cal-day">
+<div class="day-num">31</div>
+</div>
+<div class="cal-day empty"></div>
+<div class="cal-day empty"></div>
+</div></div>
+<div class="month-section">
+<div class="month-title">November 2025 <span class="pnl-neg" style="margin-left:12px">$-10,231</span></div>
+<div class="cal-grid">
+<div class="cal-hdr">Mon</div>
+<div class="cal-hdr">Tue</div>
+<div class="cal-hdr">Wed</div>
+<div class="cal-hdr">Thu</div>
+<div class="cal-hdr">Fri</div>
+<div class="cal-hdr">Sat</div>
+<div class="cal-hdr">Sun</div>
+<div class="cal-day empty"></div>
+<div class="cal-day empty"></div>
+<div class="cal-day empty"></div>
+<div class="cal-day empty"></div>
+<div class="cal-day empty"></div>
+<div class="cal-day">
+<div class="day-num weekend">1</div>
+</div>
+<div class="cal-day">
+<div class="day-num weekend">2</div>
+</div>
+<div class="cal-day">
+<div class="day-num">3</div>
+</div>
+<div class="cal-day">
+<div class="day-num">4</div>
+</div>
+<div class="cal-day has-trades">
+<div class="day-num">5</div>
+<span class="strat-tag win" style="background:#ec489922;color:#ec4899;border:1px solid #ec489944" title="V10 TIME | 5x | $+2,060 ($19K risk)">10 <span class="pnl-pos">+2.1K</span></span>
+<div class="day-total pnl-pos">+2.1K</div>
+</div>
+<div class="cal-day">
+<div class="day-num">6</div>
+</div>
+<div class="cal-day">
+<div class="day-num">7</div>
+</div>
+<div class="cal-day">
+<div class="day-num weekend">8</div>
+</div>
+<div class="cal-day">
+<div class="day-num weekend">9</div>
+</div>
+<div class="cal-day">
+<div class="day-num">10</div>
+</div>
+<div class="cal-day">
+<div class="day-num">11</div>
+</div>
+<div class="cal-day has-trades">
+<div class="day-num">12</div>
+<span class="strat-tag win" style="background:#f59e0b22;color:#f59e0b;border:1px solid #f59e0b44" title="V3 TARGET | 7x (1sig) | $+7,472 ($25K risk)">3 <span class="pnl-pos">+7.5K</span></span>
+<div class="day-total pnl-pos">+7.5K</div>
+</div>
+<div class="cal-day">
+<div class="day-num">13</div>
+</div>
+<div class="cal-day has-trades">
+<div class="day-num">14</div>
+<span class="strat-tag win" style="background:#f59e0b22;color:#f59e0b;border:1px solid #f59e0b44" title="V3 CLOSE | 24x (3sig) | $+33,816 ($75K risk)">3 <span class="pnl-pos">+33.8K</span></span>
+<div class="day-total pnl-pos">+33.8K</div>
+</div>
+<div class="cal-day">
+<div class="day-num weekend">15</div>
+</div>
+<div class="cal-day">
+<div class="day-num weekend">16</div>
+</div>
+<div class="cal-day has-trades">
+<div class="day-num">17</div>
+<span class="strat-tag loss" style="background:#f59e0b22;color:#f59e0b;border:1px solid #f59e0b44" title="V3 WING_STOP | 7x (1sig) | $-22,162 ($25K risk)">3 <span class="pnl-neg">-22.2K</span></span>
+<span class="strat-tag loss" style="background:#ef444422;color:#ef4444;border:1px solid #ef444444" title="V8 WING_STOP | 3x | $-9,498 ($12K risk)">8 <span class="pnl-neg">-9.5K</span></span>
+<div class="day-total pnl-neg">-31.7K</div>
+</div>
+<div class="cal-day">
+<div class="day-num">18</div>
+</div>
+<div class="cal-day">
+<div class="day-num">19</div>
+</div>
+<div class="cal-day">
+<div class="day-num">20</div>
+</div>
+<div class="cal-day">
+<div class="day-num">21</div>
+</div>
+<div class="cal-day">
+<div class="day-num weekend">22</div>
+</div>
+<div class="cal-day">
+<div class="day-num weekend">23</div>
+</div>
+<div class="cal-day">
+<div class="day-num">24</div>
+</div>
+<div class="cal-day has-trades">
+<div class="day-num">25</div>
+<span class="strat-tag loss" style="background:#f59e0b22;color:#f59e0b;border:1px solid #f59e0b44" title="V3 WING_STOP | 7x (1sig) | $-21,679 ($25K risk)">3 <span class="pnl-neg">-21.7K</span></span>
+<div class="day-total pnl-neg">-21.7K</div>
+</div>
+<div class="cal-day">
+<div class="day-num">26</div>
+</div>
+<div class="cal-day">
+<div class="day-num">27</div>
+</div>
+<div class="cal-day has-trades">
+<div class="day-num">28</div>
+<span class="strat-tag loss" style="background:#eab30822;color:#eab308;border:1px solid #eab30844" title="V9 CLOSE | 8x | $-240 ($25K risk)">9 <span class="pnl-neg">-240</span></span>
+<div class="day-total pnl-neg">-240</div>
+</div>
+<div class="cal-day">
+<div class="day-num weekend">29</div>
+</div>
+<div class="cal-day">
+<div class="day-num weekend">30</div>
+</div>
+</div></div>
+<div class="month-section">
+<div class="month-title">December 2025 <span class="pnl-pos" style="margin-left:12px">$111,229</span></div>
+<div class="cal-grid">
+<div class="cal-hdr">Mon</div>
+<div class="cal-hdr">Tue</div>
+<div class="cal-hdr">Wed</div>
+<div class="cal-hdr">Thu</div>
+<div class="cal-hdr">Fri</div>
+<div class="cal-hdr">Sat</div>
+<div class="cal-hdr">Sun</div>
+<div class="cal-day has-trades">
+<div class="day-num">1</div>
+<span class="strat-tag win" style="background:#f59e0b22;color:#f59e0b;border:1px solid #f59e0b44" title="V3 TARGET | 8x (1sig) | $+9,088 ($25K risk)">3 <span class="pnl-pos">+9.1K</span></span>
+<div class="day-total pnl-pos">+9.1K</div>
+</div>
+<div class="cal-day">
+<div class="day-num">2</div>
+</div>
+<div class="cal-day has-trades">
+<div class="day-num">3</div>
+<span class="strat-tag win" style="background:#f59e0b22;color:#f59e0b;border:1px solid #f59e0b44" title="V3 CLOSE | 8x (1sig) | $+1,336 ($25K risk)">3 <span class="pnl-pos">+1.3K</span></span>
+<div class="day-total pnl-pos">+1.3K</div>
+</div>
+<div class="cal-day has-trades">
+<div class="day-num">4</div>
+<span class="strat-tag win" style="background:#f59e0b22;color:#f59e0b;border:1px solid #f59e0b44" title="V3 TARGET | 17x (2sig) | $+21,165 ($50K risk)">3 <span class="pnl-pos">+21.2K</span></span>
+<span class="strat-tag win" style="background:#eab30822;color:#eab308;border:1px solid #eab30844" title="V9 TARGET | 26x | $+46,358 ($75K risk)">9 <span class="pnl-pos">+46.4K</span></span>
+<div class="day-total pnl-pos">+67.5K</div>
+</div>
+<div class="cal-day has-trades">
+<div class="day-num">5</div>
+<span class="strat-tag win" style="background:#ec489922;color:#ec4899;border:1px solid #ec489944" title="V10 TIME | 6x | $+1,974 ($19K risk)">10 <span class="pnl-pos">+2.0K</span></span>
+<div class="day-total pnl-pos">+2.0K</div>
+</div>
+<div class="cal-day">
+<div class="day-num weekend">6</div>
+</div>
+<div class="cal-day">
+<div class="day-num weekend">7</div>
+</div>
+<div class="cal-day">
+<div class="day-num">8</div>
+</div>
+<div class="cal-day">
+<div class="day-num">9</div>
+</div>
+<div class="cal-day">
+<div class="day-num">10</div>
+</div>
+<div class="cal-day has-trades">
+<div class="day-num">11</div>
+<span class="strat-tag loss" style="background:#f59e0b22;color:#f59e0b;border:1px solid #f59e0b44" title="V3 WING_STOP | 9x (1sig) | $-18,828 ($25K risk)">3 <span class="pnl-neg">-18.8K</span></span>
+<div class="day-total pnl-neg">-18.8K</div>
+</div>
+<div class="cal-day">
+<div class="day-num">12</div>
+</div>
+<div class="cal-day">
+<div class="day-num weekend">13</div>
+</div>
+<div class="cal-day">
+<div class="day-num weekend">14</div>
+</div>
+<div class="cal-day">
+<div class="day-num">15</div>
+</div>
+<div class="cal-day has-trades">
+<div class="day-num">16</div>
+<span class="strat-tag win" style="background:#ec489922;color:#ec4899;border:1px solid #ec489944" title="V10 TIME | 27x | $+36,720 ($75K risk)">10 <span class="pnl-pos">+36.7K</span></span>
+<div class="day-total pnl-pos">+36.7K</div>
+</div>
+<div class="cal-day">
+<div class="day-num">17</div>
+</div>
+<div class="cal-day">
+<div class="day-num">18</div>
+</div>
+<div class="cal-day">
+<div class="day-num">19</div>
+</div>
+<div class="cal-day">
+<div class="day-num weekend">20</div>
+</div>
+<div class="cal-day">
+<div class="day-num weekend">21</div>
+</div>
+<div class="cal-day">
+<div class="day-num">22</div>
+</div>
+<div class="cal-day">
+<div class="day-num">23</div>
+</div>
+<div class="cal-day">
+<div class="day-num">24</div>
+</div>
+<div class="cal-day">
+<div class="day-num">25</div>
+</div>
+<div class="cal-day">
+<div class="day-num">26</div>
+</div>
+<div class="cal-day">
+<div class="day-num weekend">27</div>
+</div>
+<div class="cal-day">
+<div class="day-num weekend">28</div>
+</div>
+<div class="cal-day has-trades">
+<div class="day-num">29</div>
+<span class="strat-tag win" style="background:#f59e0b22;color:#f59e0b;border:1px solid #f59e0b44" title="V3 TARGET | 16x (2sig) | $+13,416 ($50K risk)">3 <span class="pnl-pos">+13.4K</span></span>
+<div class="day-total pnl-pos">+13.4K</div>
+</div>
+<div class="cal-day">
+<div class="day-num">30</div>
+</div>
+<div class="cal-day">
+<div class="day-num">31</div>
+</div>
+<div class="cal-day empty"></div>
+<div class="cal-day empty"></div>
+<div class="cal-day empty"></div>
+<div class="cal-day empty"></div>
+</div></div>
+<div class="month-section">
+<div class="month-title">January 2026 <span class="pnl-pos" style="margin-left:12px">$226,126</span></div>
+<div class="cal-grid">
+<div class="cal-hdr">Mon</div>
+<div class="cal-hdr">Tue</div>
+<div class="cal-hdr">Wed</div>
+<div class="cal-hdr">Thu</div>
+<div class="cal-hdr">Fri</div>
+<div class="cal-hdr">Sat</div>
+<div class="cal-hdr">Sun</div>
+<div class="cal-day empty"></div>
+<div class="cal-day empty"></div>
+<div class="cal-day empty"></div>
+<div class="cal-day">
+<div class="day-num">1</div>
+</div>
+<div class="cal-day">
+<div class="day-num">2</div>
+</div>
+<div class="cal-day">
+<div class="day-num weekend">3</div>
+</div>
+<div class="cal-day">
+<div class="day-num weekend">4</div>
+</div>
+<div class="cal-day">
+<div class="day-num">5</div>
+</div>
+<div class="cal-day">
+<div class="day-num">6</div>
+</div>
+<div class="cal-day has-trades">
+<div class="day-num">7</div>
+<span class="strat-tag loss" style="background:#eab30822;color:#eab308;border:1px solid #eab30844" title="V9 TIME | 7x | $-9,191 ($25K risk)">9 <span class="pnl-neg">-9.2K</span></span>
+<div class="day-total pnl-neg">-9.2K</div>
+</div>
+<div class="cal-day has-trades">
+<div class="day-num">8</div>
+<span class="strat-tag win" style="background:#f59e0b22;color:#f59e0b;border:1px solid #f59e0b44" title="V3 CLOSE | 27x (3sig) | $+14,013 ($75K risk)">3 <span class="pnl-pos">+14.0K</span></span>
+<div class="day-total pnl-pos">+14.0K</div>
+</div>
+<div class="cal-day has-trades">
+<div class="day-num">9</div>
+<span class="strat-tag win" style="background:#f59e0b22;color:#f59e0b;border:1px solid #f59e0b44" title="V3 CLOSE | 11x (1sig) | $+2,255 ($25K risk)">3 <span class="pnl-pos">+2.3K</span></span>
+<div class="day-total pnl-pos">+2.3K</div>
+</div>
+<div class="cal-day">
+<div class="day-num weekend">10</div>
+</div>
+<div class="cal-day">
+<div class="day-num weekend">11</div>
+</div>
+<div class="cal-day">
+<div class="day-num">12</div>
+</div>
+<div class="cal-day">
+<div class="day-num">13</div>
+</div>
+<div class="cal-day has-trades">
+<div class="day-num">14</div>
+<span class="strat-tag win" style="background:#f59e0b22;color:#f59e0b;border:1px solid #f59e0b44" title="V3 TARGET | 36x (4sig) | $+54,990 ($100K risk)">3 <span class="pnl-pos">+55.0K</span></span>
+<span class="strat-tag win" style="background:#64748b22;color:#64748b;border:1px solid #64748b44" title="V14 TARGET | 27x | $+41,242 ($75K risk)">14 <span class="pnl-pos">+41.2K</span></span>
+<div class="day-total pnl-pos">+96.2K</div>
+</div>
+<div class="cal-day">
+<div class="day-num">15</div>
+</div>
+<div class="cal-day">
+<div class="day-num">16</div>
+</div>
+<div class="cal-day">
+<div class="day-num weekend">17</div>
+</div>
+<div class="cal-day">
+<div class="day-num weekend">18</div>
+</div>
+<div class="cal-day">
+<div class="day-num">19</div>
+</div>
+<div class="cal-day">
+<div class="day-num">20</div>
+</div>
+<div class="cal-day has-trades">
+<div class="day-num">21</div>
+<span class="strat-tag loss" style="background:#ec489922;color:#ec4899;border:1px solid #ec489944" title="V10 WING_STOP | 5x | $-12,295 ($19K risk)">10 <span class="pnl-neg">-12.3K</span></span>
+<div class="day-total pnl-neg">-12.3K</div>
+</div>
+<div class="cal-day">
+<div class="day-num">22</div>
+</div>
+<div class="cal-day">
+<div class="day-num">23</div>
+</div>
+<div class="cal-day">
+<div class="day-num weekend">24</div>
+</div>
+<div class="cal-day">
+<div class="day-num weekend">25</div>
+</div>
+<div class="cal-day">
+<div class="day-num">26</div>
+</div>
+<div class="cal-day">
+<div class="day-num">27</div>
+</div>
+<div class="cal-day">
+<div class="day-num">28</div>
+</div>
+<div class="cal-day has-trades">
+<div class="day-num">29</div>
+<span class="strat-tag win" style="background:#f59e0b22;color:#f59e0b;border:1px solid #f59e0b44" title="V3 TARGET | 18x (2sig) | $+27,693 ($50K risk)">3 <span class="pnl-pos">+27.7K</span></span>
+<div class="day-total pnl-pos">+27.7K</div>
+</div>
+<div class="cal-day has-trades">
+<div class="day-num">30</div>
+<span class="strat-tag win" style="background:#f59e0b22;color:#f59e0b;border:1px solid #f59e0b44" title="V3 TARGET | 42x (4sig) | $+61,803 ($100K risk)">3 <span class="pnl-pos">+61.8K</span></span>
+<span class="strat-tag win" style="background:#64748b22;color:#64748b;border:1px solid #64748b44" title="V14 TARGET | 31x | $+45,616 ($75K risk)">14 <span class="pnl-pos">+45.6K</span></span>
+<div class="day-total pnl-pos">+107.4K</div>
+</div>
+<div class="cal-day">
+<div class="day-num weekend">31</div>
+</div>
+<div class="cal-day empty"></div>
+</div></div>
+<div class="month-section">
+<div class="month-title">February 2026 <span class="pnl-pos" style="margin-left:12px">$77,434</span></div>
+<div class="cal-grid">
+<div class="cal-hdr">Mon</div>
+<div class="cal-hdr">Tue</div>
+<div class="cal-hdr">Wed</div>
+<div class="cal-hdr">Thu</div>
+<div class="cal-hdr">Fri</div>
+<div class="cal-hdr">Sat</div>
+<div class="cal-hdr">Sun</div>
+<div class="cal-day empty"></div>
+<div class="cal-day empty"></div>
+<div class="cal-day empty"></div>
+<div class="cal-day empty"></div>
+<div class="cal-day empty"></div>
+<div class="cal-day empty"></div>
+<div class="cal-day">
+<div class="day-num weekend">1</div>
+</div>
+<div class="cal-day has-trades">
+<div class="day-num">2</div>
+<span class="strat-tag loss" style="background:#f59e0b22;color:#f59e0b;border:1px solid #f59e0b44" title="V3 CLOSE | 25x (3sig) | $-6,175 ($75K risk)">3 <span class="pnl-neg">-6.2K</span></span>
+<div class="day-total pnl-neg">-6.2K</div>
+</div>
+<div class="cal-day">
+<div class="day-num">3</div>
+</div>
+<div class="cal-day">
+<div class="day-num">4</div>
+</div>
+<div class="cal-day">
+<div class="day-num">5</div>
+</div>
+<div class="cal-day">
+<div class="day-num">6</div>
+</div>
+<div class="cal-day">
+<div class="day-num weekend">7</div>
+</div>
+<div class="cal-day">
+<div class="day-num weekend">8</div>
+</div>
+<div class="cal-day">
+<div class="day-num">9</div>
+</div>
+<div class="cal-day">
+<div class="day-num">10</div>
+</div>
+<div class="cal-day has-trades">
+<div class="day-num">11</div>
+<span class="strat-tag win" style="background:#f59e0b22;color:#f59e0b;border:1px solid #f59e0b44" title="V3 TARGET | 17x (2sig) | $+21,276 ($50K risk)">3 <span class="pnl-pos">+21.3K</span></span>
+<div class="day-total pnl-pos">+21.3K</div>
+</div>
+<div class="cal-day">
+<div class="day-num">12</div>
+</div>
+<div class="cal-day has-trades">
+<div class="day-num">13</div>
+<span class="strat-tag win" style="background:#f59e0b22;color:#f59e0b;border:1px solid #f59e0b44" title="V3 TARGET | 30x (3sig) | $+65,490 ($75K risk)">3 <span class="pnl-pos">+65.5K</span></span>
+<div class="day-total pnl-pos">+65.5K</div>
+</div>
+<div class="cal-day">
+<div class="day-num weekend">14</div>
+</div>
+<div class="cal-day">
+<div class="day-num weekend">15</div>
+</div>
+<div class="cal-day">
+<div class="day-num">16</div>
+</div>
+<div class="cal-day">
+<div class="day-num">17</div>
+</div>
+<div class="cal-day">
+<div class="day-num">18</div>
+</div>
+<div class="cal-day has-trades">
+<div class="day-num">19</div>
+<span class="strat-tag win" style="background:#ef444422;color:#ef4444;border:1px solid #ef444444" title="V8 TARGET | 8x | $+10,022 ($25K risk)">8 <span class="pnl-pos">+10.0K</span></span>
+<div class="day-total pnl-pos">+10.0K</div>
+</div>
+<div class="cal-day">
+<div class="day-num">20</div>
+</div>
+<div class="cal-day">
+<div class="day-num weekend">21</div>
+</div>
+<div class="cal-day">
+<div class="day-num weekend">22</div>
+</div>
+<div class="cal-day has-trades">
+<div class="day-num">23</div>
+<span class="strat-tag loss" style="background:#f59e0b22;color:#f59e0b;border:1px solid #f59e0b44" title="V3 CLOSE | 15x (2sig) | $-29,205 ($50K risk)">3 <span class="pnl-neg">-29.2K</span></span>
+<div class="day-total pnl-neg">-29.2K</div>
+</div>
+<div class="cal-day has-trades">
+<div class="day-num">24</div>
+<span class="strat-tag loss" style="background:#f59e0b22;color:#f59e0b;border:1px solid #f59e0b44" title="V3 CLOSE | 13x (2sig) | $-18,512 ($50K risk)">3 <span class="pnl-neg">-18.5K</span></span>
+<div class="day-total pnl-neg">-18.5K</div>
+</div>
+<div class="cal-day">
+<div class="day-num">25</div>
+</div>
+<div class="cal-day has-trades">
+<div class="day-num">26</div>
+<span class="strat-tag win" style="background:#f59e0b22;color:#f59e0b;border:1px solid #f59e0b44" title="V3 CLOSE | 8x (1sig) | $+10,840 ($25K risk)">3 <span class="pnl-pos">+10.8K</span></span>
+<span class="strat-tag win" style="background:#eab30822;color:#eab308;border:1px solid #eab30844" title="V9 TIME | 17x | $+23,698 ($50K risk)">9 <span class="pnl-pos">+23.7K</span></span>
+<div class="day-total pnl-pos">+34.5K</div>
+</div>
+<div class="cal-day">
+<div class="day-num">27</div>
+</div>
+<div class="cal-day">
+<div class="day-num weekend">28</div>
+</div>
+<div class="cal-day empty"></div>
+</div></div>
+<div class="month-section">
+<div class="month-title">March 2026 <span class="pnl-neg" style="margin-left:12px">$-8,901</span></div>
+<div class="cal-grid">
+<div class="cal-hdr">Mon</div>
+<div class="cal-hdr">Tue</div>
+<div class="cal-hdr">Wed</div>
+<div class="cal-hdr">Thu</div>
+<div class="cal-hdr">Fri</div>
+<div class="cal-hdr">Sat</div>
+<div class="cal-hdr">Sun</div>
+<div class="cal-day empty"></div>
+<div class="cal-day empty"></div>
+<div class="cal-day empty"></div>
+<div class="cal-day empty"></div>
+<div class="cal-day empty"></div>
+<div class="cal-day empty"></div>
+<div class="cal-day">
+<div class="day-num weekend">1</div>
+</div>
+<div class="cal-day">
+<div class="day-num">2</div>
+</div>
+<div class="cal-day">
+<div class="day-num">3</div>
+</div>
+<div class="cal-day">
+<div class="day-num">4</div>
+</div>
+<div class="cal-day has-trades">
+<div class="day-num">5</div>
+<span class="strat-tag loss" style="background:#ef444422;color:#ef4444;border:1px solid #ef444444" title="V8 WING_STOP | 3x | $-8,901 ($12K risk)">8 <span class="pnl-neg">-8.9K</span></span>
+<div class="day-total pnl-neg">-8.9K</div>
+</div>
+<div class="cal-day">
+<div class="day-num">6</div>
+</div>
+<div class="cal-day">
+<div class="day-num weekend">7</div>
+</div>
+<div class="cal-day">
+<div class="day-num weekend">8</div>
+</div>
+<div class="cal-day">
+<div class="day-num">9</div>
+</div>
+<div class="cal-day">
+<div class="day-num">10</div>
+</div>
+<div class="cal-day">
+<div class="day-num">11</div>
+</div>
+<div class="cal-day">
+<div class="day-num">12</div>
+</div>
+<div class="cal-day">
+<div class="day-num">13</div>
+</div>
+<div class="cal-day">
+<div class="day-num weekend">14</div>
+</div>
+<div class="cal-day">
+<div class="day-num weekend">15</div>
+</div>
+<div class="cal-day">
+<div class="day-num">16</div>
+</div>
+<div class="cal-day">
+<div class="day-num">17</div>
+</div>
+<div class="cal-day">
+<div class="day-num">18</div>
+</div>
+<div class="cal-day">
+<div class="day-num">19</div>
+</div>
+<div class="cal-day">
+<div class="day-num">20</div>
+</div>
+<div class="cal-day">
+<div class="day-num weekend">21</div>
+</div>
+<div class="cal-day">
+<div class="day-num weekend">22</div>
+</div>
+<div class="cal-day">
+<div class="day-num">23</div>
+</div>
+<div class="cal-day">
+<div class="day-num">24</div>
+</div>
+<div class="cal-day">
+<div class="day-num">25</div>
+</div>
+<div class="cal-day">
+<div class="day-num">26</div>
+</div>
+<div class="cal-day">
+<div class="day-num">27</div>
+</div>
+<div class="cal-day">
+<div class="day-num weekend">28</div>
+</div>
+<div class="cal-day">
+<div class="day-num weekend">29</div>
+</div>
+<div class="cal-day">
+<div class="day-num">30</div>
+</div>
+<div class="cal-day">
+<div class="day-num">31</div>
+</div>
+<div class="cal-day empty"></div>
+<div class="cal-day empty"></div>
+<div class="cal-day empty"></div>
+<div class="cal-day empty"></div>
+<div class="cal-day empty"></div>
+</div></div>
+</body></html>
