@@ -585,42 +585,23 @@ async function openDayModal(dateStr) {{
         cSeries.setData(bars);
         volSeries.setData(bars);
 
-        // ── Entry/exit markers + strike level lines ───────────────────
+        // ── Entry/exit markers (circles, color-coded by strategy) ───────
         const markers = [];
         for (const t of trades) {{
-            const col  = VER_COLORS[t.ver] || '#888';
-            const nm   = VER_SHORTS[t.ver] || t.ver.toUpperCase();
-            const eHM  = parseHM(t.entry_time);
-            const xHM  = parseHM(t.exit_time || '16:15');
+            const col = VER_COLORS[t.ver] || '#888';
+            const nm  = VER_SHORTS[t.ver] || t.ver.toUpperCase();
+            const eHM = parseHM(t.entry_time);
+            const xHM = parseHM(t.exit_time || '16:15');
             const eBar = findBarAt(bars, eHM);
             const xBar = findBarAt(bars, xHM);
 
             if (eBar) {{
                 markers.push({{ time: eBar.time, position:'belowBar', color:col,
-                    shape:'arrowUp',   text: nm+' IN',  size:1 }});
-
-                // Determine strike levels
-                const wing    = t.wing_width || 0;
-                const sOff    = t.short_offset;
-                const lOff    = t.long_offset;
-                const atmPrice = t.atm || t.spx_at_entry || eBar.close;
-
-                if (sOff && lOff) {{
-                    // Iron Condor (N17 / N18)
-                    cSeries.createPriceLine({{price:atmPrice+sOff, color:col,      lineWidth:1, lineStyle:2, title:nm+' +S', axisLabelVisible:true}});
-                    cSeries.createPriceLine({{price:atmPrice-sOff, color:col,      lineWidth:1, lineStyle:2, title:nm+' -S', axisLabelVisible:true}});
-                    cSeries.createPriceLine({{price:atmPrice+lOff, color:'#ef4444',lineWidth:1, lineStyle:1, title:nm+' +L', axisLabelVisible:true}});
-                    cSeries.createPriceLine({{price:atmPrice-lOff, color:'#ef4444',lineWidth:1, lineStyle:1, title:nm+' -L', axisLabelVisible:true}});
-                }} else if (wing > 0) {{
-                    // Iron Butterfly (V3/N15 and all regime strategies)
-                    cSeries.createPriceLine({{price:atmPrice,      color:col,      lineWidth:1, lineStyle:2, title:nm+' ATM', axisLabelVisible:true}});
-                    cSeries.createPriceLine({{price:atmPrice+wing, color:'#ef4444',lineWidth:1, lineStyle:1, title:nm+' +W',  axisLabelVisible:true}});
-                    cSeries.createPriceLine({{price:atmPrice-wing, color:'#ef4444',lineWidth:1, lineStyle:1, title:nm+' -W',  axisLabelVisible:true}});
-                }}
+                    shape:'circle', text: nm, size:1 }});
             }}
             if (xBar) {{
                 markers.push({{ time: xBar.time, position:'aboveBar', color:col,
-                    shape:'arrowDown', text: nm+' OUT', size:1 }});
+                    shape:'circle', text: nm, size:1 }});
             }}
         }}
 
