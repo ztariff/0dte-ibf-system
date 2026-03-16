@@ -17,21 +17,23 @@ _DIR = os.path.dirname(os.path.abspath(__file__))
 # STRATEGY METADATA  (colors + regime labels for display)
 # ═══════════════════════════════════════════════════════════════════════
 STRATEGIES = [
-    {"ver":"v3", "name":"PHOENIX",        "regime":"PHOENIX",        "mech":"50%/close/1T","filter":"--",              "color":"#f59e0b"},
-    {"ver":"n15","name":"PHOENIX CLEAR",  "regime":"PHOENIX_CLEAR",  "mech":"50%/close/1T","filter":"VIX9D/VIX<1.0",  "color":"#22c55e"},
-    {"ver":"v6", "name":"QUIET REBOUND",  "regime":"LOW_DN_IN_GFL",  "mech":"50%/1530/1T", "filter":"VP<=1.7",        "color":"#06b6d4"},
-    {"ver":"v7", "name":"FLAT-GAP FADE",  "regime":"LOW_FL_IN_GUP",  "mech":"40%/close/1T","filter":"--",              "color":"#a855f7"},
-    {"ver":"v8", "name":"STRESS SNAP",    "regime":"ELEV_UP_IN_GDN", "mech":"40%/1530/1T", "filter":"--",              "color":"#ef4444"},
-    {"ver":"v9", "name":"BREAKOUT STALL", "regime":"MID_UP_OT_GFL",  "mech":"70%/1545/1T", "filter":"!RISING",        "color":"#eab308"},
-    {"ver":"v10","name":"BREAKDOWN PAUSE","regime":"MID_DN_OT_GFL",  "mech":"70%/1545/1T", "filter":"--",              "color":"#ec4899"},
-    {"ver":"v12","name":"BULL SQUEEZE",   "regime":"LOW_UP_OT_GUP",  "mech":"40%/close/1T","filter":"5dRet>1",        "color":"#f97316"},
-    {"ver":"v14","name":"ORDERLY DIP",    "regime":"MID_DN_IN_GDN",  "mech":"50%/close/1T","filter":"ScoreVol<18",    "color":"#64748b"},
-    {"ver":"n17","name":"AFTERNOON LOCK", "regime":"PHOENIX_AFT",    "mech":"50%/close/1T","filter":"VVIX<100@13:00", "color":"#7c3aed"},
-    {"ver":"n18","name":"LATE SQUEEZE",   "regime":"LATE_SQUEEZE",   "mech":"50%/close/1T","filter":"3Laws@14:00",    "color":"#0ea5e9"},
+    {"ver":"v3", "name":"PHOENIX",        "short":"PHX", "regime":"PHOENIX",        "mech":"50%/close/1T","filter":"--",              "color":"#f59e0b"},
+    {"ver":"n15","name":"PHOENIX CLEAR",  "short":"CLR", "regime":"PHOENIX_CLEAR",  "mech":"50%/close/1T","filter":"VIX9D/VIX<1.0",  "color":"#22c55e"},
+    {"ver":"v6", "name":"QUIET REBOUND",  "short":"QRB", "regime":"LOW_DN_IN_GFL",  "mech":"50%/1530/1T", "filter":"VP<=1.7",        "color":"#06b6d4"},
+    {"ver":"v7", "name":"FLAT-GAP FADE",  "short":"FGF", "regime":"LOW_FL_IN_GUP",  "mech":"40%/close/1T","filter":"--",              "color":"#a855f7"},
+    {"ver":"v8", "name":"STRESS SNAP",    "short":"SNP", "regime":"ELEV_UP_IN_GDN", "mech":"40%/1530/1T", "filter":"--",              "color":"#ef4444"},
+    {"ver":"v9", "name":"BREAKOUT STALL", "short":"BKT", "regime":"MID_UP_OT_GFL",  "mech":"70%/1545/1T", "filter":"!RISING",        "color":"#eab308"},
+    {"ver":"v10","name":"BREAKDOWN PAUSE","short":"BKD", "regime":"MID_DN_OT_GFL",  "mech":"70%/1545/1T", "filter":"--",              "color":"#ec4899"},
+    {"ver":"v12","name":"BULL SQUEEZE",   "short":"BSQ", "regime":"LOW_UP_OT_GUP",  "mech":"40%/close/1T","filter":"5dRet>1",        "color":"#f97316"},
+    {"ver":"v14","name":"ORDERLY DIP",    "short":"DIP", "regime":"MID_DN_IN_GDN",  "mech":"50%/close/1T","filter":"ScoreVol<18",    "color":"#64748b"},
+    {"ver":"n17","name":"AFTERNOON LOCK", "short":"AFT", "regime":"PHOENIX_AFT",    "mech":"50%/close/1T","filter":"VVIX<100@13:00", "color":"#7c3aed"},
+    {"ver":"n18","name":"LATE SQUEEZE",   "short":"LSQ", "regime":"LATE_SQUEEZE",   "mech":"50%/close/1T","filter":"3Laws@14:00",    "color":"#0ea5e9"},
 ]
 
 color_map = {s["ver"]: s["color"] for s in STRATEGIES}
-ver_list = [s["ver"] for s in STRATEGIES]
+short_map = {s["ver"]: s["short"] for s in STRATEGIES}
+name_map  = {s["ver"]: s["name"]  for s in STRATEGIES}
+ver_list  = [s["ver"] for s in STRATEGIES]
 
 # ═══════════════════════════════════════════════════════════════════════
 # LOAD DATA (from compute_stats.py output)
@@ -169,7 +171,7 @@ for s in STRATEGIES:
     pf = st.get("profit_factor", 0)
     mdd = st.get("max_drawdown", 0)
     pnl_class = "pnl-pos" if total >= 0 else "pnl-neg"
-    html += f'<tr><td style="color:{s["color"]};font-weight:bold">{s["ver"].upper()}</td>'
+    html += f'<tr><td style="color:{s["color"]};font-weight:bold">{s["name"]} <span style="opacity:0.45;font-size:9px;font-weight:normal">{s["ver"].upper()}</span></td>'
     html += f'<td>{s["regime"]}</td><td>{s["mech"]}</td><td>{s["filter"]}</td>'
     html += f'<td>{n}</td><td>{wins}/{losses}</td>'
     html += f'<td>{wr:.1f}%</td>'
@@ -193,7 +195,7 @@ def fmt_pnl(v):
     else:
         return f"{'+' if v >= 0 else ''}{v:.0f}"
 
-for year, month in months:
+for year, month in reversed(months):
     month_name = calendar.month_name[month]
 
     # Month total
@@ -244,10 +246,10 @@ for year, month in months:
                     fc_str = f" ({t['fire_count']}sig)" if t.get("fire_count") else ""
                     exit_label = t.get("exit", "?")
                     risk_k = t.get("risk_budget", 100000) / 1000
-                    tooltip = f"{ver.upper()} {exit_label} | {qty_str}{fc_str} | ${pnl:+,} (${risk_k:.0f}K risk)"
+                    tooltip = f"{name_map.get(ver, ver.upper())} ({ver.upper()}) {exit_label} | {qty_str}{fc_str} | ${pnl:+,} (${risk_k:.0f}K risk)"
                     html += f'<span class="strat-tag {win_cls}" style="background:{color_map[ver]}22;color:{color_map[ver]};border:1px solid {color_map[ver]}44" '
                     html += f'title="{tooltip}">'
-                    html += f'{ver[1:]} <span class="{sign_cls}">{fmt_pnl(pnl)}</span>'
+                    html += f'{short_map.get(ver, ver[1:])} <span class="{sign_cls}">{fmt_pnl(pnl)}</span>'
                     html += '</span>\n'
 
             sign_cls = "pnl-pos" if total_pnl >= 0 else "pnl-neg"
