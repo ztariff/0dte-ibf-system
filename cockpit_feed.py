@@ -333,6 +333,7 @@ _phoenix_lock_date = None   # date string to reset daily
 # to avoid signal flickering caused by Polygon API timeouts.
 _daily_cache = {}       # key -> value (e.g., "prior_day" -> {...}, "ret5d" -> float)
 _daily_cache_date = None  # date string to reset daily
+_eod_refresh_done = None  # date string: tracks which date EOD refresh already ran
 
 # ─── Polygon API helpers ───
 def poly_get(path, params=None):
@@ -1688,6 +1689,31 @@ def poll():
     else:
         state["active_trade"] = None
 
+    # ─── Daily EOD auto-refresh: rebuild strategy_trades/stats after close ───
+    global _eod_refresh_done
+    et_h_eod = et_now.hour if 'et_now' in dir() else now.hour
+    et_m_eod = et_now.minute if 'et_now' in dir() else now.minute
+    is_weekday = now.weekday() < 5
+    if is_weekday and et_h_eod == 17 and et_m_eod >= 30 and _eod_refresh_done != today_str:
+        _eod_refresh_done = today_str
+        import subprocess as _sp
+        def _run_eod():
+            env = os.environ.copy()
+            env["PYTHONIOENCODING"] = "utf-8"
+            # Step 1: pull real fills for N17/N18 (updates real_fills.json)
+            rf_script = os.path.join(_DIR, "pull_real_fills.py")
+            if os.path.exists(rf_script):
+                r0 = _sp.run([sys.executable, rf_script],
+                             capture_output=True, text=True, env=env, timeout=120)
+                print(f"  EOD: pull_real_fills {'OK' if r0.returncode==0 else 'FAIL'}")
+            # Step 2: recompute strategy_trades.json + strategy_stats.json
+            r1 = _sp.run([sys.executable, os.path.join(_DIR, "compute_stats.py")],
+                         capture_output=True, text=True, env=env, timeout=60)
+            print(f"  EOD: compute_stats {'OK' if r1.returncode==0 else 'FAIL'}")
+        import threading as _th
+        _th.Thread(target=_run_eod, daemon=True).start()
+        print(f"  EOD: Launched daily calendar refresh for {today_str}")
+
     write_state()
 
 def write_state():
@@ -1856,10 +1882,22 @@ class QuietHandler(SimpleHTTPRequestHandler):
             self.send_json(200, {"ok": True})
             return
 
+        elif self.path == "/api/calendar":
+            # Serve combined trade + stats JSON for the dynamic calendar page.
+            # The calendar HTML fetches this fresh on every page load.
+            trades_path = os.path.join(_DIR, "strategy_trades.json")
+            stats_path  = os.path.join(_DIR, "strategy_stats.json")
+            try:
+                with open(trades_path) as f: trades = json.load(f)
+                with open(stats_path)  as f: stats  = json.load(f)
+                self.send_json(200, {"trades": trades, "stats": stats})
+            except Exception as e:
+                self.send_json(500, {"error": str(e)})
+            return
+
         elif self.path == "/api/refresh_stats":
             # Re-run compute_stats.py to regenerate strategy_trades.json and
             # strategy_stats.json from the current research_all_trades.csv.
-            # Fast (~1-2s). The calendar HTML fetches these JSON files directly.
             import subprocess
             try:
                 env = os.environ.copy()
