@@ -1745,6 +1745,19 @@ class QuietHandler(SimpleHTTPRequestHandler):
             self.send_header("Location", "/trading_cockpit.html")
             self.end_headers()
             return
+
+        if self.path == "/api/calendar":
+            # Serve combined trade + stats JSON for the dynamic calendar page.
+            trades_path = os.path.join(_DIR, "strategy_trades.json")
+            stats_path  = os.path.join(_DIR, "strategy_stats.json")
+            try:
+                with open(trades_path) as f: trades = json.load(f)
+                with open(stats_path)  as f: stats  = json.load(f)
+                self.send_json(200, {"trades": trades, "stats": stats})
+            except Exception as e:
+                self.send_json(500, {"error": str(e)})
+            return
+
         super().do_GET()
 
     def do_OPTIONS(self):
@@ -1882,18 +1895,6 @@ class QuietHandler(SimpleHTTPRequestHandler):
             self.send_json(200, {"ok": True})
             return
 
-        elif self.path == "/api/calendar":
-            # Serve combined trade + stats JSON for the dynamic calendar page.
-            # The calendar HTML fetches this fresh on every page load.
-            trades_path = os.path.join(_DIR, "strategy_trades.json")
-            stats_path  = os.path.join(_DIR, "strategy_stats.json")
-            try:
-                with open(trades_path) as f: trades = json.load(f)
-                with open(stats_path)  as f: stats  = json.load(f)
-                self.send_json(200, {"trades": trades, "stats": stats})
-            except Exception as e:
-                self.send_json(500, {"error": str(e)})
-            return
 
         elif self.path == "/api/refresh_stats":
             # Re-run compute_stats.py to regenerate strategy_trades.json and
