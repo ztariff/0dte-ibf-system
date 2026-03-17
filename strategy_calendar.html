@@ -39,12 +39,17 @@ h1 { color: #f59e0b; font-size: 20px; margin-bottom: 4px; }
     background: #1a1a24; border: 1px solid #333; border-radius: 5px;
     color: #aaa; font-size: 11px; font-family: inherit;
     padding: 5px 12px; cursor: pointer; transition: all .15s;
-    margin-left: auto;
 }
 #refresh-btn:hover { border-color:#f59e0b; color:#f59e0b; }
 #refresh-btn.running { border-color:#f59e0b88; color:#f59e0b; opacity:0.7; cursor:default; }
 #refresh-btn.done { border-color:#22c55e; color:#22c55e; }
-.cal-header-row { display:flex; align-items:center; margin-bottom:4px; }
+#refresh-status {
+    font-size: 10px; color: #555; font-family: inherit;
+    transition: color .3s;
+}
+#refresh-status.ok { color: #22c55e; }
+#refresh-status.err { color: #ef4444; }
+.cal-header-row { display:flex; align-items:center; gap:10px; margin-bottom:4px; }
 
 /* ── Modal ── */
 .modal-overlay {
@@ -107,7 +112,10 @@ h1 { color: #f59e0b; font-size: 20px; margin-bottom: 4px; }
     <h1>STRATEGY CALENDAR &mdash; All Strategies Dollar P&amp;L</h1>
     <div class="subtitle">Risk: PHOENIX/PHOENIX CLEAR tiered $25K&ndash;$100K | QUIET REBOUND/BREAKDOWN PAUSE/BULL SQUEEZE/ORDERLY DIP $75K | BREAKOUT STALL $100K | FLAT-GAP FADE/STRESS SNAP $25K | AFTERNOON LOCK/LATE SQUEEZE $50K fixed | VP-scaled per trade | $1/spread slippage | N17/N18 use real bid/ask fills</div>
   </div>
-  <button id="refresh-btn" onclick="refreshData()">&#8635; Refresh Data</button>
+  <div style="display:flex;align-items:center;gap:10px;margin-left:auto">
+    <span id="refresh-status"></span>
+    <button id="refresh-btn" onclick="refreshData()">&#8635; Refresh Data</button>
+  </div>
 </div>
 <div class="legend">
 <div class="legend-item"><div class="legend-dot" style="background:#f59e0b"></div>PHOENIX <span style="opacity:0.5;font-size:9px;">V3</span></div>
@@ -541,52 +549,81 @@ function closeModal() {
 }
 document.addEventListener('keydown', e=>{ if(e.key==='Escape') closeModal(); });
 
+// ── Refresh status helper ─────────────────────────────────────────────
+function nowET() {
+    return new Date().toLocaleTimeString('en-US',
+        {timeZone:'America/New_York',hour:'2-digit',minute:'2-digit',second:'2-digit',hour12:false});
+}
+function setRefreshStatus(msg, cls) {
+    const el = document.getElementById('refresh-status');
+    if (!el) return;
+    el.textContent = msg;
+    el.className = cls || '';
+}
+
+// ── Re-render helper (shared by bootstrap + refreshData) ──────────────
+async function fetchAndRender(prevTradeCount) {
+    const resp = await fetch('/api/calendar');
+    if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+    const data = await resp.json();
+    const trades = data.trades || [];
+    const newCount = trades.length;
+
+    TRADES_BY_DATE = {};
+    document.getElementById('months-root').innerHTML = '';
+    const tbl = document.getElementById('stats-table');
+    Array.from(tbl.querySelectorAll('tr:not(:first-child)')).forEach(e=>e.remove());
+
+    renderStats(data.stats || {});
+    renderCalendar(trades);
+
+    return newCount;
+}
+
 // ── Refresh button ────────────────────────────────────────────────────
 async function refreshData() {
     const btn = document.getElementById('refresh-btn');
     if (btn.classList.contains('running')) return;
+
+    const prevCount = Object.values(TRADES_BY_DATE).reduce((s,a)=>s+a.length,0);
     btn.className = 'running';
     btn.innerHTML = '&#8635; Refreshing&hellip;';
+    setRefreshStatus('running compute_stats.py…', '');
+
     try {
         const r = await fetch('/api/refresh_stats', {method:'POST'});
         const d = await r.json();
         if (d.ok || d.status === 'ok') {
-            // Re-fetch /api/calendar and re-render
-            TRADES_BY_DATE = {};
-            document.getElementById('months-root').innerHTML = '';
-            const tbl = document.getElementById('stats-table');
-            Array.from(tbl.querySelectorAll('tr:not(:first-child)')).forEach(e=>e.remove());
-            const resp = await fetch('/api/calendar');
-            if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
-            const data = await resp.json();
-            renderStats(data.stats  || {});
-            renderCalendar(data.trades || []);
+            const newCount = await fetchAndRender(prevCount);
+            const diff = newCount - prevCount;
+            const diffStr = diff > 0 ? ` · +${diff} new trade${diff>1?'s':''}` :
+                            diff < 0 ? ` · ${diff} trade${diff<-1?'s':''} removed` :
+                            ' · no new trades';
             btn.className = 'done';
-            btn.innerHTML = '&#10003; Updated';
+            btn.innerHTML = '&#10003; Done';
+            setRefreshStatus(`Last refreshed ${nowET()}  ·  ${newCount} trades total${diffStr}`, 'ok');
         } else {
             throw new Error(d.error || 'refresh failed');
         }
     } catch(e) {
         btn.className = '';
         btn.innerHTML = '&#8635; Refresh Data';
+        setRefreshStatus('Refresh failed: ' + e.message, 'err');
         console.error('Refresh error:', e);
     }
     setTimeout(() => {
         btn.className = '';
         btn.innerHTML = '&#8635; Refresh Data';
-    }, 4000);
+    }, 5000);
 }
 
 // ── Bootstrap: fetch /api/calendar and render everything ──────────────
 (async () => {
     try {
-        const resp = await fetch('/api/calendar');
-        if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
-        const data = await resp.json();
-        renderStats(data.stats  || {});
-        renderCalendar(data.trades || []);
+        const count = await fetchAndRender(0);
         document.getElementById('page-loading').style.display  = 'none';
         document.getElementById('calendar-root').style.display = 'block';
+        setRefreshStatus(`Loaded ${nowET()}  ·  ${count} trades`, '');
     } catch(err) {
         document.getElementById('page-loading').textContent =
             'Failed to load calendar data: ' + err.message +
