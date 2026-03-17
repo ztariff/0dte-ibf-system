@@ -86,6 +86,17 @@ h1 {{ color: #f59e0b; font-size: 20px; margin-bottom: 4px; }}
 .day-total {{ font-size: 9px; font-weight: bold; margin-top: 2px; padding-top: 2px; border-top: 1px solid #222; }}
 #page-loading {{ text-align:center; padding:60px; color:#888; font-size:14px; }}
 #calendar-root {{ display:none; }}
+#refresh-btn {{
+    display: inline-flex; align-items: center; gap: 6px;
+    background: #1a1a24; border: 1px solid #333; border-radius: 5px;
+    color: #aaa; font-size: 11px; font-family: inherit;
+    padding: 5px 12px; cursor: pointer; transition: all .15s;
+    margin-left: auto;
+}}
+#refresh-btn:hover {{ border-color:#f59e0b; color:#f59e0b; }}
+#refresh-btn.running {{ border-color:#f59e0b88; color:#f59e0b; opacity:0.7; cursor:default; }}
+#refresh-btn.done {{ border-color:#22c55e; color:#22c55e; }}
+.cal-header-row {{ display:flex; align-items:center; margin-bottom:4px; }}
 
 /* ── Modal ── */
 .modal-overlay {{
@@ -143,8 +154,13 @@ h1 {{ color: #f59e0b; font-size: 20px; margin-bottom: 4px; }}
 <div id="page-loading">Loading calendar data&hellip;</div>
 
 <div id="calendar-root">
-<h1>STRATEGY CALENDAR -- All Strategies Dollar P&L</h1>
-<div class="subtitle">Risk: PHOENIX/PHOENIX CLEAR tiered $25K–$100K | QUIET REBOUND/BREAKDOWN PAUSE/BULL SQUEEZE/ORDERLY DIP $75K | BREAKOUT STALL $100K | FLAT-GAP FADE/STRESS SNAP $25K | AFTERNOON LOCK/LATE SQUEEZE $50K fixed | VP-scaled per trade | $1/spread slippage | N17/N18 use real bid/ask fills</div>
+<div class="cal-header-row">
+  <div>
+    <h1>STRATEGY CALENDAR &mdash; All Strategies Dollar P&amp;L</h1>
+    <div class="subtitle">Risk: PHOENIX/PHOENIX CLEAR tiered $25K&ndash;$100K | QUIET REBOUND/BREAKDOWN PAUSE/BULL SQUEEZE/ORDERLY DIP $75K | BREAKOUT STALL $100K | FLAT-GAP FADE/STRESS SNAP $25K | AFTERNOON LOCK/LATE SQUEEZE $50K fixed | VP-scaled per trade | $1/spread slippage | N17/N18 use real bid/ask fills</div>
+  </div>
+  <button id="refresh-btn" onclick="refreshData()">&#8635; Refresh Data</button>
+</div>
 <div class="legend">
 {legend_html}</div>
 <table class="stats-table" id="stats-table">
@@ -565,6 +581,42 @@ function closeModal() {{
         .querySelectorAll('div:not(#modal-chart):not(#modal-loading)').forEach(e=>e.remove());
 }}
 document.addEventListener('keydown', e=>{{ if(e.key==='Escape') closeModal(); }});
+
+// ── Refresh button ────────────────────────────────────────────────────
+async function refreshData() {{
+    const btn = document.getElementById('refresh-btn');
+    if (btn.classList.contains('running')) return;
+    btn.className = 'running';
+    btn.innerHTML = '&#8635; Refreshing&hellip;';
+    try {{
+        const r = await fetch('/api/refresh_stats', {{method:'POST'}});
+        const d = await r.json();
+        if (d.ok || d.status === 'ok') {{
+            // Re-fetch /api/calendar and re-render
+            TRADES_BY_DATE = {{}};
+            document.getElementById('months-root').innerHTML = '';
+            const tbl = document.getElementById('stats-table');
+            Array.from(tbl.querySelectorAll('tr:not(:first-child)')).forEach(e=>e.remove());
+            const resp = await fetch('/api/calendar');
+            if (!resp.ok) throw new Error(`HTTP ${{resp.status}}`);
+            const data = await resp.json();
+            renderStats(data.stats  || {{}});
+            renderCalendar(data.trades || []);
+            btn.className = 'done';
+            btn.innerHTML = '&#10003; Updated';
+        }} else {{
+            throw new Error(d.error || 'refresh failed');
+        }}
+    }} catch(e) {{
+        btn.className = '';
+        btn.innerHTML = '&#8635; Refresh Data';
+        console.error('Refresh error:', e);
+    }}
+    setTimeout(() => {{
+        btn.className = '';
+        btn.innerHTML = '&#8635; Refresh Data';
+    }}, 4000);
+}}
 
 // ── Bootstrap: fetch /api/calendar and render everything ──────────────
 (async () => {{
