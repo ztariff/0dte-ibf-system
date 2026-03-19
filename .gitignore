@@ -20,6 +20,7 @@ oct13_bars.json
 
 # Live ephemeral trade state
 trade_active.json
+cockpit_state.json
 
 # Secrets (contains API key — do NOT commit)
 cockpit_config.json
