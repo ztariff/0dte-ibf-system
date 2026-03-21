@@ -51,3 +51,7 @@ recentered_backtest_results.csv
 # Backup directories
 backups/
 PHOENIX_v3_backup/
+
+# Old research data files (regenerate from data/)
+vol_edge_results.txt
+vol_edge_results_p7_10.txt

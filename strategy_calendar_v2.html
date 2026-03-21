@@ -1,0 +1,1021 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SPX 0DTE Strategy Calendar</title>
+    <script src="https://cdn.jsdelivr.net/npm/lightweight-charts@4.1.1/dist/lightweight-charts.standalone.production.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #131722;
+            color: #DDD;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            font-size: 28px;
+            font-weight: 600;
+        }
+
+        .filter-section {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .filter-dropdown {
+            background-color: #1e2130;
+            border: 1px solid #2a2e3d;
+            color: #DDD;
+            padding: 8px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .filter-dropdown:hover {
+            border-color: #444;
+        }
+
+        .month-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            gap: 20px;
+        }
+
+        .month-nav button {
+            background-color: #1e2130;
+            border: 1px solid #2a2e3d;
+            color: #DDD;
+            padding: 8px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .month-nav button:hover {
+            border-color: #444;
+            background-color: #252a38;
+        }
+
+        .month-nav button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .month-display {
+            text-align: center;
+            flex: 1;
+        }
+
+        .month-display h2 {
+            font-size: 20px;
+            font-weight: 600;
+        }
+
+        .chart-section-label {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #888;
+            margin-bottom: 6px;
+            padding-left: 4px;
+        }
+
+        .lifetime-chart-container {
+            background-color: #1e2130;
+            border: 1px solid #2a2e3d;
+            border-radius: 8px;
+            padding: 0;
+            margin-bottom: 12px;
+            height: 180px;
+            overflow: hidden;
+        }
+
+        #lifetimeChart {
+            width: 100%;
+            height: 100%;
+        }
+
+        .equity-chart-container {
+            background-color: #1e2130;
+            border: 1px solid #2a2e3d;
+            border-radius: 8px;
+            padding: 0;
+            margin-bottom: 20px;
+            height: 160px;
+            overflow: hidden;
+        }
+
+        #equityChart {
+            width: 100%;
+            height: 100%;
+        }
+
+        .stats-bar {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .stat-card {
+            background-color: #1e2130;
+            border: 1px solid #2a2e3d;
+            border-radius: 8px;
+            padding: 15px;
+            text-align: center;
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: #888;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+            letter-spacing: 0.5px;
+        }
+
+        .stat-value {
+            font-size: 20px;
+            font-weight: 600;
+        }
+
+        .stat-value.positive {
+            color: #26a69a;
+        }
+
+        .stat-value.negative {
+            color: #ef5350;
+        }
+
+        .loading-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 400px;
+        }
+
+        .spinner {
+            border: 4px solid #2a2e3d;
+            border-top: 4px solid #26a69a;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .calendar-container {
+            background-color: #1e2130;
+            border: 1px solid #2a2e3d;
+            border-radius: 8px;
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+
+        .calendar-weekdays {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            background-color: #252a38;
+            border-bottom: 1px solid #2a2e3d;
+            padding: 0;
+        }
+
+        .weekday-header {
+            padding: 12px;
+            text-align: center;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            color: #888;
+            letter-spacing: 0.5px;
+        }
+
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 0;
+            border-collapse: collapse;
+        }
+
+        .calendar-day {
+            aspect-ratio: 1;
+            border: 1px solid #2a2e3d;
+            padding: 8px;
+            cursor: default;
+            background-color: #1a1e28;
+            transition: background-color 0.2s;
+            min-height: 100px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .calendar-day.other-month {
+            background-color: #131722;
+            opacity: 0.3;
+        }
+
+        .calendar-day.weekend {
+            background-color: #0d0d14;
+        }
+
+        .calendar-day.has-trades {
+            cursor: pointer;
+        }
+
+        .calendar-day.has-trades:hover {
+            background-color: #252a38;
+        }
+
+        .day-number {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .day-dots {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 4px;
+            margin-bottom: 6px;
+            flex: 1;
+            align-content: flex-start;
+        }
+
+        .day-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+        }
+
+        .day-pnl {
+            font-size: 12px;
+            font-weight: 600;
+            text-align: right;
+        }
+
+        .day-pnl.positive {
+            color: #26a69a;
+        }
+
+        .day-pnl.negative {
+            color: #ef5350;
+        }
+
+        .detail-panel {
+            background-color: #1e2130;
+            border: 1px solid #2a2e3d;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            display: none;
+        }
+
+        .detail-panel.open {
+            display: block;
+        }
+
+        .detail-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #2a2e3d;
+            padding-bottom: 15px;
+        }
+
+        .detail-header h3 {
+            font-size: 16px;
+            font-weight: 600;
+        }
+
+        .detail-close-btn {
+            background: none;
+            border: none;
+            color: #888;
+            font-size: 20px;
+            cursor: pointer;
+            padding: 0;
+        }
+
+        .detail-close-btn:hover {
+            color: #DDD;
+        }
+
+        .trades-container {
+            display: grid;
+            gap: 20px;
+        }
+
+        .trade-row {
+            display: grid;
+            grid-template-columns: 350px 1fr;
+            gap: 20px;
+            align-items: start;
+        }
+
+        .trade-info {
+            background-color: #252a38;
+            border: 1px solid #2a2e3d;
+            border-radius: 6px;
+            padding: 15px;
+            font-size: 13px;
+            line-height: 1.6;
+        }
+
+        .trade-info-row {
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+            margin-bottom: 8px;
+        }
+
+        .trade-info-row:last-child {
+            margin-bottom: 0;
+        }
+
+        .trade-info-label {
+            color: #888;
+            flex-shrink: 0;
+        }
+
+        .trade-info-value {
+            font-weight: 600;
+            text-align: right;
+            flex: 1;
+        }
+
+        .trade-strategy-badge {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-weight: 600;
+            font-size: 12px;
+            margin-bottom: 10px;
+            color: #000;
+        }
+
+        .trade-chart {
+            background-color: #0d0d14;
+            border: 1px solid #2a2e3d;
+            border-radius: 6px;
+            overflow: hidden;
+            height: 300px;
+        }
+
+        @media (max-width: 1200px) {
+            .trade-row {
+                grid-template-columns: 1fr;
+            }
+
+            .stats-bar {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .calendar-day {
+                aspect-ratio: auto;
+                min-height: 80px;
+                font-size: 12px;
+            }
+
+            .day-number {
+                font-size: 12px;
+            }
+
+            .stats-bar {
+                grid-template-columns: 1fr;
+            }
+
+            .month-nav {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>SPX 0DTE Strategy Calendar</h1>
+            <div class="filter-section">
+                <label for="strategyFilter" style="color: #888; font-size: 14px;">Strategy:</label>
+                <select id="strategyFilter" class="filter-dropdown">
+                    <option value="">All Strategies</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="month-nav">
+            <button id="prevMonth">&larr; Previous</button>
+            <div class="month-display">
+                <h2 id="monthDisplay">March 2026</h2>
+            </div>
+            <button id="nextMonth">Next &rarr;</button>
+        </div>
+
+        <div class="chart-section-label">Lifetime Equity Curve</div>
+        <div class="lifetime-chart-container">
+            <div id="lifetimeChart"></div>
+        </div>
+
+        <div class="chart-section-label">Monthly P&L</div>
+        <div class="equity-chart-container">
+            <div id="equityChart"></div>
+        </div>
+
+        <div class="stats-bar">
+            <div class="stat-card">
+                <div class="stat-label">Cumulative P&L</div>
+                <div class="stat-value" id="statCumulativePnl">$0</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Total Trades</div>
+                <div class="stat-value" id="statTotalTrades">0</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Win Rate</div>
+                <div class="stat-value" id="statWinRate">0%</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Month P&L</div>
+                <div class="stat-value" id="statMonthPnl">$0</div>
+            </div>
+        </div>
+
+        <div id="loadingContainer" class="loading-container">
+            <div class="spinner"></div>
+        </div>
+
+        <div id="calendarContainer" style="display: none;">
+            <div class="calendar-container">
+                <div class="calendar-weekdays">
+                    <div class="weekday-header">Mon</div>
+                    <div class="weekday-header">Tue</div>
+                    <div class="weekday-header">Wed</div>
+                    <div class="weekday-header">Thu</div>
+                    <div class="weekday-header">Fri</div>
+                    <div class="weekday-header">Sat</div>
+                    <div class="weekday-header">Sun</div>
+                </div>
+                <div class="calendar-grid" id="calendarGrid"></div>
+            </div>
+        </div>
+
+        <div class="detail-panel" id="detailPanel">
+            <div class="detail-header">
+                <h3 id="detailTitle">Trades for Date</h3>
+                <button class="detail-close-btn" id="detailCloseBtn">&times;</button>
+            </div>
+            <div class="trades-container" id="tradesContainer"></div>
+        </div>
+    </div>
+
+    <script>
+        const { createChart } = LightweightCharts;
+
+        let allData = null;
+        let tradesByDate = {};
+        let currentMonth = new Date();
+        let selectedStrategy = '';
+        let equityChartInstance = null;
+        let equityChartContainer = null;
+        let lifetimeChartInstance = null;
+
+        function formatCurrency(value) {
+            const sign = value >= 0 ? '' : '-';
+            const abs = Math.abs(value);
+            return `${sign}$${Math.round(abs).toLocaleString()}`;
+        }
+
+        function timeStringToUnix(dateStr, timeStr) {
+            const [year, month, day] = dateStr.split('-').map(Number);
+            const [hours, minutes] = timeStr.split(':').map(Number);
+            return Math.floor(Date.UTC(year, month - 1, day, hours, minutes) / 1000);
+        }
+
+        async function loadData() {
+            try {
+                const response = await fetch('calendar_trades.json');
+                if (!response.ok) throw new Error('Failed to load calendar data');
+                allData = await response.json();
+
+                tradesByDate = {};
+                allData.trades.forEach(trade => {
+                    if (!tradesByDate[trade.date]) {
+                        tradesByDate[trade.date] = [];
+                    }
+                    tradesByDate[trade.date].push(trade);
+                });
+
+                const filterSelect = document.getElementById('strategyFilter');
+                allData.strategies.forEach(strategy => {
+                    const option = document.createElement('option');
+                    option.value = strategy.short;
+                    option.textContent = strategy.name;
+                    filterSelect.appendChild(option);
+                });
+
+                document.getElementById('loadingContainer').style.display = 'none';
+                document.getElementById('calendarContainer').style.display = 'block';
+
+                renderCurrentMonth();
+            } catch (error) {
+                console.error('Error loading data:', error);
+                document.getElementById('loadingContainer').innerHTML = `
+                    <div style="text-align: center; color: #ef5350;">
+                        <p>Failed to load calendar data</p>
+                        <p style="font-size: 12px; color: #888; margin-top: 10px;">${error.message}</p>
+                    </div>
+                `;
+            }
+        }
+
+        function getFilteredTrades() {
+            if (!selectedStrategy) {
+                return allData.trades;
+            }
+            return allData.trades.filter(t => t.short_name === selectedStrategy);
+        }
+
+        function getTradesForDate(dateStr) {
+            const trades = tradesByDate[dateStr] || [];
+            if (!selectedStrategy) return trades;
+            return trades.filter(t => t.short_name === selectedStrategy);
+        }
+
+        function getDailyPnl(dateStr) {
+            const trades = getTradesForDate(dateStr);
+            return trades.reduce((sum, trade) => sum + trade.pnl_dollar_sized, 0);
+        }
+
+        function renderCurrentMonth() {
+            const year = currentMonth.getFullYear();
+            const month = currentMonth.getMonth();
+
+            const monthNames = ['January', 'February', 'March', 'April', 'May', 'June',
+                'July', 'August', 'September', 'October', 'November', 'December'];
+            document.getElementById('monthDisplay').textContent = `${monthNames[month]} ${year}`;
+
+            const firstDay = new Date(year, month, 1);
+            const lastDay = new Date(year, month + 1, 0);
+            const daysInMonth = lastDay.getDate();
+            const startingDayOfWeek = firstDay.getDay();
+
+            const grid = document.getElementById('calendarGrid');
+            grid.innerHTML = '';
+
+            for (let i = 0; i < (startingDayOfWeek === 0 ? 6 : startingDayOfWeek - 1); i++) {
+                const emptyCell = document.createElement('div');
+                emptyCell.className = 'calendar-day other-month';
+                grid.appendChild(emptyCell);
+            }
+
+            for (let day = 1; day <= daysInMonth; day++) {
+                const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+                const cellDate = new Date(year, month, day);
+                const dayOfWeek = cellDate.getDay();
+                const isWeekend = dayOfWeek === 0 || dayOfWeek === 6;
+
+                const cell = document.createElement('div');
+                cell.className = 'calendar-day';
+                if (isWeekend) cell.classList.add('weekend');
+
+                const trades = getTradesForDate(dateStr);
+                if (trades.length > 0) {
+                    cell.classList.add('has-trades');
+                }
+
+                const dayNum = document.createElement('div');
+                dayNum.className = 'day-number';
+                dayNum.textContent = day;
+                cell.appendChild(dayNum);
+
+                if (trades.length > 0) {
+                    const dots = document.createElement('div');
+                    dots.className = 'day-dots';
+                    const strategiesThatTraded = new Set();
+                    trades.forEach(trade => strategiesThatTraded.add(trade.short_name));
+                    strategiesThatTraded.forEach(short => {
+                        const strategy = allData.strategies.find(s => s.short === short);
+                        if (strategy) {
+                            const dot = document.createElement('div');
+                            dot.className = 'day-dot';
+                            dot.style.backgroundColor = strategy.color;
+                            dots.appendChild(dot);
+                        }
+                    });
+                    cell.appendChild(dots);
+                }
+
+                const dailyPnl = getDailyPnl(dateStr);
+                if (dailyPnl !== 0) {
+                    const pnlEl = document.createElement('div');
+                    pnlEl.className = 'day-pnl';
+                    if (dailyPnl > 0) pnlEl.classList.add('positive');
+                    else pnlEl.classList.add('negative');
+                    pnlEl.textContent = formatCurrency(dailyPnl);
+                    cell.appendChild(pnlEl);
+                }
+
+                if (trades.length > 0) {
+                    cell.addEventListener('click', () => showDetailPanel(dateStr));
+                }
+
+                grid.appendChild(cell);
+            }
+
+            updateStats();
+            renderLifetimeChart();
+            renderEquityChart();
+        }
+
+        function updateStats() {
+            const filtered = getFilteredTrades();
+
+            const cumulativePnl = filtered.reduce((sum, t) => sum + t.pnl_dollar_sized, 0);
+            const cumulativeEl = document.getElementById('statCumulativePnl');
+            cumulativeEl.textContent = formatCurrency(cumulativePnl);
+            cumulativeEl.className = 'stat-value ' + (cumulativePnl >= 0 ? 'positive' : 'negative');
+
+            document.getElementById('statTotalTrades').textContent = filtered.length.toString();
+
+            const wins = filtered.filter(t => t.pnl_dollar_sized > 0).length;
+            const winRate = filtered.length > 0 ? Math.round((wins / filtered.length) * 100) : 0;
+            document.getElementById('statWinRate').textContent = `${winRate}%`;
+
+            const year = currentMonth.getFullYear();
+            const month = currentMonth.getMonth();
+            const monthStart = `${year}-${String(month + 1).padStart(2, '0')}-`;
+            const monthPnl = filtered
+                .filter(t => t.date.startsWith(monthStart))
+                .reduce((sum, t) => sum + t.pnl_dollar_sized, 0);
+            const monthPnlEl = document.getElementById('statMonthPnl');
+            monthPnlEl.textContent = formatCurrency(monthPnl);
+            monthPnlEl.className = 'stat-value ' + (monthPnl >= 0 ? 'positive' : 'negative');
+        }
+
+        function renderEquityChart() {
+            const container = document.getElementById('equityChart');
+            container.innerHTML = '';
+            equityChartContainer = container;
+
+            const year = currentMonth.getFullYear();
+            const month = currentMonth.getMonth();
+            const monthStart = `${year}-${String(month + 1).padStart(2, '0')}-`;
+            const monthTrades = getFilteredTrades()
+                .filter(t => t.date.startsWith(monthStart))
+                .sort((a, b) => a.date.localeCompare(b.date));
+
+            if (monthTrades.length === 0) {
+                container.innerHTML = '<div style="display: flex; align-items: center; justify-content: center; height: 100%; color: #888;">No trades for this period</div>';
+                return;
+            }
+
+            if (equityChartInstance) {
+                equityChartInstance.remove();
+            }
+
+            equityChartInstance = createChart(container, {
+                layout: {
+                    background: { color: '#0d0d14' },
+                    textColor: '#DDD',
+                },
+                grid: {
+                    vertLines: { color: 'rgba(255,255,255,0.04)' },
+                    horzLines: { color: 'rgba(255,255,255,0.04)' },
+                },
+                timeScale: {
+                    timeVisible: false,
+                    secondsVisible: false,
+                    barSpacing: 30,
+                },
+                rightPriceScale: {
+                    borderColor: '#2a2e3d',
+                },
+                localization: {
+                    priceFormatter: (price) => '$' + Math.round(price).toLocaleString(),
+                },
+            });
+
+            const dailyPnlMap = {};
+            monthTrades.forEach(trade => {
+                if (!dailyPnlMap[trade.date]) dailyPnlMap[trade.date] = 0;
+                dailyPnlMap[trade.date] += trade.pnl_dollar_sized;
+            });
+
+            const uniqueDates = Object.keys(dailyPnlMap).sort();
+            let cumulative = 0;
+            const chartData = uniqueDates.map((date, idx) => {
+                cumulative += dailyPnlMap[date];
+                const [y, m, d] = date.split('-').map(Number);
+                const time = Math.floor(new Date(y, m - 1, d).getTime() / 1000);
+                return { time, value: cumulative };
+            });
+
+            const finalPnl = cumulative;
+            const color = finalPnl >= 0 ? '#26a69a' : '#ef5350';
+
+            const lineSeries = equityChartInstance.addLineSeries({
+                color: color,
+                lineWidth: 2,
+                crosshairMarkerVisible: true,
+            });
+
+            lineSeries.setData(chartData);
+            equityChartInstance.timeScale().fitContent();
+        }
+
+        function renderLifetimeChart() {
+            const container = document.getElementById('lifetimeChart');
+            container.innerHTML = '';
+
+            const filtered = getFilteredTrades().sort((a, b) => a.date.localeCompare(b.date));
+            if (filtered.length === 0) {
+                container.innerHTML = '<div style="display: flex; align-items: center; justify-content: center; height: 100%; color: #888;">No trades</div>';
+                return;
+            }
+
+            if (lifetimeChartInstance) {
+                lifetimeChartInstance.remove();
+            }
+
+            lifetimeChartInstance = createChart(container, {
+                layout: {
+                    background: { color: '#0d0d14' },
+                    textColor: '#DDD',
+                },
+                grid: {
+                    vertLines: { color: 'rgba(255,255,255,0.04)' },
+                    horzLines: { color: 'rgba(255,255,255,0.04)' },
+                },
+                timeScale: {
+                    timeVisible: false,
+                    secondsVisible: false,
+                },
+                rightPriceScale: {
+                    borderColor: '#2a2e3d',
+                },
+                localization: {
+                    priceFormatter: (price) => '$' + Math.round(price).toLocaleString(),
+                },
+            });
+
+            // Aggregate daily P&L across all dates
+            const dailyPnlMap = {};
+            filtered.forEach(trade => {
+                if (!dailyPnlMap[trade.date]) dailyPnlMap[trade.date] = 0;
+                dailyPnlMap[trade.date] += trade.pnl_dollar_sized;
+            });
+
+            const uniqueDates = Object.keys(dailyPnlMap).sort();
+            let cumulative = 0;
+            const chartData = uniqueDates.map(date => {
+                cumulative += dailyPnlMap[date];
+                const [y, m, d] = date.split('-').map(Number);
+                const time = Math.floor(new Date(y, m - 1, d).getTime() / 1000);
+                return { time, value: cumulative };
+            });
+
+            const finalPnl = cumulative;
+            const color = finalPnl >= 0 ? '#26a69a' : '#ef5350';
+
+            // Add area fill under the line
+            const areaSeries = lifetimeChartInstance.addAreaSeries({
+                lineColor: color,
+                topColor: finalPnl >= 0 ? 'rgba(38, 166, 154, 0.3)' : 'rgba(239, 83, 80, 0.3)',
+                bottomColor: finalPnl >= 0 ? 'rgba(38, 166, 154, 0.02)' : 'rgba(239, 83, 80, 0.02)',
+                lineWidth: 2,
+                crosshairMarkerVisible: true,
+            });
+
+            areaSeries.setData(chartData);
+
+            // Highlight current month on the chart with a vertical line
+            const year = currentMonth.getFullYear();
+            const month = currentMonth.getMonth();
+            const monthStartStr = `${year}-${String(month + 1).padStart(2, '0')}-01`;
+            const monthStartTime = Math.floor(new Date(year, month, 1).getTime() / 1000);
+
+            lifetimeChartInstance.timeScale().fitContent();
+        }
+
+        function showDetailPanel(dateStr) {
+            const trades = getTradesForDate(dateStr);
+            if (trades.length === 0) return;
+
+            const [year, month, day] = dateStr.split('-').map(Number);
+            const date = new Date(year, month - 1, day);
+            const monthNames = ['January', 'February', 'March', 'April', 'May', 'June',
+                'July', 'August', 'September', 'October', 'November', 'December'];
+            const dayNames = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+            const dateStr2 = `${dayNames[date.getDay()]}, ${monthNames[month - 1]} ${day}`;
+
+            document.getElementById('detailTitle').textContent = `Trades for ${dateStr2}`;
+
+            const container = document.getElementById('tradesContainer');
+            container.innerHTML = '';
+
+            trades.forEach((trade, idx) => {
+                const row = document.createElement('div');
+                row.className = 'trade-row';
+
+                const strategy = allData.strategies.find(s => s.short === trade.short_name);
+                const info = document.createElement('div');
+                info.className = 'trade-info';
+
+                let html = `
+                    <div class="trade-strategy-badge" style="background-color: ${strategy.color};">
+                        ${trade.short_name} - ${trade.structure}
+                    </div>
+                `;
+
+                const pnlColor = trade.pnl_dollar_sized >= 0 ? '#26a69a' : '#ef5350';
+                html += `
+                    <div class="trade-info-row">
+                        <span class="trade-info-label">Entry → Exit:</span>
+                        <span class="trade-info-value">${trade.entry_time} → ${trade.exit_time}</span>
+                    </div>
+                    <div class="trade-info-row">
+                        <span class="trade-info-label">Hold Time:</span>
+                        <span class="trade-info-value">${trade.hold_minutes} min</span>
+                    </div>
+                    <div class="trade-info-row">
+                        <span class="trade-info-label">Exit Type:</span>
+                        <span class="trade-info-value">${trade.exit_type}</span>
+                    </div>
+                    <div class="trade-info-row">
+                        <span class="trade-info-label">Entry Credit:</span>
+                        <span class="trade-info-value">$${(trade.entry_credit / 100).toFixed(2)}</span>
+                    </div>
+                    <div class="trade-info-row">
+                        <span class="trade-info-label">P&L per Spread:</span>
+                        <span class="trade-info-value">$${(trade.pnl_per_spread / 100).toFixed(2)}</span>
+                    </div>
+                    <div class="trade-info-row">
+                        <span class="trade-info-label">Sized P&L:</span>
+                        <span class="trade-info-value" style="color: ${pnlColor};">${formatCurrency(trade.pnl_dollar_sized)}</span>
+                    </div>
+                    <div class="trade-info-row">
+                        <span class="trade-info-label">VIX Sizing:</span>
+                        <span class="trade-info-value">${(trade.vix_sizing * 100).toFixed(0)}%</span>
+                    </div>
+                    <div class="trade-info-row">
+                        <span class="trade-info-label">VIX:</span>
+                        <span class="trade-info-value">${trade.vix.toFixed(2)}</span>
+                    </div>
+                `;
+
+                info.innerHTML = html;
+                row.appendChild(info);
+
+                const chartDiv = document.createElement('div');
+                chartDiv.className = 'trade-chart';
+                chartDiv.id = `chart-${dateStr}-${idx}`;
+                row.appendChild(chartDiv);
+
+                container.appendChild(row);
+
+                setTimeout(() => {
+                    createTradeChart(dateStr, trade, chartDiv.id);
+                }, 0);
+            });
+
+            document.getElementById('detailPanel').classList.add('open');
+        }
+
+        function createTradeChart(dateStr, trade, chartContainerId) {
+            const container = document.getElementById(chartContainerId);
+            if (!container) return;
+
+            const spxBars = allData.spx_bars[dateStr];
+            if (!spxBars || spxBars.length === 0) return;
+
+            const chart = createChart(container, {
+                layout: {
+                    background: { color: '#0d0d14' },
+                    textColor: '#DDD',
+                },
+                grid: {
+                    vertLines: { color: 'rgba(255,255,255,0.04)' },
+                    horzLines: { color: 'rgba(255,255,255,0.04)' },
+                },
+                timeScale: {
+                    timeVisible: true,
+                    secondsVisible: false,
+                    tickMarkFormatter: (time) => {
+                        const d = new Date(time * 1000);
+                        const hours = d.getUTCHours();
+                        const minutes = d.getUTCMinutes().toString().padStart(2, '0');
+                        return `${hours}:${minutes}`;
+                    },
+                },
+                rightPriceScale: {
+                    borderColor: '#2a2e3d',
+                },
+                localization: {
+                    priceFormatter: (price) => price.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2}),
+                    timeFormatter: (time) => {
+                        const d = new Date(time * 1000);
+                        const hours = d.getUTCHours();
+                        const minutes = d.getUTCMinutes().toString().padStart(2, '0');
+                        return `${hours}:${minutes} ET`;
+                    },
+                },
+            });
+
+            const candleData = spxBars.map(bar => {
+                const time = timeStringToUnix(dateStr, bar.t);
+                return {
+                    time,
+                    open: bar.o,
+                    high: bar.h,
+                    low: bar.l,
+                    close: bar.c,
+                };
+            });
+
+            const candleSeries = chart.addCandlestickSeries({
+                upColor: '#26a69a',
+                downColor: '#ef5350',
+                wickUpColor: '#26a69a',
+                wickDownColor: '#ef5350',
+            });
+
+            candleSeries.setData(candleData);
+
+            const markers = [];
+            const entryTime = timeStringToUnix(dateStr, trade.entry_time);
+            const exitTime = timeStringToUnix(dateStr, trade.exit_time);
+
+            markers.push({
+                time: entryTime,
+                position: 'belowBar',
+                color: '#26a69a',
+                shape: 'circle',
+                text: 'Entry',
+            });
+
+            const exitColor = trade.pnl_dollar_sized >= 0 ? '#26a69a' : '#ef5350';
+            markers.push({
+                time: exitTime,
+                position: 'aboveBar',
+                color: exitColor,
+                shape: 'circle',
+                text: 'Exit',
+            });
+
+            candleSeries.setMarkers(markers);
+            chart.timeScale().fitContent();
+        }
+
+        document.getElementById('prevMonth').addEventListener('click', () => {
+            currentMonth.setMonth(currentMonth.getMonth() - 1);
+            renderCurrentMonth();
+        });
+
+        document.getElementById('nextMonth').addEventListener('click', () => {
+            currentMonth.setMonth(currentMonth.getMonth() + 1);
+            renderCurrentMonth();
+        });
+
+        document.getElementById('strategyFilter').addEventListener('change', (e) => {
+            selectedStrategy = e.target.value;
+            renderCurrentMonth();
+        });
+
+        document.getElementById('detailCloseBtn').addEventListener('click', () => {
+            document.getElementById('detailPanel').classList.remove('open');
+        });
+
+        currentMonth = new Date();
+        currentMonth.setDate(1);
+        loadData();
+    </script>
+</body>
+</html>

@@ -1,0 +1,63 @@
+================================================================================
+COMPREHENSIVE DATA PULL — COVERAGE REPORT
+Generated: 2026-03-21 05:04:27
+================================================================================
+
+Trading days requested: 593
+Successfully pulled:    593
+Failed:                 0
+Not yet attempted:      0
+
+================================================================================
+PER-DATE COMPLETENESS CHECK
+================================================================================
+  2023-11-24: SPX only 212 bars (expect 380+); SPX missing after 15:30
+  2024-05-30: SPX only 314 bars (expect 380+)
+  2024-07-03: SPX only 214 bars (expect 380+); SPX missing after 15:30
+  2024-08-22: SPX only 121 bars (expect 380+); SPX missing after 15:30
+  2024-11-01: SPX missing after 15:30
+  2024-11-29: SPX only 213 bars (expect 380+); SPX missing after 15:30
+  2024-12-24: SPX only 214 bars (expect 380+); SPX missing after 15:30
+  2025-07-03: SPX only 212 bars (expect 380+); SPX missing after 15:30
+  2025-08-06: SPX only 333 bars (expect 380+)
+  2025-09-09: SPX only 187 bars (expect 380+)
+  2025-11-28: SPX only 211 bars (expect 380+); SPX missing after 15:30
+  2025-12-24: SPX only 212 bars (expect 380+); SPX missing after 15:30
+
+================================================================================
+SUMMARY
+================================================================================
+SPX bars complete:    582/593
+Option chains valid:  593/593
+VIX bars present:     593/593
+Quote data present:   593/593
+
+================================================================================
+DATA STRUCTURE REFERENCE
+================================================================================
+
+option_chains/YYYY-MM-DD.json:
+  .date              — Trading date
+  .spx_at_open       — SPX price at first bar
+  .atm               — ATM strike (rounded to nearest 5)
+  .strike_range      — [lowest_strike, highest_strike]
+  .strikes.{K}.C     — Call bars at strike K, keyed by "HH:MM"
+  .strikes.{K}.P     — Put bars at strike K, keyed by "HH:MM"
+  Each bar: {o, h, l, c, v, vw, n}
+
+  CRITICAL: Strikes are ABSOLUTE (not re-centered per time slot).
+  A position entered at strike 5300 can be marked at 15:30 using
+  .strikes.5300.C["15:30"] regardless of where ATM has moved.
+
+spx_1min/YYYY-MM-DD.json:
+  Keyed by "HH:MM", each: {o, h, l, c, v}
+  Coverage: 09:30 through 16:15 (390 bars)
+
+quotes/YYYY-MM-DD.json:
+  .times.{HH:MM}.{strike}.{C/P} = {bid, ask, mid, spread}
+  20 time windows × ~30 key strikes × 2 sides
+
+
+API calls made: 370426
+API errors:     1
+Rate limits:    0

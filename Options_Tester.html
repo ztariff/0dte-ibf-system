@@ -1,0 +1,423 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>SS Backtester | Options Chart</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { background: #131722; color: #DDD; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; overflow: hidden; }
+
+        /* ── Top bar ── */
+        #toolbar {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 10px;
+            background: #1e2130;
+            border-bottom: 1px solid #2a2e3d;
+            flex-wrap: wrap;
+            height: 46px;
+        }
+        #toolbar input, #toolbar select {
+            background: #131722;
+            color: #DDD;
+            border: 1px solid #2a2e3d;
+            border-radius: 4px;
+            padding: 4px 8px;
+            font-size: 13px;
+            height: 30px;
+        }
+        #toolbar input { width: 80px; }
+        #toolbar input[type="date"] { width: 140px; }
+        #toolbar button {
+            background: #2962ff;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            padding: 4px 12px;
+            font-size: 13px;
+            height: 30px;
+            cursor: pointer;
+        }
+        #toolbar button:hover { background: #1e4fc7; }
+
+        /* ── Timeframe buttons ── */
+        .tf-group {
+            display: flex;
+            gap: 4px;
+            margin-left: 8px;
+            border-left: 1px solid #2a2e3d;
+            padding-left: 10px;
+        }
+        .tf-btn {
+            background: #2a2e3d !important;
+            color: #aaa !important;
+            border: 1px solid #3a3f52 !important;
+            border-radius: 4px;
+            padding: 3px 9px !important;
+            font-size: 12px !important;
+            height: 28px !important;
+            cursor: pointer;
+            transition: all 0.15s;
+        }
+        .tf-btn:hover { background: #363c52 !important; color: #fff !important; }
+        .tf-btn.active { background: #2962ff !important; color: #fff !important; border-color: #2962ff !important; }
+
+        /* ── Chart container ── */
+        #chart-container { position: relative; width: 100%; }
+
+        /* ── OHLC tooltip ── */
+        #ohlc-tooltip {
+            position: absolute;
+            top: 8px;
+            left: 12px;
+            background: rgba(19, 23, 34, 0.85);
+            border: 1px solid #2a2e3d;
+            border-radius: 5px;
+            padding: 6px 10px;
+            font-size: 12px;
+            line-height: 1.7;
+            pointer-events: none;
+            z-index: 100;
+            display: none;
+            backdrop-filter: blur(4px);
+            min-width: 160px;
+        }
+        #ohlc-tooltip .tt-time { color: #888; font-size: 11px; margin-bottom: 2px; }
+        #ohlc-tooltip .tt-row { display: flex; justify-content: space-between; gap: 16px; }
+        #ohlc-tooltip .tt-label { color: #888; }
+        #ohlc-tooltip .tt-up   { color: #26a69a; }
+        #ohlc-tooltip .tt-dn   { color: #ef5350; }
+        #ohlc-tooltip .tt-vol  { color: #aaa; }
+
+        /* ── Loading overlay ── */
+        #loading {
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(19,23,34,0.9);
+            border: 1px solid #2a2e3d;
+            border-radius: 8px;
+            padding: 16px 28px;
+            font-size: 14px;
+            color: #aaa;
+            z-index: 200;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+<!-- ── Toolbar ── -->
+<div id="toolbar">
+    <input type="text"  id="symbol"          placeholder="Symbol (e.g. ROKU)" />
+    <input type="date"  id="expiration-date" />
+    <select id="type">
+        <option value="call">Call</option>
+        <option value="put">Put</option>
+    </select>
+    <input type="text" id="strike-price" placeholder="Strike" />
+    <button id="update-chart">Load</button>
+
+    <div class="tf-group">
+        <button class="tf-btn active" data-tf="1">1m</button>
+        <button class="tf-btn"        data-tf="2">2m</button>
+        <button class="tf-btn"        data-tf="3">3m</button>
+        <button class="tf-btn"        data-tf="5">5m</button>
+        <button class="tf-btn"        data-tf="10">10m</button>
+        <button class="tf-btn"        data-tf="15">15m</button>
+        <button class="tf-btn"        data-tf="30">30m</button>
+    </div>
+</div>
+
+<!-- ── Chart ── -->
+<div id="chart-container">
+    <div id="ohlc-tooltip"></div>
+    <div id="loading">Loading data…</div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/lightweight-charts@4.1.1/dist/lightweight-charts.standalone.production.js"></script>
+<script>
+// ── State ────────────────────────────────────────────────────────────────────
+let currentTicker = null;
+let currentTF     = 1;   // minutes
+let chart, candleSeries, volumeSeries;
+let rawData       = [];   // full 1-min data cache
+
+// ── Chart init ───────────────────────────────────────────────────────────────
+function initChart() {
+    const container = document.getElementById('chart-container');
+    const h = window.innerHeight - 46;
+    container.style.height = h + 'px';
+
+    chart = LightweightCharts.createChart(container, {
+        width:  window.innerWidth,
+        height: h,
+        crosshair: { mode: LightweightCharts.CrosshairMode.Normal },
+        layout: { background: { color: '#131722' }, textColor: '#DDD' },
+        localization: {
+            timeFormatter: (ts) => new Date(ts * 1000).toLocaleString('en-US', {
+                timeZone: 'America/New_York',
+                month: '2-digit', day: '2-digit',
+                hour: '2-digit', minute: '2-digit', hour12: false,
+            }),
+        },
+        timeScale: { borderColor: '#71649C', timeVisible: true, secondsVisible: false },
+        rightPriceScale: { borderColor: '#71649C', mode: 0, borderVisible: true },
+        grid: {
+            vertLines: { color: 'rgba(255,255,255,0.04)' },
+            horzLines: { color: 'rgba(255,255,255,0.04)' },
+        },
+    });
+
+    candleSeries = chart.addCandlestickSeries({
+        upColor:   '#26a69a', downColor: '#ef5350',
+        borderUpColor: '#26a69a', borderDownColor: '#ef5350',
+        wickUpColor:   '#26a69a', wickDownColor:   '#ef5350',
+        lastValueVisible: false, priceLineVisible: false,
+    });
+
+    volumeSeries = chart.addHistogramSeries({
+        priceFormat: { type: 'volume' },
+        priceScaleId: '',
+        scaleMargins: { top: 0.82, bottom: 0 },
+    });
+    volumeSeries.priceScale().applyOptions({ scaleMargins: { top: 0.82, bottom: 0 } });
+
+    // ── OHLC tooltip on crosshair move ──────────────────────────────────────
+    const tooltip = document.getElementById('ohlc-tooltip');
+
+    chart.subscribeCrosshairMove(function(param) {
+        if (!param || !param.time || !param.seriesData) {
+            tooltip.style.display = 'none';
+            return;
+        }
+        const candle = param.seriesData.get(candleSeries);
+        const vol    = param.seriesData.get(volumeSeries);
+        if (!candle) { tooltip.style.display = 'none'; return; }
+
+        const isUp   = candle.close >= candle.open;
+        const cls    = isUp ? 'tt-up' : 'tt-dn';
+        const priceFmt = (v) => v != null ? v.toFixed(2) : '-';
+        const volFmt   = (v) => v != null ? v.toLocaleString() : '-';
+
+        // Format time in ET (handles EST/EDT automatically)
+        const timeStr = new Date(param.time * 1000).toLocaleString('en-US', {
+            timeZone: 'America/New_York',
+            year: 'numeric', month: '2-digit', day: '2-digit',
+            hour: '2-digit', minute: '2-digit', hour12: false,
+        });
+
+        tooltip.innerHTML = `
+            <div class="tt-time">${timeStr} &nbsp;·&nbsp; ${currentTF}m</div>
+            <div class="tt-row"><span class="tt-label">O</span><span class="${cls}">${priceFmt(candle.open)}</span></div>
+            <div class="tt-row"><span class="tt-label">H</span><span class="${cls}">${priceFmt(candle.high)}</span></div>
+            <div class="tt-row"><span class="tt-label">L</span><span class="${cls}">${priceFmt(candle.low)}</span></div>
+            <div class="tt-row"><span class="tt-label">C</span><span class="${cls}">${priceFmt(candle.close)}</span></div>
+            <div class="tt-row"><span class="tt-label">Vol</span><span class="tt-vol">${volFmt(vol ? vol.value : null)}</span></div>`;
+        tooltip.style.display = 'block';
+    });
+
+    // ── Resize handler ───────────────────────────────────────────────────────
+    window.addEventListener('resize', () => {
+        const h2 = window.innerHeight - 46;
+        container.style.height = h2 + 'px';
+        chart.applyOptions({ width: window.innerWidth, height: h2 });
+    });
+}
+
+// ── Aggregate 1-min bars into N-min bars ─────────────────────────────────────
+function aggregateBars(bars, tfMins) {
+    if (tfMins <= 1) return bars;
+    const out = [];
+    for (let i = 0; i < bars.length; ) {
+        const anchor = bars[i].time;
+        // Collect bars in this bucket (simple index grouping)
+        const bucket = [];
+        while (i < bars.length && bucket.length < tfMins) {
+            bucket.push(bars[i++]);
+        }
+        if (!bucket.length) break;
+        out.push({
+            time:  anchor,
+            open:  bucket[0].open,
+            high:  Math.max(...bucket.map(b => b.high)),
+            low:   Math.min(...bucket.map(b => b.low)),
+            close: bucket[bucket.length - 1].close,
+            value: bucket.reduce((s, b) => s + (b.value || 0), 0),
+            color: bucket[bucket.length-1].close >= bucket[0].open ? 'rgba(38,166,154,0.5)' : 'rgba(239,83,80,0.5)',
+        });
+    }
+    return out;
+}
+
+// ── Render data at current timeframe ─────────────────────────────────────────
+function renderCurrentTF() {
+    if (!rawData.length) return;
+    const agg = aggregateBars(rawData, currentTF);
+    candleSeries.setData(agg);
+    volumeSeries.setData(agg);
+    chart.timeScale().fitContent();
+}
+
+// ── Fetch from Polygon ────────────────────────────────────────────────────────
+async function fetchAndRender(ticker) {
+    const loading = document.getElementById('loading');
+    loading.style.display = 'block';
+
+    // Parse ticker for date range
+    const split = ticker.match(/([a-zA-Z]+)(\d{6})([CP])(\d{8})/);
+    if (!split) {
+        showError(
+            `Invalid ticker format: "${ticker}"`,
+            `Expected format: SYMBOL YYMMDD C/P STRIKE (e.g. ROKU240920C00080000)`,
+            `Check the symbol, expiration date, type, and strike fields`
+        );
+        return;
+    }
+
+    const expYear  = '20' + split[2].slice(0,2);
+    const expMonth = split[2].slice(2,4);
+    const expDay   = split[2].slice(4,6);
+    const expDate  = new Date(expYear, expMonth - 1, expDay);
+    const dayOfWeek = expDate.getDay();
+    const diff      = dayOfWeek === 0 ? 6 : dayOfWeek - 1;
+    const monday    = new Date(expDate.getTime() - diff * 86400000);
+    const fmt       = (d) => d.toISOString().split('T')[0];
+
+    const url = `https://api.polygon.io/v2/aggs/ticker/O:${ticker}/range/1/minute/${fmt(monday)}/${fmt(expDate)}`
+              + `?adjusted=true&sort=asc&limit=10000&apiKey=cBE5Kbq9yllt0Yj29mDQjBcIKfAYQlHF`;
+
+    try {
+        const resp = await fetch(url);
+        const json = await resp.json();
+
+        if (!resp.ok || json.status === 'ERROR' || json.error) {
+            const apiErr = json.error || json.message || `HTTP ${resp.status}`;
+            showError(`API error: ${apiErr}`, `Ticker: O:${ticker}`, `Status: ${json.status || resp.status}`);
+            return;
+        }
+
+        if (!json.results || !json.results.length) {
+            const dateRangeStr = `${fmt(monday)} → ${fmt(expDate)}`;
+            showError(
+                `No data found for  O:${ticker}`,
+                `Date range searched: ${dateRangeStr}`,
+                `API returned: ${json.resultsCount ?? 0} results  (status: ${json.status ?? 'unknown'})`,
+                `Check: ticker format, expiration date, or try a wider date range`
+            );
+            return;
+        }
+
+        rawData = json.results.map(r => ({
+            time:  r.t / 1000,   // UTC ms → Unix seconds (timezone handled by localization formatter)
+            open:  r.o, high: r.h, low: r.l, close: r.c,
+            value: r.v,
+            color: r.c >= r.o ? 'rgba(38,166,154,0.5)' : 'rgba(239,83,80,0.5)',
+        }));
+
+        // Update watermark
+        const strike = (parseInt(split[4]) / 1000).toFixed(2);
+        const type   = split[3] === 'C' ? 'Call' : 'Put';
+        const dateLabel = `${expMonth}/${expDay}/${split[2].slice(0,2)}`;
+        chart.applyOptions({ watermark: {
+            visible: true, fontSize: 64, horzAlign: 'center', vertAlign: 'center',
+            color: 'rgba(171,71,188,0.25)',
+            text: ` ${split[1]} $${strike} ${type}  exp ${dateLabel} `,
+        }});
+
+        renderCurrentTF();
+    } catch(e) {
+        showError(
+            `Network error: ${e.message}`,
+            `Ticker: O:${ticker}`,
+            `Check your internet connection or API key`
+        );
+        return;
+    }
+    loading.style.display = 'none';
+}
+
+// ── Error display ─────────────────────────────────────────────────────────────
+function showError(...lines) {
+    const loading = document.getElementById('loading');
+    loading.innerHTML = `
+        <div style="display:flex;align-items:flex-start;gap:12px">
+            <span style="font-size:22px;line-height:1">⚠️</span>
+            <div>
+                ${lines.map((l, i) => `<div style="color:${i===0?'#ef5350':'#888'};font-size:${i===0?'14px':'12px'};margin-top:${i===0?'0':'5px'}">${l}</div>`).join('')}
+                <button onclick="const el=document.getElementById('loading');el.style.display='none';el.textContent='Loading data…';"
+                    style="margin-top:12px;background:#2a2e3d;color:#aaa;border:1px solid #3a3f52;border-radius:4px;padding:4px 12px;font-size:12px;cursor:pointer">
+                    Dismiss
+                </button>
+            </div>
+        </div>`;
+    loading.style.display = 'block';
+}
+
+// ── Ticker helpers ────────────────────────────────────────────────────────────
+function buildTicker() {
+    const sym    = document.getElementById('symbol').value.trim().toUpperCase();
+    const exp    = document.getElementById('expiration-date').value;
+    const type   = document.getElementById('type').value;
+    const strikeRaw = document.getElementById('strike-price').value.trim();
+    if (!sym || !exp || !strikeRaw) return null;
+
+    const yy = exp.slice(2,4), mm = exp.slice(5,7), dd = exp.slice(8,10);
+    // e.g. 611 → "611.000" → "611000" → "00611000"  ($611.00 strike)
+    //      611.50 → "611.500" → "611500" → "00611500" ($611.50 strike)
+    const padded = Number(strikeRaw).toFixed(3).replace('.', '').padStart(8, '0');
+    return `${sym}${yy}${mm}${dd}${type[0].toUpperCase()}${padded}`;
+}
+
+function parseTicker(ticker) {
+    const m = ticker.match(/([a-zA-Z]+)(\d{6})([CP])(\d{8})/);
+    if (!m) return;
+    document.getElementById('symbol').value          = m[1];
+    document.getElementById('expiration-date').value = `20${m[2].slice(0,2)}-${m[2].slice(2,4)}-${m[2].slice(4,6)}`;
+    document.getElementById('type').value            = m[3] === 'C' ? 'call' : 'put';
+    document.getElementById('strike-price').value    = (parseInt(m[4]) / 1000).toFixed(2);
+}
+
+// ── Bootstrap ─────────────────────────────────────────────────────────────────
+document.addEventListener('DOMContentLoaded', () => {
+    initChart();
+
+    // Timeframe buttons
+    document.querySelectorAll('.tf-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            document.querySelectorAll('.tf-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            currentTF = parseInt(btn.dataset.tf);
+            renderCurrentTF();
+        });
+    });
+
+    // Load button
+    document.getElementById('update-chart').addEventListener('click', () => {
+        const tk = buildTicker();
+        if (!tk) return;
+        currentTicker = tk;
+        history.replaceState(null, '', '?' + tk);
+        fetchAndRender(tk);
+    });
+
+    // Enter key on inputs
+    ['symbol','expiration-date','type','strike-price'].forEach(id => {
+        document.getElementById(id).addEventListener('keydown', e => {
+            if (e.key === 'Enter') document.getElementById('update-chart').click();
+        });
+    });
+
+    // Load from URL query string
+    const qs = new URLSearchParams(window.location.search);
+    const tickerFromUrl = [...qs.keys()][0];
+    if (tickerFromUrl) {
+        parseTicker(tickerFromUrl);
+        currentTicker = tickerFromUrl;
+        fetchAndRender(tickerFromUrl);
+    }
+});
+</script>
+</body>
+</html>
