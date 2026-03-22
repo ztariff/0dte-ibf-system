@@ -1967,26 +1967,63 @@ class QuietHandler(SimpleHTTPRequestHandler):
 
 
         elif self.path == "/api/refresh_stats":
-            # Re-run compute_stats.py to regenerate strategy_trades.json and
-            # strategy_stats.json from the current research_all_trades.csv.
+            # Three-phase refresh — all incremental, all automated:
+            #   1. Legacy strategies (V3-V14, N15): pull new Polygon data,
+            #      compute regime signals, simulate trades, update strategy_trades.json
+            #   2. N17/N18 real fills: pull_real_fills.py (broker API)
+            #   3. New 10 graded strategies: pull Polygon data, run strategies,
+            #      update calendar_trades.json
+            #
+            # Data pulls are shared: if Phase 1 already pulled SPX/option data
+            # for a date, Phase 3 skips re-pulling (files already exist on disk).
             import subprocess
+            results = {"legacy": None, "real_fills": None, "new_strategies": None}
             try:
                 env = os.environ.copy()
                 env["PYTHONIOENCODING"] = "utf-8"
-                r1 = subprocess.run(
-                    [sys.executable, os.path.join(_DIR, "compute_stats.py")],
-                    capture_output=True, text=True, env=env, timeout=30
-                )
-                if r1.returncode == 0:
-                    summary = [l for l in r1.stdout.splitlines() if l.strip()]
-                    print(f"  REFRESH: Stats regenerated OK")
-                    self.send_json(200, {"ok": True, "summary": summary[-3:]})
+
+                def _run_phase(name, script, timeout_sec):
+                    print(f"  REFRESH {name}...")
+                    r = subprocess.run(
+                        [sys.executable, os.path.join(_DIR, script)],
+                        capture_output=True, text=True, env=env, timeout=timeout_sec
+                    )
+                    if r.returncode == 0:
+                        lines = [l.strip() for l in r.stdout.splitlines() if l.strip()]
+                        try:
+                            summary = json.loads(lines[-1])
+                        except (json.JSONDecodeError, IndexError):
+                            summary = {"ok": True, "raw": lines[-3:] if lines else []}
+                        print(f"  REFRESH {name}: OK — {summary}")
+                        return summary
+                    else:
+                        err = r.stderr[:500] if r.stderr else (r.stdout[-500:] if r.stdout else "unknown error")
+                        print(f"  REFRESH {name}: error — {err[:200]}")
+                        return {"ok": False, "error": err[:500]}
+
+                # Phase 1: Legacy strategies (incremental — pulls only new dates)
+                results["legacy"] = _run_phase(
+                    "Phase 1 (Legacy V3-V14/N15)",
+                    "refresh_legacy_strategies.py", 300)
+
+                # Phase 2: N17/N18 real fills from broker
+                rfp = os.path.join(_DIR, "pull_real_fills.py")
+                if os.path.exists(rfp):
+                    results["real_fills"] = _run_phase(
+                        "Phase 2 (N17/N18 fills)",
+                        "pull_real_fills.py", 30)
                 else:
-                    err = r1.stderr
-                    print(f"  REFRESH ERROR: {err[:200]}")
-                    self.send_json(500, {"error": err[:500]})
+                    results["real_fills"] = {"ok": True, "message": "pull_real_fills.py not found, skipped"}
+
+                # Phase 3: New 10 graded strategies (incremental)
+                results["new_strategies"] = _run_phase(
+                    "Phase 3 (New strategies)",
+                    "refresh_new_strategies.py", 300)
+
+                self.send_json(200, {"ok": True, "results": results})
             except Exception as e:
-                self.send_json(500, {"error": str(e)})
+                print(f"  REFRESH ERROR: {e}")
+                self.send_json(500, {"error": str(e), "partial": results})
             return
 
         self.send_json(404, {"error": "Not found"})
