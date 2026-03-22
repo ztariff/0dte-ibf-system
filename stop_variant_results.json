@@ -1,0 +1,1434 @@
+{
+  "results": {
+    "v3": {
+      "A_wing_only": {
+        "n": 160,
+        "wins": 96,
+        "wr": 60.0,
+        "total_pnl": 546150,
+        "pf": 1.35,
+        "max_dd": 212552,
+        "avg_pnl": 3413,
+        "exits": {
+          "WING_STOP": 41,
+          "TARGET": 76,
+          "CLOSE": 43
+        },
+        "max_loss": -81549
+      },
+      "B_loss70": {
+        "n": 160,
+        "wins": 102,
+        "wr": 63.7,
+        "total_pnl": 563780,
+        "pf": 1.31,
+        "max_dd": 242722,
+        "avg_pnl": 3524,
+        "exits": {
+          "CLOSE": 42,
+          "TARGET": 80,
+          "LOSS_STOP": 38
+        },
+        "max_loss": -77110
+      },
+      "C_loss50": {
+        "n": 160,
+        "wins": 95,
+        "wr": 59.4,
+        "total_pnl": 485300,
+        "pf": 1.29,
+        "max_dd": 302200,
+        "avg_pnl": 3033,
+        "exits": {
+          "LOSS_STOP": 54,
+          "TARGET": 75,
+          "CLOSE": 31
+        },
+        "max_loss": -58644
+      },
+      "D_wing+loss70": {
+        "n": 160,
+        "wins": 96,
+        "wr": 60.0,
+        "total_pnl": 607059,
+        "pf": 1.4,
+        "max_dd": 192467,
+        "avg_pnl": 3794,
+        "exits": {
+          "WING_STOP": 32,
+          "TARGET": 76,
+          "CLOSE": 39,
+          "LOSS_STOP": 13
+        },
+        "max_loss": -68839
+      },
+      "E_wing+loss50": {
+        "n": 160,
+        "wins": 92,
+        "wr": 57.5,
+        "total_pnl": 339643,
+        "pf": 1.21,
+        "max_dd": 302200,
+        "avg_pnl": 2123,
+        "exits": {
+          "WING_STOP": 16,
+          "TARGET": 73,
+          "LOSS_STOP": 41,
+          "CLOSE": 30
+        },
+        "max_loss": -58644
+      },
+      "F_no_stop": {
+        "n": 160,
+        "wins": 105,
+        "wr": 65.6,
+        "total_pnl": 458669,
+        "pf": 1.23,
+        "max_dd": 219721,
+        "avg_pnl": 2867,
+        "exits": {
+          "CLOSE": 80,
+          "TARGET": 80
+        },
+        "max_loss": -125460
+      }
+    },
+    "n15": {
+      "A_wing_only": {
+        "n": 98,
+        "wins": 63,
+        "wr": 64.3,
+        "total_pnl": 249319,
+        "pf": 1.26,
+        "max_dd": 226120,
+        "avg_pnl": 2544,
+        "exits": {
+          "TARGET": 44,
+          "WING_STOP": 19,
+          "CLOSE": 35
+        },
+        "max_loss": -81549
+      },
+      "B_loss70": {
+        "n": 98,
+        "wins": 67,
+        "wr": 68.4,
+        "total_pnl": 403322,
+        "pf": 1.4,
+        "max_dd": 248177,
+        "avg_pnl": 4116,
+        "exits": {
+          "TARGET": 46,
+          "CLOSE": 34,
+          "LOSS_STOP": 18
+        },
+        "max_loss": -77110
+      },
+      "C_loss50": {
+        "n": 98,
+        "wins": 64,
+        "wr": 65.3,
+        "total_pnl": 419430,
+        "pf": 1.47,
+        "max_dd": 235299,
+        "avg_pnl": 4280,
+        "exits": {
+          "TARGET": 45,
+          "CLOSE": 26,
+          "LOSS_STOP": 27
+        },
+        "max_loss": -55350
+      },
+      "D_wing+loss70": {
+        "n": 98,
+        "wins": 63,
+        "wr": 64.3,
+        "total_pnl": 296833,
+        "pf": 1.33,
+        "max_dd": 206035,
+        "avg_pnl": 3029,
+        "exits": {
+          "TARGET": 44,
+          "WING_STOP": 14,
+          "CLOSE": 32,
+          "LOSS_STOP": 8
+        },
+        "max_loss": -68839
+      },
+      "E_wing+loss50": {
+        "n": 98,
+        "wins": 61,
+        "wr": 62.2,
+        "total_pnl": 184062,
+        "pf": 1.19,
+        "max_dd": 235299,
+        "avg_pnl": 1878,
+        "exits": {
+          "TARGET": 43,
+          "WING_STOP": 6,
+          "CLOSE": 25,
+          "LOSS_STOP": 24
+        },
+        "max_loss": -55350
+      },
+      "F_no_stop": {
+        "n": 98,
+        "wins": 68,
+        "wr": 69.4,
+        "total_pnl": 335708,
+        "pf": 1.31,
+        "max_dd": 262320,
+        "avg_pnl": 3426,
+        "exits": {
+          "TARGET": 46,
+          "CLOSE": 52
+        },
+        "max_loss": -98154
+      }
+    },
+    "v6": {
+      "A_wing_only": {
+        "n": 30,
+        "wins": 20,
+        "wr": 66.7,
+        "total_pnl": 228843,
+        "pf": 3.43,
+        "max_dd": 25531,
+        "avg_pnl": 7628,
+        "exits": {
+          "TIME": 18,
+          "TARGET": 11,
+          "WING_STOP": 1
+        },
+        "max_loss": -17500
+      },
+      "B_loss70": {
+        "n": 30,
+        "wins": 20,
+        "wr": 66.7,
+        "total_pnl": 231339,
+        "pf": 3.53,
+        "max_dd": 23987,
+        "avg_pnl": 7711,
+        "exits": {
+          "TIME": 17,
+          "LOSS_STOP": 2,
+          "TARGET": 11
+        },
+        "max_loss": -17500
+      },
+      "C_loss50": {
+        "n": 30,
+        "wins": 19,
+        "wr": 63.3,
+        "total_pnl": 186435,
+        "pf": 2.46,
+        "max_dd": 28589,
+        "avg_pnl": 6214,
+        "exits": {
+          "LOSS_STOP": 5,
+          "TIME": 14,
+          "TARGET": 11
+        },
+        "max_loss": -28589
+      },
+      "D_wing+loss70": {
+        "n": 30,
+        "wins": 20,
+        "wr": 66.7,
+        "total_pnl": 231339,
+        "pf": 3.53,
+        "max_dd": 23987,
+        "avg_pnl": 7711,
+        "exits": {
+          "TIME": 17,
+          "LOSS_STOP": 2,
+          "TARGET": 11
+        },
+        "max_loss": -17500
+      },
+      "E_wing+loss50": {
+        "n": 30,
+        "wins": 19,
+        "wr": 63.3,
+        "total_pnl": 186435,
+        "pf": 2.46,
+        "max_dd": 28589,
+        "avg_pnl": 6214,
+        "exits": {
+          "LOSS_STOP": 5,
+          "TIME": 14,
+          "TARGET": 11
+        },
+        "max_loss": -28589
+      },
+      "F_no_stop": {
+        "n": 30,
+        "wins": 20,
+        "wr": 66.7,
+        "total_pnl": 231955,
+        "pf": 3.55,
+        "max_dd": 22419,
+        "avg_pnl": 7732,
+        "exits": {
+          "TIME": 19,
+          "TARGET": 11
+        },
+        "max_loss": -17500
+      }
+    },
+    "v7": {
+      "A_wing_only": {
+        "n": 5,
+        "wins": 4,
+        "wr": 80.0,
+        "total_pnl": 10251,
+        "pf": 6.65,
+        "max_dd": 1815,
+        "avg_pnl": 2050,
+        "exits": {
+          "TARGET": 4,
+          "CLOSE": 1
+        },
+        "max_loss": -1815
+      },
+      "B_loss70": {
+        "n": 5,
+        "wins": 4,
+        "wr": 80.0,
+        "total_pnl": 10251,
+        "pf": 6.65,
+        "max_dd": 1815,
+        "avg_pnl": 2050,
+        "exits": {
+          "TARGET": 4,
+          "CLOSE": 1
+        },
+        "max_loss": -1815
+      },
+      "C_loss50": {
+        "n": 5,
+        "wins": 4,
+        "wr": 80.0,
+        "total_pnl": 10251,
+        "pf": 6.65,
+        "max_dd": 1815,
+        "avg_pnl": 2050,
+        "exits": {
+          "TARGET": 4,
+          "CLOSE": 1
+        },
+        "max_loss": -1815
+      },
+      "D_wing+loss70": {
+        "n": 5,
+        "wins": 4,
+        "wr": 80.0,
+        "total_pnl": 10251,
+        "pf": 6.65,
+        "max_dd": 1815,
+        "avg_pnl": 2050,
+        "exits": {
+          "TARGET": 4,
+          "CLOSE": 1
+        },
+        "max_loss": -1815
+      },
+      "E_wing+loss50": {
+        "n": 5,
+        "wins": 4,
+        "wr": 80.0,
+        "total_pnl": 10251,
+        "pf": 6.65,
+        "max_dd": 1815,
+        "avg_pnl": 2050,
+        "exits": {
+          "TARGET": 4,
+          "CLOSE": 1
+        },
+        "max_loss": -1815
+      },
+      "F_no_stop": {
+        "n": 5,
+        "wins": 4,
+        "wr": 80.0,
+        "total_pnl": 10251,
+        "pf": 6.65,
+        "max_dd": 1815,
+        "avg_pnl": 2050,
+        "exits": {
+          "TARGET": 4,
+          "CLOSE": 1
+        },
+        "max_loss": -1815
+      }
+    },
+    "v9": {
+      "A_wing_only": {
+        "n": 16,
+        "wins": 11,
+        "wr": 68.8,
+        "total_pnl": 153769,
+        "pf": 3.67,
+        "max_dd": 25492,
+        "avg_pnl": 9611,
+        "exits": {
+          "TIME": 12,
+          "TARGET": 3,
+          "WING_STOP": 1
+        },
+        "max_loss": -24128
+      },
+      "B_loss70": {
+        "n": 16,
+        "wins": 12,
+        "wr": 75.0,
+        "total_pnl": 193447,
+        "pf": 5.0,
+        "max_dd": 25492,
+        "avg_pnl": 12090,
+        "exits": {
+          "TIME": 13,
+          "TARGET": 3
+        },
+        "max_loss": -24128
+      },
+      "C_loss50": {
+        "n": 16,
+        "wins": 11,
+        "wr": 68.8,
+        "total_pnl": 135289,
+        "pf": 2.78,
+        "max_dd": 28237,
+        "avg_pnl": 8456,
+        "exits": {
+          "TIME": 11,
+          "TARGET": 3,
+          "LOSS_STOP": 2
+        },
+        "max_loss": -28237
+      },
+      "D_wing+loss70": {
+        "n": 16,
+        "wins": 11,
+        "wr": 68.8,
+        "total_pnl": 153769,
+        "pf": 3.67,
+        "max_dd": 25492,
+        "avg_pnl": 9611,
+        "exits": {
+          "TIME": 12,
+          "TARGET": 3,
+          "WING_STOP": 1
+        },
+        "max_loss": -24128
+      },
+      "E_wing+loss50": {
+        "n": 16,
+        "wins": 11,
+        "wr": 68.8,
+        "total_pnl": 154329,
+        "pf": 3.71,
+        "max_dd": 25492,
+        "avg_pnl": 9646,
+        "exits": {
+          "TIME": 11,
+          "TARGET": 3,
+          "LOSS_STOP": 1,
+          "WING_STOP": 1
+        },
+        "max_loss": -24128
+      },
+      "F_no_stop": {
+        "n": 16,
+        "wins": 12,
+        "wr": 75.0,
+        "total_pnl": 193447,
+        "pf": 5.0,
+        "max_dd": 25492,
+        "avg_pnl": 12090,
+        "exits": {
+          "TIME": 13,
+          "TARGET": 3
+        },
+        "max_loss": -24128
+      }
+    },
+    "v12": {
+      "A_wing_only": {
+        "n": 8,
+        "wins": 7,
+        "wr": 87.5,
+        "total_pnl": 54805,
+        "pf": 2.64,
+        "max_dd": 33504,
+        "avg_pnl": 6851,
+        "exits": {
+          "TARGET": 7,
+          "WING_STOP": 1
+        },
+        "max_loss": -33504
+      },
+      "B_loss70": {
+        "n": 8,
+        "wins": 7,
+        "wr": 87.5,
+        "total_pnl": 62341,
+        "pf": 3.4,
+        "max_dd": 25968,
+        "avg_pnl": 7793,
+        "exits": {
+          "TARGET": 7,
+          "LOSS_STOP": 1
+        },
+        "max_loss": -25968
+      },
+      "C_loss50": {
+        "n": 8,
+        "wins": 7,
+        "wr": 87.5,
+        "total_pnl": 68133,
+        "pf": 4.38,
+        "max_dd": 20176,
+        "avg_pnl": 8517,
+        "exits": {
+          "TARGET": 7,
+          "LOSS_STOP": 1
+        },
+        "max_loss": -20176
+      },
+      "D_wing+loss70": {
+        "n": 8,
+        "wins": 7,
+        "wr": 87.5,
+        "total_pnl": 62341,
+        "pf": 3.4,
+        "max_dd": 25968,
+        "avg_pnl": 7793,
+        "exits": {
+          "TARGET": 7,
+          "LOSS_STOP": 1
+        },
+        "max_loss": -25968
+      },
+      "E_wing+loss50": {
+        "n": 8,
+        "wins": 7,
+        "wr": 87.5,
+        "total_pnl": 68133,
+        "pf": 4.38,
+        "max_dd": 20176,
+        "avg_pnl": 8517,
+        "exits": {
+          "TARGET": 7,
+          "LOSS_STOP": 1
+        },
+        "max_loss": -20176
+      },
+      "F_no_stop": {
+        "n": 8,
+        "wins": 7,
+        "wr": 87.5,
+        "total_pnl": 53221,
+        "pf": 2.52,
+        "max_dd": 35088,
+        "avg_pnl": 6653,
+        "exits": {
+          "TARGET": 7,
+          "CLOSE": 1
+        },
+        "max_loss": -35088
+      }
+    },
+    "Phoenix 75 Power Close": {
+      "A_wing_only": {
+        "n": 370,
+        "wins": 280,
+        "wr": 75.7,
+        "total_pnl": 1496064,
+        "pf": 3.98,
+        "max_dd": 37077,
+        "avg_pnl": 4043,
+        "exits": {
+          "TIME": 370
+        },
+        "max_loss": -32912
+      },
+      "B_loss70": {
+        "n": 370,
+        "wins": 280,
+        "wr": 75.7,
+        "total_pnl": 1497248,
+        "pf": 3.99,
+        "max_dd": 35893,
+        "avg_pnl": 4047,
+        "exits": {
+          "TIME": 369,
+          "LOSS_STOP": 1
+        },
+        "max_loss": -32912
+      },
+      "C_loss50": {
+        "n": 370,
+        "wins": 280,
+        "wr": 75.7,
+        "total_pnl": 1497248,
+        "pf": 3.99,
+        "max_dd": 35893,
+        "avg_pnl": 4047,
+        "exits": {
+          "TIME": 369,
+          "LOSS_STOP": 1
+        },
+        "max_loss": -32912
+      },
+      "D_wing+loss70": {
+        "n": 370,
+        "wins": 280,
+        "wr": 75.7,
+        "total_pnl": 1497248,
+        "pf": 3.99,
+        "max_dd": 35893,
+        "avg_pnl": 4047,
+        "exits": {
+          "TIME": 369,
+          "LOSS_STOP": 1
+        },
+        "max_loss": -32912
+      },
+      "E_wing+loss50": {
+        "n": 370,
+        "wins": 280,
+        "wr": 75.7,
+        "total_pnl": 1497248,
+        "pf": 3.99,
+        "max_dd": 35893,
+        "avg_pnl": 4047,
+        "exits": {
+          "TIME": 369,
+          "LOSS_STOP": 1
+        },
+        "max_loss": -32912
+      },
+      "F_no_stop": {
+        "n": 370,
+        "wins": 280,
+        "wr": 75.7,
+        "total_pnl": 1496064,
+        "pf": 3.98,
+        "max_dd": 37077,
+        "avg_pnl": 4043,
+        "exits": {
+          "TIME": 370
+        },
+        "max_loss": -32912
+      }
+    },
+    "Phoenix 75 Last Hour": {
+      "A_wing_only": {
+        "n": 410,
+        "wins": 313,
+        "wr": 76.3,
+        "total_pnl": 1134478,
+        "pf": 2.81,
+        "max_dd": 68551,
+        "avg_pnl": 2767,
+        "exits": {
+          "TIME": 410
+        },
+        "max_loss": -31554
+      },
+      "B_loss70": {
+        "n": 410,
+        "wins": 313,
+        "wr": 76.3,
+        "total_pnl": 1135070,
+        "pf": 2.81,
+        "max_dd": 68551,
+        "avg_pnl": 2768,
+        "exits": {
+          "TIME": 409,
+          "LOSS_STOP": 1
+        },
+        "max_loss": -31554
+      },
+      "C_loss50": {
+        "n": 410,
+        "wins": 313,
+        "wr": 76.3,
+        "total_pnl": 1140694,
+        "pf": 2.84,
+        "max_dd": 68551,
+        "avg_pnl": 2782,
+        "exits": {
+          "TIME": 409,
+          "LOSS_STOP": 1
+        },
+        "max_loss": -31554
+      },
+      "D_wing+loss70": {
+        "n": 410,
+        "wins": 313,
+        "wr": 76.3,
+        "total_pnl": 1135070,
+        "pf": 2.81,
+        "max_dd": 68551,
+        "avg_pnl": 2768,
+        "exits": {
+          "TIME": 409,
+          "LOSS_STOP": 1
+        },
+        "max_loss": -31554
+      },
+      "E_wing+loss50": {
+        "n": 410,
+        "wins": 313,
+        "wr": 76.3,
+        "total_pnl": 1140694,
+        "pf": 2.84,
+        "max_dd": 68551,
+        "avg_pnl": 2782,
+        "exits": {
+          "TIME": 409,
+          "LOSS_STOP": 1
+        },
+        "max_loss": -31554
+      },
+      "F_no_stop": {
+        "n": 410,
+        "wins": 313,
+        "wr": 76.3,
+        "total_pnl": 1134478,
+        "pf": 2.81,
+        "max_dd": 68551,
+        "avg_pnl": 2767,
+        "exits": {
+          "TIME": 410
+        },
+        "max_loss": -31554
+      }
+    },
+    "Firebird 60 Last Hour": {
+      "A_wing_only": {
+        "n": 669,
+        "wins": 496,
+        "wr": 74.1,
+        "total_pnl": 1545250,
+        "pf": 2.32,
+        "max_dd": 74524,
+        "avg_pnl": 2310,
+        "exits": {
+          "TIME": 668,
+          "WING_STOP": 1
+        },
+        "max_loss": -43800
+      },
+      "B_loss70": {
+        "n": 669,
+        "wins": 496,
+        "wr": 74.1,
+        "total_pnl": 1544735,
+        "pf": 2.32,
+        "max_dd": 75039,
+        "avg_pnl": 2309,
+        "exits": {
+          "TIME": 668,
+          "LOSS_STOP": 1
+        },
+        "max_loss": -43800
+      },
+      "C_loss50": {
+        "n": 669,
+        "wins": 496,
+        "wr": 74.1,
+        "total_pnl": 1549715,
+        "pf": 2.33,
+        "max_dd": 70059,
+        "avg_pnl": 2316,
+        "exits": {
+          "TIME": 668,
+          "LOSS_STOP": 1
+        },
+        "max_loss": -43800
+      },
+      "D_wing+loss70": {
+        "n": 669,
+        "wins": 496,
+        "wr": 74.1,
+        "total_pnl": 1544735,
+        "pf": 2.32,
+        "max_dd": 75039,
+        "avg_pnl": 2309,
+        "exits": {
+          "TIME": 668,
+          "LOSS_STOP": 1
+        },
+        "max_loss": -43800
+      },
+      "E_wing+loss50": {
+        "n": 669,
+        "wins": 496,
+        "wr": 74.1,
+        "total_pnl": 1549715,
+        "pf": 2.33,
+        "max_dd": 70059,
+        "avg_pnl": 2316,
+        "exits": {
+          "TIME": 668,
+          "LOSS_STOP": 1
+        },
+        "max_loss": -43800
+      },
+      "F_no_stop": {
+        "n": 669,
+        "wins": 496,
+        "wr": 74.1,
+        "total_pnl": 1545250,
+        "pf": 2.32,
+        "max_dd": 74524,
+        "avg_pnl": 2310,
+        "exits": {
+          "TIME": 669
+        },
+        "max_loss": -43800
+      }
+    },
+    "Phoenix 75 Afternoon": {
+      "A_wing_only": {
+        "n": 474,
+        "wins": 342,
+        "wr": 72.2,
+        "total_pnl": 1014274,
+        "pf": 2.15,
+        "max_dd": 93189,
+        "avg_pnl": 2140,
+        "exits": {
+          "TIME": 470,
+          "TARGET": 4
+        },
+        "max_loss": -57915
+      },
+      "B_loss70": {
+        "n": 474,
+        "wins": 342,
+        "wr": 72.2,
+        "total_pnl": 1014718,
+        "pf": 2.15,
+        "max_dd": 93189,
+        "avg_pnl": 2141,
+        "exits": {
+          "TIME": 468,
+          "TARGET": 4,
+          "LOSS_STOP": 2
+        },
+        "max_loss": -57915
+      },
+      "C_loss50": {
+        "n": 474,
+        "wins": 342,
+        "wr": 72.2,
+        "total_pnl": 1020346,
+        "pf": 2.16,
+        "max_dd": 85644,
+        "avg_pnl": 2153,
+        "exits": {
+          "TIME": 466,
+          "TARGET": 4,
+          "LOSS_STOP": 4
+        },
+        "max_loss": -50370
+      },
+      "D_wing+loss70": {
+        "n": 474,
+        "wins": 342,
+        "wr": 72.2,
+        "total_pnl": 1014718,
+        "pf": 2.15,
+        "max_dd": 93189,
+        "avg_pnl": 2141,
+        "exits": {
+          "TIME": 468,
+          "TARGET": 4,
+          "LOSS_STOP": 2
+        },
+        "max_loss": -57915
+      },
+      "E_wing+loss50": {
+        "n": 474,
+        "wins": 342,
+        "wr": 72.2,
+        "total_pnl": 1020346,
+        "pf": 2.16,
+        "max_dd": 85644,
+        "avg_pnl": 2153,
+        "exits": {
+          "TIME": 466,
+          "TARGET": 4,
+          "LOSS_STOP": 4
+        },
+        "max_loss": -50370
+      },
+      "F_no_stop": {
+        "n": 474,
+        "wins": 342,
+        "wr": 72.2,
+        "total_pnl": 1014274,
+        "pf": 2.15,
+        "max_dd": 93189,
+        "avg_pnl": 2140,
+        "exits": {
+          "TIME": 470,
+          "TARGET": 4
+        },
+        "max_loss": -57915
+      }
+    },
+    "Ironclad 35 Condor": {
+      "A_wing_only": {
+        "n": 525,
+        "wins": 495,
+        "wr": 94.3,
+        "total_pnl": 308248,
+        "pf": 3.49,
+        "max_dd": 24860,
+        "avg_pnl": 587,
+        "exits": {
+          "TARGET": 426,
+          "TIME": 99
+        },
+        "max_loss": -24860
+      },
+      "B_loss70": {
+        "n": 525,
+        "wins": 495,
+        "wr": 94.3,
+        "total_pnl": 308248,
+        "pf": 3.49,
+        "max_dd": 24860,
+        "avg_pnl": 587,
+        "exits": {
+          "TARGET": 426,
+          "TIME": 99
+        },
+        "max_loss": -24860
+      },
+      "C_loss50": {
+        "n": 525,
+        "wins": 495,
+        "wr": 94.3,
+        "total_pnl": 308248,
+        "pf": 3.49,
+        "max_dd": 24860,
+        "avg_pnl": 587,
+        "exits": {
+          "TARGET": 426,
+          "TIME": 99
+        },
+        "max_loss": -24860
+      },
+      "D_wing+loss70": {
+        "n": 525,
+        "wins": 495,
+        "wr": 94.3,
+        "total_pnl": 308248,
+        "pf": 3.49,
+        "max_dd": 24860,
+        "avg_pnl": 587,
+        "exits": {
+          "TARGET": 426,
+          "TIME": 99
+        },
+        "max_loss": -24860
+      },
+      "E_wing+loss50": {
+        "n": 525,
+        "wins": 495,
+        "wr": 94.3,
+        "total_pnl": 308248,
+        "pf": 3.49,
+        "max_dd": 24860,
+        "avg_pnl": 587,
+        "exits": {
+          "TARGET": 426,
+          "TIME": 99
+        },
+        "max_loss": -24860
+      },
+      "F_no_stop": {
+        "n": 525,
+        "wins": 495,
+        "wr": 94.3,
+        "total_pnl": 308248,
+        "pf": 3.49,
+        "max_dd": 24860,
+        "avg_pnl": 587,
+        "exits": {
+          "TARGET": 426,
+          "TIME": 99
+        },
+        "max_loss": -24860
+      }
+    },
+    "Firebird 60 Final Bell": {
+      "A_wing_only": {
+        "n": 507,
+        "wins": 378,
+        "wr": 74.6,
+        "total_pnl": 740030,
+        "pf": 3.68,
+        "max_dd": 37992,
+        "avg_pnl": 1460,
+        "exits": {
+          "TIME": 507
+        },
+        "max_loss": -34170
+      },
+      "B_loss70": {
+        "n": 507,
+        "wins": 378,
+        "wr": 74.6,
+        "total_pnl": 740030,
+        "pf": 3.68,
+        "max_dd": 37992,
+        "avg_pnl": 1460,
+        "exits": {
+          "TIME": 507
+        },
+        "max_loss": -34170
+      },
+      "C_loss50": {
+        "n": 507,
+        "wins": 378,
+        "wr": 74.6,
+        "total_pnl": 740030,
+        "pf": 3.68,
+        "max_dd": 37992,
+        "avg_pnl": 1460,
+        "exits": {
+          "TIME": 507
+        },
+        "max_loss": -34170
+      },
+      "D_wing+loss70": {
+        "n": 507,
+        "wins": 378,
+        "wr": 74.6,
+        "total_pnl": 740030,
+        "pf": 3.68,
+        "max_dd": 37992,
+        "avg_pnl": 1460,
+        "exits": {
+          "TIME": 507
+        },
+        "max_loss": -34170
+      },
+      "E_wing+loss50": {
+        "n": 507,
+        "wins": 378,
+        "wr": 74.6,
+        "total_pnl": 740030,
+        "pf": 3.68,
+        "max_dd": 37992,
+        "avg_pnl": 1460,
+        "exits": {
+          "TIME": 507
+        },
+        "max_loss": -34170
+      },
+      "F_no_stop": {
+        "n": 507,
+        "wins": 378,
+        "wr": 74.6,
+        "total_pnl": 740030,
+        "pf": 3.68,
+        "max_dd": 37992,
+        "avg_pnl": 1460,
+        "exits": {
+          "TIME": 507
+        },
+        "max_loss": -34170
+      }
+    },
+    "Phoenix 75 Early Afternoon": {
+      "A_wing_only": {
+        "n": 524,
+        "wins": 372,
+        "wr": 71.0,
+        "total_pnl": 725010,
+        "pf": 1.64,
+        "max_dd": 61930,
+        "avg_pnl": 1384,
+        "exits": {
+          "TIME": 486,
+          "TARGET": 31,
+          "WING_STOP": 7
+        },
+        "max_loss": -35178
+      },
+      "B_loss70": {
+        "n": 524,
+        "wins": 372,
+        "wr": 71.0,
+        "total_pnl": 715027,
+        "pf": 1.62,
+        "max_dd": 62551,
+        "avg_pnl": 1365,
+        "exits": {
+          "TIME": 486,
+          "TARGET": 31,
+          "LOSS_STOP": 7
+        },
+        "max_loss": -35540
+      },
+      "C_loss50": {
+        "n": 524,
+        "wins": 372,
+        "wr": 71.0,
+        "total_pnl": 732857,
+        "pf": 1.65,
+        "max_dd": 56666,
+        "avg_pnl": 1399,
+        "exits": {
+          "TIME": 478,
+          "TARGET": 31,
+          "LOSS_STOP": 15
+        },
+        "max_loss": -30357
+      },
+      "D_wing+loss70": {
+        "n": 524,
+        "wins": 372,
+        "wr": 71.0,
+        "total_pnl": 707659,
+        "pf": 1.61,
+        "max_dd": 63598,
+        "avg_pnl": 1350,
+        "exits": {
+          "TIME": 485,
+          "TARGET": 31,
+          "LOSS_STOP": 7,
+          "WING_STOP": 1
+        },
+        "max_loss": -35540
+      },
+      "E_wing+loss50": {
+        "n": 524,
+        "wins": 372,
+        "wr": 71.0,
+        "total_pnl": 732857,
+        "pf": 1.65,
+        "max_dd": 56666,
+        "avg_pnl": 1399,
+        "exits": {
+          "TIME": 478,
+          "TARGET": 31,
+          "LOSS_STOP": 15
+        },
+        "max_loss": -30357
+      },
+      "F_no_stop": {
+        "n": 524,
+        "wins": 372,
+        "wr": 71.0,
+        "total_pnl": 747255,
+        "pf": 1.67,
+        "max_dd": 63310,
+        "avg_pnl": 1426,
+        "exits": {
+          "TIME": 493,
+          "TARGET": 31
+        },
+        "max_loss": -48380
+      }
+    },
+    "Phoenix 75 Midday": {
+      "A_wing_only": {
+        "n": 517,
+        "wins": 373,
+        "wr": 72.1,
+        "total_pnl": 475015,
+        "pf": 1.75,
+        "max_dd": 42502,
+        "avg_pnl": 919,
+        "exits": {
+          "TIME": 493,
+          "TARGET": 18,
+          "WING_STOP": 6
+        },
+        "max_loss": -31055
+      },
+      "B_loss70": {
+        "n": 517,
+        "wins": 373,
+        "wr": 72.1,
+        "total_pnl": 485037,
+        "pf": 1.78,
+        "max_dd": 43394,
+        "avg_pnl": 938,
+        "exits": {
+          "TIME": 492,
+          "TARGET": 18,
+          "LOSS_STOP": 7
+        },
+        "max_loss": -25458
+      },
+      "C_loss50": {
+        "n": 517,
+        "wins": 373,
+        "wr": 72.1,
+        "total_pnl": 506051,
+        "pf": 1.84,
+        "max_dd": 42313,
+        "avg_pnl": 979,
+        "exits": {
+          "TIME": 486,
+          "TARGET": 18,
+          "LOSS_STOP": 13
+        },
+        "max_loss": -20976
+      },
+      "D_wing+loss70": {
+        "n": 517,
+        "wins": 373,
+        "wr": 72.1,
+        "total_pnl": 485037,
+        "pf": 1.78,
+        "max_dd": 43394,
+        "avg_pnl": 938,
+        "exits": {
+          "TIME": 492,
+          "TARGET": 18,
+          "LOSS_STOP": 7
+        },
+        "max_loss": -25458
+      },
+      "E_wing+loss50": {
+        "n": 517,
+        "wins": 373,
+        "wr": 72.1,
+        "total_pnl": 506051,
+        "pf": 1.84,
+        "max_dd": 42313,
+        "avg_pnl": 979,
+        "exits": {
+          "TIME": 486,
+          "TARGET": 18,
+          "LOSS_STOP": 13
+        },
+        "max_loss": -20976
+      },
+      "F_no_stop": {
+        "n": 517,
+        "wins": 374,
+        "wr": 72.3,
+        "total_pnl": 481801,
+        "pf": 1.77,
+        "max_dd": 41895,
+        "avg_pnl": 932,
+        "exits": {
+          "TIME": 499,
+          "TARGET": 18
+        },
+        "max_loss": -31080
+      }
+    },
+    "Firebird 60 Midday": {
+      "A_wing_only": {
+        "n": 714,
+        "wins": 503,
+        "wr": 70.4,
+        "total_pnl": 524132,
+        "pf": 1.47,
+        "max_dd": 64250,
+        "avg_pnl": 734,
+        "exits": {
+          "TIME": 668,
+          "TARGET": 35,
+          "WING_STOP": 11
+        },
+        "max_loss": -28742
+      },
+      "B_loss70": {
+        "n": 714,
+        "wins": 504,
+        "wr": 70.6,
+        "total_pnl": 556721,
+        "pf": 1.51,
+        "max_dd": 61577,
+        "avg_pnl": 780,
+        "exits": {
+          "TIME": 671,
+          "TARGET": 35,
+          "LOSS_STOP": 8
+        },
+        "max_loss": -28742
+      },
+      "C_loss50": {
+        "n": 714,
+        "wins": 503,
+        "wr": 70.4,
+        "total_pnl": 490223,
+        "pf": 1.43,
+        "max_dd": 60422,
+        "avg_pnl": 687,
+        "exits": {
+          "TIME": 649,
+          "TARGET": 35,
+          "LOSS_STOP": 30
+        },
+        "max_loss": -24948
+      },
+      "D_wing+loss70": {
+        "n": 714,
+        "wins": 503,
+        "wr": 70.4,
+        "total_pnl": 529648,
+        "pf": 1.48,
+        "max_dd": 61577,
+        "avg_pnl": 742,
+        "exits": {
+          "TIME": 667,
+          "TARGET": 35,
+          "LOSS_STOP": 6,
+          "WING_STOP": 6
+        },
+        "max_loss": -28742
+      },
+      "E_wing+loss50": {
+        "n": 714,
+        "wins": 503,
+        "wr": 70.4,
+        "total_pnl": 493517,
+        "pf": 1.43,
+        "max_dd": 60422,
+        "avg_pnl": 691,
+        "exits": {
+          "TIME": 649,
+          "TARGET": 35,
+          "LOSS_STOP": 29,
+          "WING_STOP": 1
+        },
+        "max_loss": -24948
+      },
+      "F_no_stop": {
+        "n": 714,
+        "wins": 505,
+        "wr": 70.7,
+        "total_pnl": 542762,
+        "pf": 1.49,
+        "max_dd": 62366,
+        "avg_pnl": 760,
+        "exits": {
+          "TIME": 679,
+          "TARGET": 35
+        },
+        "max_loss": -35833
+      }
+    },
+    "Morning Decel Scalp": {
+      "A_wing_only": {
+        "n": 363,
+        "wins": 251,
+        "wr": 69.1,
+        "total_pnl": 149740,
+        "pf": 2.39,
+        "max_dd": 17874,
+        "avg_pnl": 413,
+        "exits": {
+          "TIME": 361,
+          "WING_STOP": 2
+        },
+        "max_loss": -8284
+      },
+      "B_loss70": {
+        "n": 363,
+        "wins": 251,
+        "wr": 69.1,
+        "total_pnl": 144698,
+        "pf": 2.28,
+        "max_dd": 17874,
+        "avg_pnl": 399,
+        "exits": {
+          "TIME": 362,
+          "LOSS_STOP": 1
+        },
+        "max_loss": -8284
+      },
+      "C_loss50": {
+        "n": 363,
+        "wins": 251,
+        "wr": 69.1,
+        "total_pnl": 142982,
+        "pf": 2.25,
+        "max_dd": 17874,
+        "avg_pnl": 394,
+        "exits": {
+          "TIME": 361,
+          "LOSS_STOP": 2
+        },
+        "max_loss": -8284
+      },
+      "D_wing+loss70": {
+        "n": 363,
+        "wins": 251,
+        "wr": 69.1,
+        "total_pnl": 149740,
+        "pf": 2.39,
+        "max_dd": 17874,
+        "avg_pnl": 413,
+        "exits": {
+          "TIME": 361,
+          "WING_STOP": 2
+        },
+        "max_loss": -8284
+      },
+      "E_wing+loss50": {
+        "n": 363,
+        "wins": 251,
+        "wr": 69.1,
+        "total_pnl": 148024,
+        "pf": 2.35,
+        "max_dd": 17874,
+        "avg_pnl": 408,
+        "exits": {
+          "TIME": 360,
+          "WING_STOP": 2,
+          "LOSS_STOP": 1
+        },
+        "max_loss": -8284
+      },
+      "F_no_stop": {
+        "n": 363,
+        "wins": 251,
+        "wr": 69.1,
+        "total_pnl": 149918,
+        "pf": 2.39,
+        "max_dd": 17874,
+        "avg_pnl": 413,
+        "exits": {
+          "TIME": 363
+        },
+        "max_loss": -8284
+      }
+    }
+  },
+  "recommendations": {
+    "v3": "D_wing+loss70",
+    "n15": "C_loss50",
+    "v6": "F_no_stop",
+    "v7": "A_wing_only",
+    "v9": "B_loss70",
+    "v12": "C_loss50",
+    "Phoenix 75 Power Close": "B_loss70",
+    "Phoenix 75 Last Hour": "C_loss50",
+    "Firebird 60 Last Hour": "C_loss50",
+    "Phoenix 75 Afternoon": "C_loss50",
+    "Ironclad 35 Condor": "A_wing_only",
+    "Firebird 60 Final Bell": "A_wing_only",
+    "Phoenix 75 Early Afternoon": "C_loss50",
+    "Phoenix 75 Midday": "C_loss50",
+    "Firebird 60 Midday": "B_loss70",
+    "Morning Decel Scalp": "F_no_stop"
+  },
+  "generated": "2026-03-22 13:17:57"
+}

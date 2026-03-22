@@ -177,8 +177,7 @@ def phoenix_fire_count(vix, vp, prior_dir, ret5d, rv_1d_change, in_range, rv_slo
 PHOENIX_TIER_MAP = {0: 0, 1: 25000, 2: 50000, 3: 75000, 4: 100000, 5: 100000}
 
 REGIME_MAX_BUDGET = {
-    'v6': 75000, 'v7': 25000, 'v8': 25000, 'v9': 100000,
-    'v10': 75000, 'v12': 75000, 'v14': 75000,
+    'v6': 75000, 'v7': 25000, 'v9': 100000, 'v12': 75000,
 }
 
 def regime_budget(ver, vp):
@@ -200,32 +199,25 @@ def regime_budget(ver, vp):
 # STRATEGY DEFINITIONS (from CLAUDE.md / compute_stats.py)
 # ─────────────────────────────────────────────────────────────────────────────
 
+# Per-strategy stop rules optimized via test_stop_variants.py on 776-day backtest
+# stop_type: "wing+loss70" | "loss50" | "loss70" | "none" | "wing_only"
 LEGACY_STRATS = [
     {"ver": "v3", "type": "phoenix", "mech": "50%/close/1T", "entry": "10:00",
-     "name": "PHOENIX", "color": "#f59e0b"},
+     "stop_type": "wing+loss70", "name": "PHOENIX", "color": "#f59e0b"},
     {"ver": "n15", "type": "phoenix_clear", "mech": "50%/close/1T", "entry": "10:00",
-     "name": "PHOENIX CLEAR", "color": "#22c55e"},
+     "stop_type": "loss50", "name": "PHOENIX CLEAR", "color": "#22c55e"},
     {"ver": "v6", "vix": [0, 15], "pd": "DN", "rng": "IN", "gap": "GFL",
      "filter": "VP<=1.7", "mech": "50%/1530/1T", "entry": "10:00",
-     "name": "QUIET REBOUND", "color": "#06b6d4"},
+     "stop_type": "none", "name": "QUIET REBOUND", "color": "#06b6d4"},
     {"ver": "v7", "vix": [0, 15], "pd": "FL", "rng": "IN", "gap": "GUP",
      "filter": None, "mech": "40%/close/1T", "entry": "10:00",
-     "name": "FLAT-GAP FADE", "color": "#a855f7"},
-    {"ver": "v8", "vix": [20, 25], "pd": "UP", "rng": "IN", "gap": "GDN",
-     "filter": None, "mech": "40%/1530/1T", "entry": "10:30",
-     "name": "STRESS SNAP", "color": "#ef4444"},
+     "stop_type": "wing_only", "name": "FLAT-GAP FADE", "color": "#a855f7"},
     {"ver": "v9", "vix": [15, 20], "pd": "UP", "rng": "OT", "gap": "GFL",
      "filter": "!RISING", "mech": "70%/1545/1T", "entry": "10:00",
-     "name": "BREAKOUT STALL", "color": "#eab308"},
-    {"ver": "v10", "vix": [15, 20], "pd": "DN", "rng": "OT", "gap": "GFL",
-     "filter": None, "mech": "70%/1545/1T", "entry": "11:00",
-     "name": "BREAKDOWN PAUSE", "color": "#ec4899"},
+     "stop_type": "loss70", "name": "BREAKOUT STALL", "color": "#eab308"},
     {"ver": "v12", "vix": [0, 15], "pd": "UP", "rng": "OT", "gap": "GUP",
      "filter": "5dRet>1", "mech": "40%/close/1T", "entry": "10:00",
-     "name": "BULL SQUEEZE", "color": "#f97316"},
-    {"ver": "v14", "vix": [15, 20], "pd": "DN", "rng": "IN", "gap": "GDN",
-     "filter": "ScoreVol<18", "mech": "50%/close/1T", "entry": "10:00",
-     "name": "ORDERLY DIP", "color": "#64748b"},
+     "stop_type": "loss50", "name": "BULL SQUEEZE", "color": "#f97316"},
 ]
 
 
@@ -262,7 +254,7 @@ def run_legacy_on_dates(new_dates):
     Uses the research engine (DataUniverse + simulate_trade) for actual P&L computation.
     """
     from research.data import DataUniverse
-    from research.exits import profit_target, time_stop, wing_stop, simulate_trade
+    from research.exits import profit_target, time_stop, wing_stop, loss_stop, simulate_trade
     from research.structures import iron_butterfly, price_entry
 
     log("Loading DataUniverse for legacy strategies...")
@@ -303,7 +295,44 @@ def run_legacy_on_dates(new_dates):
         prior_dir_raw = ctx.get('prior_day_direction', 'FLAT')
         pd_label = 'UP' if prior_dir_raw == 'UP' else 'DN' if prior_dir_raw == 'DOWN' else 'FL'
 
-        in_range = ctx.get('in_prior_week_range', True)
+        # Use CSV range lookup as ground truth for historical dates,
+        # compute from SPX daily bars for new dates (daily_context.json disagrees
+        # with CSV on 36% of dates for in_prior_week_range)
+        csv_range_lookup = getattr(run_legacy_on_dates, '_csv_range', None)
+        if csv_range_lookup is None:
+            import csv as _csv
+            csv_path = os.path.join(_DIR, "research_all_trades.csv")
+            csv_range_lookup = {}
+            if os.path.exists(csv_path):
+                with open(csv_path) as f:
+                    for row in _csv.DictReader(f):
+                        csv_range_lookup[row['date']] = bool(int(row['in_prior_week_range']))
+            run_legacy_on_dates._csv_range = csv_range_lookup
+
+        if date in csv_range_lookup:
+            in_range = csv_range_lookup[date]
+        else:
+            # For new dates: compute from prior 5 trading days' high/low vs today's open
+            all_td = universe.trading_dates()
+            if date in all_td:
+                idx = all_td.index(date)
+                if idx >= 5:
+                    prior_5 = all_td[idx-5:idx]
+                    highs, lows = [], []
+                    for pd in prior_5:
+                        pb = universe.spx_bars_range(pd, "09:30", "16:00")
+                        if pb:
+                            highs.append(max(b["h"] for _, b in pb))
+                            lows.append(min(b["l"] for _, b in pb))
+                    today_open = universe.spx_at(date, "09:31")
+                    if highs and today_open:
+                        in_range = min(lows) <= today_open <= max(highs)
+                    else:
+                        in_range = ctx.get('in_prior_week_range', True)
+                else:
+                    in_range = True
+            else:
+                in_range = ctx.get('in_prior_week_range', True)
         rng = 'IN' if in_range else 'OT'
 
         # Gap classification — try daily_context first, then gap_cache
@@ -388,10 +417,6 @@ def run_legacy_on_dates(new_dates):
 
                 risk_budget = regime_budget(ver, vp)
 
-                # V10: half-size in deep downtrend
-                if ver == "v10" and ret5d <= -1.5:
-                    risk_budget = risk_budget // 2
-
                 fc = None
                 signals = None
 
@@ -414,14 +439,25 @@ def run_legacy_on_dates(new_dates):
             if position is None:
                 continue
 
-            # Build exit rules
+            # Build exit rules with per-strategy stop configuration
             exit_rules = [profit_target(target_pct)]
-            exit_rules.append(wing_stop())
             if time_stop_str == "1530":
                 exit_rules.append(time_stop("15:30"))
             elif time_stop_str == "1545":
                 exit_rules.append(time_stop("15:45"))
             # "close" = hold to settlement, no time stop needed
+
+            # Per-strategy stop type (optimized via test_stop_variants.py)
+            st = strat.get("stop_type", "wing_only")
+            if st == "wing+loss70":
+                exit_rules.extend([wing_stop(), loss_stop(0.70)])
+            elif st == "loss70":
+                exit_rules.append(loss_stop(0.70))
+            elif st == "loss50":
+                exit_rules.append(loss_stop(0.50))
+            elif st == "wing_only":
+                exit_rules.append(wing_stop())
+            # "none" = no stop, just target + time/close
 
             result = simulate_trade(universe, position, exit_rules, slippage_per_spread=1.0)
             if result is None:
@@ -550,8 +586,8 @@ def regenerate_stats(all_trades):
 
     ver_names = {
         'v3': 'PHOENIX', 'n15': 'PHOENIX CLEAR', 'v6': 'QUIET REBOUND',
-        'v7': 'FLAT-GAP FADE', 'v8': 'STRESS SNAP', 'v9': 'BREAKOUT STALL',
-        'v10': 'BREAKDOWN PAUSE', 'v12': 'BULL SQUEEZE', 'v14': 'ORDERLY DIP',
+        'v7': 'FLAT-GAP FADE', 'v9': 'BREAKOUT STALL',
+        'v12': 'BULL SQUEEZE',
     }
 
     for ver, trades in by_ver.items():
@@ -673,7 +709,7 @@ def main():
         os.makedirs(d, exist_ok=True)
 
     # Step 1: Find last legacy trade date from strategy_trades.json
-    legacy_vers = {'v3', 'n15', 'v6', 'v7', 'v8', 'v9', 'v10', 'v12', 'v14'}
+    legacy_vers = {'v3', 'n15', 'v6', 'v7', 'v9', 'v12'}
     if os.path.exists(TRADES_FILE):
         with open(TRADES_FILE) as f:
             existing_trades = json.load(f)

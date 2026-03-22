@@ -380,7 +380,7 @@ def run_strategies_on_dates(new_dates):
     This mirrors generate_calendar_data.py's logic exactly.
     """
     from research.data import DataUniverse
-    from research.exits import profit_target, time_stop, wing_stop, standard_exits
+    from research.exits import profit_target, time_stop, wing_stop, loss_stop, standard_exits
     from research.sweep import run_sweep, ibf_factory, ic_factory
 
     log("Loading DataUniverse...")
@@ -399,27 +399,28 @@ def run_strategies_on_dates(new_dates):
         return 0.25
 
     # Strategy definitions — MUST match generate_calendar_data.py exactly
+    # Per-strategy stop rules optimized via test_stop_variants.py on 776-day backtest
     strategies = [
         ("Phoenix 75 Power Close", "PHX-PC", "#8b5cf6", ibf_factory(75), ["15:15"],
-         lambda: standard_exits(0.50, '15:30', True), None, None, 150000, "S"),
+         lambda: [profit_target(0.50), loss_stop(0.70), time_stop('15:30')], None, None, 150000, "S"),
         ("Phoenix 75 Last Hour", "PHX-LH", "#6366f1", ibf_factory(75), ["15:00"],
-         lambda: standard_exits(0.50, '15:30', True), None, None, 100000, "A"),
+         lambda: [profit_target(0.50), loss_stop(0.50), time_stop('15:30')], None, None, 100000, "A"),
         ("Firebird 60 Last Hour", "FBD-LH", "#14b8a6", ibf_factory(60), ["15:00"],
-         lambda: standard_exits(0.50, '15:30', True), None, None, 100000, "A"),
+         lambda: [profit_target(0.50), loss_stop(0.50), time_stop('15:30')], None, None, 100000, "A"),
         ("Phoenix 75 Afternoon", "PHX-AFT", "#a855f7", ibf_factory(75), ["14:30"],
-         lambda: standard_exits(0.50, '15:30', True), None, None, 75000, "B+"),
+         lambda: [profit_target(0.50), loss_stop(0.50), time_stop('15:30')], None, None, 75000, "B+"),
         ("Ironclad 35 Condor", "IC-35", "#10b981", ic_factory(35, 35), ["14:30"],
          lambda: [profit_target(0.40), wing_stop(), time_stop('15:30')], None, None, 75000, "B+"),
         ("Firebird 60 Final Bell", "FBD-FB", "#0ea5e9", ibf_factory(60), ["15:30"],
-         lambda: standard_exits(0.50, '15:30', True), None, None, 75000, "B+"),
+         lambda: [profit_target(0.50), wing_stop(), time_stop('15:30')], None, None, 75000, "B+"),
         ("Phoenix 75 Early Afternoon", "PHX-EA", "#f59e0b", ibf_factory(75), ["13:45"],
-         lambda: standard_exits(0.50, '15:30', True), None, None, 50000, "B"),
+         lambda: [profit_target(0.50), loss_stop(0.50), time_stop('15:30')], None, None, 50000, "B"),
         ("Phoenix 75 Midday", "PHX-MD", "#ec4899", ibf_factory(75), ["14:00"],
-         lambda: standard_exits(0.50, '15:30', True), None, None, 35000, "C+"),
+         lambda: [profit_target(0.50), loss_stop(0.50), time_stop('15:30')], None, None, 35000, "C+"),
         ("Firebird 60 Midday", "FBD-MD", "#f97316", ibf_factory(60), ["14:00"],
-         lambda: standard_exits(0.50, '15:30', True), None, None, 35000, "C+"),
+         lambda: [profit_target(0.50), loss_stop(0.70), time_stop('15:30')], None, None, 35000, "C+"),
         ("Morning Decel Scalp", "AM-DEC", "#64748b", ibf_factory(75), ["10:30"],
-         lambda: [profit_target(0.30), wing_stop(), time_stop('11:30')], None,
+         lambda: [profit_target(0.30), time_stop('11:30')], None,
          lambda d, t: (universe.spx_acceleration(d, t, 10) or 0) < -0.05, 20000, "C"),
     ]
 

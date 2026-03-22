@@ -122,11 +122,8 @@ h1 { color: #f59e0b; font-size: 20px; margin-bottom: 4px; }
 <div class="legend-item"><div class="legend-dot" style="background:#22c55e"></div>PHOENIX CLEAR <span style="opacity:0.5;font-size:9px;">N15</span></div>
 <div class="legend-item"><div class="legend-dot" style="background:#06b6d4"></div>QUIET REBOUND <span style="opacity:0.5;font-size:9px;">V6</span></div>
 <div class="legend-item"><div class="legend-dot" style="background:#a855f7"></div>FLAT-GAP FADE <span style="opacity:0.5;font-size:9px;">V7</span></div>
-<div class="legend-item"><div class="legend-dot" style="background:#ef4444"></div>STRESS SNAP <span style="opacity:0.5;font-size:9px;">V8</span></div>
 <div class="legend-item"><div class="legend-dot" style="background:#eab308"></div>BREAKOUT STALL <span style="opacity:0.5;font-size:9px;">V9</span></div>
-<div class="legend-item"><div class="legend-dot" style="background:#ec4899"></div>BREAKDOWN PAUSE <span style="opacity:0.5;font-size:9px;">V10</span></div>
 <div class="legend-item"><div class="legend-dot" style="background:#f97316"></div>BULL SQUEEZE <span style="opacity:0.5;font-size:9px;">V12</span></div>
-<div class="legend-item"><div class="legend-dot" style="background:#64748b"></div>ORDERLY DIP <span style="opacity:0.5;font-size:9px;">V14</span></div>
 <div class="legend-item"><div class="legend-dot" style="background:#7c3aed"></div>AFTERNOON LOCK <span style="opacity:0.5;font-size:9px;">N17</span></div>
 <div class="legend-item"><div class="legend-dot" style="background:#0ea5e9"></div>LATE SQUEEZE <span style="opacity:0.5;font-size:9px;">N18</span></div>
 <div style="width:100%;border-top:1px solid #333;margin:4px 0"></div>
@@ -173,11 +170,8 @@ const STRATEGIES = [
 {"ver": "n15", "name": "PHOENIX CLEAR", "short": "CLR", "regime": "PHOENIX_CLEAR", "mech": "50%/close/1T", "filter": "VIX9D/VIX<1.0", "color": "#22c55e"},
 {"ver": "v6", "name": "QUIET REBOUND", "short": "QRB", "regime": "LOW_DN_IN_GFL", "mech": "50%/1530/1T", "filter": "VP<=1.7", "color": "#06b6d4"},
 {"ver": "v7", "name": "FLAT-GAP FADE", "short": "FGF", "regime": "LOW_FL_IN_GUP", "mech": "40%/close/1T", "filter": "--", "color": "#a855f7"},
-{"ver": "v8", "name": "STRESS SNAP", "short": "SNP", "regime": "ELEV_UP_IN_GDN", "mech": "40%/1530/1T", "filter": "--", "color": "#ef4444"},
 {"ver": "v9", "name": "BREAKOUT STALL", "short": "BKT", "regime": "MID_UP_OT_GFL", "mech": "70%/1545/1T", "filter": "!RISING", "color": "#eab308"},
-{"ver": "v10", "name": "BREAKDOWN PAUSE", "short": "BKD", "regime": "MID_DN_OT_GFL", "mech": "70%/1545/1T", "filter": "--", "color": "#ec4899"},
 {"ver": "v12", "name": "BULL SQUEEZE", "short": "BSQ", "regime": "LOW_UP_OT_GUP", "mech": "40%/close/1T", "filter": "5dRet>1", "color": "#f97316"},
-{"ver": "v14", "name": "ORDERLY DIP", "short": "DIP", "regime": "MID_DN_IN_GDN", "mech": "50%/close/1T", "filter": "ScoreVol<18", "color": "#64748b"},
 {"ver": "n17", "name": "AFTERNOON LOCK", "short": "AFT", "regime": "PHOENIX_AFT", "mech": "50%/close/1T", "filter": "VVIX<100@13:00", "color": "#7c3aed"},
 {"ver": "n18", "name": "LATE SQUEEZE", "short": "LSQ", "regime": "LATE_SQUEEZE", "mech": "50%/close/1T", "filter": "3Laws@14:00", "color": "#0ea5e9"},
 // ── New unfiltered strategies (2023-2026) ──

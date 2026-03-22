@@ -92,14 +92,16 @@ All strategies are SPX 0DTE iron butterflies or spreads using the opening print 
 - **Single-leg long:** `(exit_price - entry_price) * contracts * 100`
 - **Single-leg short:** `-(exit_price - entry_price) * contracts * 100`
 - **Slippage assumption:** $1/spread (in `compute_stats.py`: `dollar_pnl = qty * (pnl_per_spread * 100 - 100)`)
-- **Wing stop trigger:** position P&L < -70% of max risk per spread
+- **Stop loss:** Per-strategy (see Stop Rules table below). NOT uniform across strategies.
 
 ### Exit Types
 | Code | Meaning |
 |------|---------|
 | `TARGET` | Profit target hit (e.g., 50% of credit) |
 | `TIME` | Time stop reached (e.g., 15:30) |
-| `WING_STOP` | Wing stop triggered (loss ≥ 70% of max risk) |
+| `WING_STOP` | Price-based wing stop — SPX breaches long wing strike |
+| `LOSS_STOP_70%` | P&L-based stop — position P&L < -70% of max risk per spread |
+| `LOSS_STOP_50%` | P&L-based stop — position P&L < -50% of max risk per spread |
 | `CLOSE` | Held to market close (16:15 ET) |
 
 ### Adaptive Wing Width Formula
@@ -118,16 +120,39 @@ wing_width = max(40, round(raw_wing / 5) * 5)
 | N15 | PHOENIX CLEAR | CLR | #22c55e | 10:00 | 50%/close/1T | any | any | any | any | V3 signals + VIX9D/VIX < 1.0 | Same as V3 tiered |
 | V6 | QUIET REBOUND | QRB | #06b6d4 | 10:00 | 50%/1530/1T | <15 | DOWN | IN | GFL | VP ≤ 1.7 | $75K (VP-scaled) |
 | V7 | FLAT-GAP FADE | FGF | #a855f7 | 10:00 | 40%/close/1T | <15 | FLAT | IN | GUP | none | $25K |
-| V8 | STRESS SNAP | SNP | #ef4444 | 10:30 | 40%/1530/1T | 20–25 | UP | IN | GDN | none | $25K |
 | V9 | BREAKOUT STALL | BKT | #eab308 | 10:00 | 70%/1545/1T | 15–20 | UP | OT | GFL | RV slope ≠ RISING; VP ≤ 2.0 | $100K (VP-scaled) |
-| V10 | BREAKDOWN PAUSE | BKD | #ec4899 | 11:00 | 70%/1545/1T | 15–20 | DOWN | OT | GFL | none; half-size if 5dRet ≤ -1.5% | $75K (VP-scaled) |
 | V12 | BULL SQUEEZE | BSQ | #f97316 | 10:00 | 40%/close/1T | <15 | UP | OT | GUP | 5dRet > 1% | $75K |
-| V14 | ORDERLY DIP | DIP | #64748b | 10:00 | 50%/close/1T | 15–20 | DOWN | IN | GDN | ScoreVol < 18 | $75K (VP-scaled) |
 | N17 | AFTERNOON LOCK | AFT | #7c3aed | 13:00 | 50%/close/1T | any | any | any | any | VVIX < 100 | $50K fixed |
 | N18 | LATE SQUEEZE | LSQ | #0ea5e9 | 14:00 | 50%/close/1T | any | any | any | any | 5dRet>1% + VP<2 + Prior≠FLAT | $50K fixed |
 
+**Removed strategies:** V8 (STRESS SNAP), V10 (BREAKDOWN PAUSE), V14 (ORDERLY DIP) — all flipped to unprofitable when re-backtested at correct entry times with 5-min resolution.
+
 **Gap classification:** GUP = gap > +0.25%, GDN = gap < -0.25%, GFL = otherwise
 **Range classification:** IN = SPX within prior week's high/low, OT = outside
+
+### Per-Strategy Stop Rules (Optimized via 776-day backtest)
+Each strategy uses the stop configuration that maximized return-to-drawdown ratio on the full 2023-2026 dataset:
+
+| Strategy | Stop Type | Description |
+|----------|-----------|-------------|
+| V3 PHOENIX | wing + loss_stop(70%) | Both price-based wing breach AND P&L < -70% max risk |
+| N15 PHOENIX CLEAR | loss_stop(50%) | P&L < -50% max risk (tighter stop, better for N15's subset profile) |
+| V6 QUIET REBOUND | none | Time stop at 15:30 is sole protection (stops only hurt on this strategy) |
+| V7 FLAT-GAP FADE | wing_stop | Price-based wing breach only (safety net; n=5, stops never fired) |
+| V9 BREAKOUT STALL | loss_stop(70%) | P&L < -70% max risk (time stop at 15:45 is primary defense) |
+| V12 BULL SQUEEZE | loss_stop(50%) | P&L < -50% max risk (caps tail losses to $20K vs $35K) |
+| N17 AFTERNOON LOCK | — | Real broker fills; stop rules applied at execution |
+| N18 LATE SQUEEZE | — | Real broker fills; stop rules applied at execution |
+| PHX 75 Power Close | loss_stop(70%) | Insurance only — 15 min hold, rarely fires |
+| PHX 75 Last Hour | loss_stop(50%) | Marginal improvement; caps worst-case losses |
+| Firebird 60 Last Hour | loss_stop(50%) | Marginal improvement; caps worst-case losses |
+| PHX 75 Afternoon | loss_stop(50%) | Catches 4 additional stop exits over 776 days |
+| Ironclad 35 Condor | wing_stop | Safety net; 94% hit target, stops never fire |
+| Firebird 60 Final Bell | wing_stop | Safety net; 15-min hold, stops never fire |
+| PHX 75 Early Afternoon | loss_stop(50%) | Better risk profile (max loss $30K vs $48K) |
+| PHX 75 Midday | loss_stop(50%) | $506K vs $475K wing-only; catches 13 stops |
+| Firebird 60 Midday | loss_stop(70%) | $557K vs $524K wing-only; 60pt wing benefits from wider stop |
+| Morning Decel Scalp | none | 11:30 time stop does all the work; stops barely trigger |
 
 ### PHOENIX Fire Count (V3/N15 Signal Confluence)
 Five binary signals — fire count = sum of True signals. Any fire count ≥ 1 qualifies:
@@ -160,12 +185,12 @@ N17 and N18 use **real broker fills** from `real_fills.json`, not backtested pri
 
 ## Data Pipeline
 
-### V3–V14 (Backtested Strategies)
-**Source:** `research_all_trades.csv` — contains SPX option pricing data, regime signals, and intraday P&L snapshots for every qualifying 0DTE date.
+### V3–V12 (Backtested Legacy Strategies — V8/V10/V14 removed)
+**Source:** `research_all_trades.csv` (historical, 570 rows ending 2026-03-05) + `refresh_legacy_strategies.py` (incremental, for new dates).
 
-**To update:** A daily script must pull SPX bars + SPXW option prices from Polygon, compute regime signals and P&L columns, and append new rows to `research_all_trades.csv`. **This pipeline does not yet exist** (as of 2026-03-19). The last date in the CSV is **2026-03-05**. New rows for 2026-03-06 onward are missing.
+**Incremental update pipeline:** `refresh_legacy_strategies.py` pulls Polygon data for new trading days, computes regime signals from intraday bars, evaluates strategy filters, and simulates trades via the research engine at 5-min option bar resolution. Uses CSV-sourced `in_prior_week_range` for dates the CSV covers; computes from SPX bars for new dates.
 
-**Regeneration:** Run `compute_stats.py` after updating `research_all_trades.csv`. It reads the CSV + `spx_gap_cache.json` and rewrites `strategy_trades.json` + `strategy_stats.json`.
+**Legacy regeneration (deprecated):** `compute_stats.py` reads the CSV + `spx_gap_cache.json`. This is kept for backward compatibility but the research engine pipeline is now the primary source of truth.
 
 ### N17/N18 (Real-Fill Strategies)
 **Source:** `real_fills.json` — populated by `pull_real_fills.py` which calls the broker API.
@@ -185,16 +210,16 @@ N17 and N18 use **real broker fills** from `real_fills.json`, not backtested pri
 
 ### Known Results (as of 2026-03-05 data)
 - V3 (PHOENIX): n=113, p≈0.0086 from t-test on dollar P&L
-- Bonferroni correction for 11 strategies: threshold = 0.05/11 ≈ **0.0045**
+- Bonferroni correction for 8 legacy strategies (V8/V10/V14 removed): threshold = 0.05/8 ≈ **0.00625**
 - V3's p=0.0086 does **NOT** survive Bonferroni correction — this is a known limitation to flag, not hide
 
 ### Distribution Considerations
 V3 has fat left tails (WING_STOP events). The normal-assumption t-test is approximate. A bootstrap or permutation test is preferred for rigorous significance testing. Never claim stronger statistical evidence than the data supports.
 
 ### Sample Size Awareness
-- V7 (n=5), V8 (n=11), V12 (n=11): too few trades to draw reliable conclusions. Results are directional only.
+- V7 (n=5), V12 (n=10): too few trades to draw reliable conclusions. Results are directional only.
 - Never present small-n results as statistically significant without explicit caveats.
-- Never apply Bonferroni correction post-hoc to only the strategies that look good — apply it to all 11.
+- Never apply Bonferroni correction post-hoc to only the strategies that look good — apply it to all 8.
 
 ### Bull Market Bias
 The backtest period (roughly 2023–2025) is predominantly a bull market with compressed VIX. Regime strategies that require low VIX or upward prior-day returns may be over-represented. Always flag this when presenting results.
