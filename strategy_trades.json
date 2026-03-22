@@ -2,11 +2,11 @@
   {
     "date": "2023-11-22",
     "ver": "v3",
-    "pnl": 13900,
-    "qty": 20,
+    "pnl": 10425,
+    "qty": 15,
     "exit": "TARGET",
     "fire_count": 2,
-    "risk_budget": 50000,
+    "risk_budget": 37500,
     "pnl_ps": 7.95,
     "is_win": true,
     "entry_time": "10:00",
@@ -42,16 +42,18 @@
       true,
       false,
       false
-    ]
+    ],
+    "sizing_score": 2,
+    "sizing_mult": 0.75
   },
   {
     "date": "2023-11-30",
     "ver": "v3",
-    "pnl": 14150,
-    "qty": 20,
+    "pnl": 3537,
+    "qty": 5,
     "exit": "TARGET",
     "fire_count": 2,
-    "risk_budget": 50000,
+    "risk_budget": 12500,
     "pnl_ps": 8.07,
     "is_win": true,
     "entry_time": "10:00",
@@ -87,16 +89,18 @@
       true,
       false,
       true
-    ]
+    ],
+    "sizing_score": -2,
+    "sizing_mult": 0.25
   },
   {
     "date": "2023-12-05",
     "ver": "v3",
-    "pnl": 8690,
-    "qty": 11,
+    "pnl": 1580,
+    "qty": 2,
     "exit": "CLOSE",
     "fire_count": 1,
-    "risk_budget": 25000,
+    "risk_budget": 6250,
     "pnl_ps": 8.9,
     "is_win": true,
     "entry_time": "10:00",
@@ -132,16 +136,18 @@
       false,
       false,
       false
-    ]
+    ],
+    "sizing_score": -5,
+    "sizing_mult": 0.25
   },
   {
     "date": "2023-12-08",
     "ver": "v3",
-    "pnl": -2805,
-    "qty": 11,
+    "pnl": -2040,
+    "qty": 8,
     "exit": "CLOSE",
     "fire_count": 1,
-    "risk_budget": 25000,
+    "risk_budget": 18750,
     "pnl_ps": -1.55,
     "is_win": false,
     "entry_time": "10:00",
@@ -177,16 +183,18 @@
       false,
       false,
       false
-    ]
+    ],
+    "sizing_score": 1,
+    "sizing_mult": 0.75
   },
   {
     "date": "2023-12-11",
     "ver": "v3",
-    "pnl": -10620,
-    "qty": 18,
+    "pnl": -2360,
+    "qty": 4,
     "exit": "CLOSE",
     "fire_count": 2,
-    "risk_budget": 50000,
+    "risk_budget": 12500,
     "pnl_ps": -4.9,
     "is_win": false,
     "entry_time": "10:00",
@@ -222,16 +230,18 @@
       true,
       false,
       true
-    ]
+    ],
+    "sizing_score": -5,
+    "sizing_mult": 0.25
   },
   {
     "date": "2023-12-14",
     "ver": "v3",
-    "pnl": 40618,
-    "qty": 46,
+    "pnl": 30905,
+    "qty": 35,
     "exit": "CLOSE",
     "fire_count": 4,
-    "risk_budget": 100000,
+    "risk_budget": 75000,
     "pnl_ps": 9.83,
     "is_win": true,
     "entry_time": "10:00",
@@ -267,16 +277,18 @@
       true,
       true,
       true
-    ]
+    ],
+    "sizing_score": 2,
+    "sizing_mult": 0.75
   },
   {
     "date": "2023-12-15",
     "ver": "v3",
-    "pnl": 17369,
-    "qty": 22,
+    "pnl": 8684,
+    "qty": 11,
     "exit": "TARGET",
     "fire_count": 2,
-    "risk_budget": 50000,
+    "risk_budget": 25000,
     "pnl_ps": 8.89,
     "is_win": true,
     "entry_time": "10:00",
@@ -312,16 +324,18 @@
       true,
       true,
       false
-    ]
+    ],
+    "sizing_score": 0,
+    "sizing_mult": 0.5
   },
   {
     "date": "2024-01-02",
     "ver": "v3",
-    "pnl": 13980,
-    "qty": 20,
+    "pnl": 10485,
+    "qty": 15,
     "exit": "TARGET",
     "fire_count": 2,
-    "risk_budget": 50000,
+    "risk_budget": 37500,
     "pnl_ps": 7.99,
     "is_win": true,
     "entry_time": "10:00",
@@ -357,16 +371,18 @@
       true,
       false,
       false
-    ]
+    ],
+    "sizing_score": 2,
+    "sizing_mult": 0.75
   },
   {
     "date": "2024-01-11",
     "ver": "v3",
-    "pnl": 33374,
-    "qty": 37,
+    "pnl": 16236,
+    "qty": 18,
     "exit": "TARGET",
     "fire_count": 3,
-    "risk_budget": 75000,
+    "risk_budget": 37500,
     "pnl_ps": 10.02,
     "is_win": true,
     "entry_time": "10:00",
@@ -402,16 +418,18 @@
       false,
       true,
       true
-    ]
+    ],
+    "sizing_score": -1,
+    "sizing_mult": 0.5
   },
   {
     "date": "2024-01-12",
     "ver": "v3",
-    "pnl": 18768,
-    "qty": 23,
+    "pnl": 13872,
+    "qty": 17,
     "exit": "TARGET",
     "fire_count": 2,
-    "risk_budget": 50000,
+    "risk_budget": 37500,
     "pnl_ps": 9.16,
     "is_win": true,
     "entry_time": "10:00",
@@ -447,16 +465,18 @@
       false,
       true,
       false
-    ]
+    ],
+    "sizing_score": 3,
+    "sizing_mult": 0.75
   },
   {
     "date": "2024-01-22",
     "ver": "v3",
-    "pnl": 830,
-    "qty": 10,
+    "pnl": 166,
+    "qty": 2,
     "exit": "CLOSE",
     "fire_count": 1,
-    "risk_budget": 25000,
+    "risk_budget": 6250,
     "pnl_ps": 1.83,
     "is_win": true,
     "entry_time": "10:00",
@@ -492,16 +512,18 @@
       false,
       true,
       false
-    ]
+    ],
+    "sizing_score": -2,
+    "sizing_mult": 0.25
   },
   {
     "date": "2024-02-02",
     "ver": "v3",
-    "pnl": -44280,
-    "qty": 24,
+    "pnl": -11070,
+    "qty": 6,
     "exit": "WING_STOP",
     "fire_count": 2,
-    "risk_budget": 50000,
+    "risk_budget": 12500,
     "pnl_ps": -17.45,
     "is_win": false,
     "entry_time": "10:00",
@@ -537,16 +559,18 @@
       false,
       false,
       true
-    ]
+    ],
+    "sizing_score": -2,
+    "sizing_mult": 0.25
   },
   {
     "date": "2024-02-05",
     "ver": "v3",
-    "pnl": 17655,
-    "qty": 22,
+    "pnl": 4012,
+    "qty": 5,
     "exit": "TARGET",
     "fire_count": 2,
-    "risk_budget": 50000,
+    "risk_budget": 12500,
     "pnl_ps": 9.03,
     "is_win": true,
     "entry_time": "10:00",
@@ -582,16 +606,18 @@
       true,
       true,
       false
-    ]
+    ],
+    "sizing_score": -2,
+    "sizing_mult": 0.25
   },
   {
     "date": "2024-02-06",
     "ver": "v3",
-    "pnl": 16973,
-    "qty": 22,
+    "pnl": 3858,
+    "qty": 5,
     "exit": "TARGET",
     "fire_count": 2,
-    "risk_budget": 50000,
+    "risk_budget": 12500,
     "pnl_ps": 8.71,
     "is_win": true,
     "entry_time": "10:00",
@@ -627,16 +653,18 @@
       false,
       false,
       true
-    ]
+    ],
+    "sizing_score": -3,
+    "sizing_mult": 0.25
   },
   {
     "date": "2024-02-13",
     "ver": "v3",
-    "pnl": 22100,
-    "qty": 13,
+    "pnl": 10200,
+    "qty": 6,
     "exit": "CLOSE",
     "fire_count": 1,
-    "risk_budget": 25000,
+    "risk_budget": 12500,
     "pnl_ps": 18.0,
     "is_win": true,
     "entry_time": "10:00",
@@ -672,16 +700,18 @@
       false,
       false,
       true
-    ]
+    ],
+    "sizing_score": -1,
+    "sizing_mult": 0.5
   },
   {
     "date": "2024-02-22",
     "ver": "v3",
-    "pnl": -9348,
-    "qty": 12,
+    "pnl": -7011,
+    "qty": 9,
     "exit": "CLOSE",
     "fire_count": 1,
-    "risk_budget": 25000,
+    "risk_budget": 18750,
     "pnl_ps": -6.79,
     "is_win": false,
     "entry_time": "10:00",
@@ -717,16 +747,18 @@
       false,
       true,
       false
-    ]
+    ],
+    "sizing_score": 1,
+    "sizing_mult": 0.75
   },
   {
     "date": "2024-02-23",
     "ver": "v3",
-    "pnl": -2354,
-    "qty": 11,
+    "pnl": -428,
+    "qty": 2,
     "exit": "CLOSE",
     "fire_count": 1,
-    "risk_budget": 25000,
+    "risk_budget": 6250,
     "pnl_ps": -1.14,
     "is_win": false,
     "entry_time": "10:00",
@@ -762,16 +794,18 @@
       false,
       true,
       false
-    ]
+    ],
+    "sizing_score": -2,
+    "sizing_mult": 0.25
   },
   {
     "date": "2024-03-08",
     "ver": "v3",
-    "pnl": -25848,
-    "qty": 12,
+    "pnl": -6462,
+    "qty": 3,
     "exit": "WING_STOP",
     "fire_count": 1,
-    "risk_budget": 25000,
+    "risk_budget": 6250,
     "pnl_ps": -20.54,
     "is_win": false,
     "entry_time": "10:00",
@@ -807,7 +841,9 @@
       false,
       true,
       false
-    ]
+    ],
+    "sizing_score": -2,
+    "sizing_mult": 0.25
   },
   {
     "date": "2024-03-14",
@@ -852,7 +888,9 @@
       false,
       false,
       false
-    ]
+    ],
+    "sizing_score": 5,
+    "sizing_mult": 1.0
   },
   {
     "date": "2024-04-10",
@@ -897,16 +935,18 @@
       true,
       false,
       true
-    ]
+    ],
+    "sizing_score": 11,
+    "sizing_mult": 1.0
   },
   {
     "date": "2024-04-24",
     "ver": "v3",
-    "pnl": 21420,
-    "qty": 24,
+    "pnl": 10710,
+    "qty": 12,
     "exit": "TARGET",
     "fire_count": 2,
-    "risk_budget": 50000,
+    "risk_budget": 25000,
     "pnl_ps": 9.93,
     "is_win": true,
     "entry_time": "10:00",
@@ -942,7 +982,9 @@
       false,
       true,
       true
-    ]
+    ],
+    "sizing_score": -1,
+    "sizing_mult": 0.5
   },
   {
     "date": "2024-04-25",
@@ -987,16 +1029,18 @@
       false,
       false,
       true
-    ]
+    ],
+    "sizing_score": 4,
+    "sizing_mult": 1.0
   },
   {
     "date": "2024-04-26",
     "ver": "v3",
-    "pnl": 28280,
-    "qty": 28,
+    "pnl": 7070,
+    "qty": 7,
     "exit": "TARGET",
     "fire_count": 2,
-    "risk_budget": 50000,
+    "risk_budget": 12500,
     "pnl_ps": 11.1,
     "is_win": true,
     "entry_time": "10:00",
@@ -1032,16 +1076,18 @@
       true,
       false,
       true
-    ]
+    ],
+    "sizing_score": -4,
+    "sizing_mult": 0.25
   },
   {
     "date": "2024-04-29",
     "ver": "v3",
-    "pnl": 8993,
-    "qty": 11,
+    "pnl": 1635,
+    "qty": 2,
     "exit": "TARGET",
     "fire_count": 1,
-    "risk_budget": 25000,
+    "risk_budget": 6250,
     "pnl_ps": 9.18,
     "is_win": true,
     "entry_time": "10:00",
@@ -1077,16 +1123,18 @@
       false,
       true,
       false
-    ]
+    ],
+    "sizing_score": -2,
+    "sizing_mult": 0.25
   },
   {
     "date": "2024-05-03",
     "ver": "v3",
-    "pnl": 14546,
-    "qty": 14,
+    "pnl": 7273,
+    "qty": 7,
     "exit": "TARGET",
     "fire_count": 1,
-    "risk_budget": 25000,
+    "risk_budget": 12500,
     "pnl_ps": 11.39,
     "is_win": true,
     "entry_time": "10:00",
@@ -1122,16 +1170,18 @@
       false,
       false,
       false
-    ]
+    ],
+    "sizing_score": -1,
+    "sizing_mult": 0.5
   },
   {
     "date": "2024-05-10",
     "ver": "v3",
-    "pnl": 2480,
-    "qty": 10,
+    "pnl": 496,
+    "qty": 2,
     "exit": "CLOSE",
     "fire_count": 1,
-    "risk_budget": 25000,
+    "risk_budget": 6250,
     "pnl_ps": 3.48,
     "is_win": true,
     "entry_time": "10:00",
@@ -1167,16 +1217,18 @@
       false,
       true,
       false
-    ]
+    ],
+    "sizing_score": -4,
+    "sizing_mult": 0.25
   },
   {
     "date": "2024-05-15",
     "ver": "v3",
-    "pnl": -38850,
-    "qty": 21,
+    "pnl": -9250,
+    "qty": 5,
     "exit": "WING_STOP",
     "fire_count": 2,
-    "risk_budget": 50000,
+    "risk_budget": 12500,
     "pnl_ps": -17.5,
     "is_win": false,
     "entry_time": "10:00",
@@ -1212,16 +1264,18 @@
       false,
       true,
       true
-    ]
+    ],
+    "sizing_score": -4,
+    "sizing_mult": 0.25
   },
   {
     "date": "2024-06-03",
     "ver": "v3",
-    "pnl": 17468,
-    "qty": 11,
+    "pnl": 7940,
+    "qty": 5,
     "exit": "CLOSE",
     "fire_count": 1,
-    "risk_budget": 25000,
+    "risk_budget": 12500,
     "pnl_ps": 16.88,
     "is_win": true,
     "entry_time": "10:00",
@@ -1257,16 +1311,18 @@
       true,
       false,
       false
-    ]
+    ],
+    "sizing_score": -1,
+    "sizing_mult": 0.5
   },
   {
     "date": "2024-06-07",
     "ver": "v3",
-    "pnl": 20940,
-    "qty": 24,
+    "pnl": 10470,
+    "qty": 12,
     "exit": "TARGET",
     "fire_count": 2,
-    "risk_budget": 50000,
+    "risk_budget": 25000,
     "pnl_ps": 9.72,
     "is_win": true,
     "entry_time": "10:00",
@@ -1302,16 +1358,18 @@
       true,
       false,
       true
-    ]
+    ],
+    "sizing_score": 0,
+    "sizing_mult": 0.5
   },
   {
     "date": "2024-06-12",
     "ver": "v3",
-    "pnl": 23958,
-    "qty": 18,
+    "pnl": 18634,
+    "qty": 14,
     "exit": "CLOSE",
     "fire_count": 1,
-    "risk_budget": 25000,
+    "risk_budget": 18750,
     "pnl_ps": 14.31,
     "is_win": true,
     "entry_time": "10:00",
@@ -1347,16 +1405,18 @@
       false,
       true,
       false
-    ]
+    ],
+    "sizing_score": 1,
+    "sizing_mult": 0.75
   },
   {
     "date": "2024-06-13",
     "ver": "v3",
-    "pnl": 9157,
-    "qty": 11,
+    "pnl": 1665,
+    "qty": 2,
     "exit": "TARGET",
     "fire_count": 1,
-    "risk_budget": 25000,
+    "risk_budget": 6250,
     "pnl_ps": 9.32,
     "is_win": true,
     "entry_time": "10:00",
@@ -1392,16 +1452,18 @@
       false,
       true,
       false
-    ]
+    ],
+    "sizing_score": -2,
+    "sizing_mult": 0.25
   },
   {
     "date": "2024-06-18",
     "ver": "v3",
-    "pnl": 8619,
-    "qty": 11,
+    "pnl": 1567,
+    "qty": 2,
     "exit": "TARGET",
     "fire_count": 1,
-    "risk_budget": 25000,
+    "risk_budget": 6250,
     "pnl_ps": 8.84,
     "is_win": true,
     "entry_time": "10:00",
@@ -1437,7 +1499,9 @@
       false,
       true,
       false
-    ]
+    ],
+    "sizing_score": -4,
+    "sizing_mult": 0.25
   },
   {
     "date": "2024-06-21",
@@ -1482,16 +1546,18 @@
       true,
       false,
       true
-    ]
+    ],
+    "sizing_score": 8,
+    "sizing_mult": 1.0
   },
   {
     "date": "2024-07-02",
     "ver": "v3",
-    "pnl": -17270,
-    "qty": 11,
+    "pnl": -7850,
+    "qty": 5,
     "exit": "CLOSE",
     "fire_count": 1,
-    "risk_budget": 25000,
+    "risk_budget": 12500,
     "pnl_ps": -14.7,
     "is_win": false,
     "entry_time": "10:00",
@@ -1527,16 +1593,18 @@
       false,
       false,
       true
-    ]
+    ],
+    "sizing_score": -1,
+    "sizing_mult": 0.5
   },
   {
     "date": "2024-07-05",
     "ver": "v3",
-    "pnl": -8750,
-    "qty": 10,
+    "pnl": -1750,
+    "qty": 2,
     "exit": "CLOSE",
     "fire_count": 1,
-    "risk_budget": 25000,
+    "risk_budget": 6250,
     "pnl_ps": -7.75,
     "is_win": false,
     "entry_time": "10:00",
@@ -1572,16 +1640,18 @@
       false,
       true,
       false
-    ]
+    ],
+    "sizing_score": -4,
+    "sizing_mult": 0.25
   },
   {
     "date": "2024-07-08",
     "ver": "v3",
-    "pnl": 6156,
-    "qty": 9,
+    "pnl": 1368,
+    "qty": 2,
     "exit": "CLOSE",
     "fire_count": 1,
-    "risk_budget": 25000,
+    "risk_budget": 6250,
     "pnl_ps": 7.84,
     "is_win": true,
     "entry_time": "10:00",
@@ -1617,16 +1687,18 @@
       false,
       true,
       false
-    ]
+    ],
+    "sizing_score": -4,
+    "sizing_mult": 0.25
   },
   {
     "date": "2024-07-11",
     "ver": "v3",
-    "pnl": -17655,
-    "qty": 11,
+    "pnl": -3210,
+    "qty": 2,
     "exit": "WING_STOP",
     "fire_count": 1,
-    "risk_budget": 25000,
+    "risk_budget": 6250,
     "pnl_ps": -15.05,
     "is_win": false,
     "entry_time": "10:00",
@@ -1662,16 +1734,18 @@
       false,
       true,
       false
-    ]
+    ],
+    "sizing_score": -2,
+    "sizing_mult": 0.25
   },
   {
     "date": "2024-07-15",
     "ver": "v3",
-    "pnl": 10668,
-    "qty": 12,
+    "pnl": 2667,
+    "qty": 3,
     "exit": "TARGET",
     "fire_count": 1,
-    "risk_budget": 25000,
+    "risk_budget": 6250,
     "pnl_ps": 9.89,
     "is_win": true,
     "entry_time": "10:00",
@@ -1707,16 +1781,18 @@
       false,
       false,
       true
-    ]
+    ],
+    "sizing_score": -4,
+    "sizing_mult": 0.25
   },
   {
     "date": "2024-07-16",
     "ver": "v3",
-    "pnl": 3197,
-    "qty": 23,
+    "pnl": 2363,
+    "qty": 17,
     "exit": "CLOSE",
     "fire_count": 2,
-    "risk_budget": 50000,
+    "risk_budget": 37500,
     "pnl_ps": 2.39,
     "is_win": true,
     "entry_time": "10:00",
@@ -1752,16 +1828,18 @@
       false,
       false,
       true
-    ]
+    ],
+    "sizing_score": 1,
+    "sizing_mult": 0.75
   },
   {
     "date": "2024-07-17",
     "ver": "v3",
-    "pnl": -6435,
-    "qty": 13,
+    "pnl": -1485,
+    "qty": 3,
     "exit": "CLOSE",
     "fire_count": 1,
-    "risk_budget": 25000,
+    "risk_budget": 6250,
     "pnl_ps": -3.95,
     "is_win": false,
     "entry_time": "10:00",
@@ -1797,16 +1875,18 @@
       false,
       false,
       true
-    ]
+    ],
+    "sizing_score": -3,
+    "sizing_mult": 0.25
   },
   {
     "date": "2024-08-01",
     "ver": "v3",
-    "pnl": -50820,
-    "qty": 28,
+    "pnl": -12705,
+    "qty": 7,
     "exit": "WING_STOP",
     "fire_count": 2,
-    "risk_budget": 50000,
+    "risk_budget": 12500,
     "pnl_ps": -17.15,
     "is_win": false,
     "entry_time": "10:00",
@@ -1842,7 +1922,9 @@
       true,
       true,
       false
-    ]
+    ],
+    "sizing_score": -2,
+    "sizing_mult": 0.25
   },
   {
     "date": "2024-08-02",
@@ -1887,16 +1969,18 @@
       true,
       true,
       true
-    ]
+    ],
+    "sizing_score": 8,
+    "sizing_mult": 1.0
   },
   {
     "date": "2024-08-14",
     "ver": "v3",
-    "pnl": -1170,
-    "qty": 13,
+    "pnl": -540,
+    "qty": 6,
     "exit": "CLOSE",
     "fire_count": 1,
-    "risk_budget": 25000,
+    "risk_budget": 12500,
     "pnl_ps": 0.1,
     "is_win": true,
     "entry_time": "10:00",
@@ -1932,16 +2016,18 @@
       false,
       true,
       false
-    ]
+    ],
+    "sizing_score": 0,
+    "sizing_mult": 0.5
   },
   {
     "date": "2024-08-15",
     "ver": "v3",
-    "pnl": -492,
-    "qty": 12,
+    "pnl": -123,
+    "qty": 3,
     "exit": "CLOSE",
     "fire_count": 1,
-    "risk_budget": 25000,
+    "risk_budget": 6250,
     "pnl_ps": 0.59,
     "is_win": true,
     "entry_time": "10:00",
@@ -1977,16 +2063,18 @@
       false,
       true,
       false
-    ]
+    ],
+    "sizing_score": -4,
+    "sizing_mult": 0.25
   },
   {
     "date": "2024-08-16",
     "ver": "v3",
-    "pnl": 6006,
-    "qty": 14,
+    "pnl": 1287,
+    "qty": 3,
     "exit": "CLOSE",
     "fire_count": 1,
-    "risk_budget": 25000,
+    "risk_budget": 6250,
     "pnl_ps": 5.29,
     "is_win": true,
     "entry_time": "10:00",
@@ -2022,16 +2110,18 @@
       false,
       true,
       false
-    ]
+    ],
+    "sizing_score": -2,
+    "sizing_mult": 0.25
   },
   {
     "date": "2024-08-23",
     "ver": "v3",
-    "pnl": 48314,
-    "qty": 34,
+    "pnl": 35525,
+    "qty": 25,
     "exit": "TARGET",
     "fire_count": 2,
-    "risk_budget": 50000,
+    "risk_budget": 37500,
     "pnl_ps": 15.21,
     "is_win": true,
     "entry_time": "10:00",
@@ -2067,7 +2157,9 @@
       true,
       false,
       false
-    ]
+    ],
+    "sizing_score": 2,
+    "sizing_mult": 0.75
   },
   {
     "date": "2024-08-30",
@@ -2112,16 +2204,18 @@
       true,
       false,
       false
-    ]
+    ],
+    "sizing_score": 4,
+    "sizing_mult": 1.0
   },
   {
     "date": "2024-09-12",
     "ver": "v3",
-    "pnl": -39813,
-    "qty": 23,
+    "pnl": -8655,
+    "qty": 5,
     "exit": "WING_STOP",
     "fire_count": 2,
-    "risk_budget": 50000,
+    "risk_budget": 12500,
     "pnl_ps": -16.31,
     "is_win": false,
     "entry_time": "10:00",
@@ -2157,7 +2251,9 @@
       true,
       true,
       false
-    ]
+    ],
+    "sizing_score": -2,
+    "sizing_mult": 0.25
   },
   {
     "date": "2024-09-19",
@@ -2202,7 +2298,9 @@
       true,
       true,
       false
-    ]
+    ],
+    "sizing_score": 7,
+    "sizing_mult": 1.0
   },
   {
     "date": "2024-09-23",
@@ -2247,16 +2345,18 @@
       false,
       false,
       true
-    ]
+    ],
+    "sizing_score": 4,
+    "sizing_mult": 1.0
   },
   {
     "date": "2024-10-01",
     "ver": "v3",
-    "pnl": 30992,
-    "qty": 23,
+    "pnl": 6738,
+    "qty": 5,
     "exit": "TARGET",
     "fire_count": 2,
-    "risk_budget": 50000,
+    "risk_budget": 12500,
     "pnl_ps": 14.47,
     "is_win": true,
     "entry_time": "10:00",
@@ -2292,16 +2392,18 @@
       true,
       false,
       true
-    ]
+    ],
+    "sizing_score": -4,
+    "sizing_mult": 0.25
   },
   {
     "date": "2024-10-17",
     "ver": "v3",
-    "pnl": 6626,
-    "qty": 7,
+    "pnl": 946,
+    "qty": 1,
     "exit": "TARGET",
     "fire_count": 1,
-    "risk_budget": 25000,
+    "risk_budget": 6250,
     "pnl_ps": 10.46,
     "is_win": true,
     "entry_time": "10:00",
@@ -2337,16 +2439,18 @@
       false,
       true,
       false
-    ]
+    ],
+    "sizing_score": -3,
+    "sizing_mult": 0.25
   },
   {
     "date": "2024-11-14",
     "ver": "v3",
-    "pnl": -28083,
-    "qty": 23,
+    "pnl": -20757,
+    "qty": 17,
     "exit": "CLOSE",
     "fire_count": 2,
-    "risk_budget": 50000,
+    "risk_budget": 37500,
     "pnl_ps": -11.21,
     "is_win": false,
     "entry_time": "10:00",
@@ -2382,16 +2486,18 @@
       true,
       false,
       true
-    ]
+    ],
+    "sizing_score": 1,
+    "sizing_mult": 0.75
   },
   {
     "date": "2024-11-25",
     "ver": "v3",
-    "pnl": -4598,
-    "qty": 22,
+    "pnl": -1045,
+    "qty": 5,
     "exit": "CLOSE",
     "fire_count": 2,
-    "risk_budget": 50000,
+    "risk_budget": 12500,
     "pnl_ps": -1.09,
     "is_win": false,
     "entry_time": "10:00",
@@ -2427,16 +2533,18 @@
       false,
       true,
       true
-    ]
+    ],
+    "sizing_score": -4,
+    "sizing_mult": 0.25
   },
   {
     "date": "2024-11-26",
     "ver": "v3",
-    "pnl": 8844,
-    "qty": 11,
+    "pnl": 1608,
+    "qty": 2,
     "exit": "TARGET",
     "fire_count": 1,
-    "risk_budget": 25000,
+    "risk_budget": 6250,
     "pnl_ps": 9.04,
     "is_win": true,
     "entry_time": "10:00",
@@ -2472,7 +2580,9 @@
       false,
       true,
       false
-    ]
+    ],
+    "sizing_score": -5,
+    "sizing_mult": 0.25
   },
   {
     "date": "2024-12-30",
@@ -2517,16 +2627,18 @@
       true,
       false,
       true
-    ]
+    ],
+    "sizing_score": 5,
+    "sizing_mult": 1.0
   },
   {
     "date": "2025-01-07",
     "ver": "v3",
-    "pnl": -50853,
-    "qty": 23,
+    "pnl": -11055,
+    "qty": 5,
     "exit": "WING_STOP",
     "fire_count": 2,
-    "risk_budget": 50000,
+    "risk_budget": 12500,
     "pnl_ps": -21.11,
     "is_win": false,
     "entry_time": "10:00",
@@ -2562,7 +2674,9 @@
       false,
       false,
       false
-    ]
+    ],
+    "sizing_score": -2,
+    "sizing_mult": 0.25
   },
   {
     "date": "2025-01-08",
@@ -2607,16 +2721,18 @@
       true,
       false,
       false
-    ]
+    ],
+    "sizing_score": 8,
+    "sizing_mult": 1.0
   },
   {
     "date": "2025-01-10",
     "ver": "v3",
-    "pnl": 16790,
-    "qty": 23,
+    "pnl": 12410,
+    "qty": 17,
     "exit": "CLOSE",
     "fire_count": 2,
-    "risk_budget": 50000,
+    "risk_budget": 37500,
     "pnl_ps": 8.3,
     "is_win": true,
     "entry_time": "10:00",
@@ -2652,7 +2768,9 @@
       true,
       false,
       false
-    ]
+    ],
+    "sizing_score": 2,
+    "sizing_mult": 0.75
   },
   {
     "date": "2025-01-17",
@@ -2697,16 +2815,18 @@
       false,
       true,
       true
-    ]
+    ],
+    "sizing_score": 7,
+    "sizing_mult": 1.0
   },
   {
     "date": "2025-01-21",
     "ver": "v3",
-    "pnl": -1276,
-    "qty": 22,
+    "pnl": -290,
+    "qty": 5,
     "exit": "CLOSE",
     "fire_count": 2,
-    "risk_budget": 50000,
+    "risk_budget": 12500,
     "pnl_ps": 0.42,
     "is_win": true,
     "entry_time": "10:00",
@@ -2742,7 +2862,9 @@
       false,
       true,
       false
-    ]
+    ],
+    "sizing_score": -4,
+    "sizing_mult": 0.25
   },
   {
     "date": "2025-01-27",
@@ -2787,16 +2909,18 @@
       true,
       false,
       true
-    ]
+    ],
+    "sizing_score": 7,
+    "sizing_mult": 1.0
   },
   {
     "date": "2025-01-28",
     "ver": "v3",
-    "pnl": -17750,
-    "qty": 10,
+    "pnl": -3550,
+    "qty": 2,
     "exit": "WING_STOP",
     "fire_count": 1,
-    "risk_budget": 25000,
+    "risk_budget": 6250,
     "pnl_ps": -16.75,
     "is_win": false,
     "entry_time": "10:00",
@@ -2832,16 +2956,18 @@
       true,
       false,
       false
-    ]
+    ],
+    "sizing_score": -3,
+    "sizing_mult": 0.25
   },
   {
     "date": "2025-02-07",
     "ver": "v3",
-    "pnl": -21560,
-    "qty": 11,
+    "pnl": -3920,
+    "qty": 2,
     "exit": "WING_STOP",
     "fire_count": 1,
-    "risk_budget": 25000,
+    "risk_budget": 6250,
     "pnl_ps": -18.6,
     "is_win": false,
     "entry_time": "10:00",
@@ -2877,16 +3003,18 @@
       false,
       false,
       false
-    ]
+    ],
+    "sizing_score": -3,
+    "sizing_mult": 0.25
   },
   {
     "date": "2025-02-12",
     "ver": "v3",
-    "pnl": 1661,
-    "qty": 11,
+    "pnl": 1208,
+    "qty": 8,
     "exit": "CLOSE",
     "fire_count": 1,
-    "risk_budget": 25000,
+    "risk_budget": 18750,
     "pnl_ps": 2.51,
     "is_win": true,
     "entry_time": "10:00",
@@ -2922,16 +3050,18 @@
       false,
       false,
       true
-    ]
+    ],
+    "sizing_score": 2,
+    "sizing_mult": 0.75
   },
   {
     "date": "2025-02-20",
     "ver": "v3",
-    "pnl": 11700,
-    "qty": 10,
+    "pnl": 5850,
+    "qty": 5,
     "exit": "TARGET",
     "fire_count": 1,
-    "risk_budget": 25000,
+    "risk_budget": 12500,
     "pnl_ps": 12.7,
     "is_win": true,
     "entry_time": "10:00",
@@ -2967,16 +3097,18 @@
       false,
       true,
       false
-    ]
+    ],
+    "sizing_score": 0,
+    "sizing_mult": 0.5
   },
   {
     "date": "2025-03-18",
     "ver": "v3",
-    "pnl": 14738,
-    "qty": 9,
+    "pnl": 3275,
+    "qty": 2,
     "exit": "TARGET",
     "fire_count": 1,
-    "risk_budget": 25000,
+    "risk_budget": 6250,
     "pnl_ps": 17.38,
     "is_win": true,
     "entry_time": "10:00",
@@ -3012,16 +3144,18 @@
       false,
       false,
       true
-    ]
+    ],
+    "sizing_score": -3,
+    "sizing_mult": 0.25
   },
   {
     "date": "2025-03-19",
     "ver": "v3",
-    "pnl": 14392,
-    "qty": 28,
+    "pnl": 10794,
+    "qty": 21,
     "exit": "CLOSE",
     "fire_count": 2,
-    "risk_budget": 50000,
+    "risk_budget": 37500,
     "pnl_ps": 6.14,
     "is_win": true,
     "entry_time": "10:00",
@@ -3057,16 +3191,18 @@
       false,
       false,
       true
-    ]
+    ],
+    "sizing_score": 3,
+    "sizing_mult": 0.75
   },
   {
     "date": "2025-03-20",
     "ver": "v3",
-    "pnl": 16775,
-    "qty": 11,
+    "pnl": 7625,
+    "qty": 5,
     "exit": "TARGET",
     "fire_count": 1,
-    "risk_budget": 25000,
+    "risk_budget": 12500,
     "pnl_ps": 16.25,
     "is_win": true,
     "entry_time": "10:00",
@@ -3102,16 +3238,18 @@
       false,
       false,
       true
-    ]
+    ],
+    "sizing_score": -1,
+    "sizing_mult": 0.5
   },
   {
     "date": "2025-03-21",
     "ver": "v3",
-    "pnl": -13596,
-    "qty": 12,
+    "pnl": -10197,
+    "qty": 9,
     "exit": "CLOSE",
     "fire_count": 1,
-    "risk_budget": 25000,
+    "risk_budget": 18750,
     "pnl_ps": -10.33,
     "is_win": false,
     "entry_time": "10:00",
@@ -3147,16 +3285,18 @@
       false,
       false,
       true
-    ]
+    ],
+    "sizing_score": 3,
+    "sizing_mult": 0.75
   },
   {
     "date": "2025-03-25",
     "ver": "v3",
-    "pnl": 9248,
-    "qty": 9,
+    "pnl": 2055,
+    "qty": 2,
     "exit": "TARGET",
     "fire_count": 1,
-    "risk_budget": 25000,
+    "risk_budget": 6250,
     "pnl_ps": 11.28,
     "is_win": true,
     "entry_time": "10:00",
@@ -3192,7 +3332,9 @@
       false,
       true,
       false
-    ]
+    ],
+    "sizing_score": -4,
+    "sizing_mult": 0.25
   },
   {
     "date": "2025-03-27",
@@ -3237,16 +3379,18 @@
       true,
       false,
       true
-    ]
+    ],
+    "sizing_score": 8,
+    "sizing_mult": 1.0
   },
   {
     "date": "2025-03-28",
     "ver": "v3",
-    "pnl": -41392,
-    "qty": 26,
+    "pnl": -20696,
+    "qty": 13,
     "exit": "WING_STOP",
     "fire_count": 2,
-    "risk_budget": 50000,
+    "risk_budget": 25000,
     "pnl_ps": -14.92,
     "is_win": false,
     "entry_time": "10:00",
@@ -3282,16 +3426,18 @@
       true,
       false,
       true
-    ]
+    ],
+    "sizing_score": -1,
+    "sizing_mult": 0.5
   },
   {
     "date": "2025-04-14",
     "ver": "v3",
-    "pnl": 17664,
-    "qty": 7,
+    "pnl": 12618,
+    "qty": 5,
     "exit": "TARGET",
     "fire_count": 1,
-    "risk_budget": 25000,
+    "risk_budget": 18750,
     "pnl_ps": 26.23,
     "is_win": true,
     "entry_time": "10:00",
@@ -3327,16 +3473,18 @@
       false,
       false,
       true
-    ]
+    ],
+    "sizing_score": 1,
+    "sizing_mult": 0.75
   },
   {
     "date": "2025-04-25",
     "ver": "v3",
-    "pnl": -15336,
-    "qty": 8,
+    "pnl": -11502,
+    "qty": 6,
     "exit": "CLOSE",
     "fire_count": 1,
-    "risk_budget": 25000,
+    "risk_budget": 18750,
     "pnl_ps": -18.17,
     "is_win": false,
     "entry_time": "10:00",
@@ -3372,16 +3520,18 @@
       false,
       true,
       false
-    ]
+    ],
+    "sizing_score": 1,
+    "sizing_mult": 0.75
   },
   {
     "date": "2025-04-28",
     "ver": "v3",
-    "pnl": 13064,
-    "qty": 8,
+    "pnl": 9798,
+    "qty": 6,
     "exit": "TARGET",
     "fire_count": 1,
-    "risk_budget": 25000,
+    "risk_budget": 18750,
     "pnl_ps": 17.33,
     "is_win": true,
     "entry_time": "10:00",
@@ -3417,7 +3567,9 @@
       false,
       true,
       false
-    ]
+    ],
+    "sizing_score": 1,
+    "sizing_mult": 0.75
   },
   {
     "date": "2025-05-01",
@@ -3462,7 +3614,9 @@
       true,
       true,
       true
-    ]
+    ],
+    "sizing_score": 5,
+    "sizing_mult": 1.0
   },
   {
     "date": "2025-05-02",
@@ -3507,16 +3661,18 @@
       false,
       true,
       true
-    ]
+    ],
+    "sizing_score": 5,
+    "sizing_mult": 1.0
   },
   {
     "date": "2025-05-14",
     "ver": "v3",
-    "pnl": 12185,
-    "qty": 10,
+    "pnl": 6092,
+    "qty": 5,
     "exit": "TARGET",
     "fire_count": 1,
-    "risk_budget": 25000,
+    "risk_budget": 12500,
     "pnl_ps": 13.19,
     "is_win": true,
     "entry_time": "10:00",
@@ -3552,16 +3708,18 @@
       false,
       true,
       false
-    ]
+    ],
+    "sizing_score": 0,
+    "sizing_mult": 0.5
   },
   {
     "date": "2025-05-30",
     "ver": "v3",
-    "pnl": 3340,
-    "qty": 20,
+    "pnl": 2505,
+    "qty": 15,
     "exit": "CLOSE",
     "fire_count": 2,
-    "risk_budget": 50000,
+    "risk_budget": 37500,
     "pnl_ps": 2.67,
     "is_win": true,
     "entry_time": "10:00",
@@ -3597,16 +3755,18 @@
       true,
       false,
       false
-    ]
+    ],
+    "sizing_score": 2,
+    "sizing_mult": 0.75
   },
   {
     "date": "2025-06-02",
     "ver": "v3",
-    "pnl": -19116,
-    "qty": 9,
+    "pnl": -14868,
+    "qty": 7,
     "exit": "WING_STOP",
     "fire_count": 1,
-    "risk_budget": 25000,
+    "risk_budget": 18750,
     "pnl_ps": -20.24,
     "is_win": false,
     "entry_time": "10:00",
@@ -3642,7 +3802,9 @@
       true,
       false,
       false
-    ]
+    ],
+    "sizing_score": 3,
+    "sizing_mult": 0.75
   },
   {
     "date": "2025-06-05",
@@ -3687,16 +3849,18 @@
       true,
       true,
       true
-    ]
+    ],
+    "sizing_score": 8,
+    "sizing_mult": 1.0
   },
   {
     "date": "2025-06-11",
     "ver": "v3",
-    "pnl": -992,
-    "qty": 32,
+    "pnl": -496,
+    "qty": 16,
     "exit": "CLOSE",
     "fire_count": 3,
-    "risk_budget": 75000,
+    "risk_budget": 37500,
     "pnl_ps": 0.69,
     "is_win": true,
     "entry_time": "10:00",
@@ -3732,16 +3896,18 @@
       true,
       true,
       true
-    ]
+    ],
+    "sizing_score": 0,
+    "sizing_mult": 0.5
   },
   {
     "date": "2025-07-24",
     "ver": "v3",
-    "pnl": 5780,
-    "qty": 8,
+    "pnl": 1445,
+    "qty": 2,
     "exit": "TARGET",
     "fire_count": 1,
-    "risk_budget": 25000,
+    "risk_budget": 6250,
     "pnl_ps": 8.22,
     "is_win": true,
     "entry_time": "10:00",
@@ -3777,7 +3943,9 @@
       false,
       true,
       false
-    ]
+    ],
+    "sizing_score": -2,
+    "sizing_mult": 0.25
   },
   {
     "date": "2025-07-31",
@@ -3821,7 +3989,9 @@
       false,
       true,
       false
-    ]
+    ],
+    "sizing_score": 4,
+    "sizing_mult": 1.0
   },
   {
     "date": "2025-08-12",
@@ -3866,16 +4036,18 @@
       true,
       true,
       true
-    ]
+    ],
+    "sizing_score": 8,
+    "sizing_mult": 1.0
   },
   {
     "date": "2025-08-13",
     "ver": "v3",
-    "pnl": 5624,
-    "qty": 8,
+    "pnl": 2812,
+    "qty": 4,
     "exit": "CLOSE",
     "fire_count": 1,
-    "risk_budget": 25000,
+    "risk_budget": 12500,
     "pnl_ps": 8.03,
     "is_win": true,
     "entry_time": "10:00",
@@ -3911,16 +4083,18 @@
       false,
       true,
       false
-    ]
+    ],
+    "sizing_score": -1,
+    "sizing_mult": 0.5
   },
   {
     "date": "2025-08-14",
     "ver": "v3",
-    "pnl": 16254,
-    "qty": 19,
+    "pnl": 3422,
+    "qty": 4,
     "exit": "TARGET",
     "fire_count": 2,
-    "risk_budget": 50000,
+    "risk_budget": 12500,
     "pnl_ps": 9.55,
     "is_win": true,
     "entry_time": "10:00",
@@ -3956,16 +4130,18 @@
       false,
       true,
       true
-    ]
+    ],
+    "sizing_score": -3,
+    "sizing_mult": 0.25
   },
   {
     "date": "2025-08-28",
     "ver": "v3",
-    "pnl": -16140,
-    "qty": 20,
+    "pnl": -8070,
+    "qty": 10,
     "exit": "CLOSE",
     "fire_count": 2,
-    "risk_budget": 50000,
+    "risk_budget": 25000,
     "pnl_ps": -7.07,
     "is_win": false,
     "entry_time": "10:00",
@@ -4001,16 +4177,18 @@
       false,
       true,
       true
-    ]
+    ],
+    "sizing_score": 0,
+    "sizing_mult": 0.5
   },
   {
     "date": "2025-09-05",
     "ver": "v3",
-    "pnl": -45100,
-    "qty": 20,
+    "pnl": -11275,
+    "qty": 5,
     "exit": "WING_STOP",
     "fire_count": 2,
-    "risk_budget": 50000,
+    "risk_budget": 12500,
     "pnl_ps": -21.55,
     "is_win": false,
     "entry_time": "10:00",
@@ -4046,16 +4224,18 @@
       false,
       true,
       false
-    ]
+    ],
+    "sizing_score": -2,
+    "sizing_mult": 0.25
   },
   {
     "date": "2025-09-10",
     "ver": "v3",
-    "pnl": 3352,
-    "qty": 8,
+    "pnl": 2514,
+    "qty": 6,
     "exit": "CLOSE",
     "fire_count": 1,
-    "risk_budget": 25000,
+    "risk_budget": 18750,
     "pnl_ps": 5.19,
     "is_win": true,
     "entry_time": "10:00",
@@ -4091,16 +4271,18 @@
       false,
       true,
       false
-    ]
+    ],
+    "sizing_score": 1,
+    "sizing_mult": 0.75
   },
   {
     "date": "2025-09-18",
     "ver": "v3",
-    "pnl": 18396,
-    "qty": 18,
+    "pnl": 13286,
+    "qty": 13,
     "exit": "TARGET",
     "fire_count": 2,
-    "risk_budget": 50000,
+    "risk_budget": 37500,
     "pnl_ps": 11.22,
     "is_win": true,
     "entry_time": "10:00",
@@ -4136,7 +4318,9 @@
       true,
       false,
       true
-    ]
+    ],
+    "sizing_score": 1,
+    "sizing_mult": 0.75
   },
   {
     "date": "2025-10-30",
@@ -4181,16 +4365,18 @@
       true,
       false,
       true
-    ]
+    ],
+    "sizing_score": 7,
+    "sizing_mult": 1.0
   },
   {
     "date": "2025-11-12",
     "ver": "v3",
-    "pnl": 7472,
-    "qty": 7,
+    "pnl": 5338,
+    "qty": 5,
     "exit": "TARGET",
     "fire_count": 1,
-    "risk_budget": 25000,
+    "risk_budget": 18750,
     "pnl_ps": 11.68,
     "is_win": true,
     "entry_time": "10:00",
@@ -4226,7 +4412,9 @@
       false,
       true,
       false
-    ]
+    ],
+    "sizing_score": 2,
+    "sizing_mult": 0.75
   },
   {
     "date": "2025-11-14",
@@ -4271,16 +4459,18 @@
       true,
       false,
       true
-    ]
+    ],
+    "sizing_score": 7,
+    "sizing_mult": 1.0
   },
   {
     "date": "2025-11-17",
     "ver": "v3",
-    "pnl": -22162,
-    "qty": 7,
+    "pnl": -15830,
+    "qty": 5,
     "exit": "WING_STOP",
     "fire_count": 1,
-    "risk_budget": 25000,
+    "risk_budget": 18750,
     "pnl_ps": -30.66,
     "is_win": false,
     "entry_time": "10:00",
@@ -4316,16 +4506,18 @@
       false,
       false,
       true
-    ]
+    ],
+    "sizing_score": 1,
+    "sizing_mult": 0.75
   },
   {
     "date": "2025-11-25",
     "ver": "v3",
-    "pnl": -21679,
-    "qty": 7,
+    "pnl": -9291,
+    "qty": 3,
     "exit": "WING_STOP",
     "fire_count": 1,
-    "risk_budget": 25000,
+    "risk_budget": 12500,
     "pnl_ps": -29.97,
     "is_win": false,
     "entry_time": "10:00",
@@ -4361,16 +4553,18 @@
       false,
       false,
       true
-    ]
+    ],
+    "sizing_score": -1,
+    "sizing_mult": 0.5
   },
   {
     "date": "2025-12-01",
     "ver": "v3",
-    "pnl": 9088,
-    "qty": 8,
+    "pnl": 2272,
+    "qty": 2,
     "exit": "TARGET",
     "fire_count": 1,
-    "risk_budget": 25000,
+    "risk_budget": 6250,
     "pnl_ps": 12.36,
     "is_win": true,
     "entry_time": "10:00",
@@ -4406,16 +4600,18 @@
       false,
       false,
       true
-    ]
+    ],
+    "sizing_score": -3,
+    "sizing_mult": 0.25
   },
   {
     "date": "2025-12-03",
     "ver": "v3",
-    "pnl": 1336,
-    "qty": 8,
+    "pnl": 1002,
+    "qty": 6,
     "exit": "CLOSE",
     "fire_count": 1,
-    "risk_budget": 25000,
+    "risk_budget": 18750,
     "pnl_ps": 2.67,
     "is_win": true,
     "entry_time": "10:00",
@@ -4451,16 +4647,18 @@
       false,
       false,
       true
-    ]
+    ],
+    "sizing_score": 3,
+    "sizing_mult": 0.75
   },
   {
     "date": "2025-12-04",
     "ver": "v3",
-    "pnl": 21165,
-    "qty": 17,
+    "pnl": 9960,
+    "qty": 8,
     "exit": "TARGET",
     "fire_count": 2,
-    "risk_budget": 50000,
+    "risk_budget": 25000,
     "pnl_ps": 13.45,
     "is_win": true,
     "entry_time": "10:00",
@@ -4496,16 +4694,18 @@
       false,
       true,
       true
-    ]
+    ],
+    "sizing_score": 0,
+    "sizing_mult": 0.5
   },
   {
     "date": "2025-12-11",
     "ver": "v3",
-    "pnl": -18828,
-    "qty": 9,
+    "pnl": -4184,
+    "qty": 2,
     "exit": "WING_STOP",
     "fire_count": 1,
-    "risk_budget": 25000,
+    "risk_budget": 6250,
     "pnl_ps": -19.92,
     "is_win": false,
     "entry_time": "10:00",
@@ -4541,16 +4741,18 @@
       true,
       false,
       false
-    ]
+    ],
+    "sizing_score": -3,
+    "sizing_mult": 0.25
   },
   {
     "date": "2025-12-29",
     "ver": "v3",
-    "pnl": 13416,
-    "qty": 16,
+    "pnl": 10062,
+    "qty": 12,
     "exit": "TARGET",
     "fire_count": 2,
-    "risk_budget": 50000,
+    "risk_budget": 37500,
     "pnl_ps": 9.38,
     "is_win": true,
     "entry_time": "10:00",
@@ -4586,16 +4788,18 @@
       true,
       false,
       true
-    ]
+    ],
+    "sizing_score": 1,
+    "sizing_mult": 0.75
   },
   {
     "date": "2026-01-08",
     "ver": "v3",
-    "pnl": 14013,
-    "qty": 27,
+    "pnl": 10380,
+    "qty": 20,
     "exit": "CLOSE",
     "fire_count": 3,
-    "risk_budget": 75000,
+    "risk_budget": 56250,
     "pnl_ps": 6.19,
     "is_win": true,
     "entry_time": "10:00",
@@ -4631,16 +4835,18 @@
       true,
       false,
       true
-    ]
+    ],
+    "sizing_score": 3,
+    "sizing_mult": 0.75
   },
   {
     "date": "2026-01-09",
     "ver": "v3",
-    "pnl": 2255,
-    "qty": 11,
+    "pnl": 1640,
+    "qty": 8,
     "exit": "CLOSE",
     "fire_count": 1,
-    "risk_budget": 25000,
+    "risk_budget": 18750,
     "pnl_ps": 3.05,
     "is_win": true,
     "entry_time": "10:00",
@@ -4676,7 +4882,9 @@
       true,
       false,
       false
-    ]
+    ],
+    "sizing_score": 1,
+    "sizing_mult": 0.75
   },
   {
     "date": "2026-01-14",
@@ -4721,7 +4929,9 @@
       true,
       false,
       true
-    ]
+    ],
+    "sizing_score": 11,
+    "sizing_mult": 1.0
   },
   {
     "date": "2026-01-29",
@@ -4766,7 +4976,9 @@
       true,
       false,
       false
-    ]
+    ],
+    "sizing_score": 4,
+    "sizing_mult": 1.0
   },
   {
     "date": "2026-01-30",
@@ -4811,16 +5023,18 @@
       true,
       false,
       true
-    ]
+    ],
+    "sizing_score": 10,
+    "sizing_mult": 1.0
   },
   {
     "date": "2026-02-02",
     "ver": "v3",
-    "pnl": -6175,
-    "qty": 25,
+    "pnl": -4446,
+    "qty": 18,
     "exit": "CLOSE",
     "fire_count": 3,
-    "risk_budget": 75000,
+    "risk_budget": 56250,
     "pnl_ps": -1.47,
     "is_win": false,
     "entry_time": "10:00",
@@ -4856,16 +5070,18 @@
       true,
       false,
       true
-    ]
+    ],
+    "sizing_score": 3,
+    "sizing_mult": 0.75
   },
   {
     "date": "2026-02-11",
     "ver": "v3",
-    "pnl": 21276,
-    "qty": 17,
+    "pnl": 16270,
+    "qty": 13,
     "exit": "TARGET",
     "fire_count": 2,
-    "risk_budget": 50000,
+    "risk_budget": 37500,
     "pnl_ps": 13.52,
     "is_win": true,
     "entry_time": "10:00",
@@ -4901,7 +5117,9 @@
       false,
       false,
       true
-    ]
+    ],
+    "sizing_score": 1,
+    "sizing_mult": 0.75
   },
   {
     "date": "2026-02-13",
@@ -4946,16 +5164,18 @@
       true,
       false,
       true
-    ]
+    ],
+    "sizing_score": 7,
+    "sizing_mult": 1.0
   },
   {
     "date": "2026-02-23",
     "ver": "v3",
-    "pnl": -29205,
-    "qty": 15,
+    "pnl": -5841,
+    "qty": 3,
     "exit": "CLOSE",
     "fire_count": 2,
-    "risk_budget": 50000,
+    "risk_budget": 12500,
     "pnl_ps": -18.47,
     "is_win": false,
     "entry_time": "10:00",
@@ -4991,16 +5211,18 @@
       true,
       false,
       true
-    ]
+    ],
+    "sizing_score": -4,
+    "sizing_mult": 0.25
   },
   {
     "date": "2026-02-24",
     "ver": "v3",
-    "pnl": -18512,
-    "qty": 13,
+    "pnl": -14240,
+    "qty": 10,
     "exit": "CLOSE",
     "fire_count": 2,
-    "risk_budget": 50000,
+    "risk_budget": 37500,
     "pnl_ps": -13.24,
     "is_win": false,
     "entry_time": "10:00",
@@ -5036,16 +5258,18 @@
       false,
       false,
       true
-    ]
+    ],
+    "sizing_score": 2,
+    "sizing_mult": 0.75
   },
   {
     "date": "2026-02-26",
     "ver": "v3",
-    "pnl": 10840,
-    "qty": 8,
+    "pnl": 5420,
+    "qty": 4,
     "exit": "CLOSE",
     "fire_count": 1,
-    "risk_budget": 25000,
+    "risk_budget": 12500,
     "pnl_ps": 14.55,
     "is_win": true,
     "entry_time": "10:00",
@@ -5081,16 +5305,18 @@
       false,
       true,
       false
-    ]
+    ],
+    "sizing_score": -1,
+    "sizing_mult": 0.5
   },
   {
     "date": "2023-11-22",
     "ver": "n15",
-    "pnl": 13900,
-    "qty": 20,
+    "pnl": 10425,
+    "qty": 15,
     "exit": "TARGET",
     "fire_count": 2,
-    "risk_budget": 50000,
+    "risk_budget": 37500,
     "pnl_ps": 7.95,
     "is_win": true,
     "entry_time": "10:00",
@@ -5126,16 +5352,18 @@
       true,
       false,
       false
-    ]
+    ],
+    "sizing_score": 0,
+    "sizing_mult": 0.75
   },
   {
     "date": "2023-11-30",
     "ver": "n15",
-    "pnl": 14150,
-    "qty": 20,
+    "pnl": 3537,
+    "qty": 5,
     "exit": "TARGET",
     "fire_count": 2,
-    "risk_budget": 50000,
+    "risk_budget": 12500,
     "pnl_ps": 8.07,
     "is_win": true,
     "entry_time": "10:00",
@@ -5171,16 +5399,18 @@
       true,
       false,
       true
-    ]
+    ],
+    "sizing_score": -2,
+    "sizing_mult": 0.25
   },
   {
     "date": "2023-12-05",
     "ver": "n15",
-    "pnl": 8690,
-    "qty": 11,
+    "pnl": 1580,
+    "qty": 2,
     "exit": "CLOSE",
     "fire_count": 1,
-    "risk_budget": 25000,
+    "risk_budget": 6250,
     "pnl_ps": 8.9,
     "is_win": true,
     "entry_time": "10:00",
@@ -5216,16 +5446,18 @@
       false,
       false,
       false
-    ]
+    ],
+    "sizing_score": -6,
+    "sizing_mult": 0.25
   },
   {
     "date": "2023-12-08",
     "ver": "n15",
-    "pnl": -2805,
-    "qty": 11,
+    "pnl": -510,
+    "qty": 2,
     "exit": "CLOSE",
     "fire_count": 1,
-    "risk_budget": 25000,
+    "risk_budget": 6250,
     "pnl_ps": -1.55,
     "is_win": false,
     "entry_time": "10:00",
@@ -5261,16 +5493,18 @@
       false,
       false,
       false
-    ]
+    ],
+    "sizing_score": -2,
+    "sizing_mult": 0.25
   },
   {
     "date": "2023-12-11",
     "ver": "n15",
-    "pnl": -10620,
-    "qty": 18,
+    "pnl": -2360,
+    "qty": 4,
     "exit": "CLOSE",
     "fire_count": 2,
-    "risk_budget": 50000,
+    "risk_budget": 12500,
     "pnl_ps": -4.9,
     "is_win": false,
     "entry_time": "10:00",
@@ -5306,16 +5540,18 @@
       true,
       false,
       true
-    ]
+    ],
+    "sizing_score": -2,
+    "sizing_mult": 0.25
   },
   {
     "date": "2023-12-15",
     "ver": "n15",
-    "pnl": 17369,
-    "qty": 22,
+    "pnl": 12632,
+    "qty": 16,
     "exit": "TARGET",
     "fire_count": 2,
-    "risk_budget": 50000,
+    "risk_budget": 37500,
     "pnl_ps": 8.89,
     "is_win": true,
     "entry_time": "10:00",
@@ -5351,16 +5587,18 @@
       true,
       true,
       false
-    ]
+    ],
+    "sizing_score": 0,
+    "sizing_mult": 0.75
   },
   {
     "date": "2024-01-02",
     "ver": "n15",
-    "pnl": 13980,
-    "qty": 20,
+    "pnl": 6990,
+    "qty": 10,
     "exit": "TARGET",
     "fire_count": 2,
-    "risk_budget": 50000,
+    "risk_budget": 25000,
     "pnl_ps": 7.99,
     "is_win": true,
     "entry_time": "10:00",
@@ -5396,16 +5634,18 @@
       true,
       false,
       false
-    ]
+    ],
+    "sizing_score": -1,
+    "sizing_mult": 0.5
   },
   {
     "date": "2024-01-11",
     "ver": "n15",
-    "pnl": 33374,
-    "qty": 37,
+    "pnl": 16236,
+    "qty": 18,
     "exit": "TARGET",
     "fire_count": 3,
-    "risk_budget": 75000,
+    "risk_budget": 37500,
     "pnl_ps": 10.02,
     "is_win": true,
     "entry_time": "10:00",
@@ -5441,7 +5681,9 @@
       false,
       true,
       true
-    ]
+    ],
+    "sizing_score": -1,
+    "sizing_mult": 0.5
   },
   {
     "date": "2024-01-12",
@@ -5486,16 +5728,18 @@
       false,
       true,
       false
-    ]
+    ],
+    "sizing_score": 3,
+    "sizing_mult": 1.0
   },
   {
     "date": "2024-01-22",
     "ver": "n15",
-    "pnl": 830,
-    "qty": 10,
+    "pnl": 415,
+    "qty": 5,
     "exit": "CLOSE",
     "fire_count": 1,
-    "risk_budget": 25000,
+    "risk_budget": 12500,
     "pnl_ps": 1.83,
     "is_win": true,
     "entry_time": "10:00",
@@ -5531,16 +5775,18 @@
       false,
       true,
       false
-    ]
+    ],
+    "sizing_score": -1,
+    "sizing_mult": 0.5
   },
   {
     "date": "2024-02-02",
     "ver": "n15",
-    "pnl": -44280,
-    "qty": 24,
+    "pnl": -22140,
+    "qty": 12,
     "exit": "WING_STOP",
     "fire_count": 2,
-    "risk_budget": 50000,
+    "risk_budget": 25000,
     "pnl_ps": -17.45,
     "is_win": false,
     "entry_time": "10:00",
@@ -5576,16 +5822,18 @@
       false,
       false,
       true
-    ]
+    ],
+    "sizing_score": -1,
+    "sizing_mult": 0.5
   },
   {
     "date": "2024-02-05",
     "ver": "n15",
-    "pnl": 17655,
-    "qty": 22,
+    "pnl": 4012,
+    "qty": 5,
     "exit": "TARGET",
     "fire_count": 2,
-    "risk_budget": 50000,
+    "risk_budget": 12500,
     "pnl_ps": 9.03,
     "is_win": true,
     "entry_time": "10:00",
@@ -5621,16 +5869,18 @@
       true,
       true,
       false
-    ]
+    ],
+    "sizing_score": -3,
+    "sizing_mult": 0.25
   },
   {
     "date": "2024-02-06",
     "ver": "n15",
-    "pnl": 16973,
-    "qty": 22,
+    "pnl": 12344,
+    "qty": 16,
     "exit": "TARGET",
     "fire_count": 2,
-    "risk_budget": 50000,
+    "risk_budget": 37500,
     "pnl_ps": 8.71,
     "is_win": true,
     "entry_time": "10:00",
@@ -5666,16 +5916,18 @@
       false,
       false,
       true
-    ]
+    ],
+    "sizing_score": 1,
+    "sizing_mult": 0.75
   },
   {
     "date": "2024-02-22",
     "ver": "n15",
-    "pnl": -9348,
-    "qty": 12,
+    "pnl": -2337,
+    "qty": 3,
     "exit": "CLOSE",
     "fire_count": 1,
-    "risk_budget": 25000,
+    "risk_budget": 6250,
     "pnl_ps": -6.79,
     "is_win": false,
     "entry_time": "10:00",
@@ -5711,16 +5963,18 @@
       false,
       true,
       false
-    ]
+    ],
+    "sizing_score": -3,
+    "sizing_mult": 0.25
   },
   {
     "date": "2024-02-23",
     "ver": "n15",
-    "pnl": -2354,
-    "qty": 11,
+    "pnl": -428,
+    "qty": 2,
     "exit": "CLOSE",
     "fire_count": 1,
-    "risk_budget": 25000,
+    "risk_budget": 6250,
     "pnl_ps": -1.14,
     "is_win": false,
     "entry_time": "10:00",
@@ -5756,7 +6010,9 @@
       false,
       true,
       false
-    ]
+    ],
+    "sizing_score": -2,
+    "sizing_mult": 0.25
   },
   {
     "date": "2024-04-10",
@@ -5801,7 +6057,9 @@
       true,
       false,
       true
-    ]
+    ],
+    "sizing_score": 5,
+    "sizing_mult": 1.0
   },
   {
     "date": "2024-04-25",
@@ -5846,16 +6104,18 @@
       false,
       false,
       true
-    ]
+    ],
+    "sizing_score": 4,
+    "sizing_mult": 1.0
   },
   {
     "date": "2024-04-26",
     "ver": "n15",
-    "pnl": 28280,
-    "qty": 28,
+    "pnl": 21210,
+    "qty": 21,
     "exit": "TARGET",
     "fire_count": 2,
-    "risk_budget": 50000,
+    "risk_budget": 37500,
     "pnl_ps": 11.1,
     "is_win": true,
     "entry_time": "10:00",
@@ -5891,16 +6151,18 @@
       true,
       false,
       true
-    ]
+    ],
+    "sizing_score": 0,
+    "sizing_mult": 0.75
   },
   {
     "date": "2024-04-29",
     "ver": "n15",
-    "pnl": 8993,
-    "qty": 11,
+    "pnl": 4088,
+    "qty": 5,
     "exit": "TARGET",
     "fire_count": 1,
-    "risk_budget": 25000,
+    "risk_budget": 12500,
     "pnl_ps": 9.18,
     "is_win": true,
     "entry_time": "10:00",
@@ -5936,16 +6198,18 @@
       false,
       true,
       false
-    ]
+    ],
+    "sizing_score": -1,
+    "sizing_mult": 0.5
   },
   {
     "date": "2024-05-03",
     "ver": "n15",
-    "pnl": 14546,
-    "qty": 14,
+    "pnl": 3117,
+    "qty": 3,
     "exit": "TARGET",
     "fire_count": 1,
-    "risk_budget": 25000,
+    "risk_budget": 6250,
     "pnl_ps": 11.39,
     "is_win": true,
     "entry_time": "10:00",
@@ -5981,16 +6245,18 @@
       false,
       false,
       false
-    ]
+    ],
+    "sizing_score": -2,
+    "sizing_mult": 0.25
   },
   {
     "date": "2024-05-10",
     "ver": "n15",
-    "pnl": 2480,
-    "qty": 10,
+    "pnl": 1240,
+    "qty": 5,
     "exit": "CLOSE",
     "fire_count": 1,
-    "risk_budget": 25000,
+    "risk_budget": 12500,
     "pnl_ps": 3.48,
     "is_win": true,
     "entry_time": "10:00",
@@ -6026,16 +6292,18 @@
       false,
       true,
       false
-    ]
+    ],
+    "sizing_score": -1,
+    "sizing_mult": 0.5
   },
   {
     "date": "2024-05-15",
     "ver": "n15",
-    "pnl": -38850,
-    "qty": 21,
+    "pnl": -18500,
+    "qty": 10,
     "exit": "WING_STOP",
     "fire_count": 2,
-    "risk_budget": 50000,
+    "risk_budget": 25000,
     "pnl_ps": -17.5,
     "is_win": false,
     "entry_time": "10:00",
@@ -6071,16 +6339,18 @@
       false,
       true,
       true
-    ]
+    ],
+    "sizing_score": -1,
+    "sizing_mult": 0.5
   },
   {
     "date": "2024-06-07",
     "ver": "n15",
-    "pnl": 20940,
-    "qty": 24,
+    "pnl": 15705,
+    "qty": 18,
     "exit": "TARGET",
     "fire_count": 2,
-    "risk_budget": 50000,
+    "risk_budget": 37500,
     "pnl_ps": 9.72,
     "is_win": true,
     "entry_time": "10:00",
@@ -6116,16 +6386,18 @@
       true,
       false,
       true
-    ]
+    ],
+    "sizing_score": 2,
+    "sizing_mult": 0.75
   },
   {
     "date": "2024-06-12",
     "ver": "n15",
-    "pnl": 23958,
-    "qty": 18,
+    "pnl": 18634,
+    "qty": 14,
     "exit": "CLOSE",
     "fire_count": 1,
-    "risk_budget": 25000,
+    "risk_budget": 18750,
     "pnl_ps": 14.31,
     "is_win": true,
     "entry_time": "10:00",
@@ -6161,16 +6433,18 @@
       false,
       true,
       false
-    ]
+    ],
+    "sizing_score": 0,
+    "sizing_mult": 0.75
   },
   {
     "date": "2024-06-13",
     "ver": "n15",
-    "pnl": 9157,
-    "qty": 11,
+    "pnl": 1665,
+    "qty": 2,
     "exit": "TARGET",
     "fire_count": 1,
-    "risk_budget": 25000,
+    "risk_budget": 6250,
     "pnl_ps": 9.32,
     "is_win": true,
     "entry_time": "10:00",
@@ -6206,16 +6480,18 @@
       false,
       true,
       false
-    ]
+    ],
+    "sizing_score": -2,
+    "sizing_mult": 0.25
   },
   {
     "date": "2024-06-18",
     "ver": "n15",
-    "pnl": 8619,
-    "qty": 11,
+    "pnl": 1567,
+    "qty": 2,
     "exit": "TARGET",
     "fire_count": 1,
-    "risk_budget": 25000,
+    "risk_budget": 6250,
     "pnl_ps": 8.84,
     "is_win": true,
     "entry_time": "10:00",
@@ -6251,7 +6527,9 @@
       false,
       true,
       false
-    ]
+    ],
+    "sizing_score": -6,
+    "sizing_mult": 0.25
   },
   {
     "date": "2024-06-21",
@@ -6296,16 +6574,18 @@
       true,
       false,
       true
-    ]
+    ],
+    "sizing_score": 4,
+    "sizing_mult": 1.0
   },
   {
     "date": "2024-07-02",
     "ver": "n15",
-    "pnl": -17270,
-    "qty": 11,
+    "pnl": -3140,
+    "qty": 2,
     "exit": "CLOSE",
     "fire_count": 1,
-    "risk_budget": 25000,
+    "risk_budget": 6250,
     "pnl_ps": -14.7,
     "is_win": false,
     "entry_time": "10:00",
@@ -6341,16 +6621,18 @@
       false,
       false,
       true
-    ]
+    ],
+    "sizing_score": -3,
+    "sizing_mult": 0.25
   },
   {
     "date": "2024-07-05",
     "ver": "n15",
-    "pnl": -8750,
-    "qty": 10,
+    "pnl": -1750,
+    "qty": 2,
     "exit": "CLOSE",
     "fire_count": 1,
-    "risk_budget": 25000,
+    "risk_budget": 6250,
     "pnl_ps": -7.75,
     "is_win": false,
     "entry_time": "10:00",
@@ -6386,16 +6668,18 @@
       false,
       true,
       false
-    ]
+    ],
+    "sizing_score": -2,
+    "sizing_mult": 0.25
   },
   {
     "date": "2024-07-08",
     "ver": "n15",
-    "pnl": 6156,
-    "qty": 9,
+    "pnl": 1368,
+    "qty": 2,
     "exit": "CLOSE",
     "fire_count": 1,
-    "risk_budget": 25000,
+    "risk_budget": 6250,
     "pnl_ps": 7.84,
     "is_win": true,
     "entry_time": "10:00",
@@ -6431,16 +6715,18 @@
       false,
       true,
       false
-    ]
+    ],
+    "sizing_score": -2,
+    "sizing_mult": 0.25
   },
   {
     "date": "2024-07-11",
     "ver": "n15",
-    "pnl": -17655,
-    "qty": 11,
+    "pnl": -3210,
+    "qty": 2,
     "exit": "WING_STOP",
     "fire_count": 1,
-    "risk_budget": 25000,
+    "risk_budget": 6250,
     "pnl_ps": -15.05,
     "is_win": false,
     "entry_time": "10:00",
@@ -6476,16 +6762,18 @@
       false,
       true,
       false
-    ]
+    ],
+    "sizing_score": -2,
+    "sizing_mult": 0.25
   },
   {
     "date": "2024-07-15",
     "ver": "n15",
-    "pnl": 10668,
-    "qty": 12,
+    "pnl": 2667,
+    "qty": 3,
     "exit": "TARGET",
     "fire_count": 1,
-    "risk_budget": 25000,
+    "risk_budget": 6250,
     "pnl_ps": 9.89,
     "is_win": true,
     "entry_time": "10:00",
@@ -6521,16 +6809,18 @@
       false,
       false,
       true
-    ]
+    ],
+    "sizing_score": -2,
+    "sizing_mult": 0.25
   },
   {
     "date": "2024-07-16",
     "ver": "n15",
-    "pnl": 3197,
-    "qty": 23,
+    "pnl": 2363,
+    "qty": 17,
     "exit": "CLOSE",
     "fire_count": 2,
-    "risk_budget": 50000,
+    "risk_budget": 37500,
     "pnl_ps": 2.39,
     "is_win": true,
     "entry_time": "10:00",
@@ -6566,16 +6856,18 @@
       false,
       false,
       true
-    ]
+    ],
+    "sizing_score": 0,
+    "sizing_mult": 0.75
   },
   {
     "date": "2024-07-17",
     "ver": "n15",
-    "pnl": -6435,
-    "qty": 13,
+    "pnl": -2970,
+    "qty": 6,
     "exit": "CLOSE",
     "fire_count": 1,
-    "risk_budget": 25000,
+    "risk_budget": 12500,
     "pnl_ps": -3.95,
     "is_win": false,
     "entry_time": "10:00",
@@ -6611,16 +6903,18 @@
       false,
       false,
       true
-    ]
+    ],
+    "sizing_score": -1,
+    "sizing_mult": 0.5
   },
   {
     "date": "2024-08-14",
     "ver": "n15",
-    "pnl": -1170,
-    "qty": 13,
+    "pnl": -540,
+    "qty": 6,
     "exit": "CLOSE",
     "fire_count": 1,
-    "risk_budget": 25000,
+    "risk_budget": 12500,
     "pnl_ps": 0.1,
     "is_win": true,
     "entry_time": "10:00",
@@ -6656,16 +6950,18 @@
       false,
       true,
       false
-    ]
+    ],
+    "sizing_score": -1,
+    "sizing_mult": 0.5
   },
   {
     "date": "2024-08-15",
     "ver": "n15",
-    "pnl": -492,
-    "qty": 12,
+    "pnl": -246,
+    "qty": 6,
     "exit": "CLOSE",
     "fire_count": 1,
-    "risk_budget": 25000,
+    "risk_budget": 12500,
     "pnl_ps": 0.59,
     "is_win": true,
     "entry_time": "10:00",
@@ -6701,16 +6997,18 @@
       false,
       true,
       false
-    ]
+    ],
+    "sizing_score": -1,
+    "sizing_mult": 0.5
   },
   {
     "date": "2024-08-16",
     "ver": "n15",
-    "pnl": 6006,
-    "qty": 14,
+    "pnl": 3003,
+    "qty": 7,
     "exit": "CLOSE",
     "fire_count": 1,
-    "risk_budget": 25000,
+    "risk_budget": 12500,
     "pnl_ps": 5.29,
     "is_win": true,
     "entry_time": "10:00",
@@ -6746,7 +7044,9 @@
       false,
       true,
       false
-    ]
+    ],
+    "sizing_score": -1,
+    "sizing_mult": 0.5
   },
   {
     "date": "2024-08-23",
@@ -6791,7 +7091,9 @@
       true,
       false,
       false
-    ]
+    ],
+    "sizing_score": 3,
+    "sizing_mult": 1.0
   },
   {
     "date": "2024-08-30",
@@ -6836,16 +7138,18 @@
       true,
       false,
       false
-    ]
+    ],
+    "sizing_score": 3,
+    "sizing_mult": 1.0
   },
   {
     "date": "2024-09-12",
     "ver": "n15",
-    "pnl": -39813,
-    "qty": 23,
+    "pnl": -8655,
+    "qty": 5,
     "exit": "WING_STOP",
     "fire_count": 2,
-    "risk_budget": 50000,
+    "risk_budget": 12500,
     "pnl_ps": -16.31,
     "is_win": false,
     "entry_time": "10:00",
@@ -6881,16 +7185,18 @@
       true,
       true,
       false
-    ]
+    ],
+    "sizing_score": -3,
+    "sizing_mult": 0.25
   },
   {
     "date": "2024-09-19",
     "ver": "n15",
-    "pnl": 43640,
-    "qty": 40,
+    "pnl": 32730,
+    "qty": 30,
     "exit": "CLOSE",
     "fire_count": 3,
-    "risk_budget": 75000,
+    "risk_budget": 56250,
     "pnl_ps": 11.91,
     "is_win": true,
     "entry_time": "10:00",
@@ -6926,7 +7232,9 @@
       true,
       true,
       false
-    ]
+    ],
+    "sizing_score": 2,
+    "sizing_mult": 0.75
   },
   {
     "date": "2024-09-23",
@@ -6971,16 +7279,18 @@
       false,
       false,
       true
-    ]
+    ],
+    "sizing_score": 4,
+    "sizing_mult": 1.0
   },
   {
     "date": "2024-10-17",
     "ver": "n15",
-    "pnl": 6626,
-    "qty": 7,
+    "pnl": 2840,
+    "qty": 3,
     "exit": "TARGET",
     "fire_count": 1,
-    "risk_budget": 25000,
+    "risk_budget": 12500,
     "pnl_ps": 10.46,
     "is_win": true,
     "entry_time": "10:00",
@@ -7016,16 +7326,18 @@
       false,
       true,
       false
-    ]
+    ],
+    "sizing_score": -1,
+    "sizing_mult": 0.5
   },
   {
     "date": "2024-11-14",
     "ver": "n15",
-    "pnl": -28083,
-    "qty": 23,
+    "pnl": -20757,
+    "qty": 17,
     "exit": "CLOSE",
     "fire_count": 2,
-    "risk_budget": 50000,
+    "risk_budget": 37500,
     "pnl_ps": -11.21,
     "is_win": false,
     "entry_time": "10:00",
@@ -7061,16 +7373,18 @@
       true,
       false,
       true
-    ]
+    ],
+    "sizing_score": 0,
+    "sizing_mult": 0.75
   },
   {
     "date": "2024-11-25",
     "ver": "n15",
-    "pnl": -4598,
-    "qty": 22,
+    "pnl": -1045,
+    "qty": 5,
     "exit": "CLOSE",
     "fire_count": 2,
-    "risk_budget": 50000,
+    "risk_budget": 12500,
     "pnl_ps": -1.09,
     "is_win": false,
     "entry_time": "10:00",
@@ -7106,16 +7420,18 @@
       false,
       true,
       true
-    ]
+    ],
+    "sizing_score": -2,
+    "sizing_mult": 0.25
   },
   {
     "date": "2024-11-26",
     "ver": "n15",
-    "pnl": 8844,
-    "qty": 11,
+    "pnl": 1608,
+    "qty": 2,
     "exit": "TARGET",
     "fire_count": 1,
-    "risk_budget": 25000,
+    "risk_budget": 6250,
     "pnl_ps": 9.04,
     "is_win": true,
     "entry_time": "10:00",
@@ -7151,7 +7467,9 @@
       false,
       true,
       false
-    ]
+    ],
+    "sizing_score": -2,
+    "sizing_mult": 0.25
   },
   {
     "date": "2024-12-30",
@@ -7196,16 +7514,18 @@
       true,
       false,
       true
-    ]
+    ],
+    "sizing_score": 4,
+    "sizing_mult": 1.0
   },
   {
     "date": "2025-01-07",
     "ver": "n15",
-    "pnl": -50853,
-    "qty": 23,
+    "pnl": -24321,
+    "qty": 11,
     "exit": "WING_STOP",
     "fire_count": 2,
-    "risk_budget": 50000,
+    "risk_budget": 25000,
     "pnl_ps": -21.11,
     "is_win": false,
     "entry_time": "10:00",
@@ -7241,7 +7561,9 @@
       false,
       false,
       false
-    ]
+    ],
+    "sizing_score": -1,
+    "sizing_mult": 0.5
   },
   {
     "date": "2025-01-08",
@@ -7286,16 +7608,18 @@
       true,
       false,
       false
-    ]
+    ],
+    "sizing_score": 3,
+    "sizing_mult": 1.0
   },
   {
     "date": "2025-01-10",
     "ver": "n15",
-    "pnl": 16790,
-    "qty": 23,
+    "pnl": 3650,
+    "qty": 5,
     "exit": "CLOSE",
     "fire_count": 2,
-    "risk_budget": 50000,
+    "risk_budget": 12500,
     "pnl_ps": 8.3,
     "is_win": true,
     "entry_time": "10:00",
@@ -7331,7 +7655,9 @@
       true,
       false,
       false
-    ]
+    ],
+    "sizing_score": -2,
+    "sizing_mult": 0.25
   },
   {
     "date": "2025-01-17",
@@ -7376,16 +7702,18 @@
       false,
       true,
       true
-    ]
+    ],
+    "sizing_score": 4,
+    "sizing_mult": 1.0
   },
   {
     "date": "2025-01-21",
     "ver": "n15",
-    "pnl": -1276,
-    "qty": 22,
+    "pnl": -290,
+    "qty": 5,
     "exit": "CLOSE",
     "fire_count": 2,
-    "risk_budget": 50000,
+    "risk_budget": 12500,
     "pnl_ps": 0.42,
     "is_win": true,
     "entry_time": "10:00",
@@ -7421,7 +7749,9 @@
       false,
       true,
       false
-    ]
+    ],
+    "sizing_score": -6,
+    "sizing_mult": 0.25
   },
   {
     "date": "2025-01-27",
@@ -7466,16 +7796,18 @@
       true,
       false,
       true
-    ]
+    ],
+    "sizing_score": 4,
+    "sizing_mult": 1.0
   },
   {
     "date": "2025-01-28",
     "ver": "n15",
-    "pnl": -17750,
-    "qty": 10,
+    "pnl": -3550,
+    "qty": 2,
     "exit": "WING_STOP",
     "fire_count": 1,
-    "risk_budget": 25000,
+    "risk_budget": 6250,
     "pnl_ps": -16.75,
     "is_win": false,
     "entry_time": "10:00",
@@ -7511,16 +7843,18 @@
       true,
       false,
       false
-    ]
+    ],
+    "sizing_score": -6,
+    "sizing_mult": 0.25
   },
   {
     "date": "2025-02-07",
     "ver": "n15",
-    "pnl": -21560,
-    "qty": 11,
+    "pnl": -3920,
+    "qty": 2,
     "exit": "WING_STOP",
     "fire_count": 1,
-    "risk_budget": 25000,
+    "risk_budget": 6250,
     "pnl_ps": -18.6,
     "is_win": false,
     "entry_time": "10:00",
@@ -7556,16 +7890,18 @@
       false,
       false,
       false
-    ]
+    ],
+    "sizing_score": -2,
+    "sizing_mult": 0.25
   },
   {
     "date": "2025-02-12",
     "ver": "n15",
-    "pnl": 1661,
-    "qty": 11,
+    "pnl": 755,
+    "qty": 5,
     "exit": "CLOSE",
     "fire_count": 1,
-    "risk_budget": 25000,
+    "risk_budget": 12500,
     "pnl_ps": 2.51,
     "is_win": true,
     "entry_time": "10:00",
@@ -7601,16 +7937,18 @@
       false,
       false,
       true
-    ]
+    ],
+    "sizing_score": -1,
+    "sizing_mult": 0.5
   },
   {
     "date": "2025-02-20",
     "ver": "n15",
-    "pnl": 11700,
-    "qty": 10,
+    "pnl": 2340,
+    "qty": 2,
     "exit": "TARGET",
     "fire_count": 1,
-    "risk_budget": 25000,
+    "risk_budget": 6250,
     "pnl_ps": 12.7,
     "is_win": true,
     "entry_time": "10:00",
@@ -7646,7 +7984,9 @@
       false,
       true,
       false
-    ]
+    ],
+    "sizing_score": -3,
+    "sizing_mult": 0.25
   },
   {
     "date": "2025-03-19",
@@ -7691,16 +8031,18 @@
       false,
       false,
       true
-    ]
+    ],
+    "sizing_score": 4,
+    "sizing_mult": 1.0
   },
   {
     "date": "2025-03-20",
     "ver": "n15",
-    "pnl": 16775,
-    "qty": 11,
+    "pnl": 7625,
+    "qty": 5,
     "exit": "TARGET",
     "fire_count": 1,
-    "risk_budget": 25000,
+    "risk_budget": 12500,
     "pnl_ps": 16.25,
     "is_win": true,
     "entry_time": "10:00",
@@ -7736,16 +8078,18 @@
       false,
       false,
       true
-    ]
+    ],
+    "sizing_score": -1,
+    "sizing_mult": 0.5
   },
   {
     "date": "2025-03-21",
     "ver": "n15",
-    "pnl": -13596,
-    "qty": 12,
+    "pnl": -10197,
+    "qty": 9,
     "exit": "CLOSE",
     "fire_count": 1,
-    "risk_budget": 25000,
+    "risk_budget": 18750,
     "pnl_ps": -10.33,
     "is_win": false,
     "entry_time": "10:00",
@@ -7781,16 +8125,18 @@
       false,
       false,
       true
-    ]
+    ],
+    "sizing_score": 0,
+    "sizing_mult": 0.75
   },
   {
     "date": "2025-04-25",
     "ver": "n15",
-    "pnl": -15336,
-    "qty": 8,
+    "pnl": -3834,
+    "qty": 2,
     "exit": "CLOSE",
     "fire_count": 1,
-    "risk_budget": 25000,
+    "risk_budget": 6250,
     "pnl_ps": -18.17,
     "is_win": false,
     "entry_time": "10:00",
@@ -7826,7 +8172,9 @@
       false,
       true,
       false
-    ]
+    ],
+    "sizing_score": -2,
+    "sizing_mult": 0.25
   },
   {
     "date": "2025-05-02",
@@ -7871,16 +8219,18 @@
       false,
       true,
       true
-    ]
+    ],
+    "sizing_score": 4,
+    "sizing_mult": 1.0
   },
   {
     "date": "2025-05-14",
     "ver": "n15",
-    "pnl": 12185,
-    "qty": 10,
+    "pnl": 2437,
+    "qty": 2,
     "exit": "TARGET",
     "fire_count": 1,
-    "risk_budget": 25000,
+    "risk_budget": 6250,
     "pnl_ps": 13.19,
     "is_win": true,
     "entry_time": "10:00",
@@ -7916,7 +8266,9 @@
       false,
       true,
       false
-    ]
+    ],
+    "sizing_score": -2,
+    "sizing_mult": 0.25
   },
   {
     "date": "2025-05-30",
@@ -7961,16 +8313,18 @@
       true,
       false,
       false
-    ]
+    ],
+    "sizing_score": 3,
+    "sizing_mult": 1.0
   },
   {
     "date": "2025-06-02",
     "ver": "n15",
-    "pnl": -19116,
-    "qty": 9,
+    "pnl": -4248,
+    "qty": 2,
     "exit": "WING_STOP",
     "fire_count": 1,
-    "risk_budget": 25000,
+    "risk_budget": 6250,
     "pnl_ps": -20.24,
     "is_win": false,
     "entry_time": "10:00",
@@ -8006,7 +8360,9 @@
       true,
       false,
       false
-    ]
+    ],
+    "sizing_score": -3,
+    "sizing_mult": 0.25
   },
   {
     "date": "2025-06-05",
@@ -8051,16 +8407,18 @@
       true,
       true,
       true
-    ]
+    ],
+    "sizing_score": 3,
+    "sizing_mult": 1.0
   },
   {
     "date": "2025-06-11",
     "ver": "n15",
-    "pnl": -992,
-    "qty": 32,
+    "pnl": -496,
+    "qty": 16,
     "exit": "CLOSE",
     "fire_count": 3,
-    "risk_budget": 75000,
+    "risk_budget": 37500,
     "pnl_ps": 0.69,
     "is_win": true,
     "entry_time": "10:00",
@@ -8096,16 +8454,18 @@
       true,
       true,
       true
-    ]
+    ],
+    "sizing_score": -1,
+    "sizing_mult": 0.5
   },
   {
     "date": "2025-07-24",
     "ver": "n15",
-    "pnl": 5780,
-    "qty": 8,
+    "pnl": 2890,
+    "qty": 4,
     "exit": "TARGET",
     "fire_count": 1,
-    "risk_budget": 25000,
+    "risk_budget": 12500,
     "pnl_ps": 8.22,
     "is_win": true,
     "entry_time": "10:00",
@@ -8141,7 +8501,9 @@
       false,
       true,
       false
-    ]
+    ],
+    "sizing_score": -1,
+    "sizing_mult": 0.5
   },
   {
     "date": "2025-07-31",
@@ -8185,16 +8547,18 @@
       false,
       true,
       false
-    ]
+    ],
+    "sizing_score": 4,
+    "sizing_mult": 1.0
   },
   {
     "date": "2025-08-12",
     "ver": "n15",
-    "pnl": -74542,
-    "qty": 47,
+    "pnl": -55510,
+    "qty": 35,
     "exit": "WING_STOP",
     "fire_count": 5,
-    "risk_budget": 100000,
+    "risk_budget": 75000,
     "pnl_ps": -14.86,
     "is_win": false,
     "entry_time": "10:00",
@@ -8230,16 +8594,18 @@
       true,
       true,
       true
-    ]
+    ],
+    "sizing_score": 0,
+    "sizing_mult": 0.75
   },
   {
     "date": "2025-08-13",
     "ver": "n15",
-    "pnl": 5624,
-    "qty": 8,
+    "pnl": 1406,
+    "qty": 2,
     "exit": "CLOSE",
     "fire_count": 1,
-    "risk_budget": 25000,
+    "risk_budget": 6250,
     "pnl_ps": 8.03,
     "is_win": true,
     "entry_time": "10:00",
@@ -8275,16 +8641,18 @@
       false,
       true,
       false
-    ]
+    ],
+    "sizing_score": -2,
+    "sizing_mult": 0.25
   },
   {
     "date": "2025-08-14",
     "ver": "n15",
-    "pnl": 16254,
-    "qty": 19,
+    "pnl": 11977,
+    "qty": 14,
     "exit": "TARGET",
     "fire_count": 2,
-    "risk_budget": 50000,
+    "risk_budget": 37500,
     "pnl_ps": 9.55,
     "is_win": true,
     "entry_time": "10:00",
@@ -8320,16 +8688,18 @@
       false,
       true,
       true
-    ]
+    ],
+    "sizing_score": 0,
+    "sizing_mult": 0.75
   },
   {
     "date": "2025-08-28",
     "ver": "n15",
-    "pnl": -16140,
-    "qty": 20,
+    "pnl": -4035,
+    "qty": 5,
     "exit": "CLOSE",
     "fire_count": 2,
-    "risk_budget": 50000,
+    "risk_budget": 12500,
     "pnl_ps": -7.07,
     "is_win": false,
     "entry_time": "10:00",
@@ -8365,16 +8735,18 @@
       false,
       true,
       true
-    ]
+    ],
+    "sizing_score": -2,
+    "sizing_mult": 0.25
   },
   {
     "date": "2025-09-05",
     "ver": "n15",
-    "pnl": -45100,
-    "qty": 20,
+    "pnl": -11275,
+    "qty": 5,
     "exit": "WING_STOP",
     "fire_count": 2,
-    "risk_budget": 50000,
+    "risk_budget": 12500,
     "pnl_ps": -21.55,
     "is_win": false,
     "entry_time": "10:00",
@@ -8410,16 +8782,18 @@
       false,
       true,
       false
-    ]
+    ],
+    "sizing_score": -2,
+    "sizing_mult": 0.25
   },
   {
     "date": "2025-09-10",
     "ver": "n15",
-    "pnl": 3352,
-    "qty": 8,
+    "pnl": 838,
+    "qty": 2,
     "exit": "CLOSE",
     "fire_count": 1,
-    "risk_budget": 25000,
+    "risk_budget": 6250,
     "pnl_ps": 5.19,
     "is_win": true,
     "entry_time": "10:00",
@@ -8455,16 +8829,18 @@
       false,
       true,
       false
-    ]
+    ],
+    "sizing_score": -2,
+    "sizing_mult": 0.25
   },
   {
     "date": "2025-09-18",
     "ver": "n15",
-    "pnl": 18396,
-    "qty": 18,
+    "pnl": 13286,
+    "qty": 13,
     "exit": "TARGET",
     "fire_count": 2,
-    "risk_budget": 50000,
+    "risk_budget": 37500,
     "pnl_ps": 11.22,
     "is_win": true,
     "entry_time": "10:00",
@@ -8500,7 +8876,9 @@
       true,
       false,
       true
-    ]
+    ],
+    "sizing_score": 0,
+    "sizing_mult": 0.75
   },
   {
     "date": "2025-10-30",
@@ -8545,16 +8923,18 @@
       true,
       false,
       true
-    ]
+    ],
+    "sizing_score": 3,
+    "sizing_mult": 1.0
   },
   {
     "date": "2025-11-12",
     "ver": "n15",
-    "pnl": 7472,
-    "qty": 7,
+    "pnl": 1068,
+    "qty": 1,
     "exit": "TARGET",
     "fire_count": 1,
-    "risk_budget": 25000,
+    "risk_budget": 6250,
     "pnl_ps": 11.68,
     "is_win": true,
     "entry_time": "10:00",
@@ -8590,7 +8970,9 @@
       false,
       true,
       false
-    ]
+    ],
+    "sizing_score": -2,
+    "sizing_mult": 0.25
   },
   {
     "date": "2025-11-14",
@@ -8635,16 +9017,18 @@
       true,
       false,
       true
-    ]
+    ],
+    "sizing_score": 5,
+    "sizing_mult": 1.0
   },
   {
     "date": "2025-11-25",
     "ver": "n15",
-    "pnl": -21679,
-    "qty": 7,
+    "pnl": -3097,
+    "qty": 1,
     "exit": "WING_STOP",
     "fire_count": 1,
-    "risk_budget": 25000,
+    "risk_budget": 6250,
     "pnl_ps": -29.97,
     "is_win": false,
     "entry_time": "10:00",
@@ -8680,16 +9064,18 @@
       false,
       false,
       true
-    ]
+    ],
+    "sizing_score": -5,
+    "sizing_mult": 0.25
   },
   {
     "date": "2025-12-01",
     "ver": "n15",
-    "pnl": 9088,
-    "qty": 8,
+    "pnl": 4544,
+    "qty": 4,
     "exit": "TARGET",
     "fire_count": 1,
-    "risk_budget": 25000,
+    "risk_budget": 12500,
     "pnl_ps": 12.36,
     "is_win": true,
     "entry_time": "10:00",
@@ -8725,16 +9111,18 @@
       false,
       false,
       true
-    ]
+    ],
+    "sizing_score": -1,
+    "sizing_mult": 0.5
   },
   {
     "date": "2025-12-03",
     "ver": "n15",
-    "pnl": 1336,
-    "qty": 8,
+    "pnl": 1002,
+    "qty": 6,
     "exit": "CLOSE",
     "fire_count": 1,
-    "risk_budget": 25000,
+    "risk_budget": 18750,
     "pnl_ps": 2.67,
     "is_win": true,
     "entry_time": "10:00",
@@ -8770,16 +9158,18 @@
       false,
       false,
       true
-    ]
+    ],
+    "sizing_score": 2,
+    "sizing_mult": 0.75
   },
   {
     "date": "2025-12-04",
     "ver": "n15",
-    "pnl": 21165,
-    "qty": 17,
+    "pnl": 9960,
+    "qty": 8,
     "exit": "TARGET",
     "fire_count": 2,
-    "risk_budget": 50000,
+    "risk_budget": 25000,
     "pnl_ps": 13.45,
     "is_win": true,
     "entry_time": "10:00",
@@ -8815,16 +9205,18 @@
       false,
       true,
       true
-    ]
+    ],
+    "sizing_score": -1,
+    "sizing_mult": 0.5
   },
   {
     "date": "2025-12-11",
     "ver": "n15",
-    "pnl": -18828,
-    "qty": 9,
+    "pnl": -4184,
+    "qty": 2,
     "exit": "WING_STOP",
     "fire_count": 1,
-    "risk_budget": 25000,
+    "risk_budget": 6250,
     "pnl_ps": -19.92,
     "is_win": false,
     "entry_time": "10:00",
@@ -8860,16 +9252,18 @@
       true,
       false,
       false
-    ]
+    ],
+    "sizing_score": -3,
+    "sizing_mult": 0.25
   },
   {
     "date": "2025-12-29",
     "ver": "n15",
-    "pnl": 13416,
-    "qty": 16,
+    "pnl": 10062,
+    "qty": 12,
     "exit": "TARGET",
     "fire_count": 2,
-    "risk_budget": 50000,
+    "risk_budget": 37500,
     "pnl_ps": 9.38,
     "is_win": true,
     "entry_time": "10:00",
@@ -8905,7 +9299,9 @@
       true,
       false,
       true
-    ]
+    ],
+    "sizing_score": 1,
+    "sizing_mult": 0.75
   },
   {
     "date": "2026-01-08",
@@ -8950,16 +9346,18 @@
       true,
       false,
       true
-    ]
+    ],
+    "sizing_score": 3,
+    "sizing_mult": 1.0
   },
   {
     "date": "2026-01-09",
     "ver": "n15",
-    "pnl": 2255,
-    "qty": 11,
+    "pnl": 410,
+    "qty": 2,
     "exit": "CLOSE",
     "fire_count": 1,
-    "risk_budget": 25000,
+    "risk_budget": 6250,
     "pnl_ps": 3.05,
     "is_win": true,
     "entry_time": "10:00",
@@ -8995,7 +9393,9 @@
       true,
       false,
       false
-    ]
+    ],
+    "sizing_score": -2,
+    "sizing_mult": 0.25
   },
   {
     "date": "2026-01-14",
@@ -9040,16 +9440,18 @@
       true,
       false,
       true
-    ]
+    ],
+    "sizing_score": 5,
+    "sizing_mult": 1.0
   },
   {
     "date": "2026-01-29",
     "ver": "n15",
-    "pnl": 27693,
-    "qty": 18,
+    "pnl": 20000,
+    "qty": 13,
     "exit": "TARGET",
     "fire_count": 2,
-    "risk_budget": 50000,
+    "risk_budget": 37500,
     "pnl_ps": 16.38,
     "is_win": true,
     "entry_time": "10:00",
@@ -9085,7 +9487,9 @@
       true,
       false,
       false
-    ]
+    ],
+    "sizing_score": 2,
+    "sizing_mult": 0.75
   },
   {
     "date": "2026-01-30",
@@ -9130,7 +9534,9 @@
       true,
       false,
       true
-    ]
+    ],
+    "sizing_score": 5,
+    "sizing_mult": 1.0
   },
   {
     "date": "2026-02-02",
@@ -9175,7 +9581,9 @@
       true,
       false,
       true
-    ]
+    ],
+    "sizing_score": 3,
+    "sizing_mult": 1.0
   },
   {
     "date": "2026-02-11",
@@ -9220,7 +9628,9 @@
       false,
       false,
       true
-    ]
+    ],
+    "sizing_score": 4,
+    "sizing_mult": 1.0
   },
   {
     "date": "2026-02-13",
@@ -9265,16 +9675,18 @@
       true,
       false,
       true
-    ]
+    ],
+    "sizing_score": 4,
+    "sizing_mult": 1.0
   },
   {
     "date": "2024-01-16",
     "ver": "v6",
-    "pnl": 12488,
-    "qty": 16,
+    "pnl": 6244,
+    "qty": 8,
     "exit": "TARGET",
     "fire_count": null,
-    "risk_budget": 37500,
+    "risk_budget": 18750,
     "pnl_ps": 8.8,
     "is_win": true,
     "entry_time": "10:00",
@@ -9304,16 +9716,18 @@
       "15:30": 12.11,
       "15:45": 13.35
     },
-    "fire_signals": null
+    "fire_signals": null,
+    "sizing_score": 0,
+    "sizing_mult": 0.5
   },
   {
     "date": "2024-02-06",
     "ver": "v6",
-    "pnl": 12344,
-    "qty": 16,
+    "pnl": 6172,
+    "qty": 8,
     "exit": "TARGET",
     "fire_count": null,
-    "risk_budget": 37500,
+    "risk_budget": 18750,
     "pnl_ps": 8.71,
     "is_win": true,
     "entry_time": "10:00",
@@ -9343,16 +9757,18 @@
       "15:30": 12.18,
       "15:45": 13.03
     },
-    "fire_signals": null
+    "fire_signals": null,
+    "sizing_score": 0,
+    "sizing_mult": 0.5
   },
   {
     "date": "2024-02-26",
     "ver": "v6",
-    "pnl": -1351,
-    "qty": 7,
+    "pnl": -965,
+    "qty": 5,
     "exit": "TIME",
     "fire_count": null,
-    "risk_budget": 18750,
+    "risk_budget": 14062,
     "pnl_ps": -0.93,
     "is_win": false,
     "entry_time": "10:00",
@@ -9382,16 +9798,18 @@
       "15:30": -0.93,
       "15:45": -3.7
     },
-    "fire_signals": null
+    "fire_signals": null,
+    "sizing_score": 2,
+    "sizing_mult": 0.75
   },
   {
     "date": "2024-02-27",
     "ver": "v6",
-    "pnl": 4928,
-    "qty": 7,
+    "pnl": 2112,
+    "qty": 3,
     "exit": "TARGET",
     "fire_count": null,
-    "risk_budget": 18750,
+    "risk_budget": 9375,
     "pnl_ps": 8.04,
     "is_win": true,
     "entry_time": "10:00",
@@ -9421,7 +9839,9 @@
       "15:30": 8.63,
       "15:45": 9.18
     },
-    "fire_signals": null
+    "fire_signals": null,
+    "sizing_score": -2,
+    "sizing_mult": 0.5
   },
   {
     "date": "2024-03-14",
@@ -9460,16 +9880,18 @@
       "15:30": 8.73,
       "15:45": 13.63
     },
-    "fire_signals": null
+    "fire_signals": null,
+    "sizing_score": 4,
+    "sizing_mult": 1.0
   },
   {
     "date": "2024-03-19",
     "ver": "v6",
-    "pnl": -27829,
-    "qty": 17,
+    "pnl": -6548,
+    "qty": 4,
     "exit": "WING_STOP",
     "fire_count": null,
-    "risk_budget": 37500,
+    "risk_budget": 9375,
     "pnl_ps": -15.37,
     "is_win": false,
     "entry_time": "10:00",
@@ -9499,16 +9921,18 @@
       "15:30": -11.7,
       "15:45": -16.92
     },
-    "fire_signals": null
+    "fire_signals": null,
+    "sizing_score": -3,
+    "sizing_mult": 0.25
   },
   {
     "date": "2024-05-30",
     "ver": "v6",
-    "pnl": 2312,
-    "qty": 8,
+    "pnl": 1156,
+    "qty": 4,
     "exit": "TIME",
     "fire_count": null,
-    "risk_budget": 18750,
+    "risk_budget": 9375,
     "pnl_ps": 3.89,
     "is_win": true,
     "entry_time": "10:00",
@@ -9536,7 +9960,9 @@
       "15:30": 3.89,
       "15:45": -6.22
     },
-    "fire_signals": null
+    "fire_signals": null,
+    "sizing_score": -2,
+    "sizing_mult": 0.5
   },
   {
     "date": "2024-06-04",
@@ -9575,16 +10001,18 @@
       "15:30": 8.86,
       "15:45": 6.24
     },
-    "fire_signals": null
+    "fire_signals": null,
+    "sizing_score": 6,
+    "sizing_mult": 1.0
   },
   {
     "date": "2024-06-14",
     "ver": "v6",
-    "pnl": 13600,
-    "qty": 17,
+    "pnl": 9600,
+    "qty": 12,
     "exit": "TARGET",
     "fire_count": null,
-    "risk_budget": 37500,
+    "risk_budget": 28125,
     "pnl_ps": 9.0,
     "is_win": true,
     "entry_time": "10:00",
@@ -9614,7 +10042,9 @@
       "15:30": 9.67,
       "15:45": 11.2
     },
-    "fire_signals": null
+    "fire_signals": null,
+    "sizing_score": 2,
+    "sizing_mult": 0.75
   },
   {
     "date": "2024-06-21",
@@ -9653,16 +10083,18 @@
       "15:30": 11.72,
       "15:45": 12.05
     },
-    "fire_signals": null
+    "fire_signals": null,
+    "sizing_score": 4,
+    "sizing_mult": 1.0
   },
   {
     "date": "2024-06-25",
     "ver": "v6",
-    "pnl": 296,
-    "qty": 8,
+    "pnl": 74,
+    "qty": 2,
     "exit": "TIME",
     "fire_count": null,
-    "risk_budget": 18750,
+    "risk_budget": 4687,
     "pnl_ps": 1.37,
     "is_win": true,
     "entry_time": "10:00",
@@ -9692,16 +10124,18 @@
       "15:30": 1.37,
       "15:45": 5.2
     },
-    "fire_signals": null
+    "fire_signals": null,
+    "sizing_score": -3,
+    "sizing_mult": 0.25
   },
   {
     "date": "2024-07-01",
     "ver": "v6",
-    "pnl": 21710,
-    "qty": 26,
+    "pnl": 15865,
+    "qty": 19,
     "exit": "TARGET",
     "fire_count": null,
-    "risk_budget": 56250,
+    "risk_budget": 42187,
     "pnl_ps": 9.35,
     "is_win": true,
     "entry_time": "10:00",
@@ -9731,16 +10165,18 @@
       "15:30": 10.72,
       "15:45": 13.1
     },
-    "fire_signals": null
+    "fire_signals": null,
+    "sizing_score": 1,
+    "sizing_mult": 0.75
   },
   {
     "date": "2024-07-12",
     "ver": "v6",
-    "pnl": -14864,
-    "qty": 8,
+    "pnl": -3716,
+    "qty": 2,
     "exit": "WING_STOP",
     "fire_count": null,
-    "risk_budget": 18750,
+    "risk_budget": 4687,
     "pnl_ps": -17.58,
     "is_win": false,
     "entry_time": "10:00",
@@ -9770,16 +10206,18 @@
       "15:30": -15.0,
       "15:45": 0.55
     },
-    "fire_signals": null
+    "fire_signals": null,
+    "sizing_score": -3,
+    "sizing_mult": 0.25
   },
   {
     "date": "2024-07-16",
     "ver": "v6",
-    "pnl": 7684,
-    "qty": 17,
+    "pnl": 5876,
+    "qty": 13,
     "exit": "TIME",
     "fire_count": null,
-    "risk_budget": 37500,
+    "risk_budget": 28125,
     "pnl_ps": 5.52,
     "is_win": true,
     "entry_time": "10:00",
@@ -9809,16 +10247,18 @@
       "15:30": 5.52,
       "15:45": 6.85
     },
-    "fire_signals": null
+    "fire_signals": null,
+    "sizing_score": 2,
+    "sizing_mult": 0.75
   },
   {
     "date": "2024-11-13",
     "ver": "v6",
-    "pnl": 13872,
-    "qty": 17,
+    "pnl": 9792,
+    "qty": 12,
     "exit": "TARGET",
     "fire_count": null,
-    "risk_budget": 37500,
+    "risk_budget": 28125,
     "pnl_ps": 9.16,
     "is_win": true,
     "entry_time": "10:00",
@@ -9848,16 +10288,18 @@
       "15:30": 12.37,
       "15:45": 9.63
     },
-    "fire_signals": null
+    "fire_signals": null,
+    "sizing_score": 2,
+    "sizing_mult": 0.75
   },
   {
     "date": "2024-12-10",
     "ver": "v6",
-    "pnl": -16338,
-    "qty": 14,
+    "pnl": -3501,
+    "qty": 3,
     "exit": "TIME",
     "fire_count": null,
-    "risk_budget": 37500,
+    "risk_budget": 9375,
     "pnl_ps": -10.67,
     "is_win": false,
     "entry_time": "10:00",
@@ -9887,7 +10329,9 @@
       "15:30": -10.67,
       "15:45": -10.4
     },
-    "fire_signals": null
+    "fire_signals": null,
+    "sizing_score": -3,
+    "sizing_mult": 0.25
   },
   {
     "date": "2023-11-22",
@@ -9926,7 +10370,9 @@
       "15:30": 11.0,
       "15:45": 11.65
     },
-    "fire_signals": null
+    "fire_signals": null,
+    "sizing_score": 0,
+    "sizing_mult": 1.0
   },
   {
     "date": "2024-01-18",
@@ -9965,7 +10411,9 @@
       "15:30": -7.65,
       "15:45": -7.0
     },
-    "fire_signals": null
+    "fire_signals": null,
+    "sizing_score": 0,
+    "sizing_mult": 1.0
   },
   {
     "date": "2024-02-07",
@@ -10004,7 +10452,9 @@
       "15:30": -4.39,
       "15:45": -4.53
     },
-    "fire_signals": null
+    "fire_signals": null,
+    "sizing_score": 0,
+    "sizing_mult": 1.0
   },
   {
     "date": "2024-02-29",
@@ -10043,7 +10493,9 @@
       "15:30": 10.63,
       "15:45": 12.41
     },
-    "fire_signals": null
+    "fire_signals": null,
+    "sizing_score": 0,
+    "sizing_mult": 1.0
   },
   {
     "date": "2024-03-07",
@@ -10082,445 +10534,18 @@
       "15:30": 4.61,
       "15:45": -1.52
     },
-    "fire_signals": null
-  },
-  {
-    "date": "2025-03-06",
-    "ver": "v8",
-    "pnl": 12600,
-    "qty": 8,
-    "exit": "TIME",
-    "fire_count": null,
-    "risk_budget": 18750,
-    "pnl_ps": 16.75,
-    "is_win": true,
-    "entry_time": "10:30",
-    "exit_time": "15:30 ET",
-    "wing_width": 65,
-    "entry_credit": 42.0,
-    "vix": 24.23,
-    "score": 75.0,
-    "vp_ratio": 1.169,
-    "rv": 20.73,
-    "prior_5d": -1.904,
-    "prior_1d": 1.116,
-    "prior_dir": "UP",
-    "max_ps": 25.45,
-    "min_ps": -7.65,
-    "intraday": {
-      "10:30": -4.0,
-      "11:00": -1.56,
-      "11:30": -7.65,
-      "12:00": 4.87,
-      "12:30": 0.6,
-      "13:00": 5.06,
-      "13:30": 7.05,
-      "14:00": 6.94,
-      "14:30": 2.45,
-      "15:00": 5.17,
-      "15:30": 16.75,
-      "15:45": 13.05
-    },
-    "fire_signals": null
-  },
-  {
-    "date": "2025-03-18",
-    "ver": "v8",
-    "pnl": 9030,
-    "qty": 7,
-    "exit": "TARGET",
-    "fire_count": null,
-    "risk_budget": 18750,
-    "pnl_ps": 13.9,
-    "is_win": true,
-    "entry_time": "10:30",
-    "exit_time": "14:30 ET",
-    "wing_width": 60,
-    "entry_credit": 34.75,
-    "vix": 22.55,
-    "score": 66.0,
-    "vp_ratio": 1.181,
-    "rv": 19.09,
-    "prior_5d": 1.079,
-    "prior_1d": 0.642,
-    "prior_dir": "UP",
-    "max_ps": 33.63,
-    "min_ps": 1.72,
-    "intraday": {
-      "10:30": 1.72,
-      "11:00": 3.17,
-      "11:30": 4.15,
-      "12:00": 4.05,
-      "12:30": 7.6,
-      "13:00": 8.45,
-      "13:30": 9.45,
-      "14:00": 12.35,
-      "14:30": 15.88,
-      "15:00": 18.43,
-      "15:30": 23.34,
-      "15:45": 26.15
-    },
-    "fire_signals": null
-  },
-  {
-    "date": "2025-03-21",
-    "ver": "v8",
-    "pnl": 13140,
-    "qty": 12,
-    "exit": "TIME",
-    "fire_count": null,
-    "risk_budget": 25000,
-    "pnl_ps": 11.95,
-    "is_win": true,
-    "entry_time": "10:30",
-    "exit_time": "15:30 ET",
-    "wing_width": 55,
-    "entry_credit": 34.9,
-    "vix": 20.65,
-    "score": 60.0,
-    "vp_ratio": 0.844,
-    "rv": 24.46,
-    "prior_5d": 2.56,
-    "prior_1d": -0.218,
-    "prior_dir": "UP",
-    "max_ps": 11.95,
-    "min_ps": -10.33,
-    "intraday": {
-      "10:30": 2.74,
-      "11:00": 1.92,
-      "11:30": 5.45,
-      "12:00": 7.3,
-      "12:30": 1.98,
-      "13:00": -0.95,
-      "13:30": 5.5,
-      "14:00": 1.3,
-      "14:30": 6.54,
-      "15:00": 8.23,
-      "15:30": 11.95,
-      "15:45": 7.98
-    },
-    "fire_signals": null
-  },
-  {
-    "date": "2025-04-01",
-    "ver": "v8",
-    "pnl": 8929,
-    "qty": 7,
-    "exit": "TARGET",
-    "fire_count": null,
-    "risk_budget": 18750,
-    "pnl_ps": 13.76,
-    "is_win": true,
-    "entry_time": "10:30",
-    "exit_time": "14:30 ET",
-    "wing_width": 60,
-    "entry_credit": 34.39,
-    "vix": 22.54,
-    "score": 75.0,
-    "vp_ratio": 1.117,
-    "rv": 20.17,
-    "prior_5d": -2.7,
-    "prior_1d": 0.554,
-    "prior_dir": "UP",
-    "max_ps": 19.97,
-    "min_ps": -7.61,
-    "intraday": {
-      "10:30": 1.04,
-      "11:00": -0.86,
-      "11:30": -5.66,
-      "12:00": -7.61,
-      "12:30": -1.21,
-      "13:00": -1.76,
-      "13:30": 5.28,
-      "14:00": 11.22,
-      "14:30": 14.95,
-      "15:00": 18.14,
-      "15:30": 19.97,
-      "15:45": 5.16
-    },
-    "fire_signals": null
-  },
-  {
-    "date": "2025-04-02",
-    "ver": "v8",
-    "pnl": -12467,
-    "qty": 7,
-    "exit": "WING_STOP",
-    "fire_count": null,
-    "risk_budget": 18750,
-    "pnl_ps": -16.81,
-    "is_win": false,
-    "entry_time": "10:30",
-    "exit_time": "12:48 ET",
-    "wing_width": 60,
-    "entry_credit": 36.49,
-    "vix": 22.49,
-    "score": 61.0,
-    "vp_ratio": 1.074,
-    "rv": 20.94,
-    "prior_5d": -2.486,
-    "prior_1d": 0.378,
-    "prior_dir": "UP",
-    "max_ps": 4.89,
-    "min_ps": -23.51,
-    "intraday": {
-      "10:30": 0.39,
-      "11:00": -0.69,
-      "11:30": -4.78,
-      "12:00": -2.84,
-      "12:30": -10.37,
-      "13:00": -13.56,
-      "13:30": -16.81,
-      "14:00": -8.89,
-      "14:30": 4.89,
-      "15:00": 2.76,
-      "15:30": -4.76,
-      "15:45": -12.26
-    },
-    "fire_signals": null
-  },
-  {
-    "date": "2025-05-05",
-    "ver": "v8",
-    "pnl": 2385,
-    "qty": 3,
-    "exit": "TIME",
-    "fire_count": null,
-    "risk_budget": 12500,
-    "pnl_ps": 8.95,
-    "is_win": true,
-    "entry_time": "10:30",
-    "exit_time": "15:30 ET",
-    "wing_width": 65,
-    "entry_credit": 30.25,
-    "vix": 23.82,
-    "score": 80.0,
-    "vp_ratio": 1.484,
-    "rv": 16.05,
-    "prior_5d": 2.922,
-    "prior_1d": 1.473,
-    "prior_dir": "UP",
-    "max_ps": 24.88,
-    "min_ps": -4.87,
-    "intraday": {
-      "10:30": 2.45,
-      "11:00": -0.43,
-      "11:30": 0.25,
-      "12:00": 1.85,
-      "12:30": -2.55,
-      "13:00": -1.95,
-      "13:30": 3.06,
-      "14:00": 0.92,
-      "14:30": -4.87,
-      "15:00": 2.43,
-      "15:30": 8.95,
-      "15:45": 13.09
-    },
-    "fire_signals": null
-  },
-  {
-    "date": "2025-06-13",
-    "ver": "v8",
-    "pnl": 2206,
-    "qty": 2,
-    "exit": "TARGET",
-    "fire_count": null,
-    "risk_budget": 6250,
-    "pnl_ps": 12.03,
-    "is_win": true,
-    "entry_time": "10:30",
-    "exit_time": "15:30 ET",
-    "wing_width": 60,
-    "entry_credit": 30.08,
-    "vix": 20.88,
-    "score": 80.0,
-    "vp_ratio": 1.572,
-    "rv": 13.28,
-    "prior_5d": 1.784,
-    "prior_1d": 0.382,
-    "prior_dir": "UP",
-    "max_ps": 16.33,
-    "min_ps": -3.85,
-    "intraday": {
-      "10:30": 1.75,
-      "11:00": 2.97,
-      "11:30": -1.9,
-      "12:00": -3.85,
-      "12:30": -2.72,
-      "13:00": -1.7,
-      "13:30": 6.24,
-      "14:00": 5.72,
-      "14:30": 9.36,
-      "15:00": 11.53,
-      "15:30": 12.44,
-      "15:45": 4.68
-    },
-    "fire_signals": null
-  },
-  {
-    "date": "2025-10-14",
-    "ver": "v8",
-    "pnl": -12375,
-    "qty": 5,
-    "exit": "WING_STOP",
-    "fire_count": null,
-    "risk_budget": 18750,
-    "pnl_ps": -23.75,
-    "is_win": false,
-    "entry_time": "10:30",
-    "exit_time": "12:21 ET",
-    "wing_width": 70,
-    "entry_credit": 36.85,
-    "vix": 21.77,
-    "score": 58.0,
-    "vp_ratio": 1.164,
-    "rv": 18.7,
-    "prior_5d": -1.269,
-    "prior_1d": 1.56,
-    "prior_dir": "UP",
-    "max_ps": -3.28,
-    "min_ps": -32.1,
-    "intraday": {
-      "10:30": -5.6,
-      "11:00": -4.9,
-      "11:30": -4.05,
-      "12:00": -17.55,
-      "12:30": -23.75,
-      "13:00": -24.97,
-      "13:30": -28.98,
-      "14:00": -30.8,
-      "14:30": -27.6,
-      "15:00": -31.3,
-      "15:30": -32.1,
-      "15:45": -3.28
-    },
-    "fire_signals": null
-  },
-  {
-    "date": "2025-11-17",
-    "ver": "v8",
-    "pnl": -9498,
-    "qty": 3,
-    "exit": "WING_STOP",
-    "fire_count": null,
-    "risk_budget": 12500,
-    "pnl_ps": -30.66,
-    "is_win": false,
-    "entry_time": "10:30",
-    "exit_time": "14:02 ET",
-    "wing_width": 65,
-    "entry_credit": 32.9,
-    "vix": 20.37,
-    "score": 65.0,
-    "vp_ratio": 1.258,
-    "rv": 16.2,
-    "prior_5d": 0.079,
-    "prior_1d": -0.05,
-    "prior_dir": "UP",
-    "max_ps": 10.85,
-    "min_ps": -32.1,
-    "intraday": {
-      "10:30": 0.15,
-      "11:00": 2.12,
-      "11:30": 2.23,
-      "12:00": 8.82,
-      "12:30": 10.85,
-      "13:00": -3.05,
-      "13:30": -7.94,
-      "14:00": -17.81,
-      "14:30": -21.31,
-      "15:00": -30.66,
-      "15:30": -32.1,
-      "15:45": -31.96
-    },
-    "fire_signals": null
-  },
-  {
-    "date": "2026-02-19",
-    "ver": "v8",
-    "pnl": 10022,
-    "qty": 8,
-    "exit": "TARGET",
-    "fire_count": null,
-    "risk_budget": 25000,
-    "pnl_ps": 13.53,
-    "is_win": true,
-    "entry_time": "10:30",
-    "exit_time": "14:00 ET",
-    "wing_width": 65,
-    "entry_credit": 33.82,
-    "vix": 20.54,
-    "score": 62.0,
-    "vp_ratio": 0.956,
-    "rv": 21.48,
-    "prior_5d": -0.872,
-    "prior_1d": 0.557,
-    "prior_dir": "UP",
-    "max_ps": 30.27,
-    "min_ps": 1.95,
-    "intraday": {
-      "10:30": 1.95,
-      "11:00": 4.35,
-      "11:30": 7.06,
-      "12:00": 7.69,
-      "12:30": 10.62,
-      "13:00": 5.93,
-      "13:30": 5.23,
-      "14:00": 15.51,
-      "14:30": 14.65,
-      "15:00": 12.9,
-      "15:30": 15.02,
-      "15:45": 19.48
-    },
-    "fire_signals": null
-  },
-  {
-    "date": "2026-03-05",
-    "ver": "v8",
-    "pnl": -8901,
-    "qty": 3,
-    "exit": "WING_STOP",
-    "fire_count": null,
-    "risk_budget": 12500,
-    "pnl_ps": -28.67,
-    "is_win": false,
-    "entry_time": "10:30",
-    "exit_time": "12:31 ET",
-    "wing_width": 70,
-    "entry_credit": 32.04,
-    "vix": 21.21,
-    "score": 74.0,
-    "vp_ratio": 1.217,
-    "rv": 17.43,
-    "prior_5d": -1.103,
-    "prior_1d": 0.776,
-    "prior_dir": "UP",
-    "max_ps": -2.9,
-    "min_ps": -36.76,
-    "intraday": {
-      "10:30": -11.83,
-      "11:00": -3.25,
-      "11:30": -14.96,
-      "12:00": -7.08,
-      "12:30": -18.46,
-      "13:00": -28.67,
-      "13:30": -36.76,
-      "14:00": -25.78,
-      "14:30": -29.2,
-      "15:00": -29.38,
-      "15:30": -17.53,
-      "15:45": -21.0
-    },
-    "fire_signals": null
+    "fire_signals": null,
+    "sizing_score": 0,
+    "sizing_mult": 1.0
   },
   {
     "date": "2024-08-14",
     "ver": "v9",
-    "pnl": 14768,
-    "qty": 26,
+    "pnl": 11360,
+    "qty": 20,
     "exit": "TIME",
     "fire_count": null,
-    "risk_budget": 50000,
+    "risk_budget": 37500,
     "pnl_ps": 6.68,
     "is_win": true,
     "entry_time": "10:00",
@@ -10550,16 +10575,18 @@
       "15:30": 9.65,
       "15:45": 6.68
     },
-    "fire_signals": null
+    "fire_signals": null,
+    "sizing_score": 0,
+    "sizing_mult": 0.75
   },
   {
     "date": "2024-08-16",
     "ver": "v9",
-    "pnl": 18009,
-    "qty": 29,
+    "pnl": 13041,
+    "qty": 21,
     "exit": "TIME",
     "fire_count": null,
-    "risk_budget": 50000,
+    "risk_budget": 37500,
     "pnl_ps": 7.21,
     "is_win": true,
     "entry_time": "10:00",
@@ -10589,16 +10616,18 @@
       "15:30": 4.99,
       "15:45": 7.21
     },
-    "fire_signals": null
+    "fire_signals": null,
+    "sizing_score": 1,
+    "sizing_mult": 0.75
   },
   {
     "date": "2024-08-19",
     "ver": "v9",
-    "pnl": -15554,
-    "qty": 11,
+    "pnl": -11312,
+    "qty": 8,
     "exit": "TIME",
     "fire_count": null,
-    "risk_budget": 25000,
+    "risk_budget": 18750,
     "pnl_ps": -13.14,
     "is_win": false,
     "entry_time": "10:00",
@@ -10628,16 +10657,18 @@
       "15:30": -14.43,
       "15:45": -13.14
     },
-    "fire_signals": null
+    "fire_signals": null,
+    "sizing_score": 1,
+    "sizing_mult": 0.75
   },
   {
     "date": "2024-09-13",
     "ver": "v9",
-    "pnl": 13308,
-    "qty": 12,
+    "pnl": 9981,
+    "qty": 9,
     "exit": "TIME",
     "fire_count": null,
-    "risk_budget": 25000,
+    "risk_budget": 18750,
     "pnl_ps": 12.09,
     "is_win": true,
     "entry_time": "10:00",
@@ -10667,16 +10698,18 @@
       "15:30": 12.59,
       "15:45": 12.09
     },
-    "fire_signals": null
+    "fire_signals": null,
+    "sizing_score": 2,
+    "sizing_mult": 0.75
   },
   {
     "date": "2024-09-16",
     "ver": "v9",
-    "pnl": 14211,
-    "qty": 10,
+    "pnl": 7106,
+    "qty": 5,
     "exit": "TARGET",
     "fire_count": null,
-    "risk_budget": 25000,
+    "risk_budget": 12500,
     "pnl_ps": 15.21,
     "is_win": true,
     "entry_time": "10:00",
@@ -10706,16 +10739,18 @@
       "15:30": 16.13,
       "15:45": 16.43
     },
-    "fire_signals": null
+    "fire_signals": null,
+    "sizing_score": -1,
+    "sizing_mult": 0.5
   },
   {
     "date": "2024-09-20",
     "ver": "v9",
-    "pnl": 4824,
-    "qty": 12,
+    "pnl": 1206,
+    "qty": 3,
     "exit": "TIME",
     "fire_count": null,
-    "risk_budget": 25000,
+    "risk_budget": 6250,
     "pnl_ps": 5.02,
     "is_win": true,
     "entry_time": "10:00",
@@ -10745,16 +10780,18 @@
       "15:30": 12.32,
       "15:45": 5.02
     },
-    "fire_signals": null
+    "fire_signals": null,
+    "sizing_score": -3,
+    "sizing_mult": 0.25
   },
   {
     "date": "2024-11-11",
     "ver": "v9",
-    "pnl": 3632,
-    "qty": 8,
+    "pnl": 1816,
+    "qty": 4,
     "exit": "TIME",
     "fire_count": null,
-    "risk_budget": 25000,
+    "risk_budget": 12500,
     "pnl_ps": 5.54,
     "is_win": true,
     "entry_time": "10:00",
@@ -10784,7 +10821,9 @@
       "15:30": 5.06,
       "15:45": 5.54
     },
-    "fire_signals": null
+    "fire_signals": null,
+    "sizing_score": -1,
+    "sizing_mult": 0.5
   },
   {
     "date": "2025-03-25",
@@ -10823,16 +10862,18 @@
       "15:30": 15.31,
       "15:45": 16.48
     },
-    "fire_signals": null
+    "fire_signals": null,
+    "sizing_score": 4,
+    "sizing_mult": 1.0
   },
   {
     "date": "2025-05-13",
     "ver": "v9",
-    "pnl": -7308,
-    "qty": 9,
+    "pnl": -1624,
+    "qty": 2,
     "exit": "TIME",
     "fire_count": null,
-    "risk_budget": 25000,
+    "risk_budget": 6250,
     "pnl_ps": -7.12,
     "is_win": false,
     "entry_time": "10:00",
@@ -10862,16 +10903,18 @@
       "15:30": -8.62,
       "15:45": -7.12
     },
-    "fire_signals": null
+    "fire_signals": null,
+    "sizing_score": -3,
+    "sizing_mult": 0.25
   },
   {
     "date": "2025-05-16",
     "ver": "v9",
-    "pnl": 4788,
-    "qty": 9,
+    "pnl": 2128,
+    "qty": 4,
     "exit": "TIME",
     "fire_count": null,
-    "risk_budget": 25000,
+    "risk_budget": 12500,
     "pnl_ps": 6.32,
     "is_win": true,
     "entry_time": "10:00",
@@ -10901,7 +10944,9 @@
       "15:30": 2.23,
       "15:45": 6.32
     },
-    "fire_signals": null
+    "fire_signals": null,
+    "sizing_score": -1,
+    "sizing_mult": 0.5
   },
   {
     "date": "2025-06-09",
@@ -10940,16 +10985,18 @@
       "15:30": 7.86,
       "15:45": 10.16
     },
-    "fire_signals": null
+    "fire_signals": null,
+    "sizing_score": 6,
+    "sizing_mult": 1.0
   },
   {
     "date": "2025-06-11",
     "ver": "v9",
-    "pnl": -21792,
-    "qty": 32,
+    "pnl": -5448,
+    "qty": 8,
     "exit": "TIME",
     "fire_count": null,
-    "risk_budget": 75000,
+    "risk_budget": 18750,
     "pnl_ps": -5.81,
     "is_win": false,
     "entry_time": "10:00",
@@ -10979,7 +11026,9 @@
       "15:30": -8.81,
       "15:45": -5.81
     },
-    "fire_signals": null
+    "fire_signals": null,
+    "sizing_score": -4,
+    "sizing_mult": 0.25
   },
   {
     "date": "2025-07-24",
@@ -11018,16 +11067,18 @@
       "15:30": 8.88,
       "15:45": 11.08
     },
-    "fire_signals": null
+    "fire_signals": null,
+    "sizing_score": 7,
+    "sizing_mult": 1.0
   },
   {
     "date": "2025-08-29",
     "ver": "v9",
-    "pnl": 8830,
-    "qty": 10,
+    "pnl": 4415,
+    "qty": 5,
     "exit": "TIME",
     "fire_count": null,
-    "risk_budget": 25000,
+    "risk_budget": 12500,
     "pnl_ps": 9.83,
     "is_win": true,
     "entry_time": "10:00",
@@ -11057,16 +11108,18 @@
       "15:30": 8.37,
       "15:45": 9.83
     },
-    "fire_signals": null
+    "fire_signals": null,
+    "sizing_score": -1,
+    "sizing_mult": 0.5
   },
   {
     "date": "2025-10-09",
     "ver": "v9",
-    "pnl": 7322,
-    "qty": 7,
+    "pnl": 1046,
+    "qty": 1,
     "exit": "TIME",
     "fire_count": null,
-    "risk_budget": 25000,
+    "risk_budget": 6250,
     "pnl_ps": 11.46,
     "is_win": true,
     "entry_time": "10:00",
@@ -11096,16 +11149,18 @@
       "15:30": 7.06,
       "15:45": 11.46
     },
-    "fire_signals": null
+    "fire_signals": null,
+    "sizing_score": -4,
+    "sizing_mult": 0.25
   },
   {
     "date": "2025-10-21",
     "ver": "v9",
-    "pnl": 5106,
-    "qty": 6,
+    "pnl": 3404,
+    "qty": 4,
     "exit": "TIME",
     "fire_count": null,
-    "risk_budget": 25000,
+    "risk_budget": 18750,
     "pnl_ps": 9.51,
     "is_win": true,
     "entry_time": "10:00",
@@ -11135,16 +11190,18 @@
       "15:30": 10.45,
       "15:45": 9.51
     },
-    "fire_signals": null
+    "fire_signals": null,
+    "sizing_score": 3,
+    "sizing_mult": 0.75
   },
   {
     "date": "2025-11-28",
     "ver": "v9",
-    "pnl": -240,
-    "qty": 8,
+    "pnl": -120,
+    "qty": 4,
     "exit": "CLOSE",
     "fire_count": null,
-    "risk_budget": 25000,
+    "risk_budget": 12500,
     "pnl_ps": 0.7,
     "is_win": true,
     "entry_time": "10:00",
@@ -11168,16 +11225,18 @@
       "12:30": 8.5,
       "13:00": 0.7
     },
-    "fire_signals": null
+    "fire_signals": null,
+    "sizing_score": -2,
+    "sizing_mult": 0.5
   },
   {
     "date": "2025-12-04",
     "ver": "v9",
-    "pnl": 46358,
-    "qty": 26,
+    "pnl": 35660,
+    "qty": 20,
     "exit": "TARGET",
     "fire_count": null,
-    "risk_budget": 75000,
+    "risk_budget": 56250,
     "pnl_ps": 18.83,
     "is_win": true,
     "entry_time": "10:00",
@@ -11207,16 +11266,18 @@
       "15:30": 18.86,
       "15:45": 19.84
     },
-    "fire_signals": null
+    "fire_signals": null,
+    "sizing_score": 3,
+    "sizing_mult": 0.75
   },
   {
     "date": "2026-01-07",
     "ver": "v9",
-    "pnl": -9191,
-    "qty": 7,
+    "pnl": -1313,
+    "qty": 1,
     "exit": "TIME",
     "fire_count": null,
-    "risk_budget": 25000,
+    "risk_budget": 6250,
     "pnl_ps": -12.13,
     "is_win": false,
     "entry_time": "10:00",
@@ -11246,7 +11307,9 @@
       "15:30": -6.17,
       "15:45": -12.13
     },
-    "fire_signals": null
+    "fire_signals": null,
+    "sizing_score": -6,
+    "sizing_mult": 0.25
   },
   {
     "date": "2026-02-26",
@@ -11285,757 +11348,18 @@
       "15:30": 9.7,
       "15:45": 14.94
     },
-    "fire_signals": null
-  },
-  {
-    "date": "2024-04-05",
-    "ver": "v10",
-    "pnl": 990,
-    "qty": 10,
-    "exit": "TIME",
-    "fire_count": null,
-    "risk_budget": 18750,
-    "pnl_ps": 1.99,
-    "is_win": true,
-    "entry_time": "11:00",
-    "exit_time": "15:45 ET",
-    "wing_width": 40,
-    "entry_credit": 22.79,
-    "vix": 16.15,
-    "score": 79.0,
-    "vp_ratio": 1.354,
-    "rv": 11.92,
-    "prior_5d": -1.93,
-    "prior_1d": -1.233,
-    "prior_dir": "DOWN",
-    "max_ps": 2.64,
-    "min_ps": -11.81,
-    "intraday": {
-      "10:30": -0.31,
-      "11:00": -2.29,
-      "11:30": -1.21,
-      "12:00": -7.75,
-      "12:30": -8.8,
-      "13:00": -11.81,
-      "13:30": -7.96,
-      "14:00": -0.1,
-      "14:30": 0.34,
-      "15:00": 2.19,
-      "15:30": 2.64,
-      "15:45": 1.99
-    },
-    "fire_signals": null
-  },
-  {
-    "date": "2024-04-16",
-    "ver": "v10",
-    "pnl": 21122,
-    "qty": 11,
-    "exit": "TARGET",
-    "fire_count": null,
-    "risk_budget": 18750,
-    "pnl_ps": 20.2,
-    "is_win": true,
-    "entry_time": "11:00",
-    "exit_time": "15:45 ET",
-    "wing_width": 45,
-    "entry_credit": 28.86,
-    "vix": 19.06,
-    "score": 82.0,
-    "vp_ratio": 1.219,
-    "rv": 15.63,
-    "prior_5d": -2.702,
-    "prior_1d": -1.202,
-    "prior_dir": "DOWN",
-    "max_ps": 20.41,
-    "min_ps": 1.48,
-    "intraday": {
-      "10:30": 1.68,
-      "11:00": 1.48,
-      "11:30": 3.61,
-      "12:00": 2.01,
-      "12:30": 2.39,
-      "13:00": 2.71,
-      "13:30": 3.29,
-      "14:00": 7.76,
-      "14:30": 9.31,
-      "15:00": 11.14,
-      "15:30": 16.75,
-      "15:45": 20.41
-    },
-    "fire_signals": null
-  },
-  {
-    "date": "2024-04-18",
-    "ver": "v10",
-    "pnl": 12870,
-    "qty": 9,
-    "exit": "TIME",
-    "fire_count": null,
-    "risk_budget": 18750,
-    "pnl_ps": 15.3,
-    "is_win": true,
-    "entry_time": "11:00",
-    "exit_time": "15:45 ET",
-    "wing_width": 45,
-    "entry_credit": 25.83,
-    "vix": 17.95,
-    "score": 74.0,
-    "vp_ratio": 1.282,
-    "rv": 14.0,
-    "prior_5d": -2.682,
-    "prior_1d": -0.578,
-    "prior_dir": "DOWN",
-    "max_ps": 15.3,
-    "min_ps": -2.89,
-    "intraday": {
-      "10:30": 0.15,
-      "11:00": -2.89,
-      "11:30": -2.07,
-      "12:00": -1.22,
-      "12:30": 2.22,
-      "13:00": 6.09,
-      "13:30": 5.8,
-      "14:00": 5.63,
-      "14:30": 6.23,
-      "15:00": 5.49,
-      "15:30": 13.33,
-      "15:45": 15.3
-    },
-    "fire_signals": null
-  },
-  {
-    "date": "2024-04-19",
-    "ver": "v10",
-    "pnl": -13430,
-    "qty": 10,
-    "exit": "WING_STOP",
-    "fire_count": null,
-    "risk_budget": 18750,
-    "pnl_ps": -12.43,
-    "is_win": false,
-    "entry_time": "11:00",
-    "exit_time": "14:38 ET",
-    "wing_width": 45,
-    "entry_credit": 27.38,
-    "vix": 18.33,
-    "score": 80.0,
-    "vp_ratio": 1.201,
-    "rv": 15.26,
-    "prior_5d": -3.615,
-    "prior_1d": -0.221,
-    "prior_dir": "DOWN",
-    "max_ps": 4.17,
-    "min_ps": -14.42,
-    "intraday": {
-      "10:30": 1.63,
-      "11:00": 3.32,
-      "11:30": 4.17,
-      "12:00": 3.54,
-      "12:30": -4.38,
-      "13:00": 2.15,
-      "13:30": -2.3,
-      "14:00": 0.39,
-      "14:30": -7.37,
-      "15:00": -12.43,
-      "15:30": -10.04,
-      "15:45": -13.72
-    },
-    "fire_signals": null
-  },
-  {
-    "date": "2024-07-19",
-    "ver": "v10",
-    "pnl": -44905,
-    "qty": 35,
-    "exit": "WING_STOP",
-    "fire_count": null,
-    "risk_budget": 56250,
-    "pnl_ps": -11.83,
-    "is_win": false,
-    "entry_time": "11:00",
-    "exit_time": "13:02 ET",
-    "wing_width": 40,
-    "entry_credit": 24.07,
-    "vix": 16.01,
-    "score": 70.0,
-    "vp_ratio": 1.187,
-    "rv": 13.48,
-    "prior_5d": -0.715,
-    "prior_1d": -0.782,
-    "prior_dir": "DOWN",
-    "max_ps": 2.31,
-    "min_ps": -15.75,
-    "intraday": {
-      "10:30": 1.22,
-      "11:00": 2.31,
-      "11:30": -1.73,
-      "12:00": 1.82,
-      "12:30": -0.28,
-      "13:00": -4.29,
-      "13:30": -8.63,
-      "14:00": -3.47,
-      "14:30": -10.46,
-      "15:00": -5.61,
-      "15:30": -2.56,
-      "15:45": -11.83
-    },
-    "fire_signals": null
-  },
-  {
-    "date": "2024-07-25",
-    "ver": "v10",
-    "pnl": -29360,
-    "qty": 20,
-    "exit": "WING_STOP",
-    "fire_count": null,
-    "risk_budget": 37500,
-    "pnl_ps": -13.68,
-    "is_win": false,
-    "entry_time": "11:00",
-    "exit_time": "11:17 ET",
-    "wing_width": 45,
-    "entry_credit": 26.75,
-    "vix": 18.41,
-    "score": 70.0,
-    "vp_ratio": 1.0,
-    "rv": 18.41,
-    "prior_5d": -2.884,
-    "prior_1d": -2.315,
-    "prior_dir": "DOWN",
-    "max_ps": 13.6,
-    "min_ps": -17.78,
-    "intraday": {
-      "10:30": 0.25,
-      "11:00": -3.4,
-      "11:30": -6.35,
-      "12:00": -7.08,
-      "12:30": -13.68,
-      "13:00": -9.98,
-      "13:30": -17.78,
-      "14:00": -9.1,
-      "14:30": -1.84,
-      "15:00": 7.41,
-      "15:30": -5.84,
-      "15:45": 11.85
-    },
-    "fire_signals": null
-  },
-  {
-    "date": "2024-09-18",
-    "ver": "v10",
-    "pnl": 31725,
-    "qty": 15,
-    "exit": "TIME",
-    "fire_count": null,
-    "risk_budget": 18750,
-    "pnl_ps": 22.15,
-    "is_win": true,
-    "entry_time": "11:00",
-    "exit_time": "15:45 ET",
-    "wing_width": 50,
-    "entry_credit": 38.0,
-    "vix": 19.05,
-    "score": 88.0,
-    "vp_ratio": 2.728,
-    "rv": 6.98,
-    "prior_5d": 2.53,
-    "prior_1d": 0.026,
-    "prior_dir": "DOWN",
-    "max_ps": 22.15,
-    "min_ps": -7.02,
-    "intraday": {
-      "10:30": -0.65,
-      "11:00": 0.3,
-      "11:30": 0.2,
-      "12:00": 0.05,
-      "12:30": 0.3,
-      "13:00": -0.02,
-      "13:30": 0.43,
-      "14:00": -7.02,
-      "14:30": 2.05,
-      "15:00": 10.55,
-      "15:30": 12.06,
-      "15:45": 22.15
-    },
-    "fire_signals": null
-  },
-  {
-    "date": "2024-09-27",
-    "ver": "v10",
-    "pnl": 3824,
-    "qty": 8,
-    "exit": "TIME",
-    "fire_count": null,
-    "risk_budget": 18750,
-    "pnl_ps": 5.78,
-    "is_win": true,
-    "entry_time": "11:00",
-    "exit_time": "15:45 ET",
-    "wing_width": 40,
-    "entry_credit": 17.83,
-    "vix": 15.48,
-    "score": 72.0,
-    "vp_ratio": 2.299,
-    "rv": 6.73,
-    "prior_5d": 0.555,
-    "prior_1d": 0.404,
-    "prior_dir": "DOWN",
-    "max_ps": 8.88,
-    "min_ps": -0.81,
-    "intraday": {
-      "10:30": -0.81,
-      "11:00": 1.1,
-      "11:30": 4.08,
-      "12:00": 4.55,
-      "12:30": 4.2,
-      "13:00": 5.97,
-      "13:30": 5.1,
-      "14:00": 8.75,
-      "14:30": 1.81,
-      "15:00": 8.88,
-      "15:30": 8.84,
-      "15:45": 5.78
-    },
-    "fire_signals": null
-  },
-  {
-    "date": "2024-10-02",
-    "ver": "v10",
-    "pnl": 7774,
-    "qty": 13,
-    "exit": "TIME",
-    "fire_count": null,
-    "risk_budget": 37500,
-    "pnl_ps": 6.98,
-    "is_win": true,
-    "entry_time": "11:00",
-    "exit_time": "15:45 ET",
-    "wing_width": 55,
-    "entry_credit": 26.63,
-    "vix": 19.52,
-    "score": 59.0,
-    "vp_ratio": 1.383,
-    "rv": 14.11,
-    "prior_5d": -0.422,
-    "prior_1d": -0.932,
-    "prior_dir": "DOWN",
-    "max_ps": 10.38,
-    "min_ps": -3.89,
-    "intraday": {
-      "10:30": 1.83,
-      "11:00": 1.48,
-      "11:30": -3.89,
-      "12:00": -1.62,
-      "12:30": 0.18,
-      "13:00": 5.95,
-      "13:30": 7.7,
-      "14:00": 3.48,
-      "14:30": 10.35,
-      "15:00": 9.4,
-      "15:30": 9.23,
-      "15:45": 6.98
-    },
-    "fire_signals": null
-  },
-  {
-    "date": "2024-11-18",
-    "ver": "v10",
-    "pnl": -1626,
-    "qty": 3,
-    "exit": "TIME",
-    "fire_count": null,
-    "risk_budget": 9375,
-    "pnl_ps": -4.42,
-    "is_win": false,
-    "entry_time": "11:00",
-    "exit_time": "15:45 ET",
-    "wing_width": 45,
-    "entry_credit": 19.83,
-    "vix": 16.37,
-    "score": 88.0,
-    "vp_ratio": 1.727,
-    "rv": 9.48,
-    "prior_5d": -2.084,
-    "prior_1d": -1.32,
-    "prior_dir": "DOWN",
-    "max_ps": 2.81,
-    "min_ps": -11.05,
-    "intraday": {
-      "10:30": -3.87,
-      "11:00": -7.58,
-      "11:30": -11.05,
-      "12:00": -7.76,
-      "12:30": -7.04,
-      "13:00": -10.47,
-      "13:30": -5.69,
-      "14:00": -6.31,
-      "14:30": 2.81,
-      "15:00": -4.12,
-      "15:30": -6.52,
-      "15:45": -4.42
-    },
-    "fire_signals": null
-  },
-  {
-    "date": "2025-02-24",
-    "ver": "v10",
-    "pnl": 13632,
-    "qty": 7,
-    "exit": "TARGET",
-    "fire_count": null,
-    "risk_budget": 18750,
-    "pnl_ps": 20.47,
-    "is_win": true,
-    "entry_time": "11:00",
-    "exit_time": "15:45 ET",
-    "wing_width": 55,
-    "entry_credit": 29.25,
-    "vix": 19.11,
-    "score": 60.0,
-    "vp_ratio": 1.288,
-    "rv": 14.84,
-    "prior_5d": -1.667,
-    "prior_1d": -1.706,
-    "prior_dir": "DOWN",
-    "max_ps": 21.75,
-    "min_ps": -0.15,
-    "intraday": {
-      "10:30": 2.4,
-      "11:00": 5.35,
-      "11:30": 2.16,
-      "12:00": 4.7,
-      "12:30": 1.45,
-      "13:00": 3.37,
-      "13:30": -0.15,
-      "14:00": 4.51,
-      "14:30": 8.7,
-      "15:00": 13.97,
-      "15:30": 18.93,
-      "15:45": 21.75
-    },
-    "fire_signals": null
-  },
-  {
-    "date": "2025-06-05",
-    "ver": "v10",
-    "pnl": 47493,
-    "qty": 27,
-    "exit": "TIME",
-    "fire_count": null,
-    "risk_budget": 56250,
-    "pnl_ps": 18.59,
-    "is_win": true,
-    "entry_time": "11:00",
-    "exit_time": "15:45 ET",
-    "wing_width": 50,
-    "entry_credit": 29.31,
-    "vix": 18.05,
-    "score": 67.0,
-    "vp_ratio": 1.008,
-    "rv": 17.91,
-    "prior_5d": 1.397,
-    "prior_1d": 0.007,
-    "prior_dir": "DOWN",
-    "max_ps": 18.59,
-    "min_ps": -11.5,
-    "intraday": {
-      "10:30": -1.14,
-      "11:00": -4.43,
-      "11:30": -10.9,
-      "12:00": -11.5,
-      "12:30": -7.57,
-      "13:00": 7.61,
-      "13:30": 1.06,
-      "14:00": 6.33,
-      "14:30": 11.46,
-      "15:00": 12.36,
-      "15:30": 14.03,
-      "15:45": 18.59
-    },
-    "fire_signals": null
-  },
-  {
-    "date": "2025-07-21",
-    "ver": "v10",
-    "pnl": -510,
-    "qty": 5,
-    "exit": "TIME",
-    "fire_count": null,
-    "risk_budget": 18750,
-    "pnl_ps": -0.02,
-    "is_win": false,
-    "entry_time": "11:00",
-    "exit_time": "15:45 ET",
-    "wing_width": 50,
-    "entry_credit": 16.65,
-    "vix": 16.67,
-    "score": 59.0,
-    "vp_ratio": 2.595,
-    "rv": 6.42,
-    "prior_5d": 0.592,
-    "prior_1d": -0.009,
-    "prior_dir": "DOWN",
-    "max_ps": 9.68,
-    "min_ps": -2.53,
-    "intraday": {
-      "10:30": 1.35,
-      "11:00": 3.47,
-      "11:30": 2.65,
-      "12:00": 5.04,
-      "12:30": 6.0,
-      "13:00": 4.91,
-      "13:30": 5.02,
-      "14:00": 7.27,
-      "14:30": 8.02,
-      "15:00": 9.68,
-      "15:30": 6.48,
-      "15:45": -0.02
-    },
-    "fire_signals": null
-  },
-  {
-    "date": "2025-08-21",
-    "ver": "v10",
-    "pnl": 56496,
-    "qty": 32,
-    "exit": "TARGET",
-    "fire_count": null,
-    "risk_budget": 75000,
-    "pnl_ps": 18.65,
-    "is_win": true,
-    "entry_time": "11:00",
-    "exit_time": "15:45 ET",
-    "wing_width": 50,
-    "entry_credit": 26.65,
-    "vix": 16.77,
-    "score": 58.0,
-    "vp_ratio": 0.877,
-    "rv": 19.13,
-    "prior_5d": -1.095,
-    "prior_1d": -0.243,
-    "prior_dir": "DOWN",
-    "max_ps": 21.68,
-    "min_ps": -3.65,
-    "intraday": {
-      "10:30": -3.65,
-      "11:00": -1.91,
-      "11:30": -0.18,
-      "12:00": 5.5,
-      "12:30": 6.52,
-      "13:00": 8.42,
-      "13:30": 10.08,
-      "14:00": 10.7,
-      "14:30": 13.41,
-      "15:00": 12.4,
-      "15:30": 16.33,
-      "15:45": 20.31
-    },
-    "fire_signals": null
-  },
-  {
-    "date": "2025-10-03",
-    "ver": "v10",
-    "pnl": 5555,
-    "qty": 5,
-    "exit": "TIME",
-    "fire_count": null,
-    "risk_budget": 18750,
-    "pnl_ps": 12.11,
-    "is_win": true,
-    "entry_time": "11:00",
-    "exit_time": "15:45 ET",
-    "wing_width": 55,
-    "entry_credit": 19.35,
-    "vix": 16.55,
-    "score": 80.0,
-    "vp_ratio": 1.704,
-    "rv": 9.72,
-    "prior_5d": 1.675,
-    "prior_1d": 0.062,
-    "prior_dir": "DOWN",
-    "max_ps": 12.11,
-    "min_ps": -2.67,
-    "intraday": {
-      "10:30": 0.05,
-      "11:00": -0.74,
-      "11:30": 1.47,
-      "12:00": -2.67,
-      "12:30": -1.81,
-      "13:00": 2.25,
-      "13:30": 5.17,
-      "14:00": -0.25,
-      "14:30": 7.87,
-      "15:00": 9.55,
-      "15:30": 8.33,
-      "15:45": 12.11
-    },
-    "fire_signals": null
-  },
-  {
-    "date": "2025-11-05",
-    "ver": "v10",
-    "pnl": 2060,
-    "qty": 5,
-    "exit": "TIME",
-    "fire_count": null,
-    "risk_budget": 18750,
-    "pnl_ps": 5.12,
-    "is_win": true,
-    "entry_time": "11:00",
-    "exit_time": "15:45 ET",
-    "wing_width": 60,
-    "entry_credit": 26.43,
-    "vix": 18.24,
-    "score": 71.0,
-    "vp_ratio": 1.356,
-    "rv": 13.45,
-    "prior_5d": -1.732,
-    "prior_1d": -1.174,
-    "prior_dir": "DOWN",
-    "max_ps": 24.6,
-    "min_ps": -5.54,
-    "intraday": {
-      "10:30": 1.66,
-      "11:00": 3.58,
-      "11:30": 2.48,
-      "12:00": -0.21,
-      "12:30": -4.32,
-      "13:00": -4.04,
-      "13:30": -4.7,
-      "14:00": -5.54,
-      "14:30": -2.95,
-      "15:00": -3.53,
-      "15:30": 3.21,
-      "15:45": 5.12
-    },
-    "fire_signals": null
-  },
-  {
-    "date": "2025-12-05",
-    "ver": "v10",
-    "pnl": 1974,
-    "qty": 6,
-    "exit": "TIME",
-    "fire_count": null,
-    "risk_budget": 18750,
-    "pnl_ps": 4.29,
-    "is_win": true,
-    "entry_time": "11:00",
-    "exit_time": "15:45 ET",
-    "wing_width": 50,
-    "entry_credit": 20.6,
-    "vix": 15.82,
-    "score": 72.0,
-    "vp_ratio": 2.041,
-    "rv": 7.75,
-    "prior_5d": 0.653,
-    "prior_1d": 0.108,
-    "prior_dir": "DOWN",
-    "max_ps": 8.83,
-    "min_ps": -1.38,
-    "intraday": {
-      "10:30": -0.15,
-      "11:00": 1.29,
-      "11:30": -1.2,
-      "12:00": 1.0,
-      "12:30": -1.38,
-      "13:00": 5.13,
-      "13:30": 7.17,
-      "14:00": 6.1,
-      "14:30": 6.2,
-      "15:00": 8.83,
-      "15:30": 5.45,
-      "15:45": 4.29
-    },
-    "fire_signals": null
-  },
-  {
-    "date": "2025-12-16",
-    "ver": "v10",
-    "pnl": 36720,
-    "qty": 27,
-    "exit": "TIME",
-    "fire_count": null,
-    "risk_budget": 75000,
-    "pnl_ps": 14.6,
-    "is_win": true,
-    "entry_time": "11:00",
-    "exit_time": "15:45 ET",
-    "wing_width": 55,
-    "entry_credit": 28.12,
-    "vix": 16.59,
-    "score": 47.0,
-    "vp_ratio": 0.829,
-    "rv": 20.0,
-    "prior_5d": -0.438,
-    "prior_1d": -0.16,
-    "prior_dir": "DOWN",
-    "max_ps": 14.6,
-    "min_ps": -18.54,
-    "intraday": {
-      "10:30": -2.11,
-      "11:00": 2.29,
-      "11:30": -6.24,
-      "12:00": 0.14,
-      "12:30": -1.37,
-      "13:00": -16.34,
-      "13:30": -18.54,
-      "14:00": -4.77,
-      "14:30": -7.6,
-      "15:00": 0.55,
-      "15:30": 11.43,
-      "15:45": 14.6
-    },
-    "fire_signals": null
-  },
-  {
-    "date": "2026-01-21",
-    "ver": "v10",
-    "pnl": -12295,
-    "qty": 5,
-    "exit": "WING_STOP",
-    "fire_count": null,
-    "risk_budget": 18750,
-    "pnl_ps": -23.59,
-    "is_win": false,
-    "entry_time": "11:00",
-    "exit_time": "14:50 ET",
-    "wing_width": 60,
-    "entry_credit": 28.51,
-    "vix": 17.98,
-    "score": 79.0,
-    "vp_ratio": 1.227,
-    "rv": 14.65,
-    "prior_5d": -2.586,
-    "prior_1d": -2.063,
-    "prior_dir": "DOWN",
-    "max_ps": 10.63,
-    "min_ps": -23.59,
-    "intraday": {
-      "10:30": 2.0,
-      "11:00": -2.94,
-      "11:30": 1.44,
-      "12:00": 3.03,
-      "12:30": -1.52,
-      "13:00": 3.57,
-      "13:30": 7.66,
-      "14:00": 10.63,
-      "14:30": -2.31,
-      "15:00": -23.59,
-      "15:30": -1.57,
-      "15:45": -3.46
-    },
-    "fire_signals": null
+    "fire_signals": null,
+    "sizing_score": 4,
+    "sizing_mult": 1.0
   },
   {
     "date": "2023-12-14",
     "ver": "v12",
-    "pnl": 30905,
-    "qty": 35,
+    "pnl": 15011,
+    "qty": 17,
     "exit": "CLOSE",
     "fire_count": null,
-    "risk_budget": 75000,
+    "risk_budget": 37500,
     "pnl_ps": 9.83,
     "is_win": true,
     "entry_time": "10:00",
@@ -12065,16 +11389,18 @@
       "15:30": 5.21,
       "15:45": 2.63
     },
-    "fire_signals": null
+    "fire_signals": null,
+    "sizing_score": 1,
+    "sizing_mult": 0.5
   },
   {
     "date": "2024-01-22",
     "ver": "v12",
-    "pnl": 9139,
-    "qty": 16,
+    "pnl": 4570,
+    "qty": 8,
     "exit": "TARGET",
     "fire_count": null,
-    "risk_budget": 37500,
+    "risk_budget": 18750,
     "pnl_ps": 6.71,
     "is_win": true,
     "entry_time": "10:00",
@@ -12104,16 +11430,18 @@
       "15:30": 7.76,
       "15:45": 4.03
     },
-    "fire_signals": null
+    "fire_signals": null,
+    "sizing_score": 1,
+    "sizing_mult": 0.5
   },
   {
     "date": "2024-01-24",
     "ver": "v12",
-    "pnl": 3430,
-    "qty": 7,
+    "pnl": 2450,
+    "qty": 5,
     "exit": "TARGET",
     "fire_count": null,
-    "risk_budget": 18750,
+    "risk_budget": 14062,
     "pnl_ps": 5.9,
     "is_win": true,
     "entry_time": "10:00",
@@ -12143,16 +11471,18 @@
       "15:30": 0.2,
       "15:45": 7.16
     },
-    "fire_signals": null
+    "fire_signals": null,
+    "sizing_score": 2,
+    "sizing_mult": 0.75
   },
   {
     "date": "2024-02-23",
     "ver": "v12",
-    "pnl": -3638,
-    "qty": 17,
+    "pnl": -1712,
+    "qty": 8,
     "exit": "CLOSE",
     "fire_count": null,
-    "risk_budget": 37500,
+    "risk_budget": 18750,
     "pnl_ps": -1.14,
     "is_win": false,
     "entry_time": "10:00",
@@ -12182,16 +11512,18 @@
       "15:30": -1.92,
       "15:45": 0.83
     },
-    "fire_signals": null
+    "fire_signals": null,
+    "sizing_score": -1,
+    "sizing_mult": 0.5
   },
   {
     "date": "2024-03-21",
     "ver": "v12",
-    "pnl": 3836,
-    "qty": 7,
+    "pnl": 1644,
+    "qty": 3,
     "exit": "TARGET",
     "fire_count": null,
-    "risk_budget": 18750,
+    "risk_budget": 9375,
     "pnl_ps": 6.48,
     "is_win": true,
     "entry_time": "10:00",
@@ -12221,16 +11553,18 @@
       "15:30": 9.65,
       "15:45": 8.95
     },
-    "fire_signals": null
+    "fire_signals": null,
+    "sizing_score": 1,
+    "sizing_mult": 0.5
   },
   {
     "date": "2024-05-15",
     "ver": "v12",
-    "pnl": -29600,
-    "qty": 16,
+    "pnl": -7400,
+    "qty": 4,
     "exit": "WING_STOP",
     "fire_count": null,
-    "risk_budget": 37500,
+    "risk_budget": 9375,
     "pnl_ps": -17.5,
     "is_win": false,
     "entry_time": "10:00",
@@ -12260,7 +11594,9 @@
       "15:30": -14.68,
       "15:45": -17.5
     },
-    "fire_signals": null
+    "fire_signals": null,
+    "sizing_score": -4,
+    "sizing_mult": 0.25
   },
   {
     "date": "2024-06-12",
@@ -12299,16 +11635,18 @@
       "15:30": 8.03,
       "15:45": 5.23
     },
-    "fire_signals": null
+    "fire_signals": null,
+    "sizing_score": 3,
+    "sizing_mult": 1.0
   },
   {
     "date": "2024-06-13",
     "ver": "v12",
-    "pnl": 10982,
-    "qty": 17,
+    "pnl": 5168,
+    "qty": 8,
     "exit": "TARGET",
     "fire_count": null,
-    "risk_budget": 37500,
+    "risk_budget": 18750,
     "pnl_ps": 7.46,
     "is_win": true,
     "entry_time": "10:00",
@@ -12338,16 +11676,18 @@
       "15:30": 12.75,
       "15:45": 12.8
     },
-    "fire_signals": null
+    "fire_signals": null,
+    "sizing_score": 1,
+    "sizing_mult": 0.5
   },
   {
     "date": "2024-11-25",
     "ver": "v12",
-    "pnl": -5225,
-    "qty": 25,
+    "pnl": -1254,
+    "qty": 6,
     "exit": "CLOSE",
     "fire_count": null,
-    "risk_budget": 56250,
+    "risk_budget": 14062,
     "pnl_ps": -1.09,
     "is_win": false,
     "entry_time": "10:00",
@@ -12377,16 +11717,18 @@
       "15:30": -4.74,
       "15:45": -4.43
     },
-    "fire_signals": null
+    "fire_signals": null,
+    "sizing_score": -3,
+    "sizing_mult": 0.25
   },
   {
     "date": "2025-08-13",
     "ver": "v12",
-    "pnl": 9139,
-    "qty": 13,
+    "pnl": 6327,
+    "qty": 9,
     "exit": "CLOSE",
     "fire_count": null,
-    "risk_budget": 37500,
+    "risk_budget": 28125,
     "pnl_ps": 8.03,
     "is_win": true,
     "entry_time": "10:00",
@@ -12416,7 +11758,9 @@
       "15:30": 1.84,
       "15:45": 1.69
     },
-    "fire_signals": null
+    "fire_signals": null,
+    "sizing_score": 2,
+    "sizing_mult": 0.75
   },
   {
     "date": "2025-09-10",
@@ -12455,358 +11799,9 @@
       "15:30": -7.84,
       "15:45": -1.09
     },
-    "fire_signals": null
-  },
-  {
-    "date": "2024-01-17",
-    "ver": "v14",
-    "pnl": 7852,
-    "qty": 9,
-    "exit": "TARGET",
-    "fire_count": null,
-    "risk_budget": 18750,
-    "pnl_ps": 9.72,
-    "is_win": true,
-    "entry_time": "10:00",
-    "exit_time": "14:30 ET",
-    "wing_width": 40,
-    "entry_credit": 19.45,
-    "vix": 15.35,
-    "score": 57.0,
-    "vp_ratio": 1.572,
-    "rv": 9.76,
-    "prior_5d": 0.051,
-    "prior_1d": -0.373,
-    "prior_dir": "DOWN",
-    "max_ps": 13.75,
-    "min_ps": 1.01,
-    "intraday": {
-      "10:30": 1.01,
-      "11:00": 1.82,
-      "11:30": 1.92,
-      "12:00": 3.6,
-      "12:30": 5.64,
-      "13:00": 5.65,
-      "13:30": 5.67,
-      "14:00": 7.43,
-      "14:30": 10.35,
-      "15:00": 11.69,
-      "15:30": 13.13,
-      "15:45": 13.75
-    },
-    "fire_signals": null
-  },
-  {
-    "date": "2024-02-20",
-    "ver": "v14",
-    "pnl": 23355,
-    "qty": 27,
-    "exit": "TARGET",
-    "fire_count": null,
-    "risk_budget": 56250,
-    "pnl_ps": 9.65,
-    "is_win": true,
-    "entry_time": "10:00",
-    "exit_time": "15:00 ET",
-    "wing_width": 40,
-    "entry_credit": 19.3,
-    "vix": 15.58,
-    "score": 59.0,
-    "vp_ratio": 1.187,
-    "rv": 13.12,
-    "prior_5d": -0.419,
-    "prior_1d": -0.48,
-    "prior_dir": "DOWN",
-    "max_ps": 18.5,
-    "min_ps": -0.33,
-    "intraday": {
-      "10:30": -0.33,
-      "11:00": 0.65,
-      "11:30": 2.67,
-      "12:00": 1.17,
-      "12:30": 0.85,
-      "13:00": 3.49,
-      "13:30": 1.68,
-      "14:00": 6.06,
-      "14:30": 7.49,
-      "15:00": 10.1,
-      "15:30": 12.7,
-      "15:45": 11.9
-    },
-    "fire_signals": null
-  },
-  {
-    "date": "2024-04-10",
-    "ver": "v14",
-    "pnl": 59415,
-    "qty": 51,
-    "exit": "TARGET",
-    "fire_count": null,
-    "risk_budget": 75000,
-    "pnl_ps": 12.65,
-    "is_win": true,
-    "entry_time": "10:00",
-    "exit_time": "15:45 ET",
-    "wing_width": 40,
-    "entry_credit": 25.3,
-    "vix": 16.17,
-    "score": 60.0,
-    "vp_ratio": 0.773,
-    "rv": 20.93,
-    "prior_5d": 0.079,
-    "prior_1d": 0.145,
-    "prior_dir": "DOWN",
-    "max_ps": 23.85,
-    "min_ps": 0.45,
-    "intraday": {
-      "10:30": 0.45,
-      "11:00": 1.85,
-      "11:30": 3.31,
-      "12:00": 3.48,
-      "12:30": 3.65,
-      "13:00": 4.24,
-      "13:30": 4.54,
-      "14:00": 4.0,
-      "14:30": 6.48,
-      "15:00": 5.4,
-      "15:30": 11.47,
-      "15:45": 14.89
-    },
-    "fire_signals": null
-  },
-  {
-    "date": "2025-02-03",
-    "ver": "v14",
-    "pnl": -55831,
-    "qty": 31,
-    "exit": "WING_STOP",
-    "fire_count": null,
-    "risk_budget": 75000,
-    "pnl_ps": -17.01,
-    "is_win": false,
-    "entry_time": "10:00",
-    "exit_time": "10:41 ET",
-    "wing_width": 55,
-    "entry_credit": 31.35,
-    "vix": 19.4,
-    "score": 70.0,
-    "vp_ratio": 0.913,
-    "rv": 21.24,
-    "prior_5d": -0.995,
-    "prior_1d": -0.505,
-    "prior_dir": "DOWN",
-    "max_ps": -6.45,
-    "min_ps": -23.65,
-    "intraday": {
-      "10:30": -10.18,
-      "11:00": -12.94,
-      "11:30": -15.81,
-      "12:00": -9.33,
-      "12:30": -17.01,
-      "13:00": -6.45,
-      "13:30": -13.78,
-      "14:00": -17.9,
-      "14:30": -21.77,
-      "15:00": -20.59,
-      "15:30": -18.96,
-      "15:45": -22.71
-    },
-    "fire_signals": null
-  },
-  {
-    "date": "2025-03-27",
-    "ver": "v14",
-    "pnl": 49536,
-    "qty": 36,
-    "exit": "TARGET",
-    "fire_count": null,
-    "risk_budget": 75000,
-    "pnl_ps": 14.76,
-    "is_win": true,
-    "entry_time": "10:00",
-    "exit_time": "15:00 ET",
-    "wing_width": 50,
-    "entry_credit": 29.52,
-    "vix": 18.49,
-    "score": 56.0,
-    "vp_ratio": 0.989,
-    "rv": 18.7,
-    "prior_5d": 0.65,
-    "prior_1d": -1.116,
-    "prior_dir": "DOWN",
-    "max_ps": 19.25,
-    "min_ps": -1.73,
-    "intraday": {
-      "10:30": 1.67,
-      "11:00": -1.73,
-      "11:30": 4.12,
-      "12:00": 7.27,
-      "12:30": 7.22,
-      "13:00": 7.12,
-      "13:30": 9.47,
-      "14:00": 9.78,
-      "14:30": 13.24,
-      "15:00": 15.47,
-      "15:30": 16.1,
-      "15:45": 19.25
-    },
-    "fire_signals": null
-  },
-  {
-    "date": "2025-09-02",
-    "ver": "v14",
-    "pnl": 23370,
-    "qty": 19,
-    "exit": "TARGET",
-    "fire_count": null,
-    "risk_budget": 56250,
-    "pnl_ps": 13.3,
-    "is_win": true,
-    "entry_time": "10:00",
-    "exit_time": "15:00 ET",
-    "wing_width": 55,
-    "entry_credit": 26.6,
-    "vix": 17.7,
-    "score": 42.0,
-    "vp_ratio": 1.048,
-    "rv": 16.89,
-    "prior_5d": -0.103,
-    "prior_1d": -0.64,
-    "prior_dir": "DOWN",
-    "max_ps": 20.06,
-    "min_ps": -9.9,
-    "intraday": {
-      "10:30": 3.36,
-      "11:00": 2.01,
-      "11:30": -3.28,
-      "12:00": -9.9,
-      "12:30": -8.68,
-      "13:00": 1.35,
-      "13:30": 7.6,
-      "14:00": 12.05,
-      "14:30": 10.18,
-      "15:00": 13.44,
-      "15:30": 18.96,
-      "15:45": 20.06
-    },
-    "fire_signals": null
-  },
-  {
-    "date": "2025-10-30",
-    "ver": "v14",
-    "pnl": 33005,
-    "qty": 23,
-    "exit": "TARGET",
-    "fire_count": null,
-    "risk_budget": 56250,
-    "pnl_ps": 15.35,
-    "is_win": true,
-    "entry_time": "10:00",
-    "exit_time": "14:00 ET",
-    "wing_width": 55,
-    "entry_credit": 30.7,
-    "vix": 16.62,
-    "score": 49.0,
-    "vp_ratio": 1.047,
-    "rv": 15.88,
-    "prior_5d": 2.854,
-    "prior_1d": -0.004,
-    "prior_dir": "DOWN",
-    "max_ps": 16.0,
-    "min_ps": -17.25,
-    "intraday": {
-      "10:30": 2.15,
-      "11:00": 3.97,
-      "11:30": 6.05,
-      "12:00": 5.12,
-      "12:30": 8.8,
-      "13:00": 10.01,
-      "13:30": 12.85,
-      "14:00": 16.0,
-      "14:30": 12.83,
-      "15:00": 5.8,
-      "15:30": 0.77,
-      "15:45": -9.45
-    },
-    "fire_signals": null
-  },
-  {
-    "date": "2026-01-14",
-    "ver": "v14",
-    "pnl": 41242,
-    "qty": 27,
-    "exit": "TARGET",
-    "fire_count": null,
-    "risk_budget": 75000,
-    "pnl_ps": 16.27,
-    "is_win": true,
-    "entry_time": "10:00",
-    "exit_time": "13:30 ET",
-    "wing_width": 60,
-    "entry_credit": 32.55,
-    "vix": 17.92,
-    "score": 59.0,
-    "vp_ratio": 0.931,
-    "rv": 19.25,
-    "prior_5d": 0.272,
-    "prior_1d": -0.194,
-    "prior_dir": "DOWN",
-    "max_ps": 24.15,
-    "min_ps": 6.65,
-    "intraday": {
-      "10:30": 6.65,
-      "11:00": 7.97,
-      "11:30": 10.4,
-      "12:00": 7.45,
-      "12:30": 10.15,
-      "13:00": 10.88,
-      "13:30": 16.62,
-      "14:00": 18.99,
-      "14:30": 20.88,
-      "15:00": 18.88,
-      "15:30": 19.53,
-      "15:45": 24.15
-    },
-    "fire_signals": null
-  },
-  {
-    "date": "2026-01-30",
-    "ver": "v14",
-    "pnl": 45616,
-    "qty": 31,
-    "exit": "TARGET",
-    "fire_count": null,
-    "risk_budget": 75000,
-    "pnl_ps": 15.71,
-    "is_win": true,
-    "entry_time": "10:00",
-    "exit_time": "15:45 ET",
-    "wing_width": 55,
-    "entry_credit": 31.43,
-    "vix": 17.39,
-    "score": 65.0,
-    "vp_ratio": 0.943,
-    "rv": 18.45,
-    "prior_5d": 0.805,
-    "prior_1d": -0.129,
-    "prior_dir": "DOWN",
-    "max_ps": 29.18,
-    "min_ps": 1.55,
-    "intraday": {
-      "10:30": 1.55,
-      "11:00": 4.08,
-      "11:30": 6.18,
-      "12:00": 6.96,
-      "12:30": 9.5,
-      "13:00": 2.69,
-      "13:30": 3.01,
-      "14:00": 9.38,
-      "14:30": 10.48,
-      "15:00": 13.15,
-      "15:30": 13.46,
-      "15:45": 19.51
-    },
-    "fire_signals": null
+    "fire_signals": null,
+    "sizing_score": 3,
+    "sizing_mult": 1.0
   },
   {
     "date": "2023-11-14",
@@ -12821,7 +11816,9 @@
     "entry_time": "13:00",
     "exit_time": "16:15 ET",
     "wing_width": 15,
-    "entry_credit": 0.45
+    "entry_credit": 0.45,
+    "sizing_score": 0,
+    "sizing_mult": 1.0
   },
   {
     "date": "2023-11-15",
@@ -12836,7 +11833,9 @@
     "entry_time": "13:00",
     "exit_time": "16:15 ET",
     "wing_width": 15,
-    "entry_credit": 0.4
+    "entry_credit": 0.4,
+    "sizing_score": 0,
+    "sizing_mult": 1.0
   },
   {
     "date": "2023-11-22",
@@ -12851,7 +11850,9 @@
     "entry_time": "13:00",
     "exit_time": "16:15 ET",
     "wing_width": 15,
-    "entry_credit": 0.1
+    "entry_credit": 0.1,
+    "sizing_score": -4,
+    "sizing_mult": 0.25
   },
   {
     "date": "2023-11-30",
@@ -12866,7 +11867,9 @@
     "entry_time": "13:00",
     "exit_time": "16:15 ET",
     "wing_width": 15,
-    "entry_credit": 0.3
+    "entry_credit": 0.3,
+    "sizing_score": 4,
+    "sizing_mult": 1.0
   },
   {
     "date": "2023-12-05",
@@ -12881,7 +11884,9 @@
     "entry_time": "13:00",
     "exit_time": "16:15 ET",
     "wing_width": 15,
-    "entry_credit": 0.3
+    "entry_credit": 0.3,
+    "sizing_score": -2,
+    "sizing_mult": 0.25
   },
   {
     "date": "2023-12-08",
@@ -12896,7 +11901,9 @@
     "entry_time": "13:00",
     "exit_time": "16:15 ET",
     "wing_width": 15,
-    "entry_credit": 0.3
+    "entry_credit": 0.3,
+    "sizing_score": -5,
+    "sizing_mult": 0.25
   },
   {
     "date": "2023-12-11",
@@ -12911,7 +11918,9 @@
     "entry_time": "13:00",
     "exit_time": "16:15 ET",
     "wing_width": 15,
-    "entry_credit": 0.2
+    "entry_credit": 0.2,
+    "sizing_score": -1,
+    "sizing_mult": 0.5
   },
   {
     "date": "2023-12-14",
@@ -12926,7 +11935,9 @@
     "entry_time": "13:00",
     "exit_time": "16:15 ET",
     "wing_width": 15,
-    "entry_credit": 0.7
+    "entry_credit": 0.7,
+    "sizing_score": 4,
+    "sizing_mult": 1.0
   },
   {
     "date": "2023-12-15",
@@ -12941,7 +11952,9 @@
     "entry_time": "13:00",
     "exit_time": "16:15 ET",
     "wing_width": 15,
-    "entry_credit": 0.65
+    "entry_credit": 0.65,
+    "sizing_score": -5,
+    "sizing_mult": 0.25
   },
   {
     "date": "2024-01-02",
@@ -12956,7 +11969,9 @@
     "entry_time": "13:00",
     "exit_time": "16:15 ET",
     "wing_width": 15,
-    "entry_credit": 0.35
+    "entry_credit": 0.35,
+    "sizing_score": -2,
+    "sizing_mult": 0.25
   },
   {
     "date": "2024-01-11",
@@ -12971,7 +11986,9 @@
     "entry_time": "13:00",
     "exit_time": "16:15 ET",
     "wing_width": 15,
-    "entry_credit": 1.4
+    "entry_credit": 1.4,
+    "sizing_score": 5,
+    "sizing_mult": 1.0
   },
   {
     "date": "2024-01-12",
@@ -12986,7 +12003,9 @@
     "entry_time": "13:00",
     "exit_time": "16:15 ET",
     "wing_width": 15,
-    "entry_credit": 1.05
+    "entry_credit": 1.05,
+    "sizing_score": -5,
+    "sizing_mult": 0.25
   },
   {
     "date": "2024-01-22",
@@ -13001,7 +12020,9 @@
     "entry_time": "13:00",
     "exit_time": "16:15 ET",
     "wing_width": 15,
-    "entry_credit": 0.6
+    "entry_credit": 0.6,
+    "sizing_score": 2,
+    "sizing_mult": 0.75
   },
   {
     "date": "2024-02-02",
@@ -13016,7 +12037,9 @@
     "entry_time": "13:00",
     "exit_time": "16:15 ET",
     "wing_width": 15,
-    "entry_credit": 1.85
+    "entry_credit": 1.85,
+    "sizing_score": -1,
+    "sizing_mult": 0.5
   },
   {
     "date": "2024-02-05",
@@ -13031,7 +12054,9 @@
     "entry_time": "13:00",
     "exit_time": "16:15 ET",
     "wing_width": 15,
-    "entry_credit": 0.6
+    "entry_credit": 0.6,
+    "sizing_score": -3,
+    "sizing_mult": 0.25
   },
   {
     "date": "2024-02-06",
@@ -13046,7 +12071,9 @@
     "entry_time": "13:00",
     "exit_time": "16:15 ET",
     "wing_width": 15,
-    "entry_credit": 0.95
+    "entry_credit": 0.95,
+    "sizing_score": 3,
+    "sizing_mult": 0.75
   },
   {
     "date": "2024-02-13",
@@ -13061,7 +12088,9 @@
     "entry_time": "13:00",
     "exit_time": "16:15 ET",
     "wing_width": 15,
-    "entry_credit": 1.0
+    "entry_credit": 1.0,
+    "sizing_score": 4,
+    "sizing_mult": 1.0
   },
   {
     "date": "2024-02-22",
@@ -13076,7 +12105,9 @@
     "entry_time": "13:00",
     "exit_time": "16:15 ET",
     "wing_width": 15,
-    "entry_credit": 0.9
+    "entry_credit": 0.9,
+    "sizing_score": -2,
+    "sizing_mult": 0.25
   },
   {
     "date": "2024-02-23",
@@ -13091,7 +12122,9 @@
     "entry_time": "13:00",
     "exit_time": "16:15 ET",
     "wing_width": 15,
-    "entry_credit": 0.8
+    "entry_credit": 0.8,
+    "sizing_score": -6,
+    "sizing_mult": 0.25
   },
   {
     "date": "2024-03-08",
@@ -13106,7 +12139,9 @@
     "entry_time": "13:00",
     "exit_time": "16:15 ET",
     "wing_width": 15,
-    "entry_credit": 3.2
+    "entry_credit": 3.2,
+    "sizing_score": 3,
+    "sizing_mult": 0.75
   },
   {
     "date": "2024-03-14",
@@ -13121,7 +12156,9 @@
     "entry_time": "13:00",
     "exit_time": "16:15 ET",
     "wing_width": 15,
-    "entry_credit": 0.95
+    "entry_credit": 0.95,
+    "sizing_score": -2,
+    "sizing_mult": 0.25
   },
   {
     "date": "2024-04-10",
@@ -13136,7 +12173,9 @@
     "entry_time": "13:00",
     "exit_time": "16:15 ET",
     "wing_width": 15,
-    "entry_credit": 3.9
+    "entry_credit": 3.9,
+    "sizing_score": 6,
+    "sizing_mult": 1.0
   },
   {
     "date": "2024-04-24",
@@ -13151,7 +12190,9 @@
     "entry_time": "13:00",
     "exit_time": "16:15 ET",
     "wing_width": 15,
-    "entry_credit": 3.4
+    "entry_credit": 3.4,
+    "sizing_score": 4,
+    "sizing_mult": 1.0
   },
   {
     "date": "2024-04-25",
@@ -13166,7 +12207,9 @@
     "entry_time": "13:00",
     "exit_time": "16:15 ET",
     "wing_width": 15,
-    "entry_credit": 2.7
+    "entry_credit": 2.7,
+    "sizing_score": 5,
+    "sizing_mult": 1.0
   },
   {
     "date": "2024-04-26",
@@ -13181,7 +12224,9 @@
     "entry_time": "13:00",
     "exit_time": "16:15 ET",
     "wing_width": 15,
-    "entry_credit": 0.8
+    "entry_credit": 0.8,
+    "sizing_score": 0,
+    "sizing_mult": 0.5
   },
   {
     "date": "2024-04-29",
@@ -13196,7 +12241,9 @@
     "entry_time": "13:00",
     "exit_time": "16:15 ET",
     "wing_width": 15,
-    "entry_credit": 0.2
+    "entry_credit": 0.2,
+    "sizing_score": 1,
+    "sizing_mult": 0.75
   },
   {
     "date": "2024-05-03",
@@ -13211,7 +12258,9 @@
     "entry_time": "13:00",
     "exit_time": "16:15 ET",
     "wing_width": 15,
-    "entry_credit": 1.05
+    "entry_credit": 1.05,
+    "sizing_score": -6,
+    "sizing_mult": 0.25
   },
   {
     "date": "2024-05-10",
@@ -13226,7 +12275,9 @@
     "entry_time": "13:00",
     "exit_time": "16:15 ET",
     "wing_width": 15,
-    "entry_credit": 0.3
+    "entry_credit": 0.3,
+    "sizing_score": 1,
+    "sizing_mult": 0.75
   },
   {
     "date": "2024-05-15",
@@ -13241,7 +12292,9 @@
     "entry_time": "13:00",
     "exit_time": "16:15 ET",
     "wing_width": 15,
-    "entry_credit": 0.3
+    "entry_credit": 0.3,
+    "sizing_score": 4,
+    "sizing_mult": 1.0
   },
   {
     "date": "2024-06-03",
@@ -13256,7 +12309,9 @@
     "entry_time": "13:00",
     "exit_time": "16:15 ET",
     "wing_width": 15,
-    "entry_credit": 2.9
+    "entry_credit": 2.9,
+    "sizing_score": -7,
+    "sizing_mult": 0.25
   },
   {
     "date": "2024-06-07",
@@ -13271,7 +12326,9 @@
     "entry_time": "13:00",
     "exit_time": "16:15 ET",
     "wing_width": 15,
-    "entry_credit": 0.7
+    "entry_credit": 0.7,
+    "sizing_score": 0,
+    "sizing_mult": 0.5
   },
   {
     "date": "2024-06-12",
@@ -13286,7 +12343,9 @@
     "entry_time": "13:00",
     "exit_time": "16:15 ET",
     "wing_width": 15,
-    "entry_credit": 4.75
+    "entry_credit": 4.75,
+    "sizing_score": 4,
+    "sizing_mult": 1.0
   },
   {
     "date": "2024-06-13",
@@ -13301,7 +12360,9 @@
     "entry_time": "13:00",
     "exit_time": "16:15 ET",
     "wing_width": 15,
-    "entry_credit": 0.9
+    "entry_credit": 0.9,
+    "sizing_score": 2,
+    "sizing_mult": 0.75
   },
   {
     "date": "2024-06-18",
@@ -13316,7 +12377,9 @@
     "entry_time": "13:00",
     "exit_time": "16:15 ET",
     "wing_width": 15,
-    "entry_credit": 0.5
+    "entry_credit": 0.5,
+    "sizing_score": -1,
+    "sizing_mult": 0.5
   },
   {
     "date": "2024-06-21",
@@ -13331,7 +12394,9 @@
     "entry_time": "13:00",
     "exit_time": "16:15 ET",
     "wing_width": 15,
-    "entry_credit": 1.2
+    "entry_credit": 1.2,
+    "sizing_score": -3,
+    "sizing_mult": 0.25
   },
   {
     "date": "2024-07-02",
@@ -13346,7 +12411,9 @@
     "entry_time": "13:00",
     "exit_time": "16:15 ET",
     "wing_width": 15,
-    "entry_credit": 0.85
+    "entry_credit": 0.85,
+    "sizing_score": -1,
+    "sizing_mult": 0.5
   },
   {
     "date": "2024-07-05",
@@ -13361,7 +12428,9 @@
     "entry_time": "13:00",
     "exit_time": "16:15 ET",
     "wing_width": 15,
-    "entry_credit": 0.3
+    "entry_credit": 0.3,
+    "sizing_score": -5,
+    "sizing_mult": 0.25
   },
   {
     "date": "2024-07-08",
@@ -13376,7 +12445,9 @@
     "entry_time": "13:00",
     "exit_time": "16:15 ET",
     "wing_width": 15,
-    "entry_credit": 0.15
+    "entry_credit": 0.15,
+    "sizing_score": -1,
+    "sizing_mult": 0.5
   },
   {
     "date": "2024-07-11",
@@ -13391,7 +12462,9 @@
     "entry_time": "13:00",
     "exit_time": "16:15 ET",
     "wing_width": 15,
-    "entry_credit": 1.4
+    "entry_credit": 1.4,
+    "sizing_score": 3,
+    "sizing_mult": 0.75
   },
   {
     "date": "2024-07-15",
@@ -13406,7 +12479,9 @@
     "entry_time": "13:00",
     "exit_time": "16:15 ET",
     "wing_width": 15,
-    "entry_credit": 1.7
+    "entry_credit": 1.7,
+    "sizing_score": -4,
+    "sizing_mult": 0.25
   },
   {
     "date": "2024-07-16",
@@ -13421,7 +12496,9 @@
     "entry_time": "13:00",
     "exit_time": "16:15 ET",
     "wing_width": 15,
-    "entry_credit": 0.6
+    "entry_credit": 0.6,
+    "sizing_score": -1,
+    "sizing_mult": 0.5
   },
   {
     "date": "2024-07-17",
@@ -13436,7 +12513,9 @@
     "entry_time": "13:00",
     "exit_time": "16:15 ET",
     "wing_width": 15,
-    "entry_credit": 1.4
+    "entry_credit": 1.4,
+    "sizing_score": 2,
+    "sizing_mult": 0.75
   },
   {
     "date": "2024-08-23",
@@ -13451,7 +12530,9 @@
     "entry_time": "13:00",
     "exit_time": "16:15 ET",
     "wing_width": 15,
-    "entry_credit": 2.85
+    "entry_credit": 2.85,
+    "sizing_score": -8,
+    "sizing_mult": 0.25
   },
   {
     "date": "2024-08-30",
@@ -13466,7 +12547,9 @@
     "entry_time": "13:00",
     "exit_time": "16:15 ET",
     "wing_width": 15,
-    "entry_credit": 1.3
+    "entry_credit": 1.3,
+    "sizing_score": -8,
+    "sizing_mult": 0.25
   },
   {
     "date": "2024-09-19",
@@ -13481,7 +12564,9 @@
     "entry_time": "13:00",
     "exit_time": "16:15 ET",
     "wing_width": 15,
-    "entry_credit": 1.85
+    "entry_credit": 1.85,
+    "sizing_score": -2,
+    "sizing_mult": 0.25
   },
   {
     "date": "2024-09-23",
@@ -13496,7 +12581,9 @@
     "entry_time": "13:00",
     "exit_time": "16:15 ET",
     "wing_width": 15,
-    "entry_credit": 0.65
+    "entry_credit": 0.65,
+    "sizing_score": -1,
+    "sizing_mult": 0.5
   },
   {
     "date": "2024-11-14",
@@ -13511,7 +12598,9 @@
     "entry_time": "13:00",
     "exit_time": "16:15 ET",
     "wing_width": 15,
-    "entry_credit": 1.5
+    "entry_credit": 1.5,
+    "sizing_score": 1,
+    "sizing_mult": 0.75
   },
   {
     "date": "2024-11-25",
@@ -13526,7 +12615,9 @@
     "entry_time": "13:00",
     "exit_time": "16:15 ET",
     "wing_width": 15,
-    "entry_credit": 1.45
+    "entry_credit": 1.45,
+    "sizing_score": -2,
+    "sizing_mult": 0.25
   },
   {
     "date": "2024-11-26",
@@ -13541,7 +12632,9 @@
     "entry_time": "13:00",
     "exit_time": "16:15 ET",
     "wing_width": 15,
-    "entry_credit": 0.45
+    "entry_credit": 0.45,
+    "sizing_score": 3,
+    "sizing_mult": 0.75
   },
   {
     "date": "2025-01-17",
@@ -13556,7 +12649,9 @@
     "entry_time": "13:00",
     "exit_time": "16:15 ET",
     "wing_width": 15,
-    "entry_credit": 1.2
+    "entry_credit": 1.2,
+    "sizing_score": -2,
+    "sizing_mult": 0.25
   },
   {
     "date": "2025-01-21",
@@ -13571,7 +12666,9 @@
     "entry_time": "13:00",
     "exit_time": "16:15 ET",
     "wing_width": 15,
-    "entry_credit": 0.75
+    "entry_credit": 0.75,
+    "sizing_score": -1,
+    "sizing_mult": 0.5
   },
   {
     "date": "2025-02-12",
@@ -13586,7 +12683,9 @@
     "entry_time": "13:00",
     "exit_time": "16:15 ET",
     "wing_width": 15,
-    "entry_credit": 1.4
+    "entry_credit": 1.4,
+    "sizing_score": 2,
+    "sizing_mult": 0.75
   },
   {
     "date": "2025-02-20",
@@ -13601,7 +12700,9 @@
     "entry_time": "13:00",
     "exit_time": "16:15 ET",
     "wing_width": 15,
-    "entry_credit": 1.75
+    "entry_credit": 1.75,
+    "sizing_score": -1,
+    "sizing_mult": 0.5
   },
   {
     "date": "2025-03-18",
@@ -13616,7 +12717,9 @@
     "entry_time": "13:00",
     "exit_time": "16:15 ET",
     "wing_width": 15,
-    "entry_credit": 3.65
+    "entry_credit": 3.65,
+    "sizing_score": 3,
+    "sizing_mult": 0.75
   },
   {
     "date": "2025-03-19",
@@ -13631,7 +12734,9 @@
     "entry_time": "13:00",
     "exit_time": "16:15 ET",
     "wing_width": 15,
-    "entry_credit": 3.1
+    "entry_credit": 3.1,
+    "sizing_score": 2,
+    "sizing_mult": 0.75
   },
   {
     "date": "2025-03-20",
@@ -13646,7 +12751,9 @@
     "entry_time": "13:00",
     "exit_time": "16:15 ET",
     "wing_width": 15,
-    "entry_credit": 3.3
+    "entry_credit": 3.3,
+    "sizing_score": 6,
+    "sizing_mult": 1.0
   },
   {
     "date": "2025-03-21",
@@ -13661,7 +12768,9 @@
     "entry_time": "13:00",
     "exit_time": "16:15 ET",
     "wing_width": 15,
-    "entry_credit": 3.1
+    "entry_credit": 3.1,
+    "sizing_score": 2,
+    "sizing_mult": 0.75
   },
   {
     "date": "2025-03-25",
@@ -13676,7 +12785,9 @@
     "entry_time": "13:00",
     "exit_time": "16:15 ET",
     "wing_width": 15,
-    "entry_credit": 1.4
+    "entry_credit": 1.4,
+    "sizing_score": 4,
+    "sizing_mult": 1.0
   },
   {
     "date": "2025-03-27",
@@ -13691,7 +12802,9 @@
     "entry_time": "13:00",
     "exit_time": "16:15 ET",
     "wing_width": 15,
-    "entry_credit": 2.5
+    "entry_credit": 2.5,
+    "sizing_score": 3,
+    "sizing_mult": 0.75
   },
   {
     "date": "2025-04-25",
@@ -13706,7 +12819,9 @@
     "entry_time": "13:00",
     "exit_time": "16:15 ET",
     "wing_width": 15,
-    "entry_credit": 4.2
+    "entry_credit": 4.2,
+    "sizing_score": -4,
+    "sizing_mult": 0.25
   },
   {
     "date": "2025-05-02",
@@ -13721,7 +12836,9 @@
     "entry_time": "13:00",
     "exit_time": "16:15 ET",
     "wing_width": 15,
-    "entry_credit": 1.4
+    "entry_credit": 1.4,
+    "sizing_score": 0,
+    "sizing_mult": 0.5
   },
   {
     "date": "2025-05-14",
@@ -13736,7 +12853,9 @@
     "entry_time": "13:00",
     "exit_time": "16:15 ET",
     "wing_width": 15,
-    "entry_credit": 1.05
+    "entry_credit": 1.05,
+    "sizing_score": 1,
+    "sizing_mult": 0.75
   },
   {
     "date": "2025-05-30",
@@ -13751,7 +12870,9 @@
     "entry_time": "13:00",
     "exit_time": "16:15 ET",
     "wing_width": 15,
-    "entry_credit": 5.25
+    "entry_credit": 5.25,
+    "sizing_score": -7,
+    "sizing_mult": 0.25
   },
   {
     "date": "2025-06-02",
@@ -13766,7 +12887,9 @@
     "entry_time": "13:00",
     "exit_time": "16:15 ET",
     "wing_width": 15,
-    "entry_credit": 0.8
+    "entry_credit": 0.8,
+    "sizing_score": -4,
+    "sizing_mult": 0.25
   },
   {
     "date": "2025-06-05",
@@ -13781,7 +12904,9 @@
     "entry_time": "13:00",
     "exit_time": "16:15 ET",
     "wing_width": 15,
-    "entry_credit": 2.35
+    "entry_credit": 2.35,
+    "sizing_score": 5,
+    "sizing_mult": 1.0
   },
   {
     "date": "2025-06-11",
@@ -13796,7 +12921,9 @@
     "entry_time": "13:00",
     "exit_time": "16:15 ET",
     "wing_width": 15,
-    "entry_credit": 1.7
+    "entry_credit": 1.7,
+    "sizing_score": 3,
+    "sizing_mult": 0.75
   },
   {
     "date": "2025-07-24",
@@ -13811,7 +12938,9 @@
     "entry_time": "13:00",
     "exit_time": "16:15 ET",
     "wing_width": 15,
-    "entry_credit": 0.2
+    "entry_credit": 0.2,
+    "sizing_score": 5,
+    "sizing_mult": 1.0
   },
   {
     "date": "2025-08-12",
@@ -13826,7 +12955,9 @@
     "entry_time": "13:00",
     "exit_time": "16:15 ET",
     "wing_width": 15,
-    "entry_credit": 0.1
+    "entry_credit": 0.1,
+    "sizing_score": 0,
+    "sizing_mult": 0.5
   },
   {
     "date": "2025-08-13",
@@ -13841,7 +12972,9 @@
     "entry_time": "13:00",
     "exit_time": "16:15 ET",
     "wing_width": 15,
-    "entry_credit": 0.3
+    "entry_credit": 0.3,
+    "sizing_score": -2,
+    "sizing_mult": 0.25
   },
   {
     "date": "2025-08-14",
@@ -13856,7 +12989,9 @@
     "entry_time": "13:00",
     "exit_time": "16:15 ET",
     "wing_width": 15,
-    "entry_credit": 0.3
+    "entry_credit": 0.3,
+    "sizing_score": 3,
+    "sizing_mult": 0.75
   },
   {
     "date": "2025-08-28",
@@ -13871,7 +13006,9 @@
     "entry_time": "13:00",
     "exit_time": "16:15 ET",
     "wing_width": 15,
-    "entry_credit": 0.25
+    "entry_credit": 0.25,
+    "sizing_score": 3,
+    "sizing_mult": 0.75
   },
   {
     "date": "2025-09-05",
@@ -13886,7 +13023,9 @@
     "entry_time": "13:00",
     "exit_time": "16:15 ET",
     "wing_width": 15,
-    "entry_credit": 2.15
+    "entry_credit": 2.15,
+    "sizing_score": -6,
+    "sizing_mult": 0.25
   },
   {
     "date": "2025-09-18",
@@ -13901,7 +13040,9 @@
     "entry_time": "13:00",
     "exit_time": "16:15 ET",
     "wing_width": 15,
-    "entry_credit": 1.4
+    "entry_credit": 1.4,
+    "sizing_score": 0,
+    "sizing_mult": 0.5
   },
   {
     "date": "2025-11-25",
@@ -13916,7 +13057,9 @@
     "entry_time": "13:00",
     "exit_time": "16:15 ET",
     "wing_width": 15,
-    "entry_credit": 1.55
+    "entry_credit": 1.55,
+    "sizing_score": -1,
+    "sizing_mult": 0.5
   },
   {
     "date": "2025-12-01",
@@ -13931,7 +13074,9 @@
     "entry_time": "13:00",
     "exit_time": "16:15 ET",
     "wing_width": 15,
-    "entry_credit": 1.15
+    "entry_credit": 1.15,
+    "sizing_score": 2,
+    "sizing_mult": 0.75
   },
   {
     "date": "2025-12-03",
@@ -13946,7 +13091,9 @@
     "entry_time": "13:00",
     "exit_time": "16:15 ET",
     "wing_width": 15,
-    "entry_credit": 1.0
+    "entry_credit": 1.0,
+    "sizing_score": 5,
+    "sizing_mult": 1.0
   },
   {
     "date": "2025-12-04",
@@ -13961,7 +13108,9 @@
     "entry_time": "13:00",
     "exit_time": "16:15 ET",
     "wing_width": 15,
-    "entry_credit": 1.2
+    "entry_credit": 1.2,
+    "sizing_score": 5,
+    "sizing_mult": 1.0
   },
   {
     "date": "2025-12-11",
@@ -13976,7 +13125,9 @@
     "entry_time": "13:00",
     "exit_time": "16:15 ET",
     "wing_width": 15,
-    "entry_credit": 1.3
+    "entry_credit": 1.3,
+    "sizing_score": -2,
+    "sizing_mult": 0.25
   },
   {
     "date": "2025-12-29",
@@ -13991,7 +13142,9 @@
     "entry_time": "13:00",
     "exit_time": "16:15 ET",
     "wing_width": 15,
-    "entry_credit": 0.25
+    "entry_credit": 0.25,
+    "sizing_score": 0,
+    "sizing_mult": 0.5
   },
   {
     "date": "2026-01-08",
@@ -14006,7 +13159,9 @@
     "entry_time": "13:00",
     "exit_time": "16:15 ET",
     "wing_width": 15,
-    "entry_credit": 1.05
+    "entry_credit": 1.05,
+    "sizing_score": 1,
+    "sizing_mult": 0.75
   },
   {
     "date": "2026-01-09",
@@ -14021,7 +13176,9 @@
     "entry_time": "13:00",
     "exit_time": "16:15 ET",
     "wing_width": 15,
-    "entry_credit": 0.65
+    "entry_credit": 0.65,
+    "sizing_score": -7,
+    "sizing_mult": 0.25
   },
   {
     "date": "2026-02-02",
@@ -14036,7 +13193,9 @@
     "entry_time": "13:00",
     "exit_time": "16:15 ET",
     "wing_width": 15,
-    "entry_credit": 0.75
+    "entry_credit": 0.75,
+    "sizing_score": -2,
+    "sizing_mult": 0.25
   },
   {
     "date": "2023-11-06",
@@ -14051,7 +13210,9 @@
     "entry_time": "14:00",
     "exit_time": "16:15 ET",
     "wing_width": 10,
-    "entry_credit": 1.5
+    "entry_credit": 1.5,
+    "sizing_score": 0,
+    "sizing_mult": 1.0
   },
   {
     "date": "2023-11-08",
@@ -14066,7 +13227,9 @@
     "entry_time": "14:00",
     "exit_time": "16:15 ET",
     "wing_width": 10,
-    "entry_credit": 1.3
+    "entry_credit": 1.3,
+    "sizing_score": 0,
+    "sizing_mult": 1.0
   },
   {
     "date": "2023-11-13",
@@ -14081,7 +13244,9 @@
     "entry_time": "14:00",
     "exit_time": "16:15 ET",
     "wing_width": 10,
-    "entry_credit": 1.85
+    "entry_credit": 1.85,
+    "sizing_score": 0,
+    "sizing_mult": 1.0
   },
   {
     "date": "2023-11-14",
@@ -14096,7 +13261,9 @@
     "entry_time": "14:00",
     "exit_time": "16:15 ET",
     "wing_width": 10,
-    "entry_credit": 1.85
+    "entry_credit": 1.85,
+    "sizing_score": 0,
+    "sizing_mult": 1.0
   },
   {
     "date": "2023-11-15",
@@ -14111,7 +13278,9 @@
     "entry_time": "14:00",
     "exit_time": "16:15 ET",
     "wing_width": 10,
-    "entry_credit": 2.0
+    "entry_credit": 2.0,
+    "sizing_score": 0,
+    "sizing_mult": 1.0
   },
   {
     "date": "2023-11-17",
@@ -14126,7 +13295,9 @@
     "entry_time": "14:00",
     "exit_time": "16:15 ET",
     "wing_width": 10,
-    "entry_credit": 1.15
+    "entry_credit": 1.15,
+    "sizing_score": 1,
+    "sizing_mult": 0.5
   },
   {
     "date": "2023-11-21",
@@ -14141,7 +13312,9 @@
     "entry_time": "14:00",
     "exit_time": "16:15 ET",
     "wing_width": 10,
-    "entry_credit": 1.55
+    "entry_credit": 1.55,
+    "sizing_score": 4,
+    "sizing_mult": 1.0
   },
   {
     "date": "2023-11-30",
@@ -14156,7 +13329,9 @@
     "entry_time": "14:00",
     "exit_time": "16:15 ET",
     "wing_width": 10,
-    "entry_credit": 1.65
+    "entry_credit": 1.65,
+    "sizing_score": 0,
+    "sizing_mult": 0.25
   },
   {
     "date": "2023-12-12",
@@ -14171,7 +13346,9 @@
     "entry_time": "14:00",
     "exit_time": "16:15 ET",
     "wing_width": 10,
-    "entry_credit": 0.55
+    "entry_credit": 0.55,
+    "sizing_score": 3,
+    "sizing_mult": 1.0
   },
   {
     "date": "2023-12-13",
@@ -14186,7 +13363,9 @@
     "entry_time": "14:00",
     "exit_time": "16:15 ET",
     "wing_width": 10,
-    "entry_credit": 5.0
+    "entry_credit": 5.0,
+    "sizing_score": 2,
+    "sizing_mult": 0.75
   },
   {
     "date": "2023-12-14",
@@ -14201,7 +13380,9 @@
     "entry_time": "14:00",
     "exit_time": "16:15 ET",
     "wing_width": 10,
-    "entry_credit": 3.05
+    "entry_credit": 3.05,
+    "sizing_score": 3,
+    "sizing_mult": 1.0
   },
   {
     "date": "2023-12-19",
@@ -14216,7 +13397,9 @@
     "entry_time": "14:00",
     "exit_time": "16:15 ET",
     "wing_width": 10,
-    "entry_credit": 0.8
+    "entry_credit": 0.8,
+    "sizing_score": 3,
+    "sizing_mult": 1.0
   },
   {
     "date": "2024-01-11",
@@ -14231,7 +13414,9 @@
     "entry_time": "14:00",
     "exit_time": "16:15 ET",
     "wing_width": 10,
-    "entry_credit": 3.2
+    "entry_credit": 3.2,
+    "sizing_score": 1,
+    "sizing_mult": 0.5
   },
   {
     "date": "2024-01-12",
@@ -14246,7 +13431,9 @@
     "entry_time": "14:00",
     "exit_time": "16:15 ET",
     "wing_width": 10,
-    "entry_credit": 2.3
+    "entry_credit": 2.3,
+    "sizing_score": 0,
+    "sizing_mult": 0.25
   },
   {
     "date": "2024-01-16",
@@ -14261,7 +13448,9 @@
     "entry_time": "14:00",
     "exit_time": "16:15 ET",
     "wing_width": 10,
-    "entry_credit": 2.35
+    "entry_credit": 2.35,
+    "sizing_score": 1,
+    "sizing_mult": 0.5
   },
   {
     "date": "2024-01-22",
@@ -14276,7 +13465,9 @@
     "entry_time": "14:00",
     "exit_time": "16:15 ET",
     "wing_width": 10,
-    "entry_credit": 2.0
+    "entry_credit": 2.0,
+    "sizing_score": 1,
+    "sizing_mult": 0.5
   },
   {
     "date": "2024-01-24",
@@ -14291,7 +13482,9 @@
     "entry_time": "14:00",
     "exit_time": "16:15 ET",
     "wing_width": 10,
-    "entry_credit": 2.05
+    "entry_credit": 2.05,
+    "sizing_score": 3,
+    "sizing_mult": 1.0
   },
   {
     "date": "2024-01-25",
@@ -14306,7 +13499,9 @@
     "entry_time": "14:00",
     "exit_time": "16:15 ET",
     "wing_width": 10,
-    "entry_credit": 2.9
+    "entry_credit": 2.9,
+    "sizing_score": 0,
+    "sizing_mult": 0.25
   },
   {
     "date": "2024-01-26",
@@ -14321,7 +13516,9 @@
     "entry_time": "14:00",
     "exit_time": "16:15 ET",
     "wing_width": 10,
-    "entry_credit": 2.65
+    "entry_credit": 2.65,
+    "sizing_score": 1,
+    "sizing_mult": 0.5
   },
   {
     "date": "2024-01-30",
@@ -14336,7 +13533,9 @@
     "entry_time": "14:00",
     "exit_time": "16:15 ET",
     "wing_width": 10,
-    "entry_credit": 1.45
+    "entry_credit": 1.45,
+    "sizing_score": 3,
+    "sizing_mult": 1.0
   },
   {
     "date": "2024-02-05",
@@ -14351,7 +13550,9 @@
     "entry_time": "14:00",
     "exit_time": "16:15 ET",
     "wing_width": 10,
-    "entry_credit": 2.1
+    "entry_credit": 2.1,
+    "sizing_score": 0,
+    "sizing_mult": 0.25
   },
   {
     "date": "2024-02-08",
@@ -14366,7 +13567,9 @@
     "entry_time": "14:00",
     "exit_time": "16:15 ET",
     "wing_width": 10,
-    "entry_credit": 1.55
+    "entry_credit": 1.55,
+    "sizing_score": 1,
+    "sizing_mult": 0.5
   },
   {
     "date": "2024-02-23",
@@ -14381,7 +13584,9 @@
     "entry_time": "14:00",
     "exit_time": "16:15 ET",
     "wing_width": 10,
-    "entry_credit": 2.35
+    "entry_credit": 2.35,
+    "sizing_score": 3,
+    "sizing_mult": 1.0
   },
   {
     "date": "2024-02-26",
@@ -14396,7 +13601,9 @@
     "entry_time": "14:00",
     "exit_time": "16:15 ET",
     "wing_width": 10,
-    "entry_credit": 2.0
+    "entry_credit": 2.0,
+    "sizing_score": -3,
+    "sizing_mult": 0.25
   },
   {
     "date": "2024-02-27",
@@ -14411,7 +13618,9 @@
     "entry_time": "14:00",
     "exit_time": "16:15 ET",
     "wing_width": 10,
-    "entry_credit": 1.75
+    "entry_credit": 1.75,
+    "sizing_score": 1,
+    "sizing_mult": 0.5
   },
   {
     "date": "2024-03-08",
@@ -14426,7 +13635,9 @@
     "entry_time": "14:00",
     "exit_time": "16:15 ET",
     "wing_width": 10,
-    "entry_credit": 4.4
+    "entry_credit": 4.4,
+    "sizing_score": 1,
+    "sizing_mult": 0.5
   },
   {
     "date": "2024-03-14",
@@ -14441,7 +13652,9 @@
     "entry_time": "14:00",
     "exit_time": "16:15 ET",
     "wing_width": 10,
-    "entry_credit": 2.6
+    "entry_credit": 2.6,
+    "sizing_score": -1,
+    "sizing_mult": 0.25
   },
   {
     "date": "2024-03-21",
@@ -14456,7 +13669,9 @@
     "entry_time": "14:00",
     "exit_time": "16:15 ET",
     "wing_width": 10,
-    "entry_credit": 2.15
+    "entry_credit": 2.15,
+    "sizing_score": 3,
+    "sizing_mult": 1.0
   },
   {
     "date": "2024-03-22",
@@ -14471,7 +13686,9 @@
     "entry_time": "14:00",
     "exit_time": "16:15 ET",
     "wing_width": 10,
-    "entry_credit": 0.8
+    "entry_credit": 0.8,
+    "sizing_score": -1,
+    "sizing_mult": 0.25
   },
   {
     "date": "2024-03-25",
@@ -14486,7 +13703,9 @@
     "entry_time": "14:00",
     "exit_time": "16:15 ET",
     "wing_width": 10,
-    "entry_credit": 0.5
+    "entry_credit": 0.5,
+    "sizing_score": -4,
+    "sizing_mult": 0.25
   },
   {
     "date": "2024-04-12",
@@ -14501,7 +13720,9 @@
     "entry_time": "14:00",
     "exit_time": "16:15 ET",
     "wing_width": 10,
-    "entry_credit": 4.55
+    "entry_credit": 4.55,
+    "sizing_score": 1,
+    "sizing_mult": 0.5
   },
   {
     "date": "2024-04-29",
@@ -14516,7 +13737,9 @@
     "entry_time": "14:00",
     "exit_time": "16:15 ET",
     "wing_width": 10,
-    "entry_credit": 2.0
+    "entry_credit": 2.0,
+    "sizing_score": 0,
+    "sizing_mult": 0.25
   },
   {
     "date": "2024-05-07",
@@ -14531,7 +13754,9 @@
     "entry_time": "14:00",
     "exit_time": "16:15 ET",
     "wing_width": 10,
-    "entry_credit": 1.05
+    "entry_credit": 1.05,
+    "sizing_score": 3,
+    "sizing_mult": 1.0
   },
   {
     "date": "2024-05-09",
@@ -14546,7 +13771,9 @@
     "entry_time": "14:00",
     "exit_time": "16:15 ET",
     "wing_width": 10,
-    "entry_credit": 1.8
+    "entry_credit": 1.8,
+    "sizing_score": 1,
+    "sizing_mult": 0.5
   },
   {
     "date": "2024-05-10",
@@ -14561,7 +13788,9 @@
     "entry_time": "14:00",
     "exit_time": "16:15 ET",
     "wing_width": 10,
-    "entry_credit": 0.8
+    "entry_credit": 0.8,
+    "sizing_score": 1,
+    "sizing_mult": 0.5
   },
   {
     "date": "2024-05-15",
@@ -14576,7 +13805,9 @@
     "entry_time": "14:00",
     "exit_time": "16:15 ET",
     "wing_width": 10,
-    "entry_credit": 0.7
+    "entry_credit": 0.7,
+    "sizing_score": 3,
+    "sizing_mult": 1.0
   },
   {
     "date": "2024-05-17",
@@ -14591,7 +13822,9 @@
     "entry_time": "14:00",
     "exit_time": "16:15 ET",
     "wing_width": 10,
-    "entry_credit": 1.25
+    "entry_credit": 1.25,
+    "sizing_score": -1,
+    "sizing_mult": 0.25
   },
   {
     "date": "2024-06-06",
@@ -14606,7 +13839,9 @@
     "entry_time": "14:00",
     "exit_time": "16:15 ET",
     "wing_width": 10,
-    "entry_credit": 1.75
+    "entry_credit": 1.75,
+    "sizing_score": 2,
+    "sizing_mult": 0.75
   },
   {
     "date": "2024-06-11",
@@ -14621,7 +13856,9 @@
     "entry_time": "14:00",
     "exit_time": "16:15 ET",
     "wing_width": 10,
-    "entry_credit": 2.55
+    "entry_credit": 2.55,
+    "sizing_score": 3,
+    "sizing_mult": 1.0
   },
   {
     "date": "2024-06-12",
@@ -14636,7 +13873,9 @@
     "entry_time": "14:00",
     "exit_time": "16:15 ET",
     "wing_width": 10,
-    "entry_credit": 5.5
+    "entry_credit": 5.5,
+    "sizing_score": 3,
+    "sizing_mult": 1.0
   },
   {
     "date": "2024-06-13",
@@ -14651,7 +13890,9 @@
     "entry_time": "14:00",
     "exit_time": "16:15 ET",
     "wing_width": 10,
-    "entry_credit": 1.85
+    "entry_credit": 1.85,
+    "sizing_score": 2,
+    "sizing_mult": 0.75
   },
   {
     "date": "2024-06-14",
@@ -14666,7 +13907,9 @@
     "entry_time": "14:00",
     "exit_time": "16:15 ET",
     "wing_width": 10,
-    "entry_credit": 2.15
+    "entry_credit": 2.15,
+    "sizing_score": -1,
+    "sizing_mult": 0.25
   },
   {
     "date": "2024-06-17",
@@ -14681,7 +13924,9 @@
     "entry_time": "14:00",
     "exit_time": "16:15 ET",
     "wing_width": 10,
-    "entry_credit": 1.4
+    "entry_credit": 1.4,
+    "sizing_score": -1,
+    "sizing_mult": 0.25
   },
   {
     "date": "2024-06-18",
@@ -14696,7 +13941,9 @@
     "entry_time": "14:00",
     "exit_time": "16:15 ET",
     "wing_width": 10,
-    "entry_credit": 0.8
+    "entry_credit": 0.8,
+    "sizing_score": 4,
+    "sizing_mult": 1.0
   },
   {
     "date": "2024-06-20",
@@ -14711,7 +13958,9 @@
     "entry_time": "14:00",
     "exit_time": "16:15 ET",
     "wing_width": 10,
-    "entry_credit": 1.85
+    "entry_credit": 1.85,
+    "sizing_score": 1,
+    "sizing_mult": 0.5
   },
   {
     "date": "2024-07-05",
@@ -14726,7 +13975,9 @@
     "entry_time": "14:00",
     "exit_time": "16:15 ET",
     "wing_width": 10,
-    "entry_credit": 0.45
+    "entry_credit": 0.45,
+    "sizing_score": 1,
+    "sizing_mult": 0.5
   },
   {
     "date": "2024-07-08",
@@ -14741,7 +13992,9 @@
     "entry_time": "14:00",
     "exit_time": "16:15 ET",
     "wing_width": 10,
-    "entry_credit": 0.75
+    "entry_credit": 0.75,
+    "sizing_score": -1,
+    "sizing_mult": 0.25
   },
   {
     "date": "2024-07-11",
@@ -14756,7 +14009,9 @@
     "entry_time": "14:00",
     "exit_time": "16:15 ET",
     "wing_width": 10,
-    "entry_credit": 3.55
+    "entry_credit": 3.55,
+    "sizing_score": 1,
+    "sizing_mult": 0.5
   },
   {
     "date": "2024-07-16",
@@ -14771,7 +14026,9 @@
     "entry_time": "14:00",
     "exit_time": "16:15 ET",
     "wing_width": 10,
-    "entry_credit": 4.95
+    "entry_credit": 4.95,
+    "sizing_score": 1,
+    "sizing_mult": 0.5
   },
   {
     "date": "2024-07-17",
@@ -14786,7 +14043,9 @@
     "entry_time": "14:00",
     "exit_time": "16:15 ET",
     "wing_width": 10,
-    "entry_credit": 2.85
+    "entry_credit": 2.85,
+    "sizing_score": 1,
+    "sizing_mult": 0.5
   },
   {
     "date": "2024-08-01",
@@ -14801,7 +14060,9 @@
     "entry_time": "14:00",
     "exit_time": "16:15 ET",
     "wing_width": 10,
-    "entry_credit": 7.0
+    "entry_credit": 7.0,
+    "sizing_score": 3,
+    "sizing_mult": 1.0
   },
   {
     "date": "2024-08-13",
@@ -14816,7 +14077,9 @@
     "entry_time": "14:00",
     "exit_time": "16:15 ET",
     "wing_width": 10,
-    "entry_credit": 3.9
+    "entry_credit": 3.9,
+    "sizing_score": 2,
+    "sizing_mult": 0.75
   },
   {
     "date": "2024-08-14",
@@ -14831,7 +14094,9 @@
     "entry_time": "14:00",
     "exit_time": "16:15 ET",
     "wing_width": 10,
-    "entry_credit": 5.75
+    "entry_credit": 5.75,
+    "sizing_score": 3,
+    "sizing_mult": 1.0
   },
   {
     "date": "2024-08-15",
@@ -14846,7 +14111,9 @@
     "entry_time": "14:00",
     "exit_time": "16:15 ET",
     "wing_width": 10,
-    "entry_credit": 1.4
+    "entry_credit": 1.4,
+    "sizing_score": 2,
+    "sizing_mult": 0.75
   },
   {
     "date": "2024-08-16",
@@ -14861,7 +14128,9 @@
     "entry_time": "14:00",
     "exit_time": "16:15 ET",
     "wing_width": 10,
-    "entry_credit": 1.1
+    "entry_credit": 1.1,
+    "sizing_score": 1,
+    "sizing_mult": 0.5
   },
   {
     "date": "2024-08-19",
@@ -14876,7 +14145,9 @@
     "entry_time": "14:00",
     "exit_time": "16:15 ET",
     "wing_width": 10,
-    "entry_credit": 1.4
+    "entry_credit": 1.4,
+    "sizing_score": -1,
+    "sizing_mult": 0.25
   },
   {
     "date": "2024-08-21",
@@ -14891,7 +14162,9 @@
     "entry_time": "14:00",
     "exit_time": "16:15 ET",
     "wing_width": 10,
-    "entry_credit": 1.95
+    "entry_credit": 1.95,
+    "sizing_score": 0,
+    "sizing_mult": 0.25
   },
   {
     "date": "2024-08-26",
@@ -14906,7 +14179,9 @@
     "entry_time": "14:00",
     "exit_time": "16:15 ET",
     "wing_width": 10,
-    "entry_credit": 4.8
+    "entry_credit": 4.8,
+    "sizing_score": 0,
+    "sizing_mult": 0.25
   },
   {
     "date": "2024-09-13",
@@ -14921,7 +14196,9 @@
     "entry_time": "14:00",
     "exit_time": "16:15 ET",
     "wing_width": 10,
-    "entry_credit": 2.35
+    "entry_credit": 2.35,
+    "sizing_score": 2,
+    "sizing_mult": 0.75
   },
   {
     "date": "2024-09-16",
@@ -14936,7 +14213,9 @@
     "entry_time": "14:00",
     "exit_time": "16:15 ET",
     "wing_width": 10,
-    "entry_credit": 1.3
+    "entry_credit": 1.3,
+    "sizing_score": -1,
+    "sizing_mult": 0.25
   },
   {
     "date": "2024-09-17",
@@ -14951,7 +14230,9 @@
     "entry_time": "14:00",
     "exit_time": "16:15 ET",
     "wing_width": 10,
-    "entry_credit": 3.35
+    "entry_credit": 3.35,
+    "sizing_score": 4,
+    "sizing_mult": 1.0
   },
   {
     "date": "2024-09-19",
@@ -14966,7 +14247,9 @@
     "entry_time": "14:00",
     "exit_time": "16:15 ET",
     "wing_width": 10,
-    "entry_credit": 2.55
+    "entry_credit": 2.55,
+    "sizing_score": 1,
+    "sizing_mult": 0.5
   },
   {
     "date": "2024-09-20",
@@ -14981,7 +14264,9 @@
     "entry_time": "14:00",
     "exit_time": "16:15 ET",
     "wing_width": 10,
-    "entry_credit": 2.8
+    "entry_credit": 2.8,
+    "sizing_score": 1,
+    "sizing_mult": 0.5
   },
   {
     "date": "2024-09-23",
@@ -14996,7 +14281,9 @@
     "entry_time": "14:00",
     "exit_time": "16:15 ET",
     "wing_width": 10,
-    "entry_credit": 0.85
+    "entry_credit": 0.85,
+    "sizing_score": -3,
+    "sizing_mult": 0.25
   },
   {
     "date": "2024-09-24",
@@ -15011,7 +14298,9 @@
     "entry_time": "14:00",
     "exit_time": "16:15 ET",
     "wing_width": 10,
-    "entry_credit": 0.75
+    "entry_credit": 0.75,
+    "sizing_score": 3,
+    "sizing_mult": 1.0
   },
   {
     "date": "2024-09-26",
@@ -15026,7 +14315,9 @@
     "entry_time": "14:00",
     "exit_time": "16:15 ET",
     "wing_width": 10,
-    "entry_credit": 1.25
+    "entry_credit": 1.25,
+    "sizing_score": 0,
+    "sizing_mult": 0.25
   },
   {
     "date": "2024-10-10",
@@ -15041,7 +14332,9 @@
     "entry_time": "14:00",
     "exit_time": "16:15 ET",
     "wing_width": 10,
-    "entry_credit": 2.75
+    "entry_credit": 2.75,
+    "sizing_score": 1,
+    "sizing_mult": 0.5
   },
   {
     "date": "2024-10-18",
@@ -15056,7 +14349,9 @@
     "entry_time": "14:00",
     "exit_time": "16:15 ET",
     "wing_width": 10,
-    "entry_credit": 0.75
+    "entry_credit": 0.75,
+    "sizing_score": 0,
+    "sizing_mult": 0.25
   },
   {
     "date": "2024-11-07",
@@ -15071,7 +14366,9 @@
     "entry_time": "14:00",
     "exit_time": "16:15 ET",
     "wing_width": 10,
-    "entry_credit": 4.7
+    "entry_credit": 4.7,
+    "sizing_score": 3,
+    "sizing_mult": 1.0
   },
   {
     "date": "2024-11-11",
@@ -15086,7 +14383,9 @@
     "entry_time": "14:00",
     "exit_time": "16:15 ET",
     "wing_width": 10,
-    "entry_credit": 1.45
+    "entry_credit": 1.45,
+    "sizing_score": -1,
+    "sizing_mult": 0.25
   },
   {
     "date": "2024-11-12",
@@ -15101,7 +14400,9 @@
     "entry_time": "14:00",
     "exit_time": "16:15 ET",
     "wing_width": 10,
-    "entry_credit": 2.4
+    "entry_credit": 2.4,
+    "sizing_score": 1,
+    "sizing_mult": 0.5
   },
   {
     "date": "2024-11-13",
@@ -15116,7 +14417,9 @@
     "entry_time": "14:00",
     "exit_time": "16:15 ET",
     "wing_width": 10,
-    "entry_credit": 1.5
+    "entry_credit": 1.5,
+    "sizing_score": 0,
+    "sizing_mult": 0.25
   },
   {
     "date": "2024-11-25",
@@ -15131,7 +14434,9 @@
     "entry_time": "14:00",
     "exit_time": "16:15 ET",
     "wing_width": 10,
-    "entry_credit": 1.95
+    "entry_credit": 1.95,
+    "sizing_score": 0,
+    "sizing_mult": 0.25
   },
   {
     "date": "2024-11-27",
@@ -15146,7 +14451,9 @@
     "entry_time": "14:00",
     "exit_time": "16:15 ET",
     "wing_width": 10,
-    "entry_credit": 1.7
+    "entry_credit": 1.7,
+    "sizing_score": 2,
+    "sizing_mult": 0.75
   },
   {
     "date": "2024-12-02",
@@ -15161,7 +14468,9 @@
     "entry_time": "14:00",
     "exit_time": "16:15 ET",
     "wing_width": 10,
-    "entry_credit": 1.0
+    "entry_credit": 1.0,
+    "sizing_score": -1,
+    "sizing_mult": 0.25
   },
   {
     "date": "2024-12-06",
@@ -15176,7 +14485,9 @@
     "entry_time": "14:00",
     "exit_time": "16:15 ET",
     "wing_width": 10,
-    "entry_credit": 0.9
+    "entry_credit": 0.9,
+    "sizing_score": -1,
+    "sizing_mult": 0.25
   },
   {
     "date": "2024-12-27",
@@ -15191,7 +14502,9 @@
     "entry_time": "14:00",
     "exit_time": "16:15 ET",
     "wing_width": 10,
-    "entry_credit": 4.25
+    "entry_credit": 4.25,
+    "sizing_score": 0,
+    "sizing_mult": 0.25
   },
   {
     "date": "2024-12-30",
@@ -15206,7 +14519,9 @@
     "entry_time": "14:00",
     "exit_time": "16:15 ET",
     "wing_width": 10,
-    "entry_credit": 4.7
+    "entry_credit": 4.7,
+    "sizing_score": -3,
+    "sizing_mult": 0.25
   },
   {
     "date": "2025-01-21",
@@ -15221,7 +14536,9 @@
     "entry_time": "14:00",
     "exit_time": "16:15 ET",
     "wing_width": 10,
-    "entry_credit": 1.75
+    "entry_credit": 1.75,
+    "sizing_score": 3,
+    "sizing_mult": 1.0
   },
   {
     "date": "2025-01-24",
@@ -15236,7 +14553,9 @@
     "entry_time": "14:00",
     "exit_time": "16:15 ET",
     "wing_width": 10,
-    "entry_credit": 2.7
+    "entry_credit": 2.7,
+    "sizing_score": 1,
+    "sizing_mult": 0.5
   },
   {
     "date": "2025-01-27",
@@ -15251,7 +14570,9 @@
     "entry_time": "14:00",
     "exit_time": "16:15 ET",
     "wing_width": 10,
-    "entry_credit": 4.1
+    "entry_credit": 4.1,
+    "sizing_score": -4,
+    "sizing_mult": 0.25
   },
   {
     "date": "2025-02-20",
@@ -15266,7 +14587,9 @@
     "entry_time": "14:00",
     "exit_time": "16:15 ET",
     "wing_width": 10,
-    "entry_credit": 2.8
+    "entry_credit": 2.8,
+    "sizing_score": 1,
+    "sizing_mult": 0.5
   },
   {
     "date": "2025-02-21",
@@ -15281,7 +14604,9 @@
     "entry_time": "14:00",
     "exit_time": "16:15 ET",
     "wing_width": 10,
-    "entry_credit": 4.85
+    "entry_credit": 4.85,
+    "sizing_score": -1,
+    "sizing_mult": 0.25
   },
   {
     "date": "2025-03-18",
@@ -15296,7 +14621,9 @@
     "entry_time": "14:00",
     "exit_time": "16:15 ET",
     "wing_width": 10,
-    "entry_credit": 4.0
+    "entry_credit": 4.0,
+    "sizing_score": 3,
+    "sizing_mult": 1.0
   },
   {
     "date": "2025-03-20",
@@ -15311,7 +14638,9 @@
     "entry_time": "14:00",
     "exit_time": "16:15 ET",
     "wing_width": 10,
-    "entry_credit": 4.5
+    "entry_credit": 4.5,
+    "sizing_score": 1,
+    "sizing_mult": 0.5
   },
   {
     "date": "2025-03-21",
@@ -15326,7 +14655,9 @@
     "entry_time": "14:00",
     "exit_time": "16:15 ET",
     "wing_width": 10,
-    "entry_credit": 3.95
+    "entry_credit": 3.95,
+    "sizing_score": 1,
+    "sizing_mult": 0.5
   },
   {
     "date": "2025-03-25",
@@ -15341,7 +14672,9 @@
     "entry_time": "14:00",
     "exit_time": "16:15 ET",
     "wing_width": 10,
-    "entry_credit": 1.85
+    "entry_credit": 1.85,
+    "sizing_score": 3,
+    "sizing_mult": 1.0
   },
   {
     "date": "2025-04-14",
@@ -15356,7 +14689,9 @@
     "entry_time": "14:00",
     "exit_time": "16:15 ET",
     "wing_width": 10,
-    "entry_credit": 5.85
+    "entry_credit": 5.85,
+    "sizing_score": 1,
+    "sizing_mult": 0.5
   },
   {
     "date": "2025-04-15",
@@ -15371,7 +14706,9 @@
     "entry_time": "14:00",
     "exit_time": "16:15 ET",
     "wing_width": 10,
-    "entry_credit": 3.95
+    "entry_credit": 3.95,
+    "sizing_score": 2,
+    "sizing_mult": 0.75
   },
   {
     "date": "2025-04-16",
@@ -15386,7 +14723,9 @@
     "entry_time": "14:00",
     "exit_time": "16:15 ET",
     "wing_width": 10,
-    "entry_credit": 6.7
+    "entry_credit": 6.7,
+    "sizing_score": 0,
+    "sizing_mult": 0.25
   },
   {
     "date": "2025-04-25",
@@ -15401,7 +14740,9 @@
     "entry_time": "14:00",
     "exit_time": "16:15 ET",
     "wing_width": 10,
-    "entry_credit": 6.75
+    "entry_credit": 6.75,
+    "sizing_score": 2,
+    "sizing_mult": 0.75
   },
   {
     "date": "2025-04-28",
@@ -15416,7 +14757,9 @@
     "entry_time": "14:00",
     "exit_time": "16:15 ET",
     "wing_width": 10,
-    "entry_credit": 4.6
+    "entry_credit": 4.6,
+    "sizing_score": 0,
+    "sizing_mult": 0.25
   },
   {
     "date": "2025-04-30",
@@ -15431,7 +14774,9 @@
     "entry_time": "14:00",
     "exit_time": "16:15 ET",
     "wing_width": 10,
-    "entry_credit": 5.25
+    "entry_credit": 5.25,
+    "sizing_score": 2,
+    "sizing_mult": 0.75
   },
   {
     "date": "2025-05-01",
@@ -15446,7 +14791,9 @@
     "entry_time": "14:00",
     "exit_time": "16:15 ET",
     "wing_width": 10,
-    "entry_credit": 4.35
+    "entry_credit": 4.35,
+    "sizing_score": 3,
+    "sizing_mult": 1.0
   },
   {
     "date": "2025-05-02",
@@ -15461,7 +14808,9 @@
     "entry_time": "14:00",
     "exit_time": "16:15 ET",
     "wing_width": 10,
-    "entry_credit": 3.3
+    "entry_credit": 3.3,
+    "sizing_score": 1,
+    "sizing_mult": 0.5
   },
   {
     "date": "2025-05-05",
@@ -15476,7 +14825,9 @@
     "entry_time": "14:00",
     "exit_time": "16:15 ET",
     "wing_width": 10,
-    "entry_credit": 2.05
+    "entry_credit": 2.05,
+    "sizing_score": -1,
+    "sizing_mult": 0.25
   },
   {
     "date": "2025-05-08",
@@ -15491,7 +14842,9 @@
     "entry_time": "14:00",
     "exit_time": "16:15 ET",
     "wing_width": 10,
-    "entry_credit": 3.65
+    "entry_credit": 3.65,
+    "sizing_score": 3,
+    "sizing_mult": 1.0
   },
   {
     "date": "2025-05-13",
@@ -15506,7 +14859,9 @@
     "entry_time": "14:00",
     "exit_time": "16:15 ET",
     "wing_width": 10,
-    "entry_credit": 3.35
+    "entry_credit": 3.35,
+    "sizing_score": 4,
+    "sizing_mult": 1.0
   },
   {
     "date": "2025-05-14",
@@ -15521,7 +14876,9 @@
     "entry_time": "14:00",
     "exit_time": "16:15 ET",
     "wing_width": 10,
-    "entry_credit": 2.6
+    "entry_credit": 2.6,
+    "sizing_score": 3,
+    "sizing_mult": 1.0
   },
   {
     "date": "2025-05-16",
@@ -15536,7 +14893,9 @@
     "entry_time": "14:00",
     "exit_time": "16:15 ET",
     "wing_width": 10,
-    "entry_credit": 3.8
+    "entry_credit": 3.8,
+    "sizing_score": 2,
+    "sizing_mult": 0.75
   },
   {
     "date": "2025-05-19",
@@ -15551,7 +14910,9 @@
     "entry_time": "14:00",
     "exit_time": "16:15 ET",
     "wing_width": 10,
-    "entry_credit": 2.05
+    "entry_credit": 2.05,
+    "sizing_score": -2,
+    "sizing_mult": 0.25
   },
   {
     "date": "2025-05-20",
@@ -15566,7 +14927,9 @@
     "entry_time": "14:00",
     "exit_time": "16:15 ET",
     "wing_width": 10,
-    "entry_credit": 5.7
+    "entry_credit": 5.7,
+    "sizing_score": 3,
+    "sizing_mult": 1.0
   },
   {
     "date": "2025-05-30",
@@ -15581,7 +14944,9 @@
     "entry_time": "14:00",
     "exit_time": "16:15 ET",
     "wing_width": 10,
-    "entry_credit": 6.75
+    "entry_credit": 6.75,
+    "sizing_score": 0,
+    "sizing_mult": 0.25
   },
   {
     "date": "2025-06-02",
@@ -15596,7 +14961,9 @@
     "entry_time": "14:00",
     "exit_time": "16:15 ET",
     "wing_width": 10,
-    "entry_credit": 6.4
+    "entry_credit": 6.4,
+    "sizing_score": -1,
+    "sizing_mult": 0.25
   },
   {
     "date": "2025-06-03",
@@ -15611,7 +14978,9 @@
     "entry_time": "14:00",
     "exit_time": "16:15 ET",
     "wing_width": 10,
-    "entry_credit": 1.95
+    "entry_credit": 1.95,
+    "sizing_score": 4,
+    "sizing_mult": 1.0
   },
   {
     "date": "2025-06-05",
@@ -15626,7 +14995,9 @@
     "entry_time": "14:00",
     "exit_time": "16:15 ET",
     "wing_width": 10,
-    "entry_credit": 3.2
+    "entry_credit": 3.2,
+    "sizing_score": -1,
+    "sizing_mult": 0.25
   },
   {
     "date": "2025-06-09",
@@ -15641,7 +15012,9 @@
     "entry_time": "14:00",
     "exit_time": "16:15 ET",
     "wing_width": 10,
-    "entry_credit": 1.6
+    "entry_credit": 1.6,
+    "sizing_score": -1,
+    "sizing_mult": 0.25
   },
   {
     "date": "2025-06-11",
@@ -15656,7 +15029,9 @@
     "entry_time": "14:00",
     "exit_time": "16:15 ET",
     "wing_width": 10,
-    "entry_credit": 5.25
+    "entry_credit": 5.25,
+    "sizing_score": 2,
+    "sizing_mult": 0.75
   },
   {
     "date": "2025-06-13",
@@ -15671,7 +15046,9 @@
     "entry_time": "14:00",
     "exit_time": "16:15 ET",
     "wing_width": 10,
-    "entry_credit": 7.35
+    "entry_credit": 7.35,
+    "sizing_score": 0,
+    "sizing_mult": 0.25
   },
   {
     "date": "2025-06-26",
@@ -15686,7 +15063,9 @@
     "entry_time": "14:00",
     "exit_time": "16:15 ET",
     "wing_width": 10,
-    "entry_credit": 1.15
+    "entry_credit": 1.15,
+    "sizing_score": 0,
+    "sizing_mult": 0.25
   },
   {
     "date": "2025-07-02",
@@ -15701,7 +15080,9 @@
     "entry_time": "14:00",
     "exit_time": "16:15 ET",
     "wing_width": 10,
-    "entry_credit": 1.8
+    "entry_credit": 1.8,
+    "sizing_score": 2,
+    "sizing_mult": 0.75
   },
   {
     "date": "2025-07-07",
@@ -15716,7 +15097,9 @@
     "entry_time": "14:00",
     "exit_time": "16:15 ET",
     "wing_width": 10,
-    "entry_credit": 2.2
+    "entry_credit": 2.2,
+    "sizing_score": -2,
+    "sizing_mult": 0.25
   },
   {
     "date": "2025-07-10",
@@ -15731,7 +15114,9 @@
     "entry_time": "14:00",
     "exit_time": "16:15 ET",
     "wing_width": 10,
-    "entry_credit": 0.8
+    "entry_credit": 0.8,
+    "sizing_score": 1,
+    "sizing_mult": 0.5
   },
   {
     "date": "2025-07-24",
@@ -15746,7 +15131,9 @@
     "entry_time": "14:00",
     "exit_time": "16:15 ET",
     "wing_width": 10,
-    "entry_credit": 1.0
+    "entry_credit": 1.0,
+    "sizing_score": 1,
+    "sizing_mult": 0.5
   },
   {
     "date": "2025-07-29",
@@ -15761,7 +15148,9 @@
     "entry_time": "14:00",
     "exit_time": "16:15 ET",
     "wing_width": 10,
-    "entry_credit": 0.85
+    "entry_credit": 0.85,
+    "sizing_score": 1,
+    "sizing_mult": 0.5
   },
   {
     "date": "2025-08-13",
@@ -15776,7 +15165,9 @@
     "entry_time": "14:00",
     "exit_time": "16:15 ET",
     "wing_width": 10,
-    "entry_credit": 1.3
+    "entry_credit": 1.3,
+    "sizing_score": 3,
+    "sizing_mult": 1.0
   },
   {
     "date": "2025-08-15",
@@ -15791,7 +15182,9 @@
     "entry_time": "14:00",
     "exit_time": "16:15 ET",
     "wing_width": 10,
-    "entry_credit": 1.65
+    "entry_credit": 1.65,
+    "sizing_score": 1,
+    "sizing_mult": 0.5
   },
   {
     "date": "2025-08-28",
@@ -15806,7 +15199,9 @@
     "entry_time": "14:00",
     "exit_time": "16:15 ET",
     "wing_width": 10,
-    "entry_credit": 2.2
+    "entry_credit": 2.2,
+    "sizing_score": 1,
+    "sizing_mult": 0.5
   },
   {
     "date": "2025-08-29",
@@ -15821,7 +15216,9 @@
     "entry_time": "14:00",
     "exit_time": "16:15 ET",
     "wing_width": 10,
-    "entry_credit": 2.8
+    "entry_credit": 2.8,
+    "sizing_score": 1,
+    "sizing_mult": 0.5
   },
   {
     "date": "2025-09-10",
@@ -15836,7 +15233,9 @@
     "entry_time": "14:00",
     "exit_time": "16:15 ET",
     "wing_width": 10,
-    "entry_credit": 1.9
+    "entry_credit": 1.9,
+    "sizing_score": 3,
+    "sizing_mult": 1.0
   },
   {
     "date": "2025-09-11",
@@ -15851,7 +15250,9 @@
     "entry_time": "14:00",
     "exit_time": "16:15 ET",
     "wing_width": 10,
-    "entry_credit": 0.7
+    "entry_credit": 0.7,
+    "sizing_score": 0,
+    "sizing_mult": 0.25
   },
   {
     "date": "2025-10-02",
@@ -15866,7 +15267,9 @@
     "entry_time": "14:00",
     "exit_time": "16:15 ET",
     "wing_width": 10,
-    "entry_credit": 1.3
+    "entry_credit": 1.3,
+    "sizing_score": 2,
+    "sizing_mult": 0.75
   },
   {
     "date": "2025-10-03",
@@ -15881,7 +15284,9 @@
     "entry_time": "14:00",
     "exit_time": "16:15 ET",
     "wing_width": 10,
-    "entry_credit": 3.35
+    "entry_credit": 3.35,
+    "sizing_score": -1,
+    "sizing_mult": 0.25
   },
   {
     "date": "2025-10-21",
@@ -15896,7 +15301,9 @@
     "entry_time": "14:00",
     "exit_time": "16:15 ET",
     "wing_width": 10,
-    "entry_credit": 1.1
+    "entry_credit": 1.1,
+    "sizing_score": 3,
+    "sizing_mult": 1.0
   },
   {
     "date": "2025-10-24",
@@ -15911,7 +15318,9 @@
     "entry_time": "14:00",
     "exit_time": "16:15 ET",
     "wing_width": 10,
-    "entry_credit": 1.05
+    "entry_credit": 1.05,
+    "sizing_score": 2,
+    "sizing_mult": 0.75
   },
   {
     "date": "2025-10-27",
@@ -15926,7 +15335,9 @@
     "entry_time": "14:00",
     "exit_time": "16:15 ET",
     "wing_width": 10,
-    "entry_credit": 0.8
+    "entry_credit": 0.8,
+    "sizing_score": 0,
+    "sizing_mult": 0.25
   },
   {
     "date": "2025-10-28",
@@ -15941,7 +15352,9 @@
     "entry_time": "14:00",
     "exit_time": "16:15 ET",
     "wing_width": 10,
-    "entry_credit": 1.45
+    "entry_credit": 1.45,
+    "sizing_score": 4,
+    "sizing_mult": 1.0
   },
   {
     "date": "2025-10-30",
@@ -15956,7 +15369,9 @@
     "entry_time": "14:00",
     "exit_time": "16:15 ET",
     "wing_width": 10,
-    "entry_credit": 5.45
+    "entry_credit": 5.45,
+    "sizing_score": -2,
+    "sizing_mult": 0.25
   },
   {
     "date": "2025-10-31",
@@ -15971,7 +15386,9 @@
     "entry_time": "14:00",
     "exit_time": "16:15 ET",
     "wing_width": 10,
-    "entry_credit": 5.05
+    "entry_credit": 5.05,
+    "sizing_score": 0,
+    "sizing_mult": 0.25
   },
   {
     "date": "2025-11-12",
@@ -15986,7 +15403,9 @@
     "entry_time": "14:00",
     "exit_time": "16:15 ET",
     "wing_width": 10,
-    "entry_credit": 3.6
+    "entry_credit": 3.6,
+    "sizing_score": 3,
+    "sizing_mult": 1.0
   },
   {
     "date": "2025-11-26",
@@ -16001,7 +15420,9 @@
     "entry_time": "14:00",
     "exit_time": "16:15 ET",
     "wing_width": 10,
-    "entry_credit": 3.1
+    "entry_credit": 3.1,
+    "sizing_score": 4,
+    "sizing_mult": 1.0
   },
   {
     "date": "2025-12-01",
@@ -16016,7 +15437,9 @@
     "entry_time": "14:00",
     "exit_time": "16:15 ET",
     "wing_width": 10,
-    "entry_credit": 2.15
+    "entry_credit": 2.15,
+    "sizing_score": -2,
+    "sizing_mult": 0.25
   },
   {
     "date": "2025-12-02",
@@ -16031,7 +15454,9 @@
     "entry_time": "14:00",
     "exit_time": "16:15 ET",
     "wing_width": 10,
-    "entry_credit": 3.4
+    "entry_credit": 3.4,
+    "sizing_score": 2,
+    "sizing_mult": 0.75
   },
   {
     "date": "2025-12-04",
@@ -16046,7 +15471,9 @@
     "entry_time": "14:00",
     "exit_time": "16:15 ET",
     "wing_width": 10,
-    "entry_credit": 2.35
+    "entry_credit": 2.35,
+    "sizing_score": 1,
+    "sizing_mult": 0.5
   },
   {
     "date": "2025-12-26",
@@ -16061,7 +15488,9 @@
     "entry_time": "14:00",
     "exit_time": "16:15 ET",
     "wing_width": 10,
-    "entry_credit": 0.75
+    "entry_credit": 0.75,
+    "sizing_score": 1,
+    "sizing_mult": 0.5
   },
   {
     "date": "2026-01-09",
@@ -16076,7 +15505,9 @@
     "entry_time": "14:00",
     "exit_time": "16:15 ET",
     "wing_width": 10,
-    "entry_credit": 1.5
+    "entry_credit": 1.5,
+    "sizing_score": 1,
+    "sizing_mult": 0.5
   },
   {
     "date": "2026-01-12",
@@ -16091,7 +15522,9 @@
     "entry_time": "14:00",
     "exit_time": "16:15 ET",
     "wing_width": 10,
-    "entry_credit": 1.0
+    "entry_credit": 1.0,
+    "sizing_score": -2,
+    "sizing_mult": 0.25
   },
   {
     "date": "2026-01-13",
@@ -16106,7 +15539,9 @@
     "entry_time": "14:00",
     "exit_time": "16:15 ET",
     "wing_width": 10,
-    "entry_credit": 2.7
+    "entry_credit": 2.7,
+    "sizing_score": 3,
+    "sizing_mult": 1.0
   },
   {
     "date": "2026-01-29",
@@ -16121,6 +15556,8 @@
     "entry_time": "14:00",
     "exit_time": "16:15 ET",
     "wing_width": 10,
-    "entry_credit": 4.3
+    "entry_credit": 4.3,
+    "sizing_score": -1,
+    "sizing_mult": 0.25
   }
 ]

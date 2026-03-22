@@ -1,0 +1,687 @@
+{
+  "v3": {
+    "name": "PHOENIX",
+    "thresholds": [
+      -2,
+      0,
+      3
+    ],
+    "score_range": [
+      -5,
+      11
+    ],
+    "original": {
+      "n": 113,
+      "total_pnl": 886626,
+      "mean_pnl": 7846,
+      "win_rate": 65.5,
+      "max_drawdown": 142340,
+      "sharpe": 0.247,
+      "return_to_dd": 6.23,
+      "max_loss": -74542,
+      "max_win": 144882
+    },
+    "scored": {
+      "n": 113,
+      "total_pnl": 925081,
+      "mean_pnl": 8187,
+      "win_rate": 65.5,
+      "max_drawdown": 108918,
+      "sharpe": 0.298,
+      "return_to_dd": 8.49,
+      "max_loss": -74542,
+      "max_win": 144882
+    },
+    "improvement": {
+      "total_pnl": {
+        "original": 886626,
+        "scored": 925081,
+        "delta": 38455,
+        "pct": 4.3
+      },
+      "max_drawdown": {
+        "original": 142340,
+        "scored": 108918,
+        "delta": 33422,
+        "pct": 23.5
+      },
+      "sharpe": {
+        "original": 0.247,
+        "scored": 0.298,
+        "delta": 0.05099999999999999,
+        "pct": 20.6
+      },
+      "return_to_dd": {
+        "original": 6.23,
+        "scored": 8.49,
+        "delta": 2.26,
+        "pct": 36.3
+      }
+    },
+    "tier_stats": {
+      "0.25": {
+        "n": 40,
+        "avg_orig_pnl": -4872,
+        "total_orig_pnl": -194860,
+        "avg_new_pnl": -1169,
+        "total_new_pnl": -46743,
+        "win_rate": 52.5
+      },
+      "0.5": {
+        "n": 19,
+        "avg_orig_pnl": 6677,
+        "total_orig_pnl": 126863,
+        "avg_new_pnl": 3199,
+        "total_new_pnl": 60775,
+        "win_rate": 68.4
+      },
+      "0.75": {
+        "n": 30,
+        "avg_orig_pnl": 5868,
+        "total_orig_pnl": 176029,
+        "avg_new_pnl": 4415,
+        "total_new_pnl": 132454,
+        "win_rate": 70.0
+      },
+      "1.0": {
+        "n": 24,
+        "avg_orig_pnl": 32441,
+        "total_orig_pnl": 778594,
+        "avg_new_pnl": 32441,
+        "total_new_pnl": 778594,
+        "win_rate": 79.2
+      }
+    }
+  },
+  "n15": {
+    "name": "PHOENIX CLEAR",
+    "thresholds": [
+      -2,
+      -1,
+      2
+    ],
+    "score_range": [
+      -6,
+      5
+    ],
+    "original": {
+      "n": 93,
+      "total_pnl": 542678,
+      "mean_pnl": 5835,
+      "win_rate": 64.5,
+      "max_drawdown": 142340,
+      "sharpe": 0.215,
+      "return_to_dd": 3.81,
+      "max_loss": -74542,
+      "max_win": 79220
+    },
+    "scored": {
+      "n": 93,
+      "total_pnl": 620822,
+      "mean_pnl": 6676,
+      "win_rate": 64.5,
+      "max_drawdown": 113781,
+      "sharpe": 0.295,
+      "return_to_dd": 5.46,
+      "max_loss": -67650,
+      "max_win": 79220
+    },
+    "improvement": {
+      "total_pnl": {
+        "original": 542678,
+        "scored": 620822,
+        "delta": 78144,
+        "pct": 14.4
+      },
+      "max_drawdown": {
+        "original": 142340,
+        "scored": 113781,
+        "delta": 28559,
+        "pct": 20.1
+      },
+      "sharpe": {
+        "original": 0.215,
+        "scored": 0.295,
+        "delta": 0.07999999999999999,
+        "pct": 37.2
+      },
+      "return_to_dd": {
+        "original": 3.81,
+        "scored": 5.46,
+        "delta": 1.65,
+        "pct": 43.3
+      }
+    },
+    "tier_stats": {
+      "0.25": {
+        "n": 34,
+        "avg_orig_pnl": -3886,
+        "total_orig_pnl": -132135,
+        "avg_new_pnl": -948,
+        "total_new_pnl": -32242,
+        "win_rate": 47.1
+      },
+      "0.5": {
+        "n": 19,
+        "avg_orig_pnl": -859,
+        "total_orig_pnl": -16314,
+        "avg_new_pnl": -389,
+        "total_new_pnl": -7399,
+        "win_rate": 63.2
+      },
+      "0.75": {
+        "n": 16,
+        "avg_orig_pnl": 8071,
+        "total_orig_pnl": 129131,
+        "avg_new_pnl": 6154,
+        "total_new_pnl": 98467,
+        "win_rate": 81.2
+      },
+      "1.0": {
+        "n": 24,
+        "avg_orig_pnl": 23416,
+        "total_orig_pnl": 561996,
+        "avg_new_pnl": 23416,
+        "total_new_pnl": 561996,
+        "win_rate": 79.2
+      }
+    }
+  },
+  "v6": {
+    "name": "QUIET REBOUND",
+    "thresholds": [
+      -3,
+      0,
+      2
+    ],
+    "score_range": [
+      -3,
+      6
+    ],
+    "original": {
+      "n": 16,
+      "total_pnl": 127502,
+      "mean_pnl": 7969,
+      "win_rate": 75.0,
+      "max_drawdown": 27829,
+      "sharpe": 0.448,
+      "return_to_dd": 4.58,
+      "max_loss": -27829,
+      "max_win": 35112
+    },
+    "scored": {
+      "n": 16,
+      "total_pnl": 142799,
+      "mean_pnl": 8925,
+      "win_rate": 75.0,
+      "max_drawdown": 6548,
+      "sharpe": 0.667,
+      "return_to_dd": 21.81,
+      "max_loss": -6548,
+      "max_win": 35112
+    },
+    "improvement": {
+      "total_pnl": {
+        "original": 127502,
+        "scored": 142799,
+        "delta": 15297,
+        "pct": 12.0
+      },
+      "max_drawdown": {
+        "original": 27829,
+        "scored": 6548,
+        "delta": 21281,
+        "pct": 76.5
+      },
+      "sharpe": {
+        "original": 0.448,
+        "scored": 0.667,
+        "delta": 0.21900000000000003,
+        "pct": 48.9
+      },
+      "return_to_dd": {
+        "original": 4.58,
+        "scored": 21.81,
+        "delta": 17.229999999999997,
+        "pct": 376.2
+      }
+    },
+    "tier_stats": {
+      "0.25": {
+        "n": 4,
+        "avg_orig_pnl": -14684,
+        "total_orig_pnl": -58735,
+        "avg_new_pnl": -3714,
+        "total_new_pnl": -14858,
+        "win_rate": 25.0
+      },
+      "0.5": {
+        "n": 4,
+        "avg_orig_pnl": 8018,
+        "total_orig_pnl": 32072,
+        "avg_new_pnl": 4097,
+        "total_new_pnl": 16388,
+        "win_rate": 100.0
+      },
+      "0.75": {
+        "n": 5,
+        "avg_orig_pnl": 11103,
+        "total_orig_pnl": 55515,
+        "avg_new_pnl": 8524,
+        "total_new_pnl": 42619,
+        "win_rate": 80.0
+      },
+      "1.0": {
+        "n": 3,
+        "avg_orig_pnl": 32883,
+        "total_orig_pnl": 98650,
+        "avg_new_pnl": 32883,
+        "total_new_pnl": 98650,
+        "win_rate": 100.0
+      }
+    }
+  },
+  "v7": {
+    "name": "FLAT-GAP FADE",
+    "note": "No scoring \u2014 insufficient data (n=5)",
+    "original": {
+      "n": 5,
+      "total_pnl": 5598,
+      "mean_pnl": 1120,
+      "win_rate": 80.0,
+      "max_drawdown": 2420,
+      "sharpe": 0.401,
+      "return_to_dd": 2.31,
+      "max_loss": -2420,
+      "max_win": 5360
+    },
+    "scored": {
+      "n": 5,
+      "total_pnl": 5598,
+      "mean_pnl": 1120,
+      "win_rate": 80.0,
+      "max_drawdown": 2420,
+      "sharpe": 0.401,
+      "return_to_dd": 2.31,
+      "max_loss": -2420,
+      "max_win": 5360
+    },
+    "improvement": {}
+  },
+  "v9": {
+    "name": "BREAKOUT STALL",
+    "thresholds": [
+      -3,
+      -1,
+      3
+    ],
+    "score_range": [
+      -6,
+      7
+    ],
+    "original": {
+      "n": 20,
+      "total_pnl": 161846,
+      "mean_pnl": 8092,
+      "win_rate": 75.0,
+      "max_drawdown": 21792,
+      "sharpe": 0.529,
+      "return_to_dd": 7.43,
+      "max_loss": -21792,
+      "max_win": 46358
+    },
+    "scored": {
+      "n": 20,
+      "total_pnl": 146474,
+      "mean_pnl": 7324,
+      "win_rate": 75.0,
+      "max_drawdown": 11312,
+      "sharpe": 0.639,
+      "return_to_dd": 12.95,
+      "max_loss": -11312,
+      "max_win": 35660
+    },
+    "improvement": {
+      "total_pnl": {
+        "original": 161846,
+        "scored": 146474,
+        "delta": -15372,
+        "pct": -9.5
+      },
+      "max_drawdown": {
+        "original": 21792,
+        "scored": 11312,
+        "delta": 10480,
+        "pct": 48.1
+      },
+      "sharpe": {
+        "original": 0.529,
+        "scored": 0.639,
+        "delta": 0.10999999999999999,
+        "pct": 20.8
+      },
+      "return_to_dd": {
+        "original": 7.43,
+        "scored": 12.95,
+        "delta": 5.52,
+        "pct": 74.3
+      }
+    },
+    "tier_stats": {
+      "0.25": {
+        "n": 5,
+        "avg_orig_pnl": -5229,
+        "total_orig_pnl": -26145,
+        "avg_new_pnl": -1280,
+        "total_new_pnl": -6400,
+        "win_rate": 40.0
+      },
+      "0.5": {
+        "n": 5,
+        "avg_orig_pnl": 6244,
+        "total_orig_pnl": 31221,
+        "avg_new_pnl": 3069,
+        "total_new_pnl": 15345,
+        "win_rate": 80.0
+      },
+      "0.75": {
+        "n": 6,
+        "avg_orig_pnl": 13666,
+        "total_orig_pnl": 81995,
+        "avg_new_pnl": 10459,
+        "total_new_pnl": 62755,
+        "win_rate": 83.3
+      },
+      "1.0": {
+        "n": 4,
+        "avg_orig_pnl": 18694,
+        "total_orig_pnl": 74775,
+        "avg_new_pnl": 18694,
+        "total_new_pnl": 74775,
+        "win_rate": 100.0
+      }
+    }
+  },
+  "v12": {
+    "name": "BULL SQUEEZE",
+    "thresholds": [
+      -3,
+      1,
+      2
+    ],
+    "score_range": [
+      -4,
+      3
+    ],
+    "original": {
+      "n": 11,
+      "total_pnl": 71683,
+      "mean_pnl": 6517,
+      "win_rate": 72.7,
+      "max_drawdown": 29600,
+      "sharpe": 0.368,
+      "return_to_dd": 2.42,
+      "max_loss": -29600,
+      "max_win": 37268
+    },
+    "scored": {
+      "n": 11,
+      "total_pnl": 69652,
+      "mean_pnl": 6332,
+      "win_rate": 72.7,
+      "max_drawdown": 7400,
+      "sharpe": 0.536,
+      "return_to_dd": 9.41,
+      "max_loss": -7400,
+      "max_win": 37268
+    },
+    "improvement": {
+      "total_pnl": {
+        "original": 71683,
+        "scored": 69652,
+        "delta": -2031,
+        "pct": -2.8
+      },
+      "max_drawdown": {
+        "original": 29600,
+        "scored": 7400,
+        "delta": 22200,
+        "pct": 75.0
+      },
+      "sharpe": {
+        "original": 0.368,
+        "scored": 0.536,
+        "delta": 0.16800000000000004,
+        "pct": 45.7
+      },
+      "return_to_dd": {
+        "original": 2.42,
+        "scored": 9.41,
+        "delta": 6.99,
+        "pct": 288.8
+      }
+    },
+    "tier_stats": {
+      "0.25": {
+        "n": 2,
+        "avg_orig_pnl": -17412,
+        "total_orig_pnl": -34825,
+        "avg_new_pnl": -4327,
+        "total_new_pnl": -8654,
+        "win_rate": 0.0
+      },
+      "0.5": {
+        "n": 5,
+        "avg_orig_pnl": 10245,
+        "total_orig_pnl": 51224,
+        "avg_new_pnl": 5222,
+        "total_new_pnl": 26112,
+        "win_rate": 80.0
+      },
+      "0.75": {
+        "n": 2,
+        "avg_orig_pnl": 6284,
+        "total_orig_pnl": 12569,
+        "avg_new_pnl": 4740,
+        "total_new_pnl": 9480,
+        "win_rate": 100.0
+      },
+      "1.0": {
+        "n": 2,
+        "avg_orig_pnl": 21358,
+        "total_orig_pnl": 42715,
+        "avg_new_pnl": 21358,
+        "total_new_pnl": 42715,
+        "win_rate": 100.0
+      }
+    }
+  },
+  "n17": {
+    "name": "AFTERNOON LOCK",
+    "thresholds": [
+      -2,
+      0,
+      3
+    ],
+    "score_range": [
+      -8,
+      6
+    ],
+    "original": {
+      "n": 82,
+      "total_pnl": 191018,
+      "mean_pnl": 2329,
+      "win_rate": 92.7,
+      "max_drawdown": 71706,
+      "sharpe": 0.206,
+      "return_to_dd": 2.66,
+      "max_loss": -49725,
+      "max_win": 22800
+    },
+    "scored": {
+      "n": 82,
+      "total_pnl": 201957,
+      "mean_pnl": 2463,
+      "win_rate": 92.7,
+      "max_drawdown": 17790,
+      "sharpe": 0.469,
+      "return_to_dd": 11.35,
+      "max_loss": -12675,
+      "max_win": 22800
+    },
+    "improvement": {
+      "total_pnl": {
+        "original": 191018,
+        "scored": 201957,
+        "delta": 10939,
+        "pct": 5.7
+      },
+      "max_drawdown": {
+        "original": 71706,
+        "scored": 17790,
+        "delta": 53916,
+        "pct": 75.2
+      },
+      "sharpe": {
+        "original": 0.206,
+        "scored": 0.469,
+        "delta": 0.263,
+        "pct": 127.7
+      },
+      "return_to_dd": {
+        "original": 2.66,
+        "scored": 11.35,
+        "delta": 8.69,
+        "pct": 326.7
+      }
+    },
+    "tier_stats": {
+      "0.25": {
+        "n": 28,
+        "avg_orig_pnl": -2752,
+        "total_orig_pnl": -77043,
+        "avg_new_pnl": -672,
+        "total_new_pnl": -18830,
+        "win_rate": 82.1
+      },
+      "0.5": {
+        "n": 18,
+        "avg_orig_pnl": 2015,
+        "total_orig_pnl": 36270,
+        "avg_new_pnl": 991,
+        "total_new_pnl": 17841,
+        "win_rate": 94.4
+      },
+      "0.75": {
+        "n": 21,
+        "avg_orig_pnl": 5598,
+        "total_orig_pnl": 117560,
+        "avg_new_pnl": 4225,
+        "total_new_pnl": 88715,
+        "win_rate": 100.0
+      },
+      "1.0": {
+        "n": 15,
+        "avg_orig_pnl": 7615,
+        "total_orig_pnl": 114231,
+        "avg_new_pnl": 7615,
+        "total_new_pnl": 114231,
+        "win_rate": 100.0
+      }
+    }
+  },
+  "n18": {
+    "name": "LATE SQUEEZE",
+    "thresholds": [
+      0,
+      1,
+      2
+    ],
+    "score_range": [
+      -4,
+      4
+    ],
+    "original": {
+      "n": 139,
+      "total_pnl": 527890,
+      "mean_pnl": 3798,
+      "win_rate": 74.1,
+      "max_drawdown": 359670,
+      "sharpe": 0.128,
+      "return_to_dd": 1.47,
+      "max_loss": -50000,
+      "max_win": 116200
+    },
+    "scored": {
+      "n": 139,
+      "total_pnl": 549403,
+      "mean_pnl": 3953,
+      "win_rate": 74.1,
+      "max_drawdown": 187080,
+      "sharpe": 0.205,
+      "return_to_dd": 2.94,
+      "max_loss": -49720,
+      "max_win": 116200
+    },
+    "improvement": {
+      "total_pnl": {
+        "original": 527890,
+        "scored": 549403,
+        "delta": 21513,
+        "pct": 4.1
+      },
+      "max_drawdown": {
+        "original": 359670,
+        "scored": 187080,
+        "delta": 172590,
+        "pct": 48.0
+      },
+      "sharpe": {
+        "original": 0.128,
+        "scored": 0.205,
+        "delta": 0.07699999999999999,
+        "pct": 60.2
+      },
+      "return_to_dd": {
+        "original": 1.47,
+        "scored": 2.94,
+        "delta": 1.47,
+        "pct": 100.0
+      }
+    },
+    "tier_stats": {
+      "0.25": {
+        "n": 52,
+        "avg_orig_pnl": -6272,
+        "total_orig_pnl": -326170,
+        "avg_new_pnl": -1563,
+        "total_new_pnl": -81282,
+        "win_rate": 61.5
+      },
+      "0.5": {
+        "n": 37,
+        "avg_orig_pnl": 12319,
+        "total_orig_pnl": 455801,
+        "avg_new_pnl": 6120,
+        "total_new_pnl": 226443,
+        "win_rate": 89.2
+      },
+      "0.75": {
+        "n": 16,
+        "avg_orig_pnl": -1449,
+        "total_orig_pnl": -23186,
+        "avg_new_pnl": -1075,
+        "total_new_pnl": -17203,
+        "win_rate": 62.5
+      },
+      "1.0": {
+        "n": 34,
+        "avg_orig_pnl": 12395,
+        "total_orig_pnl": 421445,
+        "avg_new_pnl": 12395,
+        "total_new_pnl": 421445,
+        "win_rate": 82.4
+      }
+    }
+  }
+}

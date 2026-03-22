@@ -2,6 +2,7 @@
 import pandas as pd
 import numpy as np
 import json, os
+from sizing_scores import compute_sizing
 
 _DIR = os.path.dirname(os.path.abspath(__file__))
 df = pd.read_csv(os.path.join(_DIR, 'research_all_trades.csv'))
@@ -69,16 +70,10 @@ strats = [
      "name":"QUIET REBOUND","desc":"QUIET REBOUND — Low VIX | Prior Day Down | In Range | Flat Gap"},
     {"ver":"v7","vix":[0,15],"pd":"FL","rng":"IN","gap":"GUP","filter":None,"mech":"40%/close/1T","entry":"10:00",
      "name":"FLAT-GAP FADE","desc":"FLAT-GAP FADE — Low VIX | Prior Day Flat | In Range | Gap Up"},
-    {"ver":"v8","vix":[20,25],"pd":"UP","rng":"IN","gap":"GDN","filter":None,"mech":"40%/1530/1T","entry":"10:30",
-     "name":"STRESS SNAP","desc":"STRESS SNAP — Elevated VIX | Prior Day Up | In Range | Gap Down"},
     {"ver":"v9","vix":[15,20],"pd":"UP","rng":"OT","gap":"GFL","filter":"!RISING","mech":"70%/1545/1T","entry":"10:00",
      "name":"BREAKOUT STALL","desc":"BREAKOUT STALL — Mid VIX | Prior Day Up | Outside Range | Flat Gap"},
-    {"ver":"v10","vix":[15,20],"pd":"DN","rng":"OT","gap":"GFL","filter":None,"mech":"70%/1545/1T","entry":"11:00",
-     "name":"BREAKDOWN PAUSE","desc":"BREAKDOWN PAUSE — Mid VIX | Prior Day Down | Outside Range | Flat Gap"},
     {"ver":"v12","vix":[0,15],"pd":"UP","rng":"OT","gap":"GUP","filter":"5dRet>1","mech":"40%/close/1T","entry":"10:00",
      "name":"BULL SQUEEZE","desc":"BULL SQUEEZE — Low VIX | Prior Day Up | Outside Range | Gap Up"},
-    {"ver":"v14","vix":[15,20],"pd":"DN","rng":"IN","gap":"GDN","filter":"ScoreVol<18","mech":"50%/close/1T","entry":"10:00",
-     "name":"ORDERLY DIP","desc":"ORDERLY DIP — Mid VIX | Prior Day Down | In Range | Gap Down"},
 ]
 
 # N17/N18 metadata (processed separately from real_fills.json)
@@ -136,11 +131,8 @@ def phoenix_fire_count(row):
 REGIME_MAX_BUDGET = {
     'v6':  75000,   # p<0.05, Sharpe 7.11, small n — $75K
     'v7':  25000,   # ns, n=5, cannot trust — $25K
-    'v8':  25000,   # ns, Sharpe 1.58, conflicts Law 1 — $25K
     'v9':  100000,  # p<0.01, Sharpe 8.35, worst only -$16K — $100K
-    'v10': 75000,   # p<0.1, Sharpe 4.72, real edge — $75K
     'v12': 75000,   # ns but power problem (n=11), Sharpe 5.88 — $75K
-    'v14': 75000,   # p<0.05, Sharpe 11.61, but single loss = -$75K — $75K
 }
 
 def regime_budget(ver, vp):
@@ -171,6 +163,32 @@ def check_filter(filt, row):
     if filt == 'ScoreVol<18': return score_vol < 18
     if filt == 'Rng<=0.3': return range_pct <= 0.3
     return True
+
+def _build_score_context(row):
+    """Build a context dict for sizing_scores from a CSV row."""
+    d = str(row['date'])[:10]
+    gap_pct = gaps.get(d, 0)
+    if isinstance(gap_pct, dict): gap_pct = gap_pct.get('gap_pct', 0)
+    iwr = row.get('in_prior_week_range')
+    if pd.notna(iwr): iwr = bool(int(iwr))
+    else: iwr = None
+    pdr = row.get('prior_day_range')
+    pdr = float(pdr) if pd.notna(pdr) else None
+    return {
+        'prior_dir': str(row.get('prior_day_direction', '')) if pd.notna(row.get('prior_day_direction')) else '',
+        'prior_1d': float(row['prior_day_return']) if pd.notna(row.get('prior_day_return')) else None,
+        'prior_5d': float(row['prior_5d_return']) if pd.notna(row.get('prior_5d_return')) else None,
+        'fire_count': 0,  # filled in by caller for phoenix
+        'rv': float(row['rv']) if pd.notna(row.get('rv')) else None,
+        'dow': str(row['dow']) if pd.notna(row.get('dow')) else '',
+        'rv_slope': str(row.get('rv_slope', '')) if pd.notna(row.get('rv_slope')) else '',
+        'ts_label': str(row.get('ts_label', '')) if pd.notna(row.get('ts_label')) else '',
+        'vp_ratio': float(row['vp_ratio']) if pd.notna(row.get('vp_ratio')) else None,
+        'gap_pct': gap_pct,
+        'in_prior_week_range': iwr,
+        'prior_day_range': pdr,
+    }
+
 
 def compute_pnl(row, strat, fire_count=0, override_budget=None):
     ww = row['wing_width']
@@ -253,8 +271,22 @@ for strat in strats:
                 ts_ratio = float(vix9d_val) / float(vix_val)
                 if ts_ratio >= 1.0:
                     continue  # kill signal: inverted term structure
+            # ── Sizing score ──
+            sctx = _build_score_context(row)
+            sctx['fire_count'] = fc
+            sizing_mult, sizing_score = compute_sizing(ver, sctx)
             result = compute_pnl(row, strat, fc)
             if result:
+                # Apply sizing multiplier to budget → recompute qty & pnl
+                adj_budget = int(result['risk_budget'] * sizing_mult)
+                max_loss_per = (result['ww'] - result['entry_credit']) * 100
+                adj_qty = int(adj_budget // max_loss_per) if max_loss_per > 0 else 0
+                if adj_qty <= 0: adj_qty = 1
+                adj_pnl = adj_qty * (result['pnl_per_spread'] * 100 - 100)
+                result['dollar_pnl'] = adj_pnl
+                result['qty'] = adj_qty
+                result['risk_budget'] = adj_budget
+                result['is_win'] = result['pnl_per_spread'] > 0
                 result['date'] = str(row['date'])[:10]
                 trades.append(result)
                 all_trades_export.append({
@@ -279,6 +311,8 @@ for strat in strats:
                     'min_ps': _safe_f(row.get('min_pnl')),
                     'intraday': _build_intraday(row),
                     'fire_signals': details,
+                    'sizing_score': sizing_score,
+                    'sizing_mult': sizing_mult,
                 })
         else:
             vix_range = strat.get('vix')
@@ -291,10 +325,10 @@ for strat in strats:
             vp = row.get('vp_ratio', 1.5)
             if ver == 'v9' and float(vp or 0) > 2.0: continue  # VP cap: extreme stress, all losers
             bud = regime_budget(ver, vp)
-            if ver == 'v10':  # half-size in deep downtrend
-                ret5 = _safe_f(row.get('prior_5d_return'), 3)
-                if ret5 is not None and ret5 <= -1.5:
-                    bud = bud // 2
+            # ── Sizing score ──
+            sctx = _build_score_context(row)
+            sizing_mult, sizing_score = compute_sizing(ver, sctx)
+            bud = int(bud * sizing_mult)
             result = compute_pnl(row, strat, override_budget=bud)
             if result:
                 result['date'] = str(row['date'])[:10]
@@ -321,6 +355,8 @@ for strat in strats:
                     'min_ps': _safe_f(row.get('min_pnl')),
                     'intraday': _build_intraday(row),
                     'fire_signals': None,
+                    'sizing_score': sizing_score,
+                    'sizing_mult': sizing_mult,
                 })
 
     if trades:
@@ -391,6 +427,10 @@ for rf_strat in REAL_FILL_STRATS:
     strat_key = ver.upper()  # 'N17' or 'N18'
     fills = real_fills_data.get(strat_key, {})
     trades = []
+    # Build CSV lookup for scoring context (N17/N18 need regime data from CSV)
+    csv_by_date = {}
+    for idx, row in df.iterrows():
+        csv_by_date[str(row['date'])[:10]] = row
     for date, fill in sorted(fills.items()):
         if fill.get('status') != 'ok':
             continue
@@ -400,6 +440,13 @@ for rf_strat in REAL_FILL_STRATS:
         ww = fill.get('width', 10)
         credit = fill.get('total_credit', 0)
         is_win = pnl > 0
+        # ── Sizing score (metadata — real fills keep actual P&L) ──
+        csv_row = csv_by_date.get(date)
+        if csv_row is not None:
+            sctx = _build_score_context(csv_row)
+            sizing_mult, sizing_score = compute_sizing(ver, sctx)
+        else:
+            sizing_mult, sizing_score = 1.0, 0
         trade = {
             'dollar_pnl': pnl, 'pnl_per_spread': pnl_ps,
             'entry_credit': credit, 'exit_type': 'CLOSE', 'exit_slot': 'close',
@@ -416,6 +463,8 @@ for rf_strat in REAL_FILL_STRATS:
             'exit_time': '16:15 ET',
             'wing_width': int(ww),
             'entry_credit': round(credit, 3),
+            'sizing_score': sizing_score,
+            'sizing_mult': sizing_mult,
         })
 
     if trades:
@@ -460,7 +509,7 @@ with open(os.path.join(_DIR, 'strategy_stats.json'), 'w') as f:
 print(f"{'Ver':<8} {'N':>4} {'WR%':>6} {'TotalP&L':>12} {'AvgP&L':>9} {'PF':>6} {'MaxDD':>9} {'AvgWin':>8} {'AvgLoss':>9}")
 print("-" * 85)
 total_pnl = 0
-for ver in ['v3','n15','v6','v7','v8','v9','v10','v12','v14','n17','n18']:
+for ver in ['v3','n15','v6','v7','v9','v12','n17','n18']:
     s = all_stats.get(ver, {})
     n = s.get('total_trades', 0)
     total_pnl += s.get('total_pnl', 0)

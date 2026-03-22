@@ -33,6 +33,7 @@ from datetime import datetime, timedelta
 
 _DIR = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, _DIR)
+from sizing_scores import compute_sizing
 
 DATA_DIR = os.path.join(_DIR, "data")
 SPX_DIR = os.path.join(DATA_DIR, "spx_1min")
@@ -420,6 +421,43 @@ def run_legacy_on_dates(new_dates):
                 fc = None
                 signals = None
 
+            # ── Sizing score ──
+            gap_pct_val = gap_cache.get(date, 0)
+            if isinstance(gap_pct_val, dict):
+                gap_pct_val = gap_pct_val.get('gap_pct', 0)
+            # Get day-of-week and prior-day return from universe context
+            _dow_names = {0:'Monday',1:'Tuesday',2:'Wednesday',3:'Thursday',4:'Friday'}
+            try:
+                _dow = _dow_names.get(datetime.strptime(date, "%Y-%m-%d").weekday(), '')
+            except:
+                _dow = ''
+            prior_1d_val = universe.ctx(date, 'prior_day_return') or 0
+            prior_day_range_val = universe.ctx(date, 'prior_day_range')
+            # Compute term structure label from VIX9D/VIX
+            _v9d_val = vix9d_data.get(date)
+            _ts_label = ''
+            if _v9d_val and vix and vix > 0:
+                _ratio = float(_v9d_val) / float(vix)
+                if _ratio < 0.9:   _ts_label = 'INVERTED'
+                elif _ratio > 1.1: _ts_label = 'CONTANGO'
+                else:              _ts_label = 'FLAT'
+            sizing_ctx = {
+                'prior_dir': prior_dir_raw,
+                'prior_1d': float(prior_1d_val) if prior_1d_val else None,
+                'prior_5d': float(ret5d) if ret5d else None,
+                'fire_count': fc if fc else 0,
+                'rv': float(rv) if rv else None,
+                'dow': _dow,
+                'rv_slope': rv_slope_label or '',
+                'ts_label': _ts_label,
+                'vp_ratio': float(vp) if vp else None,
+                'gap_pct': gap_pct_val,
+                'in_prior_week_range': in_range,
+                'prior_day_range': float(prior_day_range_val) if prior_day_range_val else None,
+            }
+            sizing_mult, sizing_score = compute_sizing(ver, sizing_ctx)
+            risk_budget = int(risk_budget * sizing_mult)
+
             # ── Build the IBF and simulate trade ──
             # Adaptive wing width (matches CLAUDE.md formula)
             spx_price = universe.spx_at(date, entry_time)
@@ -495,6 +533,8 @@ def run_legacy_on_dates(new_dates):
                 "min_ps": round(result.trough_pnl * 100, 2),
                 "intraday": intraday,
                 "fire_signals": signals,
+                "sizing_score": sizing_score,
+                "sizing_mult": sizing_mult,
             }
             new_trades.append(trade_record)
             log(f"    {ver}/{strat['name']}: {'WIN' if trade_record['is_win'] else 'LOSS'} ${trade_record['pnl']:,.0f}")
