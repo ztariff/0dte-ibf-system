@@ -1748,11 +1748,81 @@ class QuietHandler(SimpleHTTPRequestHandler):
 
         if self.path == "/api/calendar":
             # Serve combined trade + stats JSON for the dynamic calendar page.
+            # Merges legacy strategy_trades.json + newer calendar_trades.json
             trades_path = os.path.join(_DIR, "strategy_trades.json")
             stats_path  = os.path.join(_DIR, "strategy_stats.json")
+            new_trades_path = os.path.join(_DIR, "calendar_trades.json")
             try:
                 with open(trades_path) as f: trades = json.load(f)
                 with open(stats_path)  as f: stats  = json.load(f)
+
+                # Merge in newer strategies from calendar_trades.json
+                if os.path.exists(new_trades_path):
+                    with open(new_trades_path) as f: new_data = json.load(f)
+                    # Map short_name to ver code for the new strategies
+                    _NEW_VER_MAP = {
+                        "PHX-PC": "phx_pc", "PHX-LH": "phx_lh", "FBD-LH": "fbd_lh",
+                        "PHX-AFT": "phx_aft", "IC-35": "ic_35", "FBD-FB": "fbd_fb",
+                        "PHX-EA": "phx_ea", "PHX-MD": "phx_md", "FBD-MD": "fbd_md",
+                        "AM-DEC": "am_dec",
+                    }
+                    new_trades_converted = []
+                    for t in new_data.get("trades", []):
+                        ver = _NEW_VER_MAP.get(t.get("short_name"), t.get("short_name", "").lower())
+                        new_trades_converted.append({
+                            "date": t["date"],
+                            "ver": ver,
+                            "pnl": t.get("pnl_dollar_sized", 0),
+                            "qty": t.get("contracts", 1),
+                            "exit": t.get("exit_type", "TIME"),
+                            "fire_count": None,
+                            "risk_budget": t.get("risk_budget", 50000),
+                            "pnl_ps": t.get("pnl_per_spread", 0),
+                            "is_win": t.get("pnl_dollar_sized", 0) > 0,
+                            "entry_time": t.get("entry_time", ""),
+                            "exit_time": t.get("exit_time", ""),
+                            "wing_width": None,
+                            "entry_credit": t.get("entry_credit", 0),
+                            "vix": t.get("vix"),
+                            "score": None,
+                            "vp_ratio": None,
+                            "rv": None,
+                            "prior_5d": None,
+                            "prior_1d": None,
+                            "prior_dir": None,
+                            "max_ps": t.get("peak_pnl", 0),
+                            "min_ps": t.get("trough_pnl", 0),
+                            "intraday": t.get("pnl_timeline", {}),
+                            "fire_signals": None,
+                        })
+                    trades = trades + new_trades_converted
+
+                    # Compute stats for new strategies
+                    from collections import defaultdict
+                    new_by_ver = defaultdict(list)
+                    for t in new_trades_converted:
+                        new_by_ver[t["ver"]].append(t)
+                    for ver, tlist in new_by_ver.items():
+                        pnls = [t["pnl"] for t in tlist]
+                        wins = [p for p in pnls if p > 0]
+                        losses = [p for p in pnls if p <= 0]
+                        gw = sum(wins) if wins else 0
+                        gl = abs(sum(losses)) if losses else 0.001
+                        cum = peak = max_dd = 0
+                        for p in pnls:
+                            cum += p; peak = max(peak, cum); max_dd = max(max_dd, peak - cum)
+                        stats[ver] = {
+                            "ver": ver,
+                            "total_trades": len(tlist),
+                            "wins": len(wins),
+                            "losses": len(losses),
+                            "win_rate": round(len(wins)/len(tlist)*100, 1) if tlist else 0,
+                            "total_pnl": round(sum(pnls)),
+                            "avg_pnl": round(sum(pnls)/len(pnls)) if pnls else 0,
+                            "profit_factor": round(gw/gl, 2),
+                            "max_drawdown": round(max_dd),
+                        }
+
                 self.send_json(200, {"trades": trades, "stats": stats})
             except Exception as e:
                 self.send_json(500, {"error": str(e)})

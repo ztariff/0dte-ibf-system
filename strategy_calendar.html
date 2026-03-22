@@ -110,7 +110,7 @@ h1 { color: #f59e0b; font-size: 20px; margin-bottom: 4px; }
 <div class="cal-header-row">
   <div>
     <h1>STRATEGY CALENDAR &mdash; All Strategies Dollar P&amp;L</h1>
-    <div class="subtitle">Risk: PHOENIX/PHOENIX CLEAR tiered $25K&ndash;$100K | QUIET REBOUND/BREAKDOWN PAUSE/BULL SQUEEZE/ORDERLY DIP $75K | BREAKOUT STALL $100K | FLAT-GAP FADE/STRESS SNAP $25K | AFTERNOON LOCK/LATE SQUEEZE $50K fixed | VP-scaled per trade | $1/spread slippage | N17/N18 use real bid/ask fills</div>
+    <div class="subtitle">Legacy: PHOENIX tiered $25K&ndash;$100K | regime-filtered | VP-scaled | N17/N18 real fills &nbsp;&bull;&nbsp; New: PHX 75/Firebird 60/Ironclad | VIX-tiered sizing | unfiltered afternoon entries | $1/spread slippage</div>
   </div>
   <div style="display:flex;align-items:center;gap:10px;margin-left:auto">
     <span id="refresh-status"></span>
@@ -129,6 +129,17 @@ h1 { color: #f59e0b; font-size: 20px; margin-bottom: 4px; }
 <div class="legend-item"><div class="legend-dot" style="background:#64748b"></div>ORDERLY DIP <span style="opacity:0.5;font-size:9px;">V14</span></div>
 <div class="legend-item"><div class="legend-dot" style="background:#7c3aed"></div>AFTERNOON LOCK <span style="opacity:0.5;font-size:9px;">N17</span></div>
 <div class="legend-item"><div class="legend-dot" style="background:#0ea5e9"></div>LATE SQUEEZE <span style="opacity:0.5;font-size:9px;">N18</span></div>
+<div style="width:100%;border-top:1px solid #333;margin:4px 0"></div>
+<div class="legend-item"><div class="legend-dot" style="background:#8b5cf6"></div>PHX 75 POWER CLOSE <span style="opacity:0.5;font-size:9px;">S</span></div>
+<div class="legend-item"><div class="legend-dot" style="background:#6366f1"></div>PHX 75 LAST HOUR <span style="opacity:0.5;font-size:9px;">A</span></div>
+<div class="legend-item"><div class="legend-dot" style="background:#14b8a6"></div>FIREBIRD 60 LAST HR <span style="opacity:0.5;font-size:9px;">A</span></div>
+<div class="legend-item"><div class="legend-dot" style="background:#a855f7"></div>PHX 75 AFTERNOON <span style="opacity:0.5;font-size:9px;">B+</span></div>
+<div class="legend-item"><div class="legend-dot" style="background:#10b981"></div>IRONCLAD CONDOR <span style="opacity:0.5;font-size:9px;">B+</span></div>
+<div class="legend-item"><div class="legend-dot" style="background:#0ea5e9"></div>FIREBIRD 60 FINAL <span style="opacity:0.5;font-size:9px;">B+</span></div>
+<div class="legend-item"><div class="legend-dot" style="background:#f59e0b"></div>PHX 75 EARLY AFT <span style="opacity:0.5;font-size:9px;">B</span></div>
+<div class="legend-item"><div class="legend-dot" style="background:#ec4899"></div>PHX 75 MIDDAY <span style="opacity:0.5;font-size:9px;">C+</span></div>
+<div class="legend-item"><div class="legend-dot" style="background:#f97316"></div>FIREBIRD 60 MIDDAY <span style="opacity:0.5;font-size:9px;">C+</span></div>
+<div class="legend-item"><div class="legend-dot" style="background:#64748b"></div>MORNING DECEL <span style="opacity:0.5;font-size:9px;">C</span></div>
 </div>
 <table class="stats-table" id="stats-table">
 <tr><th>Strategy</th><th>Regime</th><th>Mech</th><th>Filter</th><th>Days</th><th>W/L</th><th>Win Rate</th><th>Total P&amp;L</th><th>Avg P&amp;L</th><th>PF</th><th>Max DD</th></tr>
@@ -156,7 +167,31 @@ h1 { color: #f59e0b; font-size: 20px; margin-bottom: 4px; }
 <script>
 // ── Baked-in strategy metadata (never changes between deploys) ────────
 const POLY_KEY   = "cBE5Kbq9yllt0Yj29mDQjBcIKfAYQlHF";
-const STRATEGIES = [{"ver": "v3", "name": "PHOENIX", "short": "PHX", "regime": "PHOENIX", "mech": "50%/close/1T", "filter": "--", "color": "#f59e0b"}, {"ver": "n15", "name": "PHOENIX CLEAR", "short": "CLR", "regime": "PHOENIX_CLEAR", "mech": "50%/close/1T", "filter": "VIX9D/VIX<1.0", "color": "#22c55e"}, {"ver": "v6", "name": "QUIET REBOUND", "short": "QRB", "regime": "LOW_DN_IN_GFL", "mech": "50%/1530/1T", "filter": "VP<=1.7", "color": "#06b6d4"}, {"ver": "v7", "name": "FLAT-GAP FADE", "short": "FGF", "regime": "LOW_FL_IN_GUP", "mech": "40%/close/1T", "filter": "--", "color": "#a855f7"}, {"ver": "v8", "name": "STRESS SNAP", "short": "SNP", "regime": "ELEV_UP_IN_GDN", "mech": "40%/1530/1T", "filter": "--", "color": "#ef4444"}, {"ver": "v9", "name": "BREAKOUT STALL", "short": "BKT", "regime": "MID_UP_OT_GFL", "mech": "70%/1545/1T", "filter": "!RISING", "color": "#eab308"}, {"ver": "v10", "name": "BREAKDOWN PAUSE", "short": "BKD", "regime": "MID_DN_OT_GFL", "mech": "70%/1545/1T", "filter": "--", "color": "#ec4899"}, {"ver": "v12", "name": "BULL SQUEEZE", "short": "BSQ", "regime": "LOW_UP_OT_GUP", "mech": "40%/close/1T", "filter": "5dRet>1", "color": "#f97316"}, {"ver": "v14", "name": "ORDERLY DIP", "short": "DIP", "regime": "MID_DN_IN_GDN", "mech": "50%/close/1T", "filter": "ScoreVol<18", "color": "#64748b"}, {"ver": "n17", "name": "AFTERNOON LOCK", "short": "AFT", "regime": "PHOENIX_AFT", "mech": "50%/close/1T", "filter": "VVIX<100@13:00", "color": "#7c3aed"}, {"ver": "n18", "name": "LATE SQUEEZE", "short": "LSQ", "regime": "LATE_SQUEEZE", "mech": "50%/close/1T", "filter": "3Laws@14:00", "color": "#0ea5e9"}];
+const STRATEGIES = [
+// ── Legacy regime-filtered strategies ──
+{"ver": "v3", "name": "PHOENIX", "short": "PHX", "regime": "PHOENIX", "mech": "50%/close/1T", "filter": "--", "color": "#f59e0b"},
+{"ver": "n15", "name": "PHOENIX CLEAR", "short": "CLR", "regime": "PHOENIX_CLEAR", "mech": "50%/close/1T", "filter": "VIX9D/VIX<1.0", "color": "#22c55e"},
+{"ver": "v6", "name": "QUIET REBOUND", "short": "QRB", "regime": "LOW_DN_IN_GFL", "mech": "50%/1530/1T", "filter": "VP<=1.7", "color": "#06b6d4"},
+{"ver": "v7", "name": "FLAT-GAP FADE", "short": "FGF", "regime": "LOW_FL_IN_GUP", "mech": "40%/close/1T", "filter": "--", "color": "#a855f7"},
+{"ver": "v8", "name": "STRESS SNAP", "short": "SNP", "regime": "ELEV_UP_IN_GDN", "mech": "40%/1530/1T", "filter": "--", "color": "#ef4444"},
+{"ver": "v9", "name": "BREAKOUT STALL", "short": "BKT", "regime": "MID_UP_OT_GFL", "mech": "70%/1545/1T", "filter": "!RISING", "color": "#eab308"},
+{"ver": "v10", "name": "BREAKDOWN PAUSE", "short": "BKD", "regime": "MID_DN_OT_GFL", "mech": "70%/1545/1T", "filter": "--", "color": "#ec4899"},
+{"ver": "v12", "name": "BULL SQUEEZE", "short": "BSQ", "regime": "LOW_UP_OT_GUP", "mech": "40%/close/1T", "filter": "5dRet>1", "color": "#f97316"},
+{"ver": "v14", "name": "ORDERLY DIP", "short": "DIP", "regime": "MID_DN_IN_GDN", "mech": "50%/close/1T", "filter": "ScoreVol<18", "color": "#64748b"},
+{"ver": "n17", "name": "AFTERNOON LOCK", "short": "AFT", "regime": "PHOENIX_AFT", "mech": "50%/close/1T", "filter": "VVIX<100@13:00", "color": "#7c3aed"},
+{"ver": "n18", "name": "LATE SQUEEZE", "short": "LSQ", "regime": "LATE_SQUEEZE", "mech": "50%/close/1T", "filter": "3Laws@14:00", "color": "#0ea5e9"},
+// ── New unfiltered strategies (2023-2026) ──
+{"ver": "phx_pc", "name": "PHX 75 POWER CLOSE", "short": "PC", "regime": "IBF75@15:15", "mech": "50%/15:30", "filter": "Unfiltered", "color": "#8b5cf6"},
+{"ver": "phx_lh", "name": "PHX 75 LAST HOUR", "short": "LH", "regime": "IBF75@15:00", "mech": "50%/15:30", "filter": "Unfiltered", "color": "#6366f1"},
+{"ver": "fbd_lh", "name": "FIREBIRD 60 LAST HR", "short": "FL", "regime": "IBF60@15:00", "mech": "50%/15:30", "filter": "Unfiltered", "color": "#14b8a6"},
+{"ver": "phx_aft", "name": "PHX 75 AFTERNOON", "short": "PA", "regime": "IBF75@14:30", "mech": "50%/15:30", "filter": "Unfiltered", "color": "#a855f7"},
+{"ver": "ic_35", "name": "IRONCLAD CONDOR", "short": "IC", "regime": "IC35@14:30", "mech": "40%/15:30", "filter": "Unfiltered", "color": "#10b981"},
+{"ver": "fbd_fb", "name": "FIREBIRD 60 FINAL", "short": "FF", "regime": "IBF60@15:30", "mech": "50%/close", "filter": "Unfiltered", "color": "#0ea5e9"},
+{"ver": "phx_ea", "name": "PHX 75 EARLY AFT", "short": "EA", "regime": "IBF75@13:45", "mech": "50%/15:30", "filter": "Unfiltered", "color": "#f59e0b"},
+{"ver": "phx_md", "name": "PHX 75 MIDDAY", "short": "MD", "regime": "IBF75@14:00", "mech": "50%/15:30", "filter": "Unfiltered", "color": "#ec4899"},
+{"ver": "fbd_md", "name": "FIREBIRD 60 MIDDAY", "short": "FM", "regime": "IBF60@14:00", "mech": "50%/15:30", "filter": "Unfiltered", "color": "#f97316"},
+{"ver": "am_dec", "name": "MORNING DECEL", "short": "AM", "regime": "IBF75@10:30", "mech": "30%/11:30", "filter": "Decel<-0.05", "color": "#64748b"},
+];
 const VER_COLORS = {};
 const VER_NAMES  = {};
 const VER_SHORTS = {};

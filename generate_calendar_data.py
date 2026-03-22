@@ -33,11 +33,11 @@ strategies = [
      lambda: standard_exits(0.50, '15:30', True), None, None, 150000, "S"),
     ("Phoenix 75 Last Hour", "PHX-LH", "#6366f1", ibf_factory(75), ["15:00"],
      lambda: standard_exits(0.50, '15:30', True), None, None, 100000, "A"),
-    ("Firebird 60 Last Hour", "FBD-LH", "#06b6d4", ibf_factory(60), ["15:00"],
+    ("Firebird 60 Last Hour", "FBD-LH", "#14b8a6", ibf_factory(60), ["15:00"],
      lambda: standard_exits(0.50, '15:30', True), None, None, 100000, "A"),
     ("Phoenix 75 Afternoon", "PHX-AFT", "#a855f7", ibf_factory(75), ["14:30"],
      lambda: standard_exits(0.50, '15:30', True), None, None, 75000, "B+"),
-    ("Ironclad 35 Condor", "IC-35", "#22c55e", ic_factory(35, 35), ["14:30"],
+    ("Ironclad 35 Condor", "IC-35", "#10b981", ic_factory(35, 35), ["14:30"],
      lambda: [profit_target(0.40), wing_stop(), time_stop('15:30')], None, None, 75000, "B+"),
     ("Firebird 60 Final Bell", "FBD-FB", "#0ea5e9", ibf_factory(60), ["15:30"],
      lambda: standard_exits(0.50, '15:30', True), None, None, 75000, "B+"),
@@ -160,7 +160,7 @@ for sname, short, color, *_ in strategies:
     strategy_meta.append({"name": sname, "short": short, "color": color})
 
 output = {
-    "generated": "2026-03-21",
+    "generated": "2026-03-22",
     "strategies": strategy_meta,
     "trades": all_trades,
     "spx_bars": spx_chart_data,
