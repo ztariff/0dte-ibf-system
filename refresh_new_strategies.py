@@ -25,11 +25,14 @@ import sys
 import json
 import time
 import math
+import csv
 import requests
 from datetime import datetime, timedelta, date as dt_date
 
 _DIR = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, _DIR)
+
+from sizing_scores import SCORE_FUNCTIONS, score_to_multiplier
 
 DATA_DIR = os.path.join(_DIR, "data")
 SPX_DIR = os.path.join(DATA_DIR, "spx_1min")
@@ -398,6 +401,74 @@ def run_strategies_on_dates(new_dates):
             return 0.5
         return 0.25
 
+    # Load CSV regime data + VIX9D for scoring context
+    _csv_by_date = {}
+    _csv_path = os.path.join(_DIR, "research_all_trades.csv")
+    if os.path.exists(_csv_path):
+        with open(_csv_path, newline='') as f:
+            reader = csv.DictReader(f)
+            for row in reader:
+                d = row.get("date", "")[:10]
+                _csv_by_date[d] = row
+
+    _vix9d_data = {}
+    _vix9d_path = os.path.join(_DIR, "vix9d_daily.json")
+    if os.path.exists(_vix9d_path):
+        with open(_vix9d_path) as f:
+            _vix9d_data = json.load(f)
+
+    def _build_refresh_scoring_context(date, vix, univ, entry_credit=None, structure_name=None):
+        """Build scoring context dict for a new strategy trade."""
+        csv_row = _csv_by_date.get(date, {})
+        ctx = {}
+        ctx["prior_dir"] = csv_row.get("prior_day_direction", "")
+        try: ctx["prior_1d"] = float(csv_row["prior_day_return"])
+        except: ctx["prior_1d"] = None
+        try: ctx["prior_5d"] = float(csv_row["prior_5d_return"])
+        except: ctx["prior_5d"] = None
+        try: ctx["rv"] = float(csv_row["rv"])
+        except: ctx["rv"] = None
+        ctx["vix"] = vix
+        ctx["rv_slope"] = csv_row.get("rv_slope", "")
+        try: ctx["vp_ratio"] = float(csv_row["vp_ratio"])
+        except: ctx["vp_ratio"] = None
+        try: ctx["prior_day_range"] = float(csv_row["prior_day_range"])
+        except: ctx["prior_day_range"] = None
+        iwr = csv_row.get("in_prior_week_range", "")
+        if iwr and iwr not in ("", "nan"):
+            try: ctx["in_prior_week_range"] = bool(int(float(iwr)))
+            except: ctx["in_prior_week_range"] = None
+        else:
+            ctx["in_prior_week_range"] = None
+        try: ctx["gap_pct"] = float(csv_row.get("gap_pct", 0))
+        except: ctx["gap_pct"] = None
+        try:
+            dt = datetime.strptime(date, "%Y-%m-%d")
+            ctx["dow"] = dt.strftime("%A")
+        except: ctx["dow"] = ""
+        v9d = _vix9d_data.get(date)
+        if v9d is not None and vix is not None and vix > 0:
+            try:
+                ratio = float(v9d) / vix
+                ctx["vix9d_vix_ratio"] = ratio
+                ctx["ts_label"] = "INVERTED" if ratio < 0.90 else ("CONTANGO" if ratio > 1.02 else "FLAT")
+            except:
+                ctx["ts_label"] = ""
+                ctx["vix9d_vix_ratio"] = None
+        else:
+            ctx["ts_label"] = ""
+            ctx["vix9d_vix_ratio"] = None
+        if entry_credit is not None and structure_name:
+            try:
+                parts = structure_name.split("_")
+                wing = int(parts[-1].replace("w", ""))
+                ctx["credit_wing_pct"] = float(entry_credit) / wing if wing > 0 else None
+            except:
+                ctx["credit_wing_pct"] = None
+        else:
+            ctx["credit_wing_pct"] = None
+        return ctx
+
     # Strategy definitions — MUST match generate_calendar_data.py exactly
     # Per-strategy stop rules optimized via test_stop_variants.py on 776-day backtest
     strategies = [
@@ -455,8 +526,22 @@ def run_strategies_on_dates(new_dates):
             except:
                 pass
 
-            pnl_dollar_sized = round(t.pnl_per_spread * 100 * contracts, 0)
-            risk_deployed = round(max_risk_per_spread * 100 * contracts, 0)
+            # Compute sizing score
+            scoring_ctx = _build_refresh_scoring_context(t.date, vix, universe, t.entry_credit, t.structure_name)
+            score_fn = SCORE_FUNCTIONS.get(sname)
+            if score_fn is not None:
+                sizing_score = score_fn(scoring_ctx)
+                sizing_mult = score_to_multiplier(sizing_score, sname)
+            else:
+                sizing_score = 0
+                sizing_mult = 1.0
+
+            # Apply sizing multiplier to contracts
+            scored_budget = sized_budget * sizing_mult
+            scored_contracts = max(1, int(scored_budget / (max_risk_per_spread * 100))) if max_risk_per_spread > 0 else 1
+
+            pnl_dollar_sized = round(t.pnl_per_spread * 100 * scored_contracts, 0)
+            risk_deployed = round(max_risk_per_spread * 100 * scored_contracts, 0)
 
             trade_record = {
                 "date": t.date,
@@ -470,11 +555,13 @@ def run_strategies_on_dates(new_dates):
                 "exit_type": t.exit_type,
                 "entry_credit": round(t.entry_credit, 2),
                 "pnl_per_spread": round(t.pnl_per_spread, 2),
-                "contracts": contracts,
+                "contracts": scored_contracts,
                 "risk_budget": risk_budget,
                 "risk_deployed": risk_deployed,
                 "pnl_dollar_sized": pnl_dollar_sized,
                 "vix_sizing": mult,
+                "sizing_score": sizing_score,
+                "sizing_mult": sizing_mult,
                 "vix": round(vix, 1) if vix else None,
                 "hold_minutes": hold_min,
                 "peak_pnl": round(t.peak_pnl * 100, 2),

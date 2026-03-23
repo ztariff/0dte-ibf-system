@@ -5,16 +5,93 @@ Runs all 10 strategies with VIX tiered sizing across the full dataset.
 Outputs: calendar_trades.json
 """
 
-import sys, os, json, math
+import sys, os, json, math, csv
+from datetime import datetime
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 from research.data import DataUniverse
 from research.exits import profit_target, time_stop, wing_stop, loss_stop, standard_exits
 from research.sweep import run_sweep, ibf_factory, ic_factory
+from sizing_scores import SCORE_FUNCTIONS, score_to_multiplier, compute_sizing
 
 universe = DataUniverse()
 universe.load(load_quotes=False)
 all_dates = universe.trading_dates()
+
+# Load CSV regime data for scoring context
+_DIR = os.path.dirname(os.path.abspath(__file__))
+csv_by_date = {}
+csv_path = os.path.join(_DIR, "research_all_trades.csv")
+if os.path.exists(csv_path):
+    with open(csv_path, newline='') as f:
+        reader = csv.DictReader(f)
+        for row in reader:
+            d = row.get("date", "")[:10]
+            csv_by_date[d] = row
+
+# Load VIX9D data for term structure
+vix9d_data = {}
+vix9d_path = os.path.join(_DIR, "vix9d_daily.json")
+if os.path.exists(vix9d_path):
+    with open(vix9d_path) as f:
+        vix9d_data = json.load(f)
+
+def _build_scoring_context(date, vix, entry_credit=None, structure_name=None):
+    """Build scoring context dict from CSV regime data + trade info."""
+    csv_row = csv_by_date.get(date, {})
+    ctx = {}
+    # From CSV
+    ctx["prior_dir"] = csv_row.get("prior_day_direction", "")
+    try: ctx["prior_1d"] = float(csv_row["prior_day_return"])
+    except: ctx["prior_1d"] = None
+    try: ctx["prior_5d"] = float(csv_row["prior_5d_return"])
+    except: ctx["prior_5d"] = None
+    try: ctx["rv"] = float(csv_row["rv"])
+    except: ctx["rv"] = None
+    ctx["vix"] = vix
+    ctx["rv_slope"] = csv_row.get("rv_slope", "")
+    try: ctx["vp_ratio"] = float(csv_row["vp_ratio"])
+    except: ctx["vp_ratio"] = None
+    try: ctx["prior_day_range"] = float(csv_row["prior_day_range"])
+    except: ctx["prior_day_range"] = None
+    iwr = csv_row.get("in_prior_week_range", "")
+    if iwr and iwr not in ("", "nan"):
+        try: ctx["in_prior_week_range"] = bool(int(float(iwr)))
+        except: ctx["in_prior_week_range"] = None
+    else:
+        ctx["in_prior_week_range"] = None
+    # Gap
+    try: ctx["gap_pct"] = float(csv_row.get("gap_pct", 0))
+    except: ctx["gap_pct"] = None
+    # DOW
+    try:
+        dt = datetime.strptime(date, "%Y-%m-%d")
+        ctx["dow"] = dt.strftime("%A")
+    except: ctx["dow"] = ""
+    # Term structure from VIX9D/VIX
+    v9d = vix9d_data.get(date)
+    if v9d is not None and vix is not None and vix > 0:
+        try:
+            ratio = float(v9d) / vix
+            ctx["vix9d_vix_ratio"] = ratio
+            ctx["ts_label"] = "INVERTED" if ratio < 0.90 else ("CONTANGO" if ratio > 1.02 else "FLAT")
+        except:
+            ctx["ts_label"] = ""
+            ctx["vix9d_vix_ratio"] = None
+    else:
+        ctx["ts_label"] = ""
+        ctx["vix9d_vix_ratio"] = None
+    # Credit/wing % for Morning Decel
+    if entry_credit is not None and structure_name:
+        try:
+            parts = structure_name.split("_")
+            wing = int(parts[-1].replace("w", ""))
+            ctx["credit_wing_pct"] = float(entry_credit) / wing if wing > 0 else None
+        except:
+            ctx["credit_wing_pct"] = None
+    else:
+        ctx["credit_wing_pct"] = None
+    return ctx
 
 def vix_size(date):
     vix = universe.ctx(date, 'vix_prior_close')
@@ -95,9 +172,23 @@ for sname, short, color, sfn, et, exit_fn, pre_fn, intra_fn, risk_budget, grade 
         except:
             pass
 
+        # Compute sizing score
+        scoring_ctx = _build_scoring_context(t.date, vix, t.entry_credit, t.structure_name)
+        score_fn = SCORE_FUNCTIONS.get(sname)
+        if score_fn is not None:
+            sizing_score = score_fn(scoring_ctx)
+            sizing_mult = score_to_multiplier(sizing_score, sname)
+        else:
+            sizing_score = 0
+            sizing_mult = 1.0
+
+        # Apply sizing score to budget
+        scored_budget = sized_budget * sizing_mult
+        scored_contracts = max(1, int(scored_budget / (max_risk_per_spread * 100))) if max_risk_per_spread > 0 else 1
+
         # Dollar P&L with full sizing: per-spread P&L * 100 * contracts
-        pnl_dollar_sized = round(t.pnl_per_spread * 100 * contracts, 0)
-        risk_deployed = round(max_risk_per_spread * 100 * contracts, 0)
+        pnl_dollar_sized = round(t.pnl_per_spread * 100 * scored_contracts, 0)
+        risk_deployed = round(max_risk_per_spread * 100 * scored_contracts, 0)
 
         trade_record = {
             "date": t.date,
@@ -111,11 +202,13 @@ for sname, short, color, sfn, et, exit_fn, pre_fn, intra_fn, risk_budget, grade 
             "exit_type": t.exit_type,
             "entry_credit": round(t.entry_credit, 2),
             "pnl_per_spread": round(t.pnl_per_spread, 2),
-            "contracts": contracts,
+            "contracts": scored_contracts,
             "risk_budget": risk_budget,
             "risk_deployed": risk_deployed,
             "pnl_dollar_sized": pnl_dollar_sized,
             "vix_sizing": mult,
+            "sizing_score": sizing_score,
+            "sizing_mult": sizing_mult,
             "vix": round(vix, 1) if vix else None,
             "hold_minutes": hold_min,
             "peak_pnl": round(t.peak_pnl * 100, 2),

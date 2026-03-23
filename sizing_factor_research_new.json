@@ -1,0 +1,7122 @@
+{
+  "Firebird 60 Final Bell": {
+    "name": "Firebird 60 Final Bell",
+    "n": 507,
+    "total_pnl": 740030.0,
+    "factors": {
+      "VIX Level": {
+        "buckets": {
+          "VIX 14-17": {
+            "n": 189,
+            "total_pnl": 325629,
+            "mean_pnl": 1723,
+            "win_rate": 76.7,
+            "std": 4736,
+            "max_loss": -34170,
+            "max_win": 11775,
+            "sharpe": 0.36
+          },
+          "VIX 17-20": {
+            "n": 144,
+            "total_pnl": 180240,
+            "mean_pnl": 1252,
+            "win_rate": 70.1,
+            "std": 3368,
+            "max_loss": -12135,
+            "max_win": 11820,
+            "sharpe": 0.37
+          },
+          "VIX<14": {
+            "n": 54,
+            "total_pnl": 188460,
+            "mean_pnl": 3490,
+            "win_rate": 83.3,
+            "std": 3382,
+            "max_loss": -6146,
+            "max_win": 12194,
+            "sharpe": 1.03
+          },
+          "VIX>20": {
+            "n": 119,
+            "total_pnl": 36461,
+            "mean_pnl": 306,
+            "win_rate": 72.3,
+            "std": 2292,
+            "max_loss": -15764,
+            "max_win": 5523,
+            "sharpe": 0.13
+          }
+        },
+        "comparisons": [
+          {
+            "best": "VIX<14",
+            "worst": "VIX>20",
+            "t_stat": 6.292,
+            "p_value": 0.0,
+            "significant_10": true,
+            "significant_05": true
+          }
+        ]
+      },
+      "VP Ratio": {
+        "buckets": {
+          "VP 1.0-1.3": {
+            "n": 114,
+            "total_pnl": 116483,
+            "mean_pnl": 1022,
+            "win_rate": 71.9,
+            "std": 4237,
+            "max_loss": -20485,
+            "max_win": 12194,
+            "sharpe": 0.24
+          },
+          "VP 1.3-1.7": {
+            "n": 118,
+            "total_pnl": 190713,
+            "mean_pnl": 1616,
+            "win_rate": 71.2,
+            "std": 3309,
+            "max_loss": -6146,
+            "max_win": 11820,
+            "sharpe": 0.49
+          },
+          "VP<1.0": {
+            "n": 60,
+            "total_pnl": 27883,
+            "mean_pnl": 465,
+            "win_rate": 70.0,
+            "std": 3823,
+            "max_loss": -21714,
+            "max_win": 8736,
+            "sharpe": 0.12
+          },
+          "VP>1.7": {
+            "n": 109,
+            "total_pnl": 204173,
+            "mean_pnl": 1873,
+            "win_rate": 78.0,
+            "std": 4715,
+            "max_loss": -34170,
+            "max_win": 11775,
+            "sharpe": 0.4
+          }
+        },
+        "comparisons": [
+          {
+            "best": "VP>1.7",
+            "worst": "VP<1.0",
+            "t_stat": 2.105,
+            "p_value": 0.037,
+            "significant_10": true,
+            "significant_05": true
+          }
+        ]
+      },
+      "Gap Direction": {
+        "buckets": {
+          "Gap DOWN": {
+            "n": 87,
+            "total_pnl": 80085,
+            "mean_pnl": 921,
+            "win_rate": 77.0,
+            "std": 3593,
+            "max_loss": -15764,
+            "max_win": 12194,
+            "sharpe": 0.26
+          },
+          "Gap FLAT": {
+            "n": 208,
+            "total_pnl": 292405,
+            "mean_pnl": 1406,
+            "win_rate": 71.6,
+            "std": 4730,
+            "max_loss": -34170,
+            "max_win": 11820,
+            "sharpe": 0.3
+          },
+          "Gap UP": {
+            "n": 118,
+            "total_pnl": 167951,
+            "mean_pnl": 1423,
+            "win_rate": 72.9,
+            "std": 2850,
+            "max_loss": -3115,
+            "max_win": 11242,
+            "sharpe": 0.5
+          }
+        },
+        "comparisons": [
+          {
+            "best": "Gap UP",
+            "worst": "Gap DOWN",
+            "t_stat": 1.079,
+            "p_value": 0.2823,
+            "significant_10": false,
+            "significant_05": false
+          }
+        ]
+      },
+      "Day of Week": {
+        "buckets": {
+          "Friday": {
+            "n": 112,
+            "total_pnl": 194021,
+            "mean_pnl": 1732,
+            "win_rate": 79.5,
+            "std": 2953,
+            "max_loss": -6210,
+            "max_win": 10682,
+            "sharpe": 0.59
+          },
+          "Monday": {
+            "n": 78,
+            "total_pnl": 126218,
+            "mean_pnl": 1618,
+            "win_rate": 85.9,
+            "std": 2548,
+            "max_loss": -4214,
+            "max_win": 9394,
+            "sharpe": 0.64
+          },
+          "Thursday": {
+            "n": 112,
+            "total_pnl": 186482,
+            "mean_pnl": 1665,
+            "win_rate": 75.9,
+            "std": 3813,
+            "max_loss": -21714,
+            "max_win": 11242,
+            "sharpe": 0.44
+          },
+          "Tuesday": {
+            "n": 97,
+            "total_pnl": 147819,
+            "mean_pnl": 1524,
+            "win_rate": 69.1,
+            "std": 3984,
+            "max_loss": -15764,
+            "max_win": 9758,
+            "sharpe": 0.38
+          },
+          "Wednesday": {
+            "n": 108,
+            "total_pnl": 85490,
+            "mean_pnl": 792,
+            "win_rate": 64.8,
+            "std": 5167,
+            "max_loss": -34170,
+            "max_win": 12194,
+            "sharpe": 0.15
+          }
+        },
+        "comparisons": [
+          {
+            "best": "Friday",
+            "worst": "Wednesday",
+            "t_stat": 1.65,
+            "p_value": 0.1008,
+            "significant_10": false,
+            "significant_05": false
+          }
+        ]
+      },
+      "RV Slope": {
+        "buckets": {
+          "FALLING": {
+            "n": 130,
+            "total_pnl": 146478,
+            "mean_pnl": 1127,
+            "win_rate": 73.8,
+            "std": 4633,
+            "max_loss": -34170,
+            "max_win": 11820,
+            "sharpe": 0.24
+          },
+          "RISING": {
+            "n": 89,
+            "total_pnl": 121447,
+            "mean_pnl": 1365,
+            "win_rate": 73.0,
+            "std": 3021,
+            "max_loss": -12135,
+            "max_win": 9646,
+            "sharpe": 0.45
+          },
+          "STABLE": {
+            "n": 182,
+            "total_pnl": 271327,
+            "mean_pnl": 1491,
+            "win_rate": 72.5,
+            "std": 4131,
+            "max_loss": -21714,
+            "max_win": 12194,
+            "sharpe": 0.36
+          }
+        },
+        "comparisons": [
+          {
+            "best": "STABLE",
+            "worst": "FALLING",
+            "t_stat": 0.716,
+            "p_value": 0.4749,
+            "significant_10": false,
+            "significant_05": false
+          }
+        ]
+      },
+      "Term Structure": {
+        "buckets": {
+          "CONTANGO": {
+            "n": 205,
+            "total_pnl": 335581,
+            "mean_pnl": 1637,
+            "win_rate": 72.2,
+            "std": 3985,
+            "max_loss": -34170,
+            "max_win": 12194,
+            "sharpe": 0.41
+          },
+          "FLAT": {
+            "n": 139,
+            "total_pnl": 154198,
+            "mean_pnl": 1109,
+            "win_rate": 74.8,
+            "std": 4199,
+            "max_loss": -21714,
+            "max_win": 11242,
+            "sharpe": 0.26
+          },
+          "INVERTED": {
+            "n": 57,
+            "total_pnl": 49473,
+            "mean_pnl": 868,
+            "win_rate": 71.9,
+            "std": 4140,
+            "max_loss": -20485,
+            "max_win": 11820,
+            "sharpe": 0.21
+          }
+        },
+        "comparisons": [
+          {
+            "best": "CONTANGO",
+            "worst": "INVERTED",
+            "t_stat": 1.251,
+            "p_value": 0.2144,
+            "significant_10": false,
+            "significant_05": false
+          }
+        ]
+      },
+      "Prior Day Dir": {
+        "buckets": {
+          "DOWN": {
+            "n": 171,
+            "total_pnl": 160621,
+            "mean_pnl": 939,
+            "win_rate": 69.6,
+            "std": 3761,
+            "max_loss": -21714,
+            "max_win": 9646,
+            "sharpe": 0.25
+          },
+          "FLAT": {
+            "n": 57,
+            "total_pnl": 78857,
+            "mean_pnl": 1383,
+            "win_rate": 77.2,
+            "std": 5729,
+            "max_loss": -34170,
+            "max_win": 11820,
+            "sharpe": 0.24
+          },
+          "UP": {
+            "n": 173,
+            "total_pnl": 299774,
+            "mean_pnl": 1733,
+            "win_rate": 75.1,
+            "std": 3715,
+            "max_loss": -15764,
+            "max_win": 12194,
+            "sharpe": 0.47
+          }
+        },
+        "comparisons": [
+          {
+            "best": "UP",
+            "worst": "DOWN",
+            "t_stat": 1.968,
+            "p_value": 0.0498,
+            "significant_10": true,
+            "significant_05": true
+          }
+        ]
+      },
+      "5d Return": {
+        "buckets": {
+          "5d -0.5 to 0.5%": {
+            "n": 92,
+            "total_pnl": 141792,
+            "mean_pnl": 1541,
+            "win_rate": 76.1,
+            "std": 5189,
+            "max_loss": -34170,
+            "max_win": 9646,
+            "sharpe": 0.3
+          },
+          "5d 0.5-1.5%": {
+            "n": 102,
+            "total_pnl": 145620,
+            "mean_pnl": 1428,
+            "win_rate": 72.5,
+            "std": 3157,
+            "max_loss": -6210,
+            "max_win": 11775,
+            "sharpe": 0.45
+          },
+          "5d<-0.5%": {
+            "n": 127,
+            "total_pnl": 51476,
+            "mean_pnl": 405,
+            "win_rate": 66.1,
+            "std": 3987,
+            "max_loss": -21714,
+            "max_win": 9418,
+            "sharpe": 0.1
+          },
+          "5d>1.5%": {
+            "n": 80,
+            "total_pnl": 200364,
+            "mean_pnl": 2505,
+            "win_rate": 81.2,
+            "std": 3534,
+            "max_loss": -6146,
+            "max_win": 12194,
+            "sharpe": 0.71
+          }
+        },
+        "comparisons": [
+          {
+            "best": "5d>1.5%",
+            "worst": "5d<-0.5%",
+            "t_stat": 3.958,
+            "p_value": 0.0001,
+            "significant_10": true,
+            "significant_05": true
+          }
+        ]
+      },
+      "Prior Day |Ret|": {
+        "buckets": {
+          "|1d| 0.3-0.7%": {
+            "n": 119,
+            "total_pnl": 108613,
+            "mean_pnl": 913,
+            "win_rate": 68.1,
+            "std": 5025,
+            "max_loss": -34170,
+            "max_win": 12194,
+            "sharpe": 0.18
+          },
+          "|1d| 0.7-1.2%": {
+            "n": 83,
+            "total_pnl": 137883,
+            "mean_pnl": 1661,
+            "win_rate": 79.5,
+            "std": 3374,
+            "max_loss": -12135,
+            "max_win": 9408,
+            "sharpe": 0.49
+          },
+          "|1d|<0.3%": {
+            "n": 140,
+            "total_pnl": 260565,
+            "mean_pnl": 1861,
+            "win_rate": 74.3,
+            "std": 3158,
+            "max_loss": -6048,
+            "max_win": 11820,
+            "sharpe": 0.59
+          },
+          "|1d|>1.2%": {
+            "n": 59,
+            "total_pnl": 32191,
+            "mean_pnl": 546,
+            "win_rate": 71.2,
+            "std": 4673,
+            "max_loss": -20485,
+            "max_win": 10682,
+            "sharpe": 0.12
+          }
+        },
+        "comparisons": [
+          {
+            "best": "|1d|<0.3%",
+            "worst": "|1d|>1.2%",
+            "t_stat": 1.98,
+            "p_value": 0.051,
+            "significant_10": true,
+            "significant_05": false
+          }
+        ]
+      },
+      "In Prior Wk Range": {
+        "buckets": {
+          "In Range": {
+            "n": 263,
+            "total_pnl": 299712,
+            "mean_pnl": 1140,
+            "win_rate": 71.9,
+            "std": 4401,
+            "max_loss": -34170,
+            "max_win": 12194,
+            "sharpe": 0.26
+          },
+          "Out Range": {
+            "n": 138,
+            "total_pnl": 239540,
+            "mean_pnl": 1736,
+            "win_rate": 75.4,
+            "std": 3379,
+            "max_loss": -7695,
+            "max_win": 10682,
+            "sharpe": 0.51
+          }
+        },
+        "comparisons": [
+          {
+            "best": "Out Range",
+            "worst": "In Range",
+            "t_stat": 1.508,
+            "p_value": 0.1326,
+            "significant_10": false,
+            "significant_05": false
+          }
+        ]
+      },
+      "Credit/Wing %": {
+        "buckets": {
+          "Credit 25-35%": {
+            "n": 41,
+            "total_pnl": -20758,
+            "mean_pnl": -506,
+            "win_rate": 73.2,
+            "std": 6899,
+            "max_loss": -34170,
+            "max_win": 9418,
+            "sharpe": -0.07
+          },
+          "Credit 35-45%": {
+            "n": 7,
+            "total_pnl": 4280,
+            "mean_pnl": 611,
+            "win_rate": 57.1,
+            "std": 1560,
+            "max_loss": -1180,
+            "max_win": 3400,
+            "sharpe": 0.39
+          },
+          "Credit<25%": {
+            "n": 452,
+            "total_pnl": 751013,
+            "mean_pnl": 1662,
+            "win_rate": 75.0,
+            "std": 3462,
+            "max_loss": -21714,
+            "max_win": 12194,
+            "sharpe": 0.48
+          },
+          "Credit>45%": {
+            "n": 7,
+            "total_pnl": 5495,
+            "mean_pnl": 785,
+            "win_rate": 71.4,
+            "std": 1717,
+            "max_loss": -2200,
+            "max_win": 3048,
+            "sharpe": 0.46
+          }
+        },
+        "comparisons": [
+          {
+            "best": "Credit<25%",
+            "worst": "Credit 25-35%",
+            "t_stat": 1.989,
+            "p_value": 0.0532,
+            "significant_10": true,
+            "significant_05": false
+          }
+        ]
+      },
+      "RV Level": {
+        "buckets": {
+          "RV 12-18": {
+            "n": 130,
+            "total_pnl": 131148,
+            "mean_pnl": 1009,
+            "win_rate": 68.5,
+            "std": 4203,
+            "max_loss": -21714,
+            "max_win": 9646,
+            "sharpe": 0.24
+          },
+          "RV 8-12": {
+            "n": 135,
+            "total_pnl": 314970,
+            "mean_pnl": 2333,
+            "win_rate": 76.3,
+            "std": 3636,
+            "max_loss": -5400,
+            "max_win": 12194,
+            "sharpe": 0.64
+          },
+          "RV<8": {
+            "n": 56,
+            "total_pnl": 80169,
+            "mean_pnl": 1432,
+            "win_rate": 78.6,
+            "std": 5755,
+            "max_loss": -34170,
+            "max_win": 10332,
+            "sharpe": 0.25
+          },
+          "RV>18": {
+            "n": 80,
+            "total_pnl": 12965,
+            "mean_pnl": 162,
+            "win_rate": 71.2,
+            "std": 2613,
+            "max_loss": -15764,
+            "max_win": 5436,
+            "sharpe": 0.06
+          }
+        },
+        "comparisons": [
+          {
+            "best": "RV 8-12",
+            "worst": "RV>18",
+            "t_stat": 5.071,
+            "p_value": 0.0,
+            "significant_10": true,
+            "significant_05": true
+          }
+        ]
+      },
+      "Prior Day Range": {
+        "buckets": {
+          "DayRng 0.3-0.6%": {
+            "n": 67,
+            "total_pnl": 129669,
+            "mean_pnl": 1935,
+            "win_rate": 73.1,
+            "std": 5844,
+            "max_loss": -34170,
+            "max_win": 12194,
+            "sharpe": 0.33
+          },
+          "DayRng 0.6-1.0%": {
+            "n": 157,
+            "total_pnl": 274911,
+            "mean_pnl": 1751,
+            "win_rate": 75.2,
+            "std": 4061,
+            "max_loss": -21714,
+            "max_win": 11775,
+            "sharpe": 0.43
+          },
+          "DayRng<0.3%": {
+            "n": 5,
+            "total_pnl": 14552,
+            "mean_pnl": 2910,
+            "win_rate": 100.0,
+            "std": 1940,
+            "max_loss": 572,
+            "max_win": 4886,
+            "sharpe": 1.5
+          },
+          "DayRng>1.0%": {
+            "n": 172,
+            "total_pnl": 120120,
+            "mean_pnl": 698,
+            "win_rate": 70.3,
+            "std": 3150,
+            "max_loss": -20485,
+            "max_win": 9418,
+            "sharpe": 0.22
+          }
+        },
+        "comparisons": [
+          {
+            "best": "DayRng<0.3%",
+            "worst": "DayRng>1.0%",
+            "t_stat": 2.457,
+            "p_value": 0.0613,
+            "significant_10": true,
+            "significant_05": false
+          }
+        ]
+      },
+      "VIX9D/VIX Ratio": {
+        "buckets": {
+          "V9D/V 0.85-0.95": {
+            "n": 147,
+            "total_pnl": 254791,
+            "mean_pnl": 1733,
+            "win_rate": 78.2,
+            "std": 3314,
+            "max_loss": -15764,
+            "max_win": 12194,
+            "sharpe": 0.52
+          },
+          "V9D/V 0.95-1.05": {
+            "n": 112,
+            "total_pnl": 115305,
+            "mean_pnl": 1030,
+            "win_rate": 64.3,
+            "std": 4658,
+            "max_loss": -21714,
+            "max_win": 11242,
+            "sharpe": 0.22
+          },
+          "V9D/V<0.85": {
+            "n": 94,
+            "total_pnl": 156175,
+            "mean_pnl": 1661,
+            "win_rate": 74.5,
+            "std": 2770,
+            "max_loss": -3393,
+            "max_win": 10682,
+            "sharpe": 0.6
+          },
+          "V9D/V>1.05": {
+            "n": 44,
+            "total_pnl": 7523,
+            "mean_pnl": 171,
+            "win_rate": 77.3,
+            "std": 6489,
+            "max_loss": -34170,
+            "max_win": 11820,
+            "sharpe": 0.03
+          }
+        },
+        "comparisons": [
+          {
+            "best": "V9D/V 0.85-0.95",
+            "worst": "V9D/V>1.05",
+            "t_stat": 1.538,
+            "p_value": 0.1304,
+            "significant_10": false,
+            "significant_05": false
+          }
+        ]
+      }
+    }
+  },
+  "Firebird 60 Last Hour": {
+    "name": "Firebird 60 Last Hour",
+    "n": 669,
+    "total_pnl": 1549715.0,
+    "factors": {
+      "VIX Level": {
+        "buckets": {
+          "VIX 14-17": {
+            "n": 254,
+            "total_pnl": 639544,
+            "mean_pnl": 2518,
+            "win_rate": 74.0,
+            "std": 7962,
+            "max_loss": -39900,
+            "max_win": 28410,
+            "sharpe": 0.32
+          },
+          "VIX 17-20": {
+            "n": 179,
+            "total_pnl": 303564,
+            "mean_pnl": 1696,
+            "win_rate": 72.6,
+            "std": 9464,
+            "max_loss": -43800,
+            "max_win": 27115,
+            "sharpe": 0.18
+          },
+          "VIX<14": {
+            "n": 106,
+            "total_pnl": 399752,
+            "mean_pnl": 3771,
+            "win_rate": 78.3,
+            "std": 6297,
+            "max_loss": -14174,
+            "max_win": 17841,
+            "sharpe": 0.6
+          },
+          "VIX>20": {
+            "n": 128,
+            "total_pnl": 188085,
+            "mean_pnl": 1469,
+            "win_rate": 72.7,
+            "std": 5414,
+            "max_loss": -22542,
+            "max_win": 22659,
+            "sharpe": 0.27
+          }
+        },
+        "comparisons": [
+          {
+            "best": "VIX<14",
+            "worst": "VIX>20",
+            "t_stat": 2.964,
+            "p_value": 0.0034,
+            "significant_10": true,
+            "significant_05": true
+          }
+        ]
+      },
+      "VP Ratio": {
+        "buckets": {
+          "VP 1.0-1.3": {
+            "n": 133,
+            "total_pnl": 160626,
+            "mean_pnl": 1208,
+            "win_rate": 72.9,
+            "std": 7967,
+            "max_loss": -35644,
+            "max_win": 22659,
+            "sharpe": 0.15
+          },
+          "VP 1.3-1.7": {
+            "n": 145,
+            "total_pnl": 394272,
+            "mean_pnl": 2719,
+            "win_rate": 75.9,
+            "std": 6404,
+            "max_loss": -24738,
+            "max_win": 22050,
+            "sharpe": 0.42
+          },
+          "VP<1.0": {
+            "n": 68,
+            "total_pnl": 59076,
+            "mean_pnl": 869,
+            "win_rate": 66.2,
+            "std": 8131,
+            "max_loss": -24486,
+            "max_win": 20820,
+            "sharpe": 0.11
+          },
+          "VP>1.7": {
+            "n": 145,
+            "total_pnl": 424023,
+            "mean_pnl": 2924,
+            "win_rate": 75.2,
+            "std": 7600,
+            "max_loss": -39900,
+            "max_win": 28410,
+            "sharpe": 0.38
+          }
+        },
+        "comparisons": [
+          {
+            "best": "VP>1.7",
+            "worst": "VP<1.0",
+            "t_stat": 1.756,
+            "p_value": 0.0816,
+            "significant_10": true,
+            "significant_05": false
+          }
+        ]
+      },
+      "Gap Direction": {
+        "buckets": {
+          "Gap DOWN": {
+            "n": 94,
+            "total_pnl": 115217,
+            "mean_pnl": 1226,
+            "win_rate": 70.2,
+            "std": 8097,
+            "max_loss": -33792,
+            "max_win": 22659,
+            "sharpe": 0.15
+          },
+          "Gap FLAT": {
+            "n": 264,
+            "total_pnl": 618074,
+            "mean_pnl": 2341,
+            "win_rate": 74.6,
+            "std": 7830,
+            "max_loss": -39900,
+            "max_win": 28410,
+            "sharpe": 0.3
+          },
+          "Gap UP": {
+            "n": 148,
+            "total_pnl": 279119,
+            "mean_pnl": 1886,
+            "win_rate": 71.6,
+            "std": 6942,
+            "max_loss": -24486,
+            "max_win": 22050,
+            "sharpe": 0.27
+          }
+        },
+        "comparisons": [
+          {
+            "best": "Gap FLAT",
+            "worst": "Gap DOWN",
+            "t_stat": 1.157,
+            "p_value": 0.249,
+            "significant_10": false,
+            "significant_05": false
+          }
+        ]
+      },
+      "Day of Week": {
+        "buckets": {
+          "Friday": {
+            "n": 139,
+            "total_pnl": 391630,
+            "mean_pnl": 2817,
+            "win_rate": 72.7,
+            "std": 6548,
+            "max_loss": -15876,
+            "max_win": 20820,
+            "sharpe": 0.43
+          },
+          "Monday": {
+            "n": 125,
+            "total_pnl": 321628,
+            "mean_pnl": 2573,
+            "win_rate": 79.2,
+            "std": 7000,
+            "max_loss": -33792,
+            "max_win": 22659,
+            "sharpe": 0.37
+          },
+          "Thursday": {
+            "n": 136,
+            "total_pnl": 231222,
+            "mean_pnl": 1700,
+            "win_rate": 74.3,
+            "std": 6957,
+            "max_loss": -38940,
+            "max_win": 14725,
+            "sharpe": 0.24
+          },
+          "Tuesday": {
+            "n": 132,
+            "total_pnl": 416333,
+            "mean_pnl": 3154,
+            "win_rate": 76.5,
+            "std": 6440,
+            "max_loss": -24486,
+            "max_win": 15456,
+            "sharpe": 0.49
+          },
+          "Wednesday": {
+            "n": 137,
+            "total_pnl": 188902,
+            "mean_pnl": 1379,
+            "win_rate": 68.6,
+            "std": 10889,
+            "max_loss": -43800,
+            "max_win": 28410,
+            "sharpe": 0.13
+          }
+        },
+        "comparisons": [
+          {
+            "best": "Tuesday",
+            "worst": "Wednesday",
+            "t_stat": 1.634,
+            "p_value": 0.1036,
+            "significant_10": false,
+            "significant_05": false
+          }
+        ]
+      },
+      "RV Slope": {
+        "buckets": {
+          "FALLING": {
+            "n": 167,
+            "total_pnl": 390382,
+            "mean_pnl": 2338,
+            "win_rate": 72.5,
+            "std": 8441,
+            "max_loss": -39900,
+            "max_win": 27115,
+            "sharpe": 0.28
+          },
+          "RISING": {
+            "n": 113,
+            "total_pnl": 246105,
+            "mean_pnl": 2178,
+            "win_rate": 71.7,
+            "std": 6646,
+            "max_loss": -24486,
+            "max_win": 28410,
+            "sharpe": 0.33
+          },
+          "STABLE": {
+            "n": 211,
+            "total_pnl": 401510,
+            "mean_pnl": 1903,
+            "win_rate": 75.4,
+            "std": 7106,
+            "max_loss": -35644,
+            "max_win": 21616,
+            "sharpe": 0.27
+          }
+        },
+        "comparisons": [
+          {
+            "best": "FALLING",
+            "worst": "STABLE",
+            "t_stat": 0.533,
+            "p_value": 0.5946,
+            "significant_10": false,
+            "significant_05": false
+          }
+        ]
+      },
+      "Term Structure": {
+        "buckets": {
+          "CONTANGO": {
+            "n": 254,
+            "total_pnl": 498478,
+            "mean_pnl": 1963,
+            "win_rate": 74.4,
+            "std": 7333,
+            "max_loss": -39900,
+            "max_win": 22128,
+            "sharpe": 0.27
+          },
+          "FLAT": {
+            "n": 177,
+            "total_pnl": 517000,
+            "mean_pnl": 2921,
+            "win_rate": 75.7,
+            "std": 7506,
+            "max_loss": -23877,
+            "max_win": 28410,
+            "sharpe": 0.39
+          },
+          "INVERTED": {
+            "n": 60,
+            "total_pnl": 22519,
+            "mean_pnl": 375,
+            "win_rate": 63.3,
+            "std": 7782,
+            "max_loss": -26100,
+            "max_win": 22050,
+            "sharpe": 0.05
+          }
+        },
+        "comparisons": [
+          {
+            "best": "FLAT",
+            "worst": "INVERTED",
+            "t_stat": 2.209,
+            "p_value": 0.0295,
+            "significant_10": true,
+            "significant_05": true
+          }
+        ]
+      },
+      "Prior Day Dir": {
+        "buckets": {
+          "DOWN": {
+            "n": 194,
+            "total_pnl": 231153,
+            "mean_pnl": 1192,
+            "win_rate": 66.0,
+            "std": 8351,
+            "max_loss": -26100,
+            "max_win": 28410,
+            "sharpe": 0.14
+          },
+          "FLAT": {
+            "n": 68,
+            "total_pnl": 105145,
+            "mean_pnl": 1546,
+            "win_rate": 73.5,
+            "std": 7763,
+            "max_loss": -39900,
+            "max_win": 21616,
+            "sharpe": 0.2
+          },
+          "UP": {
+            "n": 229,
+            "total_pnl": 701699,
+            "mean_pnl": 3064,
+            "win_rate": 79.9,
+            "std": 6456,
+            "max_loss": -35644,
+            "max_win": 22050,
+            "sharpe": 0.47
+          }
+        },
+        "comparisons": [
+          {
+            "best": "UP",
+            "worst": "DOWN",
+            "t_stat": 2.545,
+            "p_value": 0.0113,
+            "significant_10": true,
+            "significant_05": true
+          }
+        ]
+      },
+      "5d Return": {
+        "buckets": {
+          "5d -0.5 to 0.5%": {
+            "n": 120,
+            "total_pnl": 259426,
+            "mean_pnl": 2162,
+            "win_rate": 70.8,
+            "std": 8069,
+            "max_loss": -39900,
+            "max_win": 20820,
+            "sharpe": 0.27
+          },
+          "5d 0.5-1.5%": {
+            "n": 131,
+            "total_pnl": 249607,
+            "mean_pnl": 1905,
+            "win_rate": 74.8,
+            "std": 7141,
+            "max_loss": -24738,
+            "max_win": 28410,
+            "sharpe": 0.27
+          },
+          "5d<-0.5%": {
+            "n": 130,
+            "total_pnl": 108183,
+            "mean_pnl": 832,
+            "win_rate": 67.7,
+            "std": 8210,
+            "max_loss": -35644,
+            "max_win": 22659,
+            "sharpe": 0.1
+          },
+          "5d>1.5%": {
+            "n": 110,
+            "total_pnl": 420781,
+            "mean_pnl": 3825,
+            "win_rate": 81.8,
+            "std": 5890,
+            "max_loss": -10208,
+            "max_win": 27115,
+            "sharpe": 0.65
+          }
+        },
+        "comparisons": [
+          {
+            "best": "5d>1.5%",
+            "worst": "5d<-0.5%",
+            "t_stat": 3.278,
+            "p_value": 0.0012,
+            "significant_10": true,
+            "significant_05": true
+          }
+        ]
+      },
+      "Prior Day |Ret|": {
+        "buckets": {
+          "|1d| 0.3-0.7%": {
+            "n": 152,
+            "total_pnl": 233839,
+            "mean_pnl": 1538,
+            "win_rate": 73.7,
+            "std": 8036,
+            "max_loss": -39900,
+            "max_win": 17841,
+            "sharpe": 0.19
+          },
+          "|1d| 0.7-1.2%": {
+            "n": 104,
+            "total_pnl": 260957,
+            "mean_pnl": 2509,
+            "win_rate": 73.1,
+            "std": 6746,
+            "max_loss": -17880,
+            "max_win": 22050,
+            "sharpe": 0.37
+          },
+          "|1d|<0.3%": {
+            "n": 168,
+            "total_pnl": 460311,
+            "mean_pnl": 2740,
+            "win_rate": 76.8,
+            "std": 7628,
+            "max_loss": -24738,
+            "max_win": 28410,
+            "sharpe": 0.36
+          },
+          "|1d|>1.2%": {
+            "n": 67,
+            "total_pnl": 82890,
+            "mean_pnl": 1237,
+            "win_rate": 65.7,
+            "std": 6806,
+            "max_loss": -26100,
+            "max_win": 22659,
+            "sharpe": 0.18
+          }
+        },
+        "comparisons": [
+          {
+            "best": "|1d|<0.3%",
+            "worst": "|1d|>1.2%",
+            "t_stat": 1.475,
+            "p_value": 0.1425,
+            "significant_10": false,
+            "significant_05": false
+          }
+        ]
+      },
+      "In Prior Wk Range": {
+        "buckets": {
+          "In Range": {
+            "n": 319,
+            "total_pnl": 685685,
+            "mean_pnl": 2149,
+            "win_rate": 75.2,
+            "std": 7658,
+            "max_loss": -39900,
+            "max_win": 28410,
+            "sharpe": 0.28
+          },
+          "Out Range": {
+            "n": 172,
+            "total_pnl": 352312,
+            "mean_pnl": 2048,
+            "win_rate": 70.3,
+            "std": 7152,
+            "max_loss": -23877,
+            "max_win": 27115,
+            "sharpe": 0.29
+          }
+        },
+        "comparisons": [
+          {
+            "best": "In Range",
+            "worst": "Out Range",
+            "t_stat": 0.146,
+            "p_value": 0.8841,
+            "significant_10": false,
+            "significant_05": false
+          }
+        ]
+      },
+      "Credit/Wing %": {
+        "buckets": {
+          "Credit 25-35%": {
+            "n": 75,
+            "total_pnl": 146053,
+            "mean_pnl": 1947,
+            "win_rate": 68.0,
+            "std": 7531,
+            "max_loss": -26100,
+            "max_win": 22128,
+            "sharpe": 0.26
+          },
+          "Credit 35-45%": {
+            "n": 29,
+            "total_pnl": -27292,
+            "mean_pnl": -941,
+            "win_rate": 62.1,
+            "std": 15750,
+            "max_loss": -43800,
+            "max_win": 27115,
+            "sharpe": -0.06
+          },
+          "Credit<25%": {
+            "n": 555,
+            "total_pnl": 1372983,
+            "mean_pnl": 2474,
+            "win_rate": 75.3,
+            "std": 7129,
+            "max_loss": -38940,
+            "max_win": 22659,
+            "sharpe": 0.35
+          },
+          "Credit>45%": {
+            "n": 10,
+            "total_pnl": 57971,
+            "mean_pnl": 5797,
+            "win_rate": 90.0,
+            "std": 8442,
+            "max_loss": -2128,
+            "max_win": 28410,
+            "sharpe": 0.69
+          }
+        },
+        "comparisons": [
+          {
+            "best": "Credit>45%",
+            "worst": "Credit 35-45%",
+            "t_stat": 1.702,
+            "p_value": 0.0992,
+            "significant_10": true,
+            "significant_05": false
+          }
+        ]
+      },
+      "RV Level": {
+        "buckets": {
+          "RV 12-18": {
+            "n": 151,
+            "total_pnl": 205291,
+            "mean_pnl": 1360,
+            "win_rate": 74.2,
+            "std": 8205,
+            "max_loss": -35644,
+            "max_win": 22659,
+            "sharpe": 0.17
+          },
+          "RV 8-12": {
+            "n": 174,
+            "total_pnl": 549745,
+            "mean_pnl": 3159,
+            "win_rate": 74.7,
+            "std": 6658,
+            "max_loss": -23660,
+            "max_win": 22128,
+            "sharpe": 0.47
+          },
+          "RV<8": {
+            "n": 84,
+            "total_pnl": 263936,
+            "mean_pnl": 3142,
+            "win_rate": 78.6,
+            "std": 8161,
+            "max_loss": -39900,
+            "max_win": 28410,
+            "sharpe": 0.39
+          },
+          "RV>18": {
+            "n": 82,
+            "total_pnl": 19025,
+            "mean_pnl": 232,
+            "win_rate": 64.6,
+            "std": 6520,
+            "max_loss": -23520,
+            "max_win": 13186,
+            "sharpe": 0.04
+          }
+        },
+        "comparisons": [
+          {
+            "best": "RV 8-12",
+            "worst": "RV>18",
+            "t_stat": 3.329,
+            "p_value": 0.0011,
+            "significant_10": true,
+            "significant_05": true
+          }
+        ]
+      },
+      "Prior Day Range": {
+        "buckets": {
+          "DayRng 0.3-0.6%": {
+            "n": 103,
+            "total_pnl": 234889,
+            "mean_pnl": 2280,
+            "win_rate": 75.7,
+            "std": 8313,
+            "max_loss": -39900,
+            "max_win": 28410,
+            "sharpe": 0.27
+          },
+          "DayRng 0.6-1.0%": {
+            "n": 183,
+            "total_pnl": 436160,
+            "mean_pnl": 2383,
+            "win_rate": 74.9,
+            "std": 6570,
+            "max_loss": -23520,
+            "max_win": 22128,
+            "sharpe": 0.36
+          },
+          "DayRng<0.3%": {
+            "n": 7,
+            "total_pnl": 28001,
+            "mean_pnl": 4000,
+            "win_rate": 71.4,
+            "std": 6060,
+            "max_loss": -576,
+            "max_win": 17140,
+            "sharpe": 0.66
+          },
+          "DayRng>1.0%": {
+            "n": 198,
+            "total_pnl": 338947,
+            "mean_pnl": 1712,
+            "win_rate": 71.2,
+            "std": 7869,
+            "max_loss": -35644,
+            "max_win": 27115,
+            "sharpe": 0.22
+          }
+        },
+        "comparisons": [
+          {
+            "best": "DayRng<0.3%",
+            "worst": "DayRng>1.0%",
+            "t_stat": 0.97,
+            "p_value": 0.3654,
+            "significant_10": false,
+            "significant_05": false
+          }
+        ]
+      },
+      "VIX9D/VIX Ratio": {
+        "buckets": {
+          "V9D/V 0.85-0.95": {
+            "n": 190,
+            "total_pnl": 550680,
+            "mean_pnl": 2898,
+            "win_rate": 76.8,
+            "std": 6727,
+            "max_loss": -35644,
+            "max_win": 28410,
+            "sharpe": 0.43
+          },
+          "V9D/V 0.95-1.05": {
+            "n": 131,
+            "total_pnl": 312168,
+            "mean_pnl": 2383,
+            "win_rate": 74.0,
+            "std": 8387,
+            "max_loss": -26100,
+            "max_win": 22050,
+            "sharpe": 0.28
+          },
+          "V9D/V<0.85": {
+            "n": 121,
+            "total_pnl": 192816,
+            "mean_pnl": 1594,
+            "win_rate": 71.1,
+            "std": 6398,
+            "max_loss": -23520,
+            "max_win": 22128,
+            "sharpe": 0.25
+          },
+          "V9D/V>1.05": {
+            "n": 47,
+            "total_pnl": -10137,
+            "mean_pnl": -216,
+            "win_rate": 61.7,
+            "std": 9860,
+            "max_loss": -39900,
+            "max_win": 14098,
+            "sharpe": -0.02
+          }
+        },
+        "comparisons": [
+          {
+            "best": "V9D/V 0.85-0.95",
+            "worst": "V9D/V>1.05",
+            "t_stat": 2.05,
+            "p_value": 0.0449,
+            "significant_10": true,
+            "significant_05": true
+          }
+        ]
+      }
+    }
+  },
+  "Firebird 60 Midday": {
+    "name": "Firebird 60 Midday",
+    "n": 714,
+    "total_pnl": 556721.0,
+    "factors": {
+      "VIX Level": {
+        "buckets": {
+          "VIX 14-17": {
+            "n": 268,
+            "total_pnl": 243181,
+            "mean_pnl": 907,
+            "win_rate": 70.1,
+            "std": 5356,
+            "max_loss": -24948,
+            "max_win": 25194,
+            "sharpe": 0.17
+          },
+          "VIX 17-20": {
+            "n": 185,
+            "total_pnl": 137140,
+            "mean_pnl": 741,
+            "win_rate": 73.0,
+            "std": 5702,
+            "max_loss": -19624,
+            "max_win": 25312,
+            "sharpe": 0.13
+          },
+          "VIX<14": {
+            "n": 125,
+            "total_pnl": 166545,
+            "mean_pnl": 1332,
+            "win_rate": 74.4,
+            "std": 5219,
+            "max_loss": -28742,
+            "max_win": 14190,
+            "sharpe": 0.26
+          },
+          "VIX>20": {
+            "n": 134,
+            "total_pnl": 1352,
+            "mean_pnl": 10,
+            "win_rate": 64.2,
+            "std": 4545,
+            "max_loss": -23904,
+            "max_win": 9744,
+            "sharpe": 0.0
+          }
+        },
+        "comparisons": [
+          {
+            "best": "VIX<14",
+            "worst": "VIX>20",
+            "t_stat": 2.168,
+            "p_value": 0.0311,
+            "significant_10": true,
+            "significant_05": true
+          }
+        ]
+      },
+      "VP Ratio": {
+        "buckets": {
+          "VP 1.0-1.3": {
+            "n": 138,
+            "total_pnl": 186614,
+            "mean_pnl": 1352,
+            "win_rate": 74.6,
+            "std": 4741,
+            "max_loss": -13440,
+            "max_win": 14424,
+            "sharpe": 0.29
+          },
+          "VP 1.3-1.7": {
+            "n": 162,
+            "total_pnl": 243710,
+            "mean_pnl": 1504,
+            "win_rate": 76.5,
+            "std": 4200,
+            "max_loss": -17608,
+            "max_win": 14190,
+            "sharpe": 0.36
+          },
+          "VP<1.0": {
+            "n": 70,
+            "total_pnl": -59755,
+            "mean_pnl": -854,
+            "win_rate": 58.6,
+            "std": 6596,
+            "max_loss": -23904,
+            "max_win": 9891,
+            "sharpe": -0.13
+          },
+          "VP>1.7": {
+            "n": 157,
+            "total_pnl": 87387,
+            "mean_pnl": 557,
+            "win_rate": 71.3,
+            "std": 6435,
+            "max_loss": -28742,
+            "max_win": 25312,
+            "sharpe": 0.09
+          }
+        },
+        "comparisons": [
+          {
+            "best": "VP 1.3-1.7",
+            "worst": "VP<1.0",
+            "t_stat": 2.759,
+            "p_value": 0.007,
+            "significant_10": true,
+            "significant_05": true
+          }
+        ]
+      },
+      "Gap Direction": {
+        "buckets": {
+          "Gap DOWN": {
+            "n": 98,
+            "total_pnl": 88703,
+            "mean_pnl": 905,
+            "win_rate": 72.4,
+            "std": 5306,
+            "max_loss": -19624,
+            "max_win": 9891,
+            "sharpe": 0.17
+          },
+          "Gap FLAT": {
+            "n": 293,
+            "total_pnl": 272682,
+            "mean_pnl": 931,
+            "win_rate": 74.1,
+            "std": 5463,
+            "max_loss": -24948,
+            "max_win": 25312,
+            "sharpe": 0.17
+          },
+          "Gap UP": {
+            "n": 157,
+            "total_pnl": 113268,
+            "mean_pnl": 721,
+            "win_rate": 69.4,
+            "std": 5338,
+            "max_loss": -28742,
+            "max_win": 14424,
+            "sharpe": 0.14
+          }
+        },
+        "comparisons": [
+          {
+            "best": "Gap FLAT",
+            "worst": "Gap UP",
+            "t_stat": 0.393,
+            "p_value": 0.6946,
+            "significant_10": false,
+            "significant_05": false
+          }
+        ]
+      },
+      "Day of Week": {
+        "buckets": {
+          "Friday": {
+            "n": 147,
+            "total_pnl": 104541,
+            "mean_pnl": 711,
+            "win_rate": 70.1,
+            "std": 4794,
+            "max_loss": -19624,
+            "max_win": 9716,
+            "sharpe": 0.15
+          },
+          "Monday": {
+            "n": 127,
+            "total_pnl": 182148,
+            "mean_pnl": 1434,
+            "win_rate": 78.0,
+            "std": 3823,
+            "max_loss": -14262,
+            "max_win": 9744,
+            "sharpe": 0.38
+          },
+          "Thursday": {
+            "n": 147,
+            "total_pnl": 69097,
+            "mean_pnl": 470,
+            "win_rate": 69.4,
+            "std": 5700,
+            "max_loss": -28742,
+            "max_win": 8584,
+            "sharpe": 0.08
+          },
+          "Tuesday": {
+            "n": 147,
+            "total_pnl": 168239,
+            "mean_pnl": 1144,
+            "win_rate": 71.4,
+            "std": 3911,
+            "max_loss": -16618,
+            "max_win": 8728,
+            "sharpe": 0.29
+          },
+          "Wednesday": {
+            "n": 146,
+            "total_pnl": 32696,
+            "mean_pnl": 224,
+            "win_rate": 65.1,
+            "std": 7242,
+            "max_loss": -24948,
+            "max_win": 25312,
+            "sharpe": 0.03
+          }
+        },
+        "comparisons": [
+          {
+            "best": "Monday",
+            "worst": "Wednesday",
+            "t_stat": 1.757,
+            "p_value": 0.0802,
+            "significant_10": true,
+            "significant_05": false
+          }
+        ]
+      },
+      "RV Slope": {
+        "buckets": {
+          "FALLING": {
+            "n": 183,
+            "total_pnl": 285776,
+            "mean_pnl": 1562,
+            "win_rate": 76.0,
+            "std": 5157,
+            "max_loss": -24948,
+            "max_win": 25312,
+            "sharpe": 0.3
+          },
+          "RISING": {
+            "n": 123,
+            "total_pnl": 84835,
+            "mean_pnl": 690,
+            "win_rate": 68.3,
+            "std": 5407,
+            "max_loss": -19624,
+            "max_win": 25194,
+            "sharpe": 0.13
+          },
+          "STABLE": {
+            "n": 221,
+            "total_pnl": 87345,
+            "mean_pnl": 395,
+            "win_rate": 71.0,
+            "std": 5703,
+            "max_loss": -28742,
+            "max_win": 10512,
+            "sharpe": 0.07
+          }
+        },
+        "comparisons": [
+          {
+            "best": "FALLING",
+            "worst": "STABLE",
+            "t_stat": 2.157,
+            "p_value": 0.0316,
+            "significant_10": true,
+            "significant_05": true
+          }
+        ]
+      },
+      "Term Structure": {
+        "buckets": {
+          "CONTANGO": {
+            "n": 271,
+            "total_pnl": 102717,
+            "mean_pnl": 379,
+            "win_rate": 69.7,
+            "std": 5546,
+            "max_loss": -28742,
+            "max_win": 14190,
+            "sharpe": 0.07
+          },
+          "FLAT": {
+            "n": 190,
+            "total_pnl": 249291,
+            "mean_pnl": 1312,
+            "win_rate": 73.2,
+            "std": 5676,
+            "max_loss": -23904,
+            "max_win": 25312,
+            "sharpe": 0.23
+          },
+          "INVERTED": {
+            "n": 66,
+            "total_pnl": 105948,
+            "mean_pnl": 1605,
+            "win_rate": 78.8,
+            "std": 4243,
+            "max_loss": -10915,
+            "max_win": 14424,
+            "sharpe": 0.38
+          }
+        },
+        "comparisons": [
+          {
+            "best": "INVERTED",
+            "worst": "CONTANGO",
+            "t_stat": 1.973,
+            "p_value": 0.0507,
+            "significant_10": true,
+            "significant_05": false
+          }
+        ]
+      },
+      "Prior Day Dir": {
+        "buckets": {
+          "DOWN": {
+            "n": 210,
+            "total_pnl": 176082,
+            "mean_pnl": 838,
+            "win_rate": 68.1,
+            "std": 5835,
+            "max_loss": -23904,
+            "max_win": 25312,
+            "sharpe": 0.14
+          },
+          "FLAT": {
+            "n": 77,
+            "total_pnl": 9210,
+            "mean_pnl": 120,
+            "win_rate": 74.0,
+            "std": 5521,
+            "max_loss": -24948,
+            "max_win": 7028,
+            "sharpe": 0.02
+          },
+          "UP": {
+            "n": 240,
+            "total_pnl": 272664,
+            "mean_pnl": 1136,
+            "win_rate": 75.0,
+            "std": 5097,
+            "max_loss": -28742,
+            "max_win": 14190,
+            "sharpe": 0.22
+          }
+        },
+        "comparisons": [
+          {
+            "best": "UP",
+            "worst": "FLAT",
+            "t_stat": 1.432,
+            "p_value": 0.1549,
+            "significant_10": false,
+            "significant_05": false
+          }
+        ]
+      },
+      "5d Return": {
+        "buckets": {
+          "5d -0.5 to 0.5%": {
+            "n": 128,
+            "total_pnl": 51022,
+            "mean_pnl": 399,
+            "win_rate": 70.3,
+            "std": 5970,
+            "max_loss": -28742,
+            "max_win": 9891,
+            "sharpe": 0.07
+          },
+          "5d 0.5-1.5%": {
+            "n": 139,
+            "total_pnl": 113844,
+            "mean_pnl": 819,
+            "win_rate": 70.5,
+            "std": 5444,
+            "max_loss": -20208,
+            "max_win": 25194,
+            "sharpe": 0.15
+          },
+          "5d<-0.5%": {
+            "n": 136,
+            "total_pnl": 70567,
+            "mean_pnl": 519,
+            "win_rate": 66.9,
+            "std": 5236,
+            "max_loss": -23904,
+            "max_win": 14424,
+            "sharpe": 0.1
+          },
+          "5d>1.5%": {
+            "n": 124,
+            "total_pnl": 222523,
+            "mean_pnl": 1795,
+            "win_rate": 81.5,
+            "std": 5127,
+            "max_loss": -24048,
+            "max_win": 25312,
+            "sharpe": 0.35
+          }
+        },
+        "comparisons": [
+          {
+            "best": "5d>1.5%",
+            "worst": "5d -0.5 to 0.5%",
+            "t_stat": 1.993,
+            "p_value": 0.0473,
+            "significant_10": true,
+            "significant_05": true
+          }
+        ]
+      },
+      "Prior Day |Ret|": {
+        "buckets": {
+          "|1d| 0.3-0.7%": {
+            "n": 161,
+            "total_pnl": 128309,
+            "mean_pnl": 797,
+            "win_rate": 75.2,
+            "std": 5641,
+            "max_loss": -24948,
+            "max_win": 14424,
+            "sharpe": 0.14
+          },
+          "|1d| 0.7-1.2%": {
+            "n": 112,
+            "total_pnl": 164575,
+            "mean_pnl": 1469,
+            "win_rate": 74.1,
+            "std": 4314,
+            "max_loss": -13635,
+            "max_win": 8584,
+            "sharpe": 0.34
+          },
+          "|1d|<0.3%": {
+            "n": 184,
+            "total_pnl": 94590,
+            "mean_pnl": 514,
+            "win_rate": 68.5,
+            "std": 6291,
+            "max_loss": -28742,
+            "max_win": 25312,
+            "sharpe": 0.08
+          },
+          "|1d|>1.2%": {
+            "n": 70,
+            "total_pnl": 70482,
+            "mean_pnl": 1007,
+            "win_rate": 71.4,
+            "std": 4236,
+            "max_loss": -10915,
+            "max_win": 9744,
+            "sharpe": 0.24
+          }
+        },
+        "comparisons": [
+          {
+            "best": "|1d| 0.7-1.2%",
+            "worst": "|1d|<0.3%",
+            "t_stat": 1.547,
+            "p_value": 0.1229,
+            "significant_10": false,
+            "significant_05": false
+          }
+        ]
+      },
+      "In Prior Wk Range": {
+        "buckets": {
+          "In Range": {
+            "n": 342,
+            "total_pnl": 216878,
+            "mean_pnl": 634,
+            "win_rate": 70.8,
+            "std": 5708,
+            "max_loss": -28742,
+            "max_win": 25194,
+            "sharpe": 0.11
+          },
+          "Out Range": {
+            "n": 185,
+            "total_pnl": 241078,
+            "mean_pnl": 1303,
+            "win_rate": 74.6,
+            "std": 4967,
+            "max_loss": -24048,
+            "max_win": 25312,
+            "sharpe": 0.26
+          }
+        },
+        "comparisons": [
+          {
+            "best": "Out Range",
+            "worst": "In Range",
+            "t_stat": 1.399,
+            "p_value": 0.1625,
+            "significant_10": false,
+            "significant_05": false
+          }
+        ]
+      },
+      "Credit/Wing %": {
+        "buckets": {
+          "Credit 25-35%": {
+            "n": 133,
+            "total_pnl": 38495,
+            "mean_pnl": 289,
+            "win_rate": 66.2,
+            "std": 6416,
+            "max_loss": -23904,
+            "max_win": 9744,
+            "sharpe": 0.05
+          },
+          "Credit 35-45%": {
+            "n": 55,
+            "total_pnl": -5881,
+            "mean_pnl": -107,
+            "win_rate": 67.3,
+            "std": 7192,
+            "max_loss": -24948,
+            "max_win": 12750,
+            "sharpe": -0.01
+          },
+          "Credit<25%": {
+            "n": 492,
+            "total_pnl": 475864,
+            "mean_pnl": 967,
+            "win_rate": 73.0,
+            "std": 4287,
+            "max_loss": -28742,
+            "max_win": 8505,
+            "sharpe": 0.23
+          },
+          "Credit>45%": {
+            "n": 34,
+            "total_pnl": 48243,
+            "mean_pnl": 1419,
+            "win_rate": 58.8,
+            "std": 8799,
+            "max_loss": -16874,
+            "max_win": 25312,
+            "sharpe": 0.16
+          }
+        },
+        "comparisons": [
+          {
+            "best": "Credit>45%",
+            "worst": "Credit 35-45%",
+            "t_stat": 0.851,
+            "p_value": 0.3984,
+            "significant_10": false,
+            "significant_05": false
+          }
+        ]
+      },
+      "RV Level": {
+        "buckets": {
+          "RV 12-18": {
+            "n": 156,
+            "total_pnl": 204071,
+            "mean_pnl": 1308,
+            "win_rate": 73.1,
+            "std": 4988,
+            "max_loss": -17608,
+            "max_win": 14424,
+            "sharpe": 0.26
+          },
+          "RV 8-12": {
+            "n": 193,
+            "total_pnl": 249940,
+            "mean_pnl": 1295,
+            "win_rate": 74.1,
+            "std": 4515,
+            "max_loss": -20208,
+            "max_win": 14190,
+            "sharpe": 0.29
+          },
+          "RV<8": {
+            "n": 94,
+            "total_pnl": 54451,
+            "mean_pnl": 579,
+            "win_rate": 72.3,
+            "std": 7069,
+            "max_loss": -28742,
+            "max_win": 25312,
+            "sharpe": 0.08
+          },
+          "RV>18": {
+            "n": 84,
+            "total_pnl": -50506,
+            "mean_pnl": -601,
+            "win_rate": 65.5,
+            "std": 6043,
+            "max_loss": -23904,
+            "max_win": 9891,
+            "sharpe": -0.1
+          }
+        },
+        "comparisons": [
+          {
+            "best": "RV 12-18",
+            "worst": "RV>18",
+            "t_stat": 2.477,
+            "p_value": 0.0144,
+            "significant_10": true,
+            "significant_05": true
+          }
+        ]
+      },
+      "Prior Day Range": {
+        "buckets": {
+          "DayRng 0.3-0.6%": {
+            "n": 119,
+            "total_pnl": 53413,
+            "mean_pnl": 449,
+            "win_rate": 69.7,
+            "std": 5856,
+            "max_loss": -24948,
+            "max_win": 25194,
+            "sharpe": 0.08
+          },
+          "DayRng 0.6-1.0%": {
+            "n": 197,
+            "total_pnl": 134240,
+            "mean_pnl": 681,
+            "win_rate": 70.6,
+            "std": 5349,
+            "max_loss": -28742,
+            "max_win": 14190,
+            "sharpe": 0.13
+          },
+          "DayRng<0.3%": {
+            "n": 7,
+            "total_pnl": 1435,
+            "mean_pnl": 205,
+            "win_rate": 85.7,
+            "std": 4393,
+            "max_loss": -9478,
+            "max_win": 3402,
+            "sharpe": 0.05
+          },
+          "DayRng>1.0%": {
+            "n": 204,
+            "total_pnl": 268868,
+            "mean_pnl": 1318,
+            "win_rate": 74.5,
+            "std": 5373,
+            "max_loss": -23904,
+            "max_win": 25312,
+            "sharpe": 0.25
+          }
+        },
+        "comparisons": [
+          {
+            "best": "DayRng>1.0%",
+            "worst": "DayRng<0.3%",
+            "t_stat": 0.654,
+            "p_value": 0.5353,
+            "significant_10": false,
+            "significant_05": false
+          }
+        ]
+      },
+      "VIX9D/VIX Ratio": {
+        "buckets": {
+          "V9D/V 0.85-0.95": {
+            "n": 204,
+            "total_pnl": 254089,
+            "mean_pnl": 1246,
+            "win_rate": 76.0,
+            "std": 5301,
+            "max_loss": -19624,
+            "max_win": 25312,
+            "sharpe": 0.23
+          },
+          "V9D/V 0.95-1.05": {
+            "n": 141,
+            "total_pnl": 182588,
+            "mean_pnl": 1295,
+            "win_rate": 74.5,
+            "std": 5473,
+            "max_loss": -23904,
+            "max_win": 14424,
+            "sharpe": 0.24
+          },
+          "V9D/V<0.85": {
+            "n": 132,
+            "total_pnl": 100638,
+            "mean_pnl": 762,
+            "win_rate": 70.5,
+            "std": 4235,
+            "max_loss": -20208,
+            "max_win": 14190,
+            "sharpe": 0.18
+          },
+          "V9D/V>1.05": {
+            "n": 52,
+            "total_pnl": -78769,
+            "mean_pnl": -1515,
+            "win_rate": 55.8,
+            "std": 7792,
+            "max_loss": -28742,
+            "max_win": 7800,
+            "sharpe": -0.19
+          }
+        },
+        "comparisons": [
+          {
+            "best": "V9D/V 0.95-1.05",
+            "worst": "V9D/V>1.05",
+            "t_stat": 2.392,
+            "p_value": 0.0194,
+            "significant_10": true,
+            "significant_05": true
+          }
+        ]
+      }
+    }
+  },
+  "Ironclad 35 Condor": {
+    "name": "Ironclad 35 Condor",
+    "n": 525,
+    "total_pnl": 308248.0,
+    "factors": {
+      "VIX Level": {
+        "buckets": {
+          "VIX 14-17": {
+            "n": 196,
+            "total_pnl": 114518,
+            "mean_pnl": 584,
+            "win_rate": 96.4,
+            "std": 2897,
+            "max_loss": -24860,
+            "max_win": 18956,
+            "sharpe": 0.2
+          },
+          "VIX 17-20": {
+            "n": 149,
+            "total_pnl": 87770,
+            "mean_pnl": 589,
+            "win_rate": 94.0,
+            "std": 1651,
+            "max_loss": -6524,
+            "max_win": 12572,
+            "sharpe": 0.36
+          },
+          "VIX<14": {
+            "n": 51,
+            "total_pnl": 31533,
+            "mean_pnl": 618,
+            "win_rate": 100.0,
+            "std": 1228,
+            "max_loss": 21,
+            "max_win": 6816,
+            "sharpe": 0.5
+          },
+          "VIX>20": {
+            "n": 127,
+            "total_pnl": 73566,
+            "mean_pnl": 579,
+            "win_rate": 89.0,
+            "std": 2416,
+            "max_loss": -11297,
+            "max_win": 10112,
+            "sharpe": 0.24
+          }
+        },
+        "comparisons": [
+          {
+            "best": "VIX<14",
+            "worst": "VIX>20",
+            "t_stat": 0.142,
+            "p_value": 0.8872,
+            "significant_10": false,
+            "significant_05": false
+          }
+        ]
+      },
+      "VP Ratio": {
+        "buckets": {
+          "VP 1.0-1.3": {
+            "n": 113,
+            "total_pnl": 96676,
+            "mean_pnl": 856,
+            "win_rate": 94.7,
+            "std": 2187,
+            "max_loss": -5474,
+            "max_win": 18956,
+            "sharpe": 0.39
+          },
+          "VP 1.3-1.7": {
+            "n": 118,
+            "total_pnl": 73868,
+            "mean_pnl": 626,
+            "win_rate": 96.6,
+            "std": 1525,
+            "max_loss": -6524,
+            "max_win": 7566,
+            "sharpe": 0.41
+          },
+          "VP<1.0": {
+            "n": 59,
+            "total_pnl": 6194,
+            "mean_pnl": 105,
+            "win_rate": 81.4,
+            "std": 3222,
+            "max_loss": -11297,
+            "max_win": 7566,
+            "sharpe": 0.03
+          },
+          "VP>1.7": {
+            "n": 113,
+            "total_pnl": 62496,
+            "mean_pnl": 553,
+            "win_rate": 96.5,
+            "std": 3225,
+            "max_loss": -24860,
+            "max_win": 14308,
+            "sharpe": 0.17
+          }
+        },
+        "comparisons": [
+          {
+            "best": "VP 1.0-1.3",
+            "worst": "VP<1.0",
+            "t_stat": 1.607,
+            "p_value": 0.1118,
+            "significant_10": false,
+            "significant_05": false
+          }
+        ]
+      },
+      "Gap Direction": {
+        "buckets": {
+          "Gap DOWN": {
+            "n": 87,
+            "total_pnl": 71189,
+            "mean_pnl": 818,
+            "win_rate": 94.3,
+            "std": 1564,
+            "max_loss": -6630,
+            "max_win": 6100,
+            "sharpe": 0.52
+          },
+          "Gap FLAT": {
+            "n": 208,
+            "total_pnl": 109266,
+            "mean_pnl": 525,
+            "win_rate": 93.8,
+            "std": 3075,
+            "max_loss": -24860,
+            "max_win": 18956,
+            "sharpe": 0.17
+          },
+          "Gap UP": {
+            "n": 123,
+            "total_pnl": 68572,
+            "mean_pnl": 557,
+            "win_rate": 93.5,
+            "std": 1883,
+            "max_loss": -9681,
+            "max_win": 8632,
+            "sharpe": 0.3
+          }
+        },
+        "comparisons": [
+          {
+            "best": "Gap DOWN",
+            "worst": "Gap FLAT",
+            "t_stat": 1.08,
+            "p_value": 0.2811,
+            "significant_10": false,
+            "significant_05": false
+          }
+        ]
+      },
+      "Day of Week": {
+        "buckets": {
+          "Friday": {
+            "n": 112,
+            "total_pnl": 37835,
+            "mean_pnl": 338,
+            "win_rate": 92.9,
+            "std": 1754,
+            "max_loss": -11297,
+            "max_win": 6100,
+            "sharpe": 0.19
+          },
+          "Monday": {
+            "n": 89,
+            "total_pnl": 42872,
+            "mean_pnl": 482,
+            "win_rate": 97.8,
+            "std": 958,
+            "max_loss": -2709,
+            "max_win": 7566,
+            "sharpe": 0.5
+          },
+          "Thursday": {
+            "n": 108,
+            "total_pnl": 53779,
+            "mean_pnl": 498,
+            "win_rate": 92.6,
+            "std": 1404,
+            "max_loss": -5244,
+            "max_win": 5538,
+            "sharpe": 0.35
+          },
+          "Tuesday": {
+            "n": 104,
+            "total_pnl": 29814,
+            "mean_pnl": 287,
+            "win_rate": 97.1,
+            "std": 1311,
+            "max_loss": -9681,
+            "max_win": 2420,
+            "sharpe": 0.22
+          },
+          "Wednesday": {
+            "n": 112,
+            "total_pnl": 143948,
+            "mean_pnl": 1285,
+            "win_rate": 92.0,
+            "std": 4211,
+            "max_loss": -24860,
+            "max_win": 18956,
+            "sharpe": 0.31
+          }
+        },
+        "comparisons": [
+          {
+            "best": "Wednesday",
+            "worst": "Tuesday",
+            "t_stat": 2.388,
+            "p_value": 0.0183,
+            "significant_10": true,
+            "significant_05": true
+          }
+        ]
+      },
+      "RV Slope": {
+        "buckets": {
+          "FALLING": {
+            "n": 140,
+            "total_pnl": 110415,
+            "mean_pnl": 789,
+            "win_rate": 95.7,
+            "std": 2940,
+            "max_loss": -24860,
+            "max_win": 12572,
+            "sharpe": 0.27
+          },
+          "RISING": {
+            "n": 86,
+            "total_pnl": 28468,
+            "mean_pnl": 331,
+            "win_rate": 94.2,
+            "std": 2219,
+            "max_loss": -9681,
+            "max_win": 14308,
+            "sharpe": 0.15
+          },
+          "STABLE": {
+            "n": 177,
+            "total_pnl": 100351,
+            "mean_pnl": 567,
+            "win_rate": 92.1,
+            "std": 2342,
+            "max_loss": -11297,
+            "max_win": 18956,
+            "sharpe": 0.24
+          }
+        },
+        "comparisons": [
+          {
+            "best": "FALLING",
+            "worst": "RISING",
+            "t_stat": 1.327,
+            "p_value": 0.186,
+            "significant_10": false,
+            "significant_05": false
+          }
+        ]
+      },
+      "Term Structure": {
+        "buckets": {
+          "CONTANGO": {
+            "n": 202,
+            "total_pnl": 49703,
+            "mean_pnl": 246,
+            "win_rate": 95.0,
+            "std": 2241,
+            "max_loss": -24860,
+            "max_win": 6816,
+            "sharpe": 0.11
+          },
+          "FLAT": {
+            "n": 144,
+            "total_pnl": 112363,
+            "mean_pnl": 780,
+            "win_rate": 91.7,
+            "std": 2481,
+            "max_loss": -11297,
+            "max_win": 14308,
+            "sharpe": 0.31
+          },
+          "INVERTED": {
+            "n": 57,
+            "total_pnl": 77168,
+            "mean_pnl": 1354,
+            "win_rate": 94.7,
+            "std": 3393,
+            "max_loss": -8190,
+            "max_win": 18956,
+            "sharpe": 0.4
+          }
+        },
+        "comparisons": [
+          {
+            "best": "INVERTED",
+            "worst": "CONTANGO",
+            "t_stat": 2.326,
+            "p_value": 0.0229,
+            "significant_10": true,
+            "significant_05": true
+          }
+        ]
+      },
+      "Prior Day Dir": {
+        "buckets": {
+          "DOWN": {
+            "n": 169,
+            "total_pnl": 82141,
+            "mean_pnl": 486,
+            "win_rate": 89.9,
+            "std": 3548,
+            "max_loss": -24860,
+            "max_win": 18956,
+            "sharpe": 0.14
+          },
+          "FLAT": {
+            "n": 55,
+            "total_pnl": 33470,
+            "mean_pnl": 609,
+            "win_rate": 96.4,
+            "std": 1694,
+            "max_loss": -6524,
+            "max_win": 5880,
+            "sharpe": 0.36
+          },
+          "UP": {
+            "n": 179,
+            "total_pnl": 123623,
+            "mean_pnl": 691,
+            "win_rate": 96.6,
+            "std": 1347,
+            "max_loss": -3652,
+            "max_win": 7878,
+            "sharpe": 0.51
+          }
+        },
+        "comparisons": [
+          {
+            "best": "UP",
+            "worst": "DOWN",
+            "t_stat": 0.703,
+            "p_value": 0.4827,
+            "significant_10": false,
+            "significant_05": false
+          }
+        ]
+      },
+      "5d Return": {
+        "buckets": {
+          "5d -0.5 to 0.5%": {
+            "n": 85,
+            "total_pnl": 54799,
+            "mean_pnl": 645,
+            "win_rate": 96.5,
+            "std": 1985,
+            "max_loss": -9681,
+            "max_win": 7878,
+            "sharpe": 0.32
+          },
+          "5d 0.5-1.5%": {
+            "n": 101,
+            "total_pnl": 36506,
+            "mean_pnl": 361,
+            "win_rate": 95.0,
+            "std": 3409,
+            "max_loss": -24860,
+            "max_win": 14308,
+            "sharpe": 0.11
+          },
+          "5d<-0.5%": {
+            "n": 125,
+            "total_pnl": 85189,
+            "mean_pnl": 682,
+            "win_rate": 89.6,
+            "std": 2589,
+            "max_loss": -8190,
+            "max_win": 18956,
+            "sharpe": 0.26
+          },
+          "5d>1.5%": {
+            "n": 92,
+            "total_pnl": 62740,
+            "mean_pnl": 682,
+            "win_rate": 95.7,
+            "std": 1707,
+            "max_loss": -2898,
+            "max_win": 12572,
+            "sharpe": 0.4
+          }
+        },
+        "comparisons": [
+          {
+            "best": "5d>1.5%",
+            "worst": "5d 0.5-1.5%",
+            "t_stat": 0.837,
+            "p_value": 0.404,
+            "significant_10": false,
+            "significant_05": false
+          }
+        ]
+      },
+      "Prior Day |Ret|": {
+        "buckets": {
+          "|1d| 0.3-0.7%": {
+            "n": 123,
+            "total_pnl": 74140,
+            "mean_pnl": 603,
+            "win_rate": 94.3,
+            "std": 1827,
+            "max_loss": -9681,
+            "max_win": 8632,
+            "sharpe": 0.33
+          },
+          "|1d| 0.7-1.2%": {
+            "n": 91,
+            "total_pnl": 67899,
+            "mean_pnl": 746,
+            "win_rate": 97.8,
+            "std": 1295,
+            "max_loss": -3612,
+            "max_win": 7566,
+            "sharpe": 0.58
+          },
+          "|1d|<0.3%": {
+            "n": 135,
+            "total_pnl": 60845,
+            "mean_pnl": 451,
+            "win_rate": 94.1,
+            "std": 3085,
+            "max_loss": -24860,
+            "max_win": 14308,
+            "sharpe": 0.15
+          },
+          "|1d|>1.2%": {
+            "n": 54,
+            "total_pnl": 36350,
+            "mean_pnl": 673,
+            "win_rate": 85.2,
+            "std": 3782,
+            "max_loss": -11297,
+            "max_win": 18956,
+            "sharpe": 0.18
+          }
+        },
+        "comparisons": [
+          {
+            "best": "|1d| 0.7-1.2%",
+            "worst": "|1d|<0.3%",
+            "t_stat": 0.991,
+            "p_value": 0.3231,
+            "significant_10": false,
+            "significant_05": false
+          }
+        ]
+      },
+      "In Prior Wk Range": {
+        "buckets": {
+          "In Range": {
+            "n": 260,
+            "total_pnl": 161622,
+            "mean_pnl": 622,
+            "win_rate": 94.6,
+            "std": 2775,
+            "max_loss": -24860,
+            "max_win": 18956,
+            "sharpe": 0.22
+          },
+          "Out Range": {
+            "n": 143,
+            "total_pnl": 77612,
+            "mean_pnl": 543,
+            "win_rate": 92.3,
+            "std": 2058,
+            "max_loss": -8190,
+            "max_win": 12572,
+            "sharpe": 0.26
+          }
+        },
+        "comparisons": [
+          {
+            "best": "In Range",
+            "worst": "Out Range",
+            "t_stat": 0.324,
+            "p_value": 0.7461,
+            "significant_10": false,
+            "significant_05": false
+          }
+        ]
+      },
+      "Credit/Wing %": {
+        "buckets": {
+          "Credit 25-35%": {
+            "n": 9,
+            "total_pnl": 55356,
+            "mean_pnl": 6151,
+            "win_rate": 77.8,
+            "std": 8733,
+            "max_loss": -8190,
+            "max_win": 18956,
+            "sharpe": 0.7
+          },
+          "Credit<25%": {
+            "n": 515,
+            "total_pnl": 250197,
+            "mean_pnl": 486,
+            "win_rate": 94.6,
+            "std": 1949,
+            "max_loss": -24860,
+            "max_win": 8632,
+            "sharpe": 0.25
+          },
+          "Credit>45%": {
+            "n": 1,
+            "total_pnl": 2695,
+            "mean_pnl": 2695,
+            "win_rate": 100.0,
+            "std": 0,
+            "max_loss": 2695,
+            "max_win": 2695,
+            "sharpe": 0
+          }
+        },
+        "comparisons": [
+          {
+            "best": "Credit 25-35%",
+            "worst": "Credit<25%",
+            "t_stat": 1.945,
+            "p_value": 0.0876,
+            "significant_10": true,
+            "significant_05": false
+          }
+        ]
+      },
+      "RV Level": {
+        "buckets": {
+          "RV 12-18": {
+            "n": 126,
+            "total_pnl": 98234,
+            "mean_pnl": 780,
+            "win_rate": 93.7,
+            "std": 2320,
+            "max_loss": -9681,
+            "max_win": 18956,
+            "sharpe": 0.34
+          },
+          "RV 8-12": {
+            "n": 140,
+            "total_pnl": 42090,
+            "mean_pnl": 301,
+            "win_rate": 96.4,
+            "std": 2502,
+            "max_loss": -24860,
+            "max_win": 7566,
+            "sharpe": 0.12
+          },
+          "RV<8": {
+            "n": 58,
+            "total_pnl": 68004,
+            "mean_pnl": 1172,
+            "win_rate": 100.0,
+            "std": 2789,
+            "max_loss": 21,
+            "max_win": 14308,
+            "sharpe": 0.42
+          },
+          "RV>18": {
+            "n": 79,
+            "total_pnl": 30906,
+            "mean_pnl": 391,
+            "win_rate": 84.8,
+            "std": 2707,
+            "max_loss": -11297,
+            "max_win": 7566,
+            "sharpe": 0.14
+          }
+        },
+        "comparisons": [
+          {
+            "best": "RV<8",
+            "worst": "RV 8-12",
+            "t_stat": 2.062,
+            "p_value": 0.0419,
+            "significant_10": true,
+            "significant_05": true
+          }
+        ]
+      },
+      "Prior Day Range": {
+        "buckets": {
+          "DayRng 0.3-0.6%": {
+            "n": 80,
+            "total_pnl": 46829,
+            "mean_pnl": 585,
+            "win_rate": 97.5,
+            "std": 2125,
+            "max_loss": -6524,
+            "max_win": 14308,
+            "sharpe": 0.28
+          },
+          "DayRng 0.6-1.0%": {
+            "n": 151,
+            "total_pnl": 57893,
+            "mean_pnl": 383,
+            "win_rate": 96.0,
+            "std": 2353,
+            "max_loss": -24860,
+            "max_win": 7878,
+            "sharpe": 0.16
+          },
+          "DayRng<0.3%": {
+            "n": 5,
+            "total_pnl": 2234,
+            "mean_pnl": 447,
+            "win_rate": 100.0,
+            "std": 625,
+            "max_loss": 126,
+            "max_win": 1562,
+            "sharpe": 0.71
+          },
+          "DayRng>1.0%": {
+            "n": 167,
+            "total_pnl": 132278,
+            "mean_pnl": 792,
+            "win_rate": 89.8,
+            "std": 2898,
+            "max_loss": -11297,
+            "max_win": 18956,
+            "sharpe": 0.27
+          }
+        },
+        "comparisons": [
+          {
+            "best": "DayRng>1.0%",
+            "worst": "DayRng 0.6-1.0%",
+            "t_stat": 1.386,
+            "p_value": 0.1668,
+            "significant_10": false,
+            "significant_05": false
+          }
+        ]
+      },
+      "VIX9D/VIX Ratio": {
+        "buckets": {
+          "V9D/V 0.85-0.95": {
+            "n": 142,
+            "total_pnl": 79121,
+            "mean_pnl": 557,
+            "win_rate": 94.4,
+            "std": 2355,
+            "max_loss": -11297,
+            "max_win": 14308,
+            "sharpe": 0.24
+          },
+          "V9D/V 0.95-1.05": {
+            "n": 115,
+            "total_pnl": 82722,
+            "mean_pnl": 719,
+            "win_rate": 91.3,
+            "std": 2636,
+            "max_loss": -9681,
+            "max_win": 18956,
+            "sharpe": 0.27
+          },
+          "V9D/V<0.85": {
+            "n": 102,
+            "total_pnl": 8660,
+            "mean_pnl": 85,
+            "win_rate": 95.1,
+            "std": 2813,
+            "max_loss": -24860,
+            "max_win": 7878,
+            "sharpe": 0.03
+          },
+          "V9D/V>1.05": {
+            "n": 42,
+            "total_pnl": 64496,
+            "mean_pnl": 1536,
+            "win_rate": 95.2,
+            "std": 1937,
+            "max_loss": -2121,
+            "max_win": 7566,
+            "sharpe": 0.79
+          }
+        },
+        "comparisons": [
+          {
+            "best": "V9D/V>1.05",
+            "worst": "V9D/V<0.85",
+            "t_stat": 3.55,
+            "p_value": 0.0006,
+            "significant_10": true,
+            "significant_05": true
+          }
+        ]
+      }
+    }
+  },
+  "Morning Decel Scalp": {
+    "name": "Morning Decel Scalp",
+    "n": 363,
+    "total_pnl": 149918.0,
+    "factors": {
+      "VIX Level": {
+        "buckets": {
+          "VIX 14-17": {
+            "n": 141,
+            "total_pnl": 48434,
+            "mean_pnl": 344,
+            "win_rate": 69.5,
+            "std": 1369,
+            "max_loss": -4336,
+            "max_win": 5493,
+            "sharpe": 0.25
+          },
+          "VIX 17-20": {
+            "n": 89,
+            "total_pnl": 30454,
+            "mean_pnl": 342,
+            "win_rate": 65.2,
+            "std": 1722,
+            "max_loss": -8284,
+            "max_win": 5022,
+            "sharpe": 0.2
+          },
+          "VIX<14": {
+            "n": 66,
+            "total_pnl": 56771,
+            "mean_pnl": 860,
+            "win_rate": 75.8,
+            "std": 1624,
+            "max_loss": -2157,
+            "max_win": 4932,
+            "sharpe": 0.53
+          },
+          "VIX>20": {
+            "n": 66,
+            "total_pnl": 13098,
+            "mean_pnl": 198,
+            "win_rate": 66.7,
+            "std": 1087,
+            "max_loss": -2594,
+            "max_win": 5469,
+            "sharpe": 0.18
+          }
+        },
+        "comparisons": [
+          {
+            "best": "VIX<14",
+            "worst": "VIX>20",
+            "t_stat": 2.751,
+            "p_value": 0.0069,
+            "significant_10": true,
+            "significant_05": true
+          }
+        ]
+      },
+      "VP Ratio": {
+        "buckets": {
+          "VP 1.0-1.3": {
+            "n": 75,
+            "total_pnl": 27873,
+            "mean_pnl": 372,
+            "win_rate": 70.7,
+            "std": 1274,
+            "max_loss": -4112,
+            "max_win": 5493,
+            "sharpe": 0.29
+          },
+          "VP 1.3-1.7": {
+            "n": 88,
+            "total_pnl": 46134,
+            "mean_pnl": 524,
+            "win_rate": 71.6,
+            "std": 1487,
+            "max_loss": -4336,
+            "max_win": 4932,
+            "sharpe": 0.35
+          },
+          "VP<1.0": {
+            "n": 35,
+            "total_pnl": 1143,
+            "mean_pnl": 33,
+            "win_rate": 60.0,
+            "std": 1895,
+            "max_loss": -8284,
+            "max_win": 3355,
+            "sharpe": 0.02
+          },
+          "VP>1.7": {
+            "n": 65,
+            "total_pnl": 17322,
+            "mean_pnl": 266,
+            "win_rate": 76.9,
+            "std": 1312,
+            "max_loss": -4377,
+            "max_win": 4098,
+            "sharpe": 0.2
+          }
+        },
+        "comparisons": [
+          {
+            "best": "VP 1.3-1.7",
+            "worst": "VP<1.0",
+            "t_stat": 1.375,
+            "p_value": 0.175,
+            "significant_10": false,
+            "significant_05": false
+          }
+        ]
+      },
+      "Gap Direction": {
+        "buckets": {
+          "Gap DOWN": {
+            "n": 53,
+            "total_pnl": 24896,
+            "mean_pnl": 470,
+            "win_rate": 71.7,
+            "std": 1161,
+            "max_loss": -2694,
+            "max_win": 3447,
+            "sharpe": 0.4
+          },
+          "Gap FLAT": {
+            "n": 143,
+            "total_pnl": 47663,
+            "mean_pnl": 333,
+            "win_rate": 69.9,
+            "std": 1489,
+            "max_loss": -4377,
+            "max_win": 5493,
+            "sharpe": 0.22
+          },
+          "Gap UP": {
+            "n": 78,
+            "total_pnl": 23749,
+            "mean_pnl": 304,
+            "win_rate": 70.5,
+            "std": 1551,
+            "max_loss": -8284,
+            "max_win": 4662,
+            "sharpe": 0.2
+          }
+        },
+        "comparisons": [
+          {
+            "best": "Gap DOWN",
+            "worst": "Gap UP",
+            "t_stat": 0.697,
+            "p_value": 0.4873,
+            "significant_10": false,
+            "significant_05": false
+          }
+        ]
+      },
+      "Day of Week": {
+        "buckets": {
+          "Friday": {
+            "n": 70,
+            "total_pnl": 19208,
+            "mean_pnl": 274,
+            "win_rate": 70.0,
+            "std": 1339,
+            "max_loss": -4336,
+            "max_win": 4323,
+            "sharpe": 0.2
+          },
+          "Monday": {
+            "n": 77,
+            "total_pnl": 38488,
+            "mean_pnl": 500,
+            "win_rate": 67.5,
+            "std": 1433,
+            "max_loss": -4377,
+            "max_win": 5493,
+            "sharpe": 0.35
+          },
+          "Thursday": {
+            "n": 68,
+            "total_pnl": 28902,
+            "mean_pnl": 425,
+            "win_rate": 64.7,
+            "std": 1944,
+            "max_loss": -8284,
+            "max_win": 5022,
+            "sharpe": 0.22
+          },
+          "Tuesday": {
+            "n": 78,
+            "total_pnl": 23429,
+            "mean_pnl": 300,
+            "win_rate": 70.5,
+            "std": 1084,
+            "max_loss": -2694,
+            "max_win": 3741,
+            "sharpe": 0.28
+          },
+          "Wednesday": {
+            "n": 70,
+            "total_pnl": 39891,
+            "mean_pnl": 570,
+            "win_rate": 72.9,
+            "std": 1530,
+            "max_loss": -4112,
+            "max_win": 5469,
+            "sharpe": 0.37
+          }
+        },
+        "comparisons": [
+          {
+            "best": "Wednesday",
+            "worst": "Friday",
+            "t_stat": 1.216,
+            "p_value": 0.2261,
+            "significant_10": false,
+            "significant_05": false
+          }
+        ]
+      },
+      "RV Slope": {
+        "buckets": {
+          "FALLING": {
+            "n": 92,
+            "total_pnl": 23440,
+            "mean_pnl": 255,
+            "win_rate": 71.7,
+            "std": 1641,
+            "max_loss": -8284,
+            "max_win": 5493,
+            "sharpe": 0.16
+          },
+          "RISING": {
+            "n": 62,
+            "total_pnl": 22883,
+            "mean_pnl": 369,
+            "win_rate": 64.5,
+            "std": 1349,
+            "max_loss": -4112,
+            "max_win": 4662,
+            "sharpe": 0.27
+          },
+          "STABLE": {
+            "n": 109,
+            "total_pnl": 46149,
+            "mean_pnl": 423,
+            "win_rate": 74.3,
+            "std": 1340,
+            "max_loss": -4377,
+            "max_win": 4662,
+            "sharpe": 0.32
+          }
+        },
+        "comparisons": [
+          {
+            "best": "STABLE",
+            "worst": "FALLING",
+            "t_stat": 0.788,
+            "p_value": 0.4317,
+            "significant_10": false,
+            "significant_05": false
+          }
+        ]
+      },
+      "Term Structure": {
+        "buckets": {
+          "CONTANGO": {
+            "n": 127,
+            "total_pnl": 45105,
+            "mean_pnl": 355,
+            "win_rate": 70.1,
+            "std": 1696,
+            "max_loss": -8284,
+            "max_win": 5493,
+            "sharpe": 0.21
+          },
+          "FLAT": {
+            "n": 103,
+            "total_pnl": 46510,
+            "mean_pnl": 452,
+            "win_rate": 78.6,
+            "std": 1207,
+            "max_loss": -4112,
+            "max_win": 4233,
+            "sharpe": 0.37
+          },
+          "INVERTED": {
+            "n": 33,
+            "total_pnl": 857,
+            "mean_pnl": 26,
+            "win_rate": 51.5,
+            "std": 1061,
+            "max_loss": -2158,
+            "max_win": 3150,
+            "sharpe": 0.02
+          }
+        },
+        "comparisons": [
+          {
+            "best": "FLAT",
+            "worst": "INVERTED",
+            "t_stat": 1.938,
+            "p_value": 0.0573,
+            "significant_10": true,
+            "significant_05": false
+          }
+        ]
+      },
+      "Prior Day Dir": {
+        "buckets": {
+          "DOWN": {
+            "n": 95,
+            "total_pnl": 22070,
+            "mean_pnl": 232,
+            "win_rate": 67.4,
+            "std": 1290,
+            "max_loss": -4112,
+            "max_win": 5493,
+            "sharpe": 0.18
+          },
+          "FLAT": {
+            "n": 37,
+            "total_pnl": 4658,
+            "mean_pnl": 126,
+            "win_rate": 64.9,
+            "std": 2282,
+            "max_loss": -8284,
+            "max_win": 4662,
+            "sharpe": 0.06
+          },
+          "UP": {
+            "n": 131,
+            "total_pnl": 65744,
+            "mean_pnl": 502,
+            "win_rate": 75.6,
+            "std": 1245,
+            "max_loss": -4336,
+            "max_win": 4932,
+            "sharpe": 0.4
+          }
+        },
+        "comparisons": [
+          {
+            "best": "UP",
+            "worst": "FLAT",
+            "t_stat": 0.963,
+            "p_value": 0.3412,
+            "significant_10": false,
+            "significant_05": false
+          }
+        ]
+      },
+      "5d Return": {
+        "buckets": {
+          "5d -0.5 to 0.5%": {
+            "n": 63,
+            "total_pnl": 26565,
+            "mean_pnl": 422,
+            "win_rate": 71.4,
+            "std": 1197,
+            "max_loss": -2694,
+            "max_win": 4932,
+            "sharpe": 0.35
+          },
+          "5d 0.5-1.5%": {
+            "n": 70,
+            "total_pnl": 35682,
+            "mean_pnl": 510,
+            "win_rate": 72.9,
+            "std": 1734,
+            "max_loss": -4377,
+            "max_win": 5493,
+            "sharpe": 0.29
+          },
+          "5d<-0.5%": {
+            "n": 64,
+            "total_pnl": -4059,
+            "mean_pnl": -63,
+            "win_rate": 62.5,
+            "std": 1581,
+            "max_loss": -8284,
+            "max_win": 3355,
+            "sharpe": -0.04
+          },
+          "5d>1.5%": {
+            "n": 66,
+            "total_pnl": 34284,
+            "mean_pnl": 519,
+            "win_rate": 77.3,
+            "std": 1130,
+            "max_loss": -2079,
+            "max_win": 4233,
+            "sharpe": 0.46
+          }
+        },
+        "comparisons": [
+          {
+            "best": "5d>1.5%",
+            "worst": "5d<-0.5%",
+            "t_stat": 2.412,
+            "p_value": 0.0175,
+            "significant_10": true,
+            "significant_05": true
+          }
+        ]
+      },
+      "Prior Day |Ret|": {
+        "buckets": {
+          "|1d| 0.3-0.7%": {
+            "n": 89,
+            "total_pnl": 21023,
+            "mean_pnl": 236,
+            "win_rate": 71.9,
+            "std": 1375,
+            "max_loss": -4377,
+            "max_win": 4932,
+            "sharpe": 0.17
+          },
+          "|1d| 0.7-1.2%": {
+            "n": 51,
+            "total_pnl": 29963,
+            "mean_pnl": 588,
+            "win_rate": 76.5,
+            "std": 1280,
+            "max_loss": -2594,
+            "max_win": 4662,
+            "sharpe": 0.46
+          },
+          "|1d|<0.3%": {
+            "n": 86,
+            "total_pnl": 29268,
+            "mean_pnl": 340,
+            "win_rate": 68.6,
+            "std": 1766,
+            "max_loss": -8284,
+            "max_win": 5493,
+            "sharpe": 0.19
+          },
+          "|1d|>1.2%": {
+            "n": 37,
+            "total_pnl": 12218,
+            "mean_pnl": 330,
+            "win_rate": 67.6,
+            "std": 971,
+            "max_loss": -2157,
+            "max_win": 2931,
+            "sharpe": 0.34
+          }
+        },
+        "comparisons": [
+          {
+            "best": "|1d| 0.7-1.2%",
+            "worst": "|1d| 0.3-0.7%",
+            "t_stat": 1.521,
+            "p_value": 0.1312,
+            "significant_10": false,
+            "significant_05": false
+          }
+        ]
+      },
+      "In Prior Wk Range": {
+        "buckets": {
+          "In Range": {
+            "n": 165,
+            "total_pnl": 56689,
+            "mean_pnl": 344,
+            "win_rate": 72.1,
+            "std": 1583,
+            "max_loss": -8284,
+            "max_win": 5493,
+            "sharpe": 0.22
+          },
+          "Out Range": {
+            "n": 98,
+            "total_pnl": 35783,
+            "mean_pnl": 365,
+            "win_rate": 69.4,
+            "std": 1203,
+            "max_loss": -3459,
+            "max_win": 4662,
+            "sharpe": 0.3
+          }
+        },
+        "comparisons": [
+          {
+            "best": "Out Range",
+            "worst": "In Range",
+            "t_stat": 0.125,
+            "p_value": 0.901,
+            "significant_10": false,
+            "significant_05": false
+          }
+        ]
+      },
+      "Credit/Wing %": {
+        "buckets": {
+          "Credit 25-35%": {
+            "n": 131,
+            "total_pnl": 33914,
+            "mean_pnl": 259,
+            "win_rate": 69.5,
+            "std": 1233,
+            "max_loss": -4112,
+            "max_win": 5493,
+            "sharpe": 0.21
+          },
+          "Credit 35-45%": {
+            "n": 64,
+            "total_pnl": 7801,
+            "mean_pnl": 122,
+            "win_rate": 67.2,
+            "std": 1638,
+            "max_loss": -8284,
+            "max_win": 2112,
+            "sharpe": 0.07
+          },
+          "Credit<25%": {
+            "n": 130,
+            "total_pnl": 104216,
+            "mean_pnl": 802,
+            "win_rate": 73.8,
+            "std": 1658,
+            "max_loss": -4377,
+            "max_win": 5022,
+            "sharpe": 0.48
+          },
+          "Credit>45%": {
+            "n": 38,
+            "total_pnl": 3987,
+            "mean_pnl": 105,
+            "win_rate": 55.3,
+            "std": 994,
+            "max_loss": -2158,
+            "max_win": 3355,
+            "sharpe": 0.11
+          }
+        },
+        "comparisons": [
+          {
+            "best": "Credit<25%",
+            "worst": "Credit>45%",
+            "t_stat": 3.209,
+            "p_value": 0.0018,
+            "significant_10": true,
+            "significant_05": true
+          }
+        ]
+      },
+      "RV Level": {
+        "buckets": {
+          "RV 12-18": {
+            "n": 90,
+            "total_pnl": 32319,
+            "mean_pnl": 359,
+            "win_rate": 70.0,
+            "std": 1288,
+            "max_loss": -4112,
+            "max_win": 5493,
+            "sharpe": 0.28
+          },
+          "RV 8-12": {
+            "n": 99,
+            "total_pnl": 49545,
+            "mean_pnl": 500,
+            "win_rate": 76.8,
+            "std": 1328,
+            "max_loss": -4336,
+            "max_win": 4932,
+            "sharpe": 0.38
+          },
+          "RV<8": {
+            "n": 36,
+            "total_pnl": 13597,
+            "mean_pnl": 378,
+            "win_rate": 75.0,
+            "std": 1792,
+            "max_loss": -4377,
+            "max_win": 4233,
+            "sharpe": 0.21
+          },
+          "RV>18": {
+            "n": 38,
+            "total_pnl": -2989,
+            "mean_pnl": -79,
+            "win_rate": 55.3,
+            "std": 1720,
+            "max_loss": -8284,
+            "max_win": 3355,
+            "sharpe": -0.05
+          }
+        },
+        "comparisons": [
+          {
+            "best": "RV 8-12",
+            "worst": "RV>18",
+            "t_stat": 1.873,
+            "p_value": 0.0664,
+            "significant_10": true,
+            "significant_05": false
+          }
+        ]
+      },
+      "Prior Day Range": {
+        "buckets": {
+          "DayRng 0.3-0.6%": {
+            "n": 58,
+            "total_pnl": 20494,
+            "mean_pnl": 353,
+            "win_rate": 67.2,
+            "std": 1600,
+            "max_loss": -4377,
+            "max_win": 4932,
+            "sharpe": 0.22
+          },
+          "DayRng 0.6-1.0%": {
+            "n": 102,
+            "total_pnl": 53733,
+            "mean_pnl": 527,
+            "win_rate": 76.5,
+            "std": 1399,
+            "max_loss": -4112,
+            "max_win": 5493,
+            "sharpe": 0.38
+          },
+          "DayRng<0.3%": {
+            "n": 4,
+            "total_pnl": 3843,
+            "mean_pnl": 961,
+            "win_rate": 75.0,
+            "std": 1360,
+            "max_loss": -309,
+            "max_win": 2826,
+            "sharpe": 0.71
+          },
+          "DayRng>1.0%": {
+            "n": 99,
+            "total_pnl": 14402,
+            "mean_pnl": 145,
+            "win_rate": 67.7,
+            "std": 1405,
+            "max_loss": -8284,
+            "max_win": 4662,
+            "sharpe": 0.1
+          }
+        },
+        "comparisons": [
+          {
+            "best": "DayRng 0.6-1.0%",
+            "worst": "DayRng>1.0%",
+            "t_stat": 1.928,
+            "p_value": 0.0553,
+            "significant_10": true,
+            "significant_05": false
+          }
+        ]
+      },
+      "VIX9D/VIX Ratio": {
+        "buckets": {
+          "V9D/V 0.85-0.95": {
+            "n": 105,
+            "total_pnl": 34200,
+            "mean_pnl": 326,
+            "win_rate": 69.5,
+            "std": 1590,
+            "max_loss": -4336,
+            "max_win": 5493,
+            "sharpe": 0.2
+          },
+          "V9D/V 0.95-1.05": {
+            "n": 76,
+            "total_pnl": 36548,
+            "mean_pnl": 481,
+            "win_rate": 76.3,
+            "std": 1156,
+            "max_loss": -2594,
+            "max_win": 4233,
+            "sharpe": 0.42
+          },
+          "V9D/V<0.85": {
+            "n": 66,
+            "total_pnl": 21529,
+            "mean_pnl": 326,
+            "win_rate": 69.7,
+            "std": 1657,
+            "max_loss": -8284,
+            "max_win": 4932,
+            "sharpe": 0.2
+          },
+          "V9D/V>1.05": {
+            "n": 20,
+            "total_pnl": -1329,
+            "mean_pnl": -66,
+            "win_rate": 55.0,
+            "std": 673,
+            "max_loss": -2079,
+            "max_win": 1068,
+            "sharpe": -0.1
+          }
+        },
+        "comparisons": [
+          {
+            "best": "V9D/V 0.95-1.05",
+            "worst": "V9D/V>1.05",
+            "t_stat": 2.73,
+            "p_value": 0.0086,
+            "significant_10": true,
+            "significant_05": true
+          }
+        ]
+      }
+    }
+  },
+  "Phoenix 75 Afternoon": {
+    "name": "Phoenix 75 Afternoon",
+    "n": 474,
+    "total_pnl": 1020346.0,
+    "factors": {
+      "VIX Level": {
+        "buckets": {
+          "VIX 14-17": {
+            "n": 179,
+            "total_pnl": 429502,
+            "mean_pnl": 2399,
+            "win_rate": 74.3,
+            "std": 8803,
+            "max_loss": -50370,
+            "max_win": 33858,
+            "sharpe": 0.27
+          },
+          "VIX 17-20": {
+            "n": 136,
+            "total_pnl": 252769,
+            "mean_pnl": 1859,
+            "win_rate": 66.9,
+            "std": 7446,
+            "max_loss": -26763,
+            "max_win": 17268,
+            "sharpe": 0.25
+          },
+          "VIX<14": {
+            "n": 41,
+            "total_pnl": 110583,
+            "mean_pnl": 2697,
+            "win_rate": 73.2,
+            "std": 10209,
+            "max_loss": -44462,
+            "max_win": 25467,
+            "sharpe": 0.26
+          },
+          "VIX>20": {
+            "n": 117,
+            "total_pnl": 214772,
+            "mean_pnl": 1836,
+            "win_rate": 74.4,
+            "std": 5527,
+            "max_loss": -17100,
+            "max_win": 19690,
+            "sharpe": 0.33
+          }
+        },
+        "comparisons": [
+          {
+            "best": "VIX<14",
+            "worst": "VIX>20",
+            "t_stat": 0.515,
+            "p_value": 0.6092,
+            "significant_10": false,
+            "significant_05": false
+          }
+        ]
+      },
+      "VP Ratio": {
+        "buckets": {
+          "VP 1.0-1.3": {
+            "n": 108,
+            "total_pnl": 327983,
+            "mean_pnl": 3037,
+            "win_rate": 79.6,
+            "std": 7162,
+            "max_loss": -23661,
+            "max_win": 20682,
+            "sharpe": 0.42
+          },
+          "VP 1.3-1.7": {
+            "n": 108,
+            "total_pnl": 300646,
+            "mean_pnl": 2784,
+            "win_rate": 75.0,
+            "std": 5698,
+            "max_loss": -19728,
+            "max_win": 16866,
+            "sharpe": 0.49
+          },
+          "VP<1.0": {
+            "n": 60,
+            "total_pnl": 47444,
+            "mean_pnl": 791,
+            "win_rate": 63.3,
+            "std": 7987,
+            "max_loss": -25584,
+            "max_win": 16512,
+            "sharpe": 0.1
+          },
+          "VP>1.7": {
+            "n": 101,
+            "total_pnl": 95570,
+            "mean_pnl": 946,
+            "win_rate": 65.3,
+            "std": 10371,
+            "max_loss": -50370,
+            "max_win": 33858,
+            "sharpe": 0.09
+          }
+        },
+        "comparisons": [
+          {
+            "best": "VP 1.0-1.3",
+            "worst": "VP<1.0",
+            "t_stat": 1.811,
+            "p_value": 0.0728,
+            "significant_10": true,
+            "significant_05": false
+          }
+        ]
+      },
+      "Gap Direction": {
+        "buckets": {
+          "Gap DOWN": {
+            "n": 85,
+            "total_pnl": 260451,
+            "mean_pnl": 3064,
+            "win_rate": 70.6,
+            "std": 5855,
+            "max_loss": -9306,
+            "max_win": 17268,
+            "sharpe": 0.52
+          },
+          "Gap FLAT": {
+            "n": 193,
+            "total_pnl": 230442,
+            "mean_pnl": 1194,
+            "win_rate": 70.5,
+            "std": 9095,
+            "max_loss": -50370,
+            "max_win": 33858,
+            "sharpe": 0.13
+          },
+          "Gap UP": {
+            "n": 114,
+            "total_pnl": 288812,
+            "mean_pnl": 2533,
+            "win_rate": 75.4,
+            "std": 6807,
+            "max_loss": -25584,
+            "max_win": 17600,
+            "sharpe": 0.37
+          }
+        },
+        "comparisons": [
+          {
+            "best": "Gap DOWN",
+            "worst": "Gap FLAT",
+            "t_stat": 2.05,
+            "p_value": 0.0414,
+            "significant_10": true,
+            "significant_05": true
+          }
+        ]
+      },
+      "Day of Week": {
+        "buckets": {
+          "Friday": {
+            "n": 110,
+            "total_pnl": 328868,
+            "mean_pnl": 2990,
+            "win_rate": 76.4,
+            "std": 5681,
+            "max_loss": -17100,
+            "max_win": 15408,
+            "sharpe": 0.53
+          },
+          "Monday": {
+            "n": 75,
+            "total_pnl": 219895,
+            "mean_pnl": 2932,
+            "win_rate": 76.0,
+            "std": 5084,
+            "max_loss": -10752,
+            "max_win": 17268,
+            "sharpe": 0.58
+          },
+          "Thursday": {
+            "n": 99,
+            "total_pnl": 218855,
+            "mean_pnl": 2211,
+            "win_rate": 74.7,
+            "std": 6652,
+            "max_loss": -26763,
+            "max_win": 16512,
+            "sharpe": 0.33
+          },
+          "Tuesday": {
+            "n": 87,
+            "total_pnl": 141126,
+            "mean_pnl": 1622,
+            "win_rate": 74.7,
+            "std": 6877,
+            "max_loss": -25584,
+            "max_win": 14928,
+            "sharpe": 0.24
+          },
+          "Wednesday": {
+            "n": 103,
+            "total_pnl": 111602,
+            "mean_pnl": 1084,
+            "win_rate": 60.2,
+            "std": 12147,
+            "max_loss": -50370,
+            "max_win": 33858,
+            "sharpe": 0.09
+          }
+        },
+        "comparisons": [
+          {
+            "best": "Friday",
+            "worst": "Wednesday",
+            "t_stat": 1.451,
+            "p_value": 0.149,
+            "significant_10": false,
+            "significant_05": false
+          }
+        ]
+      },
+      "RV Slope": {
+        "buckets": {
+          "FALLING": {
+            "n": 125,
+            "total_pnl": 330870,
+            "mean_pnl": 2647,
+            "win_rate": 73.6,
+            "std": 8258,
+            "max_loss": -50370,
+            "max_win": 17600,
+            "sharpe": 0.32
+          },
+          "RISING": {
+            "n": 83,
+            "total_pnl": 160139,
+            "mean_pnl": 1929,
+            "win_rate": 75.9,
+            "std": 7149,
+            "max_loss": -25584,
+            "max_win": 33858,
+            "sharpe": 0.27
+          },
+          "STABLE": {
+            "n": 169,
+            "total_pnl": 280634,
+            "mean_pnl": 1661,
+            "win_rate": 68.6,
+            "std": 8145,
+            "max_loss": -44462,
+            "max_win": 20682,
+            "sharpe": 0.2
+          }
+        },
+        "comparisons": [
+          {
+            "best": "FALLING",
+            "worst": "STABLE",
+            "t_stat": 1.018,
+            "p_value": 0.3094,
+            "significant_10": false,
+            "significant_05": false
+          }
+        ]
+      },
+      "Term Structure": {
+        "buckets": {
+          "CONTANGO": {
+            "n": 193,
+            "total_pnl": 301892,
+            "mean_pnl": 1564,
+            "win_rate": 71.5,
+            "std": 8872,
+            "max_loss": -50370,
+            "max_win": 16512,
+            "sharpe": 0.18
+          },
+          "FLAT": {
+            "n": 129,
+            "total_pnl": 310488,
+            "mean_pnl": 2407,
+            "win_rate": 70.5,
+            "std": 7196,
+            "max_loss": -19728,
+            "max_win": 33858,
+            "sharpe": 0.33
+          },
+          "INVERTED": {
+            "n": 55,
+            "total_pnl": 159263,
+            "mean_pnl": 2896,
+            "win_rate": 76.4,
+            "std": 6117,
+            "max_loss": -14795,
+            "max_win": 20682,
+            "sharpe": 0.47
+          }
+        },
+        "comparisons": [
+          {
+            "best": "INVERTED",
+            "worst": "CONTANGO",
+            "t_stat": 1.276,
+            "p_value": 0.2042,
+            "significant_10": false,
+            "significant_05": false
+          }
+        ]
+      },
+      "Prior Day Dir": {
+        "buckets": {
+          "DOWN": {
+            "n": 154,
+            "total_pnl": 267450,
+            "mean_pnl": 1737,
+            "win_rate": 66.2,
+            "std": 8168,
+            "max_loss": -37375,
+            "max_win": 33858,
+            "sharpe": 0.21
+          },
+          "FLAT": {
+            "n": 52,
+            "total_pnl": 61916,
+            "mean_pnl": 1191,
+            "win_rate": 67.3,
+            "std": 9978,
+            "max_loss": -50370,
+            "max_win": 16866,
+            "sharpe": 0.12
+          },
+          "UP": {
+            "n": 171,
+            "total_pnl": 442277,
+            "mean_pnl": 2586,
+            "win_rate": 78.4,
+            "std": 7061,
+            "max_loss": -44462,
+            "max_win": 17268,
+            "sharpe": 0.37
+          }
+        },
+        "comparisons": [
+          {
+            "best": "UP",
+            "worst": "FLAT",
+            "t_stat": 0.94,
+            "p_value": 0.3507,
+            "significant_10": false,
+            "significant_05": false
+          }
+        ]
+      },
+      "5d Return": {
+        "buckets": {
+          "5d -0.5 to 0.5%": {
+            "n": 79,
+            "total_pnl": 40122,
+            "mean_pnl": 508,
+            "win_rate": 60.8,
+            "std": 9410,
+            "max_loss": -50370,
+            "max_win": 16512,
+            "sharpe": 0.05
+          },
+          "5d 0.5-1.5%": {
+            "n": 97,
+            "total_pnl": 203360,
+            "mean_pnl": 2096,
+            "win_rate": 72.2,
+            "std": 8143,
+            "max_loss": -37375,
+            "max_win": 33858,
+            "sharpe": 0.26
+          },
+          "5d<-0.5%": {
+            "n": 118,
+            "total_pnl": 208092,
+            "mean_pnl": 1763,
+            "win_rate": 70.3,
+            "std": 6964,
+            "max_loss": -23661,
+            "max_win": 20682,
+            "sharpe": 0.25
+          },
+          "5d>1.5%": {
+            "n": 83,
+            "total_pnl": 320069,
+            "mean_pnl": 3856,
+            "win_rate": 84.3,
+            "std": 7366,
+            "max_loss": -44462,
+            "max_win": 17268,
+            "sharpe": 0.52
+          }
+        },
+        "comparisons": [
+          {
+            "best": "5d>1.5%",
+            "worst": "5d -0.5 to 0.5%",
+            "t_stat": 2.514,
+            "p_value": 0.013,
+            "significant_10": true,
+            "significant_05": true
+          }
+        ]
+      },
+      "Prior Day |Ret|": {
+        "buckets": {
+          "|1d| 0.3-0.7%": {
+            "n": 114,
+            "total_pnl": 157118,
+            "mean_pnl": 1378,
+            "win_rate": 71.1,
+            "std": 9651,
+            "max_loss": -50370,
+            "max_win": 17600,
+            "sharpe": 0.14
+          },
+          "|1d| 0.7-1.2%": {
+            "n": 82,
+            "total_pnl": 225302,
+            "mean_pnl": 2748,
+            "win_rate": 78.0,
+            "std": 5679,
+            "max_loss": -18216,
+            "max_win": 16866,
+            "sharpe": 0.48
+          },
+          "|1d|<0.3%": {
+            "n": 125,
+            "total_pnl": 265044,
+            "mean_pnl": 2120,
+            "win_rate": 69.6,
+            "std": 8255,
+            "max_loss": -37375,
+            "max_win": 33858,
+            "sharpe": 0.26
+          },
+          "|1d|>1.2%": {
+            "n": 56,
+            "total_pnl": 124179,
+            "mean_pnl": 2217,
+            "win_rate": 69.6,
+            "std": 6302,
+            "max_loss": -17100,
+            "max_win": 20682,
+            "sharpe": 0.35
+          }
+        },
+        "comparisons": [
+          {
+            "best": "|1d| 0.7-1.2%",
+            "worst": "|1d| 0.3-0.7%",
+            "t_stat": 1.245,
+            "p_value": 0.2148,
+            "significant_10": false,
+            "significant_05": false
+          }
+        ]
+      },
+      "In Prior Wk Range": {
+        "buckets": {
+          "In Range": {
+            "n": 241,
+            "total_pnl": 453185,
+            "mean_pnl": 1880,
+            "win_rate": 71.4,
+            "std": 8234,
+            "max_loss": -50370,
+            "max_win": 33858,
+            "sharpe": 0.23
+          },
+          "Out Range": {
+            "n": 136,
+            "total_pnl": 318458,
+            "mean_pnl": 2342,
+            "win_rate": 72.8,
+            "std": 7489,
+            "max_loss": -44462,
+            "max_win": 16512,
+            "sharpe": 0.31
+          }
+        },
+        "comparisons": [
+          {
+            "best": "Out Range",
+            "worst": "In Range",
+            "t_stat": 0.554,
+            "p_value": 0.5802,
+            "significant_10": false,
+            "significant_05": false
+          }
+        ]
+      },
+      "Credit/Wing %": {
+        "buckets": {
+          "Credit 25-35%": {
+            "n": 54,
+            "total_pnl": 128902,
+            "mean_pnl": 2387,
+            "win_rate": 68.5,
+            "std": 7555,
+            "max_loss": -13559,
+            "max_win": 25467,
+            "sharpe": 0.32
+          },
+          "Credit 35-45%": {
+            "n": 21,
+            "total_pnl": -12656,
+            "mean_pnl": -603,
+            "win_rate": 52.4,
+            "std": 13872,
+            "max_loss": -50370,
+            "max_win": 17600,
+            "sharpe": -0.04
+          },
+          "Credit<25%": {
+            "n": 388,
+            "total_pnl": 817272,
+            "mean_pnl": 2106,
+            "win_rate": 73.7,
+            "std": 7069,
+            "max_loss": -44462,
+            "max_win": 17268,
+            "sharpe": 0.3
+          },
+          "Credit>45%": {
+            "n": 11,
+            "total_pnl": 86828,
+            "mean_pnl": 7893,
+            "win_rate": 72.7,
+            "std": 15518,
+            "max_loss": -19728,
+            "max_win": 33858,
+            "sharpe": 0.51
+          }
+        },
+        "comparisons": [
+          {
+            "best": "Credit>45%",
+            "worst": "Credit 35-45%",
+            "t_stat": 1.525,
+            "p_value": 0.1443,
+            "significant_10": false,
+            "significant_05": false
+          }
+        ]
+      },
+      "RV Level": {
+        "buckets": {
+          "RV 12-18": {
+            "n": 121,
+            "total_pnl": 384558,
+            "mean_pnl": 3178,
+            "win_rate": 77.7,
+            "std": 7686,
+            "max_loss": -25584,
+            "max_win": 20682,
+            "sharpe": 0.41
+          },
+          "RV 8-12": {
+            "n": 128,
+            "total_pnl": 231659,
+            "mean_pnl": 1810,
+            "win_rate": 72.7,
+            "std": 6948,
+            "max_loss": -37375,
+            "max_win": 15498,
+            "sharpe": 0.26
+          },
+          "RV<8": {
+            "n": 48,
+            "total_pnl": 77316,
+            "mean_pnl": 1611,
+            "win_rate": 64.6,
+            "std": 12555,
+            "max_loss": -50370,
+            "max_win": 33858,
+            "sharpe": 0.13
+          },
+          "RV>18": {
+            "n": 80,
+            "total_pnl": 78110,
+            "mean_pnl": 976,
+            "win_rate": 66.2,
+            "std": 6135,
+            "max_loss": -17208,
+            "max_win": 15408,
+            "sharpe": 0.16
+          }
+        },
+        "comparisons": [
+          {
+            "best": "RV 12-18",
+            "worst": "RV>18",
+            "t_stat": 2.249,
+            "p_value": 0.0257,
+            "significant_10": true,
+            "significant_05": true
+          }
+        ]
+      },
+      "Prior Day Range": {
+        "buckets": {
+          "DayRng 0.3-0.6%": {
+            "n": 66,
+            "total_pnl": 64494,
+            "mean_pnl": 977,
+            "win_rate": 68.2,
+            "std": 11823,
+            "max_loss": -50370,
+            "max_win": 33858,
+            "sharpe": 0.08
+          },
+          "DayRng 0.6-1.0%": {
+            "n": 142,
+            "total_pnl": 304413,
+            "mean_pnl": 2144,
+            "win_rate": 69.0,
+            "std": 7141,
+            "max_loss": -37375,
+            "max_win": 16512,
+            "sharpe": 0.3
+          },
+          "DayRng<0.3%": {
+            "n": 4,
+            "total_pnl": 15619,
+            "mean_pnl": 3905,
+            "win_rate": 75.0,
+            "std": 4034,
+            "max_loss": -936,
+            "max_win": 7909,
+            "sharpe": 0.97
+          },
+          "DayRng>1.0%": {
+            "n": 165,
+            "total_pnl": 387117,
+            "mean_pnl": 2346,
+            "win_rate": 75.8,
+            "std": 6732,
+            "max_loss": -25584,
+            "max_win": 20682,
+            "sharpe": 0.35
+          }
+        },
+        "comparisons": [
+          {
+            "best": "DayRng>1.0%",
+            "worst": "DayRng 0.3-0.6%",
+            "t_stat": 0.885,
+            "p_value": 0.3787,
+            "significant_10": false,
+            "significant_05": false
+          }
+        ]
+      },
+      "VIX9D/VIX Ratio": {
+        "buckets": {
+          "V9D/V 0.85-0.95": {
+            "n": 133,
+            "total_pnl": 340901,
+            "mean_pnl": 2563,
+            "win_rate": 70.7,
+            "std": 7520,
+            "max_loss": -23661,
+            "max_win": 33858,
+            "sharpe": 0.34
+          },
+          "V9D/V 0.95-1.05": {
+            "n": 106,
+            "total_pnl": 235145,
+            "mean_pnl": 2218,
+            "win_rate": 71.7,
+            "std": 7366,
+            "max_loss": -25584,
+            "max_win": 20682,
+            "sharpe": 0.3
+          },
+          "V9D/V<0.85": {
+            "n": 96,
+            "total_pnl": 179666,
+            "mean_pnl": 1872,
+            "win_rate": 72.9,
+            "std": 6894,
+            "max_loss": -37375,
+            "max_win": 13188,
+            "sharpe": 0.27
+          },
+          "V9D/V>1.05": {
+            "n": 42,
+            "total_pnl": 6658,
+            "mean_pnl": 159,
+            "win_rate": 71.4,
+            "std": 12134,
+            "max_loss": -50370,
+            "max_win": 15408,
+            "sharpe": 0.01
+          }
+        },
+        "comparisons": [
+          {
+            "best": "V9D/V 0.85-0.95",
+            "worst": "V9D/V>1.05",
+            "t_stat": 1.213,
+            "p_value": 0.2307,
+            "significant_10": false,
+            "significant_05": false
+          }
+        ]
+      }
+    }
+  },
+  "Phoenix 75 Early Afternoon": {
+    "name": "Phoenix 75 Early Afternoon",
+    "n": 524,
+    "total_pnl": 732857.0,
+    "factors": {
+      "VIX Level": {
+        "buckets": {
+          "VIX 14-17": {
+            "n": 201,
+            "total_pnl": 377338,
+            "mean_pnl": 1877,
+            "win_rate": 73.1,
+            "std": 7786,
+            "max_loss": -30350,
+            "max_win": 34398,
+            "sharpe": 0.24
+          },
+          "VIX 17-20": {
+            "n": 151,
+            "total_pnl": 215941,
+            "mean_pnl": 1430,
+            "win_rate": 70.9,
+            "std": 8301,
+            "max_loss": -28872,
+            "max_win": 41939,
+            "sharpe": 0.17
+          },
+          "VIX<14": {
+            "n": 49,
+            "total_pnl": 84859,
+            "mean_pnl": 1732,
+            "win_rate": 69.4,
+            "std": 6611,
+            "max_loss": -22932,
+            "max_win": 17886,
+            "sharpe": 0.26
+          },
+          "VIX>20": {
+            "n": 121,
+            "total_pnl": 39383,
+            "mean_pnl": 325,
+            "win_rate": 67.8,
+            "std": 6761,
+            "max_loss": -30357,
+            "max_win": 19168,
+            "sharpe": 0.05
+          }
+        },
+        "comparisons": [
+          {
+            "best": "VIX 14-17",
+            "worst": "VIX>20",
+            "t_stat": 1.883,
+            "p_value": 0.0608,
+            "significant_10": true,
+            "significant_05": false
+          }
+        ]
+      },
+      "VP Ratio": {
+        "buckets": {
+          "VP 1.0-1.3": {
+            "n": 116,
+            "total_pnl": 145996,
+            "mean_pnl": 1259,
+            "win_rate": 72.4,
+            "std": 8434,
+            "max_loss": -30357,
+            "max_win": 18432,
+            "sharpe": 0.15
+          },
+          "VP 1.3-1.7": {
+            "n": 122,
+            "total_pnl": 273601,
+            "mean_pnl": 2243,
+            "win_rate": 77.9,
+            "std": 6112,
+            "max_loss": -25025,
+            "max_win": 17886,
+            "sharpe": 0.37
+          },
+          "VP<1.0": {
+            "n": 65,
+            "total_pnl": -589,
+            "mean_pnl": -9,
+            "win_rate": 63.1,
+            "std": 8010,
+            "max_loss": -28557,
+            "max_win": 13008,
+            "sharpe": -0.0
+          },
+          "VP>1.7": {
+            "n": 104,
+            "total_pnl": 228174,
+            "mean_pnl": 2194,
+            "win_rate": 75.0,
+            "std": 8595,
+            "max_loss": -30350,
+            "max_win": 41939,
+            "sharpe": 0.26
+          }
+        },
+        "comparisons": [
+          {
+            "best": "VP 1.3-1.7",
+            "worst": "VP<1.0",
+            "t_stat": 1.98,
+            "p_value": 0.0503,
+            "significant_10": true,
+            "significant_05": false
+          }
+        ]
+      },
+      "Gap Direction": {
+        "buckets": {
+          "Gap DOWN": {
+            "n": 88,
+            "total_pnl": 107634,
+            "mean_pnl": 1223,
+            "win_rate": 69.3,
+            "std": 6938,
+            "max_loss": -30357,
+            "max_win": 12800,
+            "sharpe": 0.18
+          },
+          "Gap FLAT": {
+            "n": 211,
+            "total_pnl": 322593,
+            "mean_pnl": 1529,
+            "win_rate": 73.5,
+            "std": 8340,
+            "max_loss": -30350,
+            "max_win": 41939,
+            "sharpe": 0.18
+          },
+          "Gap UP": {
+            "n": 123,
+            "total_pnl": 240455,
+            "mean_pnl": 1955,
+            "win_rate": 75.6,
+            "std": 7042,
+            "max_loss": -28557,
+            "max_win": 18432,
+            "sharpe": 0.28
+          }
+        },
+        "comparisons": [
+          {
+            "best": "Gap UP",
+            "worst": "Gap DOWN",
+            "t_stat": 0.751,
+            "p_value": 0.4537,
+            "significant_10": false,
+            "significant_05": false
+          }
+        ]
+      },
+      "Day of Week": {
+        "buckets": {
+          "Friday": {
+            "n": 115,
+            "total_pnl": 223248,
+            "mean_pnl": 1941,
+            "win_rate": 78.3,
+            "std": 5852,
+            "max_loss": -17946,
+            "max_win": 11484,
+            "sharpe": 0.33
+          },
+          "Monday": {
+            "n": 92,
+            "total_pnl": 169175,
+            "mean_pnl": 1839,
+            "win_rate": 75.0,
+            "std": 6235,
+            "max_loss": -30357,
+            "max_win": 10984,
+            "sharpe": 0.29
+          },
+          "Thursday": {
+            "n": 99,
+            "total_pnl": 35245,
+            "mean_pnl": 356,
+            "win_rate": 66.7,
+            "std": 7771,
+            "max_loss": -28872,
+            "max_win": 12120,
+            "sharpe": 0.05
+          },
+          "Tuesday": {
+            "n": 107,
+            "total_pnl": 209059,
+            "mean_pnl": 1954,
+            "win_rate": 70.1,
+            "std": 5407,
+            "max_loss": -17864,
+            "max_win": 14157,
+            "sharpe": 0.36
+          },
+          "Wednesday": {
+            "n": 111,
+            "total_pnl": 96130,
+            "mean_pnl": 866,
+            "win_rate": 64.9,
+            "std": 11133,
+            "max_loss": -30350,
+            "max_win": 41939,
+            "sharpe": 0.08
+          }
+        },
+        "comparisons": [
+          {
+            "best": "Tuesday",
+            "worst": "Thursday",
+            "t_stat": 1.7,
+            "p_value": 0.0909,
+            "significant_10": true,
+            "significant_05": false
+          }
+        ]
+      },
+      "RV Slope": {
+        "buckets": {
+          "FALLING": {
+            "n": 138,
+            "total_pnl": 341953,
+            "mean_pnl": 2478,
+            "win_rate": 80.4,
+            "std": 8312,
+            "max_loss": -30357,
+            "max_win": 41939,
+            "sharpe": 0.3
+          },
+          "RISING": {
+            "n": 94,
+            "total_pnl": 114568,
+            "mean_pnl": 1219,
+            "win_rate": 67.0,
+            "std": 7269,
+            "max_loss": -17946,
+            "max_win": 34398,
+            "sharpe": 0.17
+          },
+          "STABLE": {
+            "n": 175,
+            "total_pnl": 190661,
+            "mean_pnl": 1089,
+            "win_rate": 70.9,
+            "std": 7634,
+            "max_loss": -30316,
+            "max_win": 17380,
+            "sharpe": 0.14
+          }
+        },
+        "comparisons": [
+          {
+            "best": "FALLING",
+            "worst": "STABLE",
+            "t_stat": 1.521,
+            "p_value": 0.1295,
+            "significant_10": false,
+            "significant_05": false
+          }
+        ]
+      },
+      "Term Structure": {
+        "buckets": {
+          "CONTANGO": {
+            "n": 199,
+            "total_pnl": 239717,
+            "mean_pnl": 1205,
+            "win_rate": 70.9,
+            "std": 6885,
+            "max_loss": -30350,
+            "max_win": 17886,
+            "sharpe": 0.17
+          },
+          "FLAT": {
+            "n": 151,
+            "total_pnl": 291960,
+            "mean_pnl": 1934,
+            "win_rate": 74.8,
+            "std": 9058,
+            "max_loss": -30357,
+            "max_win": 41939,
+            "sharpe": 0.21
+          },
+          "INVERTED": {
+            "n": 57,
+            "total_pnl": 115505,
+            "mean_pnl": 2026,
+            "win_rate": 77.2,
+            "std": 7237,
+            "max_loss": -30316,
+            "max_win": 18432,
+            "sharpe": 0.28
+          }
+        },
+        "comparisons": [
+          {
+            "best": "INVERTED",
+            "worst": "CONTANGO",
+            "t_stat": 0.764,
+            "p_value": 0.447,
+            "significant_10": false,
+            "significant_05": false
+          }
+        ]
+      },
+      "Prior Day Dir": {
+        "buckets": {
+          "DOWN": {
+            "n": 174,
+            "total_pnl": 252285,
+            "mean_pnl": 1450,
+            "win_rate": 71.3,
+            "std": 8781,
+            "max_loss": -30316,
+            "max_win": 41939,
+            "sharpe": 0.17
+          },
+          "FLAT": {
+            "n": 54,
+            "total_pnl": 29972,
+            "mean_pnl": 555,
+            "win_rate": 70.4,
+            "std": 7674,
+            "max_loss": -30350,
+            "max_win": 13392,
+            "sharpe": 0.07
+          },
+          "UP": {
+            "n": 179,
+            "total_pnl": 364925,
+            "mean_pnl": 2039,
+            "win_rate": 76.0,
+            "std": 6757,
+            "max_loss": -30357,
+            "max_win": 17886,
+            "sharpe": 0.3
+          }
+        },
+        "comparisons": [
+          {
+            "best": "UP",
+            "worst": "FLAT",
+            "t_stat": 1.279,
+            "p_value": 0.2046,
+            "significant_10": false,
+            "significant_05": false
+          }
+        ]
+      },
+      "5d Return": {
+        "buckets": {
+          "5d -0.5 to 0.5%": {
+            "n": 100,
+            "total_pnl": 70963,
+            "mean_pnl": 710,
+            "win_rate": 69.0,
+            "std": 8295,
+            "max_loss": -30357,
+            "max_win": 14938,
+            "sharpe": 0.09
+          },
+          "5d 0.5-1.5%": {
+            "n": 101,
+            "total_pnl": 174478,
+            "mean_pnl": 1728,
+            "win_rate": 77.2,
+            "std": 7388,
+            "max_loss": -28872,
+            "max_win": 34398,
+            "sharpe": 0.23
+          },
+          "5d<-0.5%": {
+            "n": 123,
+            "total_pnl": 147806,
+            "mean_pnl": 1202,
+            "win_rate": 70.7,
+            "std": 7854,
+            "max_loss": -30316,
+            "max_win": 18432,
+            "sharpe": 0.15
+          },
+          "5d>1.5%": {
+            "n": 83,
+            "total_pnl": 253935,
+            "mean_pnl": 3059,
+            "win_rate": 77.1,
+            "std": 7499,
+            "max_loss": -22932,
+            "max_win": 41939,
+            "sharpe": 0.41
+          }
+        },
+        "comparisons": [
+          {
+            "best": "5d>1.5%",
+            "worst": "5d -0.5 to 0.5%",
+            "t_stat": 2.011,
+            "p_value": 0.0458,
+            "significant_10": true,
+            "significant_05": true
+          }
+        ]
+      },
+      "Prior Day |Ret|": {
+        "buckets": {
+          "|1d| 0.3-0.7%": {
+            "n": 125,
+            "total_pnl": 195146,
+            "mean_pnl": 1561,
+            "win_rate": 76.8,
+            "std": 7667,
+            "max_loss": -30350,
+            "max_win": 18432,
+            "sharpe": 0.2
+          },
+          "|1d| 0.7-1.2%": {
+            "n": 85,
+            "total_pnl": 194568,
+            "mean_pnl": 2289,
+            "win_rate": 78.8,
+            "std": 6194,
+            "max_loss": -16326,
+            "max_win": 14938,
+            "sharpe": 0.37
+          },
+          "|1d|<0.3%": {
+            "n": 132,
+            "total_pnl": 183468,
+            "mean_pnl": 1390,
+            "win_rate": 68.2,
+            "std": 9097,
+            "max_loss": -30357,
+            "max_win": 41939,
+            "sharpe": 0.15
+          },
+          "|1d|>1.2%": {
+            "n": 65,
+            "total_pnl": 74000,
+            "mean_pnl": 1138,
+            "win_rate": 69.2,
+            "std": 7149,
+            "max_loss": -30316,
+            "max_win": 14157,
+            "sharpe": 0.16
+          }
+        },
+        "comparisons": [
+          {
+            "best": "|1d| 0.7-1.2%",
+            "worst": "|1d|>1.2%",
+            "t_stat": 1.034,
+            "p_value": 0.303,
+            "significant_10": false,
+            "significant_05": false
+          }
+        ]
+      },
+      "In Prior Wk Range": {
+        "buckets": {
+          "In Range": {
+            "n": 267,
+            "total_pnl": 290222,
+            "mean_pnl": 1087,
+            "win_rate": 70.4,
+            "std": 7927,
+            "max_loss": -30357,
+            "max_win": 34398,
+            "sharpe": 0.14
+          },
+          "Out Range": {
+            "n": 140,
+            "total_pnl": 356960,
+            "mean_pnl": 2550,
+            "win_rate": 78.6,
+            "std": 7479,
+            "max_loss": -28872,
+            "max_win": 41939,
+            "sharpe": 0.34
+          }
+        },
+        "comparisons": [
+          {
+            "best": "Out Range",
+            "worst": "In Range",
+            "t_stat": 1.836,
+            "p_value": 0.0674,
+            "significant_10": true,
+            "significant_05": false
+          }
+        ]
+      },
+      "Credit/Wing %": {
+        "buckets": {
+          "Credit 25-35%": {
+            "n": 97,
+            "total_pnl": 25576,
+            "mean_pnl": 264,
+            "win_rate": 69.1,
+            "std": 9882,
+            "max_loss": -30357,
+            "max_win": 17380,
+            "sharpe": 0.03
+          },
+          "Credit 35-45%": {
+            "n": 30,
+            "total_pnl": 69863,
+            "mean_pnl": 2329,
+            "win_rate": 70.0,
+            "std": 6724,
+            "max_loss": -12580,
+            "max_win": 17886,
+            "sharpe": 0.35
+          },
+          "Credit<25%": {
+            "n": 377,
+            "total_pnl": 599274,
+            "mean_pnl": 1590,
+            "win_rate": 72.1,
+            "std": 5943,
+            "max_loss": -28872,
+            "max_win": 13008,
+            "sharpe": 0.27
+          },
+          "Credit>45%": {
+            "n": 20,
+            "total_pnl": 38144,
+            "mean_pnl": 1907,
+            "win_rate": 60.0,
+            "std": 18033,
+            "max_loss": -30316,
+            "max_win": 41939,
+            "sharpe": 0.11
+          }
+        },
+        "comparisons": [
+          {
+            "best": "Credit 35-45%",
+            "worst": "Credit 25-35%",
+            "t_stat": 1.303,
+            "p_value": 0.1969,
+            "significant_10": false,
+            "significant_05": false
+          }
+        ]
+      },
+      "RV Level": {
+        "buckets": {
+          "RV 12-18": {
+            "n": 135,
+            "total_pnl": 250818,
+            "mean_pnl": 1858,
+            "win_rate": 77.8,
+            "std": 7858,
+            "max_loss": -30357,
+            "max_win": 18432,
+            "sharpe": 0.24
+          },
+          "RV 8-12": {
+            "n": 140,
+            "total_pnl": 277103,
+            "mean_pnl": 1979,
+            "win_rate": 72.9,
+            "std": 6423,
+            "max_loss": -25025,
+            "max_win": 17886,
+            "sharpe": 0.31
+          },
+          "RV<8": {
+            "n": 52,
+            "total_pnl": 114352,
+            "mean_pnl": 2199,
+            "win_rate": 75.0,
+            "std": 10746,
+            "max_loss": -30350,
+            "max_win": 41939,
+            "sharpe": 0.2
+          },
+          "RV>18": {
+            "n": 80,
+            "total_pnl": 4909,
+            "mean_pnl": 61,
+            "win_rate": 65.0,
+            "std": 7588,
+            "max_loss": -28557,
+            "max_win": 13008,
+            "sharpe": 0.01
+          }
+        },
+        "comparisons": [
+          {
+            "best": "RV<8",
+            "worst": "RV>18",
+            "t_stat": 1.247,
+            "p_value": 0.216,
+            "significant_10": false,
+            "significant_05": false
+          }
+        ]
+      },
+      "Prior Day Range": {
+        "buckets": {
+          "DayRng 0.3-0.6%": {
+            "n": 74,
+            "total_pnl": 109534,
+            "mean_pnl": 1480,
+            "win_rate": 68.9,
+            "std": 8755,
+            "max_loss": -30350,
+            "max_win": 34398,
+            "sharpe": 0.17
+          },
+          "DayRng 0.6-1.0%": {
+            "n": 143,
+            "total_pnl": 217973,
+            "mean_pnl": 1524,
+            "win_rate": 74.1,
+            "std": 7123,
+            "max_loss": -22932,
+            "max_win": 17886,
+            "sharpe": 0.21
+          },
+          "DayRng<0.3%": {
+            "n": 4,
+            "total_pnl": 1953,
+            "mean_pnl": 488,
+            "win_rate": 75.0,
+            "std": 6742,
+            "max_loss": -9247,
+            "max_win": 5943,
+            "sharpe": 0.07
+          },
+          "DayRng>1.0%": {
+            "n": 186,
+            "total_pnl": 317722,
+            "mean_pnl": 1708,
+            "win_rate": 74.2,
+            "std": 7966,
+            "max_loss": -30357,
+            "max_win": 41939,
+            "sharpe": 0.21
+          }
+        },
+        "comparisons": [
+          {
+            "best": "DayRng>1.0%",
+            "worst": "DayRng 0.3-0.6%",
+            "t_stat": 0.194,
+            "p_value": 0.8463,
+            "significant_10": false,
+            "significant_05": false
+          }
+        ]
+      },
+      "VIX9D/VIX Ratio": {
+        "buckets": {
+          "V9D/V 0.85-0.95": {
+            "n": 149,
+            "total_pnl": 297337,
+            "mean_pnl": 1996,
+            "win_rate": 76.5,
+            "std": 7914,
+            "max_loss": -25025,
+            "max_win": 41939,
+            "sharpe": 0.25
+          },
+          "V9D/V 0.95-1.05": {
+            "n": 113,
+            "total_pnl": 186112,
+            "mean_pnl": 1647,
+            "win_rate": 70.8,
+            "std": 8689,
+            "max_loss": -30316,
+            "max_win": 18432,
+            "sharpe": 0.19
+          },
+          "V9D/V<0.85": {
+            "n": 101,
+            "total_pnl": 150056,
+            "mean_pnl": 1486,
+            "win_rate": 72.3,
+            "std": 5932,
+            "max_loss": -21632,
+            "max_win": 17886,
+            "sharpe": 0.25
+          },
+          "V9D/V>1.05": {
+            "n": 42,
+            "total_pnl": 3585,
+            "mean_pnl": 85,
+            "win_rate": 69.0,
+            "std": 8977,
+            "max_loss": -30357,
+            "max_win": 13016,
+            "sharpe": 0.01
+          }
+        },
+        "comparisons": [
+          {
+            "best": "V9D/V 0.85-0.95",
+            "worst": "V9D/V>1.05",
+            "t_stat": 1.249,
+            "p_value": 0.2165,
+            "significant_10": false,
+            "significant_05": false
+          }
+        ]
+      }
+    }
+  },
+  "Phoenix 75 Last Hour": {
+    "name": "Phoenix 75 Last Hour",
+    "n": 410,
+    "total_pnl": 1140694.0,
+    "factors": {
+      "VIX Level": {
+        "buckets": {
+          "VIX 14-17": {
+            "n": 135,
+            "total_pnl": 444040,
+            "mean_pnl": 3289,
+            "win_rate": 74.8,
+            "std": 8462,
+            "max_loss": -31464,
+            "max_win": 23341,
+            "sharpe": 0.39
+          },
+          "VIX 17-20": {
+            "n": 119,
+            "total_pnl": 353469,
+            "mean_pnl": 2970,
+            "win_rate": 79.0,
+            "std": 8743,
+            "max_loss": -31554,
+            "max_win": 23472,
+            "sharpe": 0.34
+          },
+          "VIX<14": {
+            "n": 34,
+            "total_pnl": 130517,
+            "mean_pnl": 3839,
+            "win_rate": 76.5,
+            "std": 6095,
+            "max_loss": -12045,
+            "max_win": 13230,
+            "sharpe": 0.63
+          },
+          "VIX>20": {
+            "n": 120,
+            "total_pnl": 187558,
+            "mean_pnl": 1563,
+            "win_rate": 75.0,
+            "std": 4612,
+            "max_loss": -17442,
+            "max_win": 17264,
+            "sharpe": 0.34
+          }
+        },
+        "comparisons": [
+          {
+            "best": "VIX<14",
+            "worst": "VIX>20",
+            "t_stat": 2.02,
+            "p_value": 0.0495,
+            "significant_10": true,
+            "significant_05": true
+          }
+        ]
+      },
+      "VP Ratio": {
+        "buckets": {
+          "VP 1.0-1.3": {
+            "n": 86,
+            "total_pnl": 254257,
+            "mean_pnl": 2956,
+            "win_rate": 76.7,
+            "std": 7539,
+            "max_loss": -31464,
+            "max_win": 23472,
+            "sharpe": 0.39
+          },
+          "VP 1.3-1.7": {
+            "n": 98,
+            "total_pnl": 332027,
+            "mean_pnl": 3388,
+            "win_rate": 79.6,
+            "std": 6714,
+            "max_loss": -19056,
+            "max_win": 23341,
+            "sharpe": 0.5
+          },
+          "VP<1.0": {
+            "n": 51,
+            "total_pnl": 36208,
+            "mean_pnl": 710,
+            "win_rate": 64.7,
+            "std": 7481,
+            "max_loss": -17984,
+            "max_win": 16560,
+            "sharpe": 0.09
+          },
+          "VP>1.7": {
+            "n": 88,
+            "total_pnl": 281102,
+            "mean_pnl": 3194,
+            "win_rate": 77.3,
+            "std": 7011,
+            "max_loss": -28998,
+            "max_win": 22155,
+            "sharpe": 0.46
+          }
+        },
+        "comparisons": [
+          {
+            "best": "VP 1.3-1.7",
+            "worst": "VP<1.0",
+            "t_stat": 2.146,
+            "p_value": 0.0345,
+            "significant_10": true,
+            "significant_05": true
+          }
+        ]
+      },
+      "Gap Direction": {
+        "buckets": {
+          "Gap DOWN": {
+            "n": 80,
+            "total_pnl": 190850,
+            "mean_pnl": 2386,
+            "win_rate": 75.0,
+            "std": 7824,
+            "max_loss": -24704,
+            "max_win": 23072,
+            "sharpe": 0.3
+          },
+          "Gap FLAT": {
+            "n": 162,
+            "total_pnl": 440701,
+            "mean_pnl": 2720,
+            "win_rate": 73.5,
+            "std": 7062,
+            "max_loss": -28998,
+            "max_win": 23472,
+            "sharpe": 0.39
+          },
+          "Gap UP": {
+            "n": 94,
+            "total_pnl": 243890,
+            "mean_pnl": 2595,
+            "win_rate": 77.7,
+            "std": 7276,
+            "max_loss": -31464,
+            "max_win": 23341,
+            "sharpe": 0.36
+          }
+        },
+        "comparisons": [
+          {
+            "best": "Gap FLAT",
+            "worst": "Gap DOWN",
+            "t_stat": 0.323,
+            "p_value": 0.7471,
+            "significant_10": false,
+            "significant_05": false
+          }
+        ]
+      },
+      "Day of Week": {
+        "buckets": {
+          "Friday": {
+            "n": 88,
+            "total_pnl": 287453,
+            "mean_pnl": 3267,
+            "win_rate": 78.4,
+            "std": 6318,
+            "max_loss": -12112,
+            "max_win": 23072,
+            "sharpe": 0.52
+          },
+          "Monday": {
+            "n": 62,
+            "total_pnl": 118499,
+            "mean_pnl": 1911,
+            "win_rate": 79.0,
+            "std": 6723,
+            "max_loss": -24704,
+            "max_win": 17264,
+            "sharpe": 0.28
+          },
+          "Thursday": {
+            "n": 94,
+            "total_pnl": 187484,
+            "mean_pnl": 1995,
+            "win_rate": 77.7,
+            "std": 6504,
+            "max_loss": -29175,
+            "max_win": 15105,
+            "sharpe": 0.31
+          },
+          "Tuesday": {
+            "n": 76,
+            "total_pnl": 261273,
+            "mean_pnl": 3438,
+            "win_rate": 75.0,
+            "std": 6953,
+            "max_loss": -17640,
+            "max_win": 23472,
+            "sharpe": 0.49
+          },
+          "Wednesday": {
+            "n": 90,
+            "total_pnl": 285985,
+            "mean_pnl": 3178,
+            "win_rate": 72.2,
+            "std": 9980,
+            "max_loss": -31554,
+            "max_win": 23341,
+            "sharpe": 0.32
+          }
+        },
+        "comparisons": [
+          {
+            "best": "Tuesday",
+            "worst": "Monday",
+            "t_stat": 1.307,
+            "p_value": 0.1936,
+            "significant_10": false,
+            "significant_05": false
+          }
+        ]
+      },
+      "RV Slope": {
+        "buckets": {
+          "FALLING": {
+            "n": 111,
+            "total_pnl": 218342,
+            "mean_pnl": 1967,
+            "win_rate": 71.2,
+            "std": 8115,
+            "max_loss": -31464,
+            "max_win": 22155,
+            "sharpe": 0.24
+          },
+          "RISING": {
+            "n": 69,
+            "total_pnl": 260117,
+            "mean_pnl": 3770,
+            "win_rate": 78.3,
+            "std": 6895,
+            "max_loss": -17640,
+            "max_win": 21588,
+            "sharpe": 0.55
+          },
+          "STABLE": {
+            "n": 143,
+            "total_pnl": 425135,
+            "mean_pnl": 2973,
+            "win_rate": 78.3,
+            "std": 6461,
+            "max_loss": -19056,
+            "max_win": 23472,
+            "sharpe": 0.46
+          }
+        },
+        "comparisons": [
+          {
+            "best": "RISING",
+            "worst": "FALLING",
+            "t_stat": 1.592,
+            "p_value": 0.1133,
+            "significant_10": false,
+            "significant_05": false
+          }
+        ]
+      },
+      "Term Structure": {
+        "buckets": {
+          "CONTANGO": {
+            "n": 160,
+            "total_pnl": 450640,
+            "mean_pnl": 2816,
+            "win_rate": 76.2,
+            "std": 6818,
+            "max_loss": -28998,
+            "max_win": 17046,
+            "sharpe": 0.41
+          },
+          "FLAT": {
+            "n": 113,
+            "total_pnl": 400298,
+            "mean_pnl": 3542,
+            "win_rate": 79.6,
+            "std": 7211,
+            "max_loss": -18528,
+            "max_win": 23072,
+            "sharpe": 0.49
+          },
+          "INVERTED": {
+            "n": 50,
+            "total_pnl": 52656,
+            "mean_pnl": 1053,
+            "win_rate": 66.0,
+            "std": 7982,
+            "max_loss": -31464,
+            "max_win": 23472,
+            "sharpe": 0.13
+          }
+        },
+        "comparisons": [
+          {
+            "best": "FLAT",
+            "worst": "INVERTED",
+            "t_stat": 1.89,
+            "p_value": 0.0621,
+            "significant_10": true,
+            "significant_05": false
+          }
+        ]
+      },
+      "Prior Day Dir": {
+        "buckets": {
+          "DOWN": {
+            "n": 137,
+            "total_pnl": 258258,
+            "mean_pnl": 1885,
+            "win_rate": 70.8,
+            "std": 8044,
+            "max_loss": -31464,
+            "max_win": 23472,
+            "sharpe": 0.23
+          },
+          "FLAT": {
+            "n": 42,
+            "total_pnl": 100858,
+            "mean_pnl": 2401,
+            "win_rate": 76.2,
+            "std": 7950,
+            "max_loss": -28998,
+            "max_win": 16940,
+            "sharpe": 0.3
+          },
+          "UP": {
+            "n": 144,
+            "total_pnl": 544478,
+            "mean_pnl": 3781,
+            "win_rate": 80.6,
+            "std": 5854,
+            "max_loss": -17442,
+            "max_win": 23072,
+            "sharpe": 0.65
+          }
+        },
+        "comparisons": [
+          {
+            "best": "UP",
+            "worst": "DOWN",
+            "t_stat": 2.25,
+            "p_value": 0.0253,
+            "significant_10": true,
+            "significant_05": true
+          }
+        ]
+      },
+      "5d Return": {
+        "buckets": {
+          "5d -0.5 to 0.5%": {
+            "n": 69,
+            "total_pnl": 223982,
+            "mean_pnl": 3246,
+            "win_rate": 75.4,
+            "std": 8451,
+            "max_loss": -28998,
+            "max_win": 23341,
+            "sharpe": 0.38
+          },
+          "5d 0.5-1.5%": {
+            "n": 93,
+            "total_pnl": 271719,
+            "mean_pnl": 2922,
+            "win_rate": 77.4,
+            "std": 6987,
+            "max_loss": -19056,
+            "max_win": 23072,
+            "sharpe": 0.42
+          },
+          "5d<-0.5%": {
+            "n": 96,
+            "total_pnl": 131868,
+            "mean_pnl": 1374,
+            "win_rate": 67.7,
+            "std": 7232,
+            "max_loss": -31464,
+            "max_win": 23472,
+            "sharpe": 0.19
+          },
+          "5d>1.5%": {
+            "n": 65,
+            "total_pnl": 276025,
+            "mean_pnl": 4247,
+            "win_rate": 86.2,
+            "std": 5432,
+            "max_loss": -6675,
+            "max_win": 22155,
+            "sharpe": 0.78
+          }
+        },
+        "comparisons": [
+          {
+            "best": "5d>1.5%",
+            "worst": "5d<-0.5%",
+            "t_stat": 2.875,
+            "p_value": 0.0046,
+            "significant_10": true,
+            "significant_05": true
+          }
+        ]
+      },
+      "Prior Day |Ret|": {
+        "buckets": {
+          "|1d| 0.3-0.7%": {
+            "n": 98,
+            "total_pnl": 124856,
+            "mean_pnl": 1274,
+            "win_rate": 73.5,
+            "std": 7007,
+            "max_loss": -31464,
+            "max_win": 14430,
+            "sharpe": 0.18
+          },
+          "|1d| 0.7-1.2%": {
+            "n": 59,
+            "total_pnl": 207235,
+            "mean_pnl": 3512,
+            "win_rate": 78.0,
+            "std": 7191,
+            "max_loss": -12112,
+            "max_win": 23341,
+            "sharpe": 0.49
+          },
+          "|1d|<0.3%": {
+            "n": 117,
+            "total_pnl": 482508,
+            "mean_pnl": 4124,
+            "win_rate": 80.3,
+            "std": 7668,
+            "max_loss": -19056,
+            "max_win": 22155,
+            "sharpe": 0.54
+          },
+          "|1d|>1.2%": {
+            "n": 49,
+            "total_pnl": 88995,
+            "mean_pnl": 1816,
+            "win_rate": 67.3,
+            "std": 5513,
+            "max_loss": -7616,
+            "max_win": 23472,
+            "sharpe": 0.33
+          }
+        },
+        "comparisons": [
+          {
+            "best": "|1d|<0.3%",
+            "worst": "|1d| 0.3-0.7%",
+            "t_stat": 2.845,
+            "p_value": 0.0049,
+            "significant_10": true,
+            "significant_05": true
+          }
+        ]
+      },
+      "In Prior Wk Range": {
+        "buckets": {
+          "In Range": {
+            "n": 210,
+            "total_pnl": 568988,
+            "mean_pnl": 2709,
+            "win_rate": 78.1,
+            "std": 7370,
+            "max_loss": -31464,
+            "max_win": 23341,
+            "sharpe": 0.37
+          },
+          "Out Range": {
+            "n": 113,
+            "total_pnl": 334606,
+            "mean_pnl": 2961,
+            "win_rate": 71.7,
+            "std": 6811,
+            "max_loss": -18528,
+            "max_win": 23472,
+            "sharpe": 0.43
+          }
+        },
+        "comparisons": [
+          {
+            "best": "Out Range",
+            "worst": "In Range",
+            "t_stat": 0.308,
+            "p_value": 0.7586,
+            "significant_10": false,
+            "significant_05": false
+          }
+        ]
+      },
+      "Credit/Wing %": {
+        "buckets": {
+          "Credit 25-35%": {
+            "n": 42,
+            "total_pnl": -302,
+            "mean_pnl": -7,
+            "win_rate": 61.9,
+            "std": 10932,
+            "max_loss": -31554,
+            "max_win": 17046,
+            "sharpe": -0.0
+          },
+          "Credit 35-45%": {
+            "n": 10,
+            "total_pnl": 72457,
+            "mean_pnl": 7246,
+            "win_rate": 90.0,
+            "std": 8564,
+            "max_loss": -1551,
+            "max_win": 22155,
+            "sharpe": 0.85
+          },
+          "Credit<25%": {
+            "n": 356,
+            "total_pnl": 1059503,
+            "mean_pnl": 2976,
+            "win_rate": 77.5,
+            "std": 6863,
+            "max_loss": -29175,
+            "max_win": 23472,
+            "sharpe": 0.43
+          },
+          "Credit>45%": {
+            "n": 2,
+            "total_pnl": 9036,
+            "mean_pnl": 4518,
+            "win_rate": 100.0,
+            "std": 1044,
+            "max_loss": 3780,
+            "max_win": 5256,
+            "sharpe": 4.33
+          }
+        },
+        "comparisons": [
+          {
+            "best": "Credit 35-45%",
+            "worst": "Credit 25-35%",
+            "t_stat": 2.273,
+            "p_value": 0.0364,
+            "significant_10": true,
+            "significant_05": true
+          }
+        ]
+      },
+      "RV Level": {
+        "buckets": {
+          "RV 12-18": {
+            "n": 96,
+            "total_pnl": 277272,
+            "mean_pnl": 2888,
+            "win_rate": 79.2,
+            "std": 7920,
+            "max_loss": -31464,
+            "max_win": 23472,
+            "sharpe": 0.36
+          },
+          "RV 8-12": {
+            "n": 105,
+            "total_pnl": 421865,
+            "mean_pnl": 4018,
+            "win_rate": 78.1,
+            "std": 6522,
+            "max_loss": -16665,
+            "max_win": 23341,
+            "sharpe": 0.62
+          },
+          "RV<8": {
+            "n": 45,
+            "total_pnl": 150898,
+            "mean_pnl": 3353,
+            "win_rate": 80.0,
+            "std": 8334,
+            "max_loss": -28998,
+            "max_win": 22155,
+            "sharpe": 0.4
+          },
+          "RV>18": {
+            "n": 77,
+            "total_pnl": 53559,
+            "mean_pnl": 696,
+            "win_rate": 66.2,
+            "std": 5849,
+            "max_loss": -17984,
+            "max_win": 16560,
+            "sharpe": 0.12
+          }
+        },
+        "comparisons": [
+          {
+            "best": "RV 8-12",
+            "worst": "RV>18",
+            "t_stat": 3.605,
+            "p_value": 0.0004,
+            "significant_10": true,
+            "significant_05": true
+          }
+        ]
+      },
+      "Prior Day Range": {
+        "buckets": {
+          "DayRng 0.3-0.6%": {
+            "n": 58,
+            "total_pnl": 186515,
+            "mean_pnl": 3216,
+            "win_rate": 79.3,
+            "std": 8439,
+            "max_loss": -28998,
+            "max_win": 21588,
+            "sharpe": 0.38
+          },
+          "DayRng 0.6-1.0%": {
+            "n": 112,
+            "total_pnl": 356900,
+            "mean_pnl": 3187,
+            "win_rate": 76.8,
+            "std": 6268,
+            "max_loss": -17984,
+            "max_win": 17046,
+            "sharpe": 0.51
+          },
+          "DayRng<0.3%": {
+            "n": 4,
+            "total_pnl": -4332,
+            "mean_pnl": -1083,
+            "win_rate": 50.0,
+            "std": 5172,
+            "max_loss": -8540,
+            "max_win": 3060,
+            "sharpe": -0.21
+          },
+          "DayRng>1.0%": {
+            "n": 149,
+            "total_pnl": 364511,
+            "mean_pnl": 2446,
+            "win_rate": 74.5,
+            "std": 7326,
+            "max_loss": -31464,
+            "max_win": 23472,
+            "sharpe": 0.33
+          }
+        },
+        "comparisons": [
+          {
+            "best": "DayRng 0.3-0.6%",
+            "worst": "DayRng>1.0%",
+            "t_stat": 0.611,
+            "p_value": 0.543,
+            "significant_10": false,
+            "significant_05": false
+          }
+        ]
+      },
+      "VIX9D/VIX Ratio": {
+        "buckets": {
+          "V9D/V 0.85-0.95": {
+            "n": 115,
+            "total_pnl": 414544,
+            "mean_pnl": 3605,
+            "win_rate": 77.4,
+            "std": 6518,
+            "max_loss": -12112,
+            "max_win": 22155,
+            "sharpe": 0.55
+          },
+          "V9D/V 0.95-1.05": {
+            "n": 95,
+            "total_pnl": 282997,
+            "mean_pnl": 2979,
+            "win_rate": 75.8,
+            "std": 8177,
+            "max_loss": -31464,
+            "max_win": 23472,
+            "sharpe": 0.36
+          },
+          "V9D/V<0.85": {
+            "n": 70,
+            "total_pnl": 169395,
+            "mean_pnl": 2420,
+            "win_rate": 77.1,
+            "std": 5852,
+            "max_loss": -17984,
+            "max_win": 17046,
+            "sharpe": 0.41
+          },
+          "V9D/V>1.05": {
+            "n": 39,
+            "total_pnl": 34336,
+            "mean_pnl": 880,
+            "win_rate": 66.7,
+            "std": 8631,
+            "max_loss": -28998,
+            "max_win": 18135,
+            "sharpe": 0.1
+          }
+        },
+        "comparisons": [
+          {
+            "best": "V9D/V 0.85-0.95",
+            "worst": "V9D/V>1.05",
+            "t_stat": 1.804,
+            "p_value": 0.0768,
+            "significant_10": true,
+            "significant_05": false
+          }
+        ]
+      }
+    }
+  },
+  "Phoenix 75 Midday": {
+    "name": "Phoenix 75 Midday",
+    "n": 517,
+    "total_pnl": 506051.0,
+    "factors": {
+      "VIX Level": {
+        "buckets": {
+          "VIX 14-17": {
+            "n": 187,
+            "total_pnl": 254764,
+            "mean_pnl": 1362,
+            "win_rate": 71.7,
+            "std": 4418,
+            "max_loss": -18270,
+            "max_win": 17316,
+            "sharpe": 0.31
+          },
+          "VIX 17-20": {
+            "n": 149,
+            "total_pnl": 122874,
+            "mean_pnl": 825,
+            "win_rate": 71.1,
+            "std": 4239,
+            "max_loss": -15126,
+            "max_win": 8226,
+            "sharpe": 0.19
+          },
+          "VIX<14": {
+            "n": 57,
+            "total_pnl": 93908,
+            "mean_pnl": 1648,
+            "win_rate": 80.7,
+            "std": 4545,
+            "max_loss": -17630,
+            "max_win": 9828,
+            "sharpe": 0.36
+          },
+          "VIX>20": {
+            "n": 123,
+            "total_pnl": 29645,
+            "mean_pnl": 241,
+            "win_rate": 69.9,
+            "std": 3924,
+            "max_loss": -20976,
+            "max_win": 10420,
+            "sharpe": 0.06
+          }
+        },
+        "comparisons": [
+          {
+            "best": "VIX<14",
+            "worst": "VIX>20",
+            "t_stat": 2.014,
+            "p_value": 0.0468,
+            "significant_10": true,
+            "significant_05": true
+          }
+        ]
+      },
+      "VP Ratio": {
+        "buckets": {
+          "VP 1.0-1.3": {
+            "n": 117,
+            "total_pnl": 169341,
+            "mean_pnl": 1447,
+            "win_rate": 76.1,
+            "std": 3837,
+            "max_loss": -9655,
+            "max_win": 10792,
+            "sharpe": 0.38
+          },
+          "VP 1.3-1.7": {
+            "n": 126,
+            "total_pnl": 191548,
+            "mean_pnl": 1520,
+            "win_rate": 77.8,
+            "std": 3339,
+            "max_loss": -13440,
+            "max_win": 9828,
+            "sharpe": 0.46
+          },
+          "VP<1.0": {
+            "n": 65,
+            "total_pnl": -31774,
+            "mean_pnl": -489,
+            "win_rate": 58.5,
+            "std": 5444,
+            "max_loss": -20976,
+            "max_win": 6965,
+            "sharpe": -0.09
+          },
+          "VP>1.7": {
+            "n": 105,
+            "total_pnl": 89769,
+            "mean_pnl": 855,
+            "win_rate": 74.3,
+            "std": 5155,
+            "max_loss": -18270,
+            "max_win": 17316,
+            "sharpe": 0.17
+          }
+        },
+        "comparisons": [
+          {
+            "best": "VP 1.3-1.7",
+            "worst": "VP<1.0",
+            "t_stat": 2.723,
+            "p_value": 0.0078,
+            "significant_10": true,
+            "significant_05": true
+          }
+        ]
+      },
+      "Gap Direction": {
+        "buckets": {
+          "Gap DOWN": {
+            "n": 89,
+            "total_pnl": 93182,
+            "mean_pnl": 1047,
+            "win_rate": 74.2,
+            "std": 4191,
+            "max_loss": -15126,
+            "max_win": 7045,
+            "sharpe": 0.25
+          },
+          "Gap FLAT": {
+            "n": 214,
+            "total_pnl": 207334,
+            "mean_pnl": 969,
+            "win_rate": 72.9,
+            "std": 4384,
+            "max_loss": -18270,
+            "max_win": 17316,
+            "sharpe": 0.22
+          },
+          "Gap UP": {
+            "n": 124,
+            "total_pnl": 134895,
+            "mean_pnl": 1088,
+            "win_rate": 75.0,
+            "std": 4405,
+            "max_loss": -20976,
+            "max_win": 10792,
+            "sharpe": 0.25
+          }
+        },
+        "comparisons": [
+          {
+            "best": "Gap UP",
+            "worst": "Gap FLAT",
+            "t_stat": 0.24,
+            "p_value": 0.8107,
+            "significant_10": false,
+            "significant_05": false
+          }
+        ]
+      },
+      "Day of Week": {
+        "buckets": {
+          "Friday": {
+            "n": 107,
+            "total_pnl": 97656,
+            "mean_pnl": 913,
+            "win_rate": 71.0,
+            "std": 4198,
+            "max_loss": -15126,
+            "max_win": 7914,
+            "sharpe": 0.22
+          },
+          "Monday": {
+            "n": 82,
+            "total_pnl": 117659,
+            "mean_pnl": 1435,
+            "win_rate": 79.3,
+            "std": 2963,
+            "max_loss": -8380,
+            "max_win": 7730,
+            "sharpe": 0.48
+          },
+          "Thursday": {
+            "n": 115,
+            "total_pnl": 88053,
+            "mean_pnl": 766,
+            "win_rate": 74.8,
+            "std": 4443,
+            "max_loss": -20976,
+            "max_win": 6744,
+            "sharpe": 0.17
+          },
+          "Tuesday": {
+            "n": 97,
+            "total_pnl": 114667,
+            "mean_pnl": 1182,
+            "win_rate": 71.1,
+            "std": 3564,
+            "max_loss": -12085,
+            "max_win": 8490,
+            "sharpe": 0.33
+          },
+          "Wednesday": {
+            "n": 116,
+            "total_pnl": 88016,
+            "mean_pnl": 759,
+            "win_rate": 66.4,
+            "std": 5423,
+            "max_loss": -18270,
+            "max_win": 17316,
+            "sharpe": 0.14
+          }
+        },
+        "comparisons": [
+          {
+            "best": "Monday",
+            "worst": "Wednesday",
+            "t_stat": 1.126,
+            "p_value": 0.2617,
+            "significant_10": false,
+            "significant_05": false
+          }
+        ]
+      },
+      "RV Slope": {
+        "buckets": {
+          "FALLING": {
+            "n": 137,
+            "total_pnl": 236395,
+            "mean_pnl": 1726,
+            "win_rate": 79.6,
+            "std": 3986,
+            "max_loss": -18270,
+            "max_win": 10792,
+            "sharpe": 0.43
+          },
+          "RISING": {
+            "n": 94,
+            "total_pnl": 67270,
+            "mean_pnl": 716,
+            "win_rate": 70.2,
+            "std": 4474,
+            "max_loss": -15126,
+            "max_win": 17316,
+            "sharpe": 0.16
+          },
+          "STABLE": {
+            "n": 182,
+            "total_pnl": 115219,
+            "mean_pnl": 633,
+            "win_rate": 70.3,
+            "std": 4605,
+            "max_loss": -20976,
+            "max_win": 9138,
+            "sharpe": 0.14
+          }
+        },
+        "comparisons": [
+          {
+            "best": "FALLING",
+            "worst": "STABLE",
+            "t_stat": 2.266,
+            "p_value": 0.0242,
+            "significant_10": true,
+            "significant_05": true
+          }
+        ]
+      },
+      "Term Structure": {
+        "buckets": {
+          "CONTANGO": {
+            "n": 209,
+            "total_pnl": 142635,
+            "mean_pnl": 682,
+            "win_rate": 69.4,
+            "std": 4546,
+            "max_loss": -18270,
+            "max_win": 9828,
+            "sharpe": 0.15
+          },
+          "FLAT": {
+            "n": 148,
+            "total_pnl": 191484,
+            "mean_pnl": 1294,
+            "win_rate": 77.0,
+            "std": 4344,
+            "max_loss": -20976,
+            "max_win": 17316,
+            "sharpe": 0.3
+          },
+          "INVERTED": {
+            "n": 56,
+            "total_pnl": 84765,
+            "mean_pnl": 1514,
+            "win_rate": 78.6,
+            "std": 3917,
+            "max_loss": -8695,
+            "max_win": 10792,
+            "sharpe": 0.39
+          }
+        },
+        "comparisons": [
+          {
+            "best": "INVERTED",
+            "worst": "CONTANGO",
+            "t_stat": 1.361,
+            "p_value": 0.1765,
+            "significant_10": false,
+            "significant_05": false
+          }
+        ]
+      },
+      "Prior Day Dir": {
+        "buckets": {
+          "DOWN": {
+            "n": 175,
+            "total_pnl": 141940,
+            "mean_pnl": 811,
+            "win_rate": 69.7,
+            "std": 4634,
+            "max_loss": -20976,
+            "max_win": 17316,
+            "sharpe": 0.18
+          },
+          "FLAT": {
+            "n": 54,
+            "total_pnl": 29666,
+            "mean_pnl": 549,
+            "win_rate": 72.2,
+            "std": 4673,
+            "max_loss": -18270,
+            "max_win": 9138,
+            "sharpe": 0.12
+          },
+          "UP": {
+            "n": 184,
+            "total_pnl": 247278,
+            "mean_pnl": 1344,
+            "win_rate": 77.2,
+            "std": 4070,
+            "max_loss": -17630,
+            "max_win": 9828,
+            "sharpe": 0.33
+          }
+        },
+        "comparisons": [
+          {
+            "best": "UP",
+            "worst": "FLAT",
+            "t_stat": 1.13,
+            "p_value": 0.2619,
+            "significant_10": false,
+            "significant_05": false
+          }
+        ]
+      },
+      "5d Return": {
+        "buckets": {
+          "5d -0.5 to 0.5%": {
+            "n": 95,
+            "total_pnl": 59332,
+            "mean_pnl": 625,
+            "win_rate": 71.6,
+            "std": 4702,
+            "max_loss": -18270,
+            "max_win": 6965,
+            "sharpe": 0.13
+          },
+          "5d 0.5-1.5%": {
+            "n": 105,
+            "total_pnl": 117716,
+            "mean_pnl": 1121,
+            "win_rate": 74.3,
+            "std": 4324,
+            "max_loss": -16668,
+            "max_win": 17316,
+            "sharpe": 0.26
+          },
+          "5d<-0.5%": {
+            "n": 123,
+            "total_pnl": 98495,
+            "mean_pnl": 801,
+            "win_rate": 69.9,
+            "std": 4479,
+            "max_loss": -20976,
+            "max_win": 10792,
+            "sharpe": 0.18
+          },
+          "5d>1.5%": {
+            "n": 90,
+            "total_pnl": 143341,
+            "mean_pnl": 1593,
+            "win_rate": 78.9,
+            "std": 4028,
+            "max_loss": -17325,
+            "max_win": 9828,
+            "sharpe": 0.4
+          }
+        },
+        "comparisons": [
+          {
+            "best": "5d>1.5%",
+            "worst": "5d -0.5 to 0.5%",
+            "t_stat": 1.507,
+            "p_value": 0.1337,
+            "significant_10": false,
+            "significant_05": false
+          }
+        ]
+      },
+      "Prior Day |Ret|": {
+        "buckets": {
+          "|1d| 0.3-0.7%": {
+            "n": 122,
+            "total_pnl": 111916,
+            "mean_pnl": 917,
+            "win_rate": 75.4,
+            "std": 4649,
+            "max_loss": -18270,
+            "max_win": 10792,
+            "sharpe": 0.2
+          },
+          "|1d| 0.7-1.2%": {
+            "n": 89,
+            "total_pnl": 144546,
+            "mean_pnl": 1624,
+            "win_rate": 80.9,
+            "std": 3419,
+            "max_loss": -10038,
+            "max_win": 7914,
+            "sharpe": 0.47
+          },
+          "|1d|<0.3%": {
+            "n": 139,
+            "total_pnl": 111372,
+            "mean_pnl": 801,
+            "win_rate": 67.6,
+            "std": 5024,
+            "max_loss": -20976,
+            "max_win": 17316,
+            "sharpe": 0.16
+          },
+          "|1d|>1.2%": {
+            "n": 63,
+            "total_pnl": 51050,
+            "mean_pnl": 810,
+            "win_rate": 71.4,
+            "std": 3577,
+            "max_loss": -8695,
+            "max_win": 7340,
+            "sharpe": 0.23
+          }
+        },
+        "comparisons": [
+          {
+            "best": "|1d| 0.7-1.2%",
+            "worst": "|1d|<0.3%",
+            "t_stat": 1.471,
+            "p_value": 0.1427,
+            "significant_10": false,
+            "significant_05": false
+          }
+        ]
+      },
+      "In Prior Wk Range": {
+        "buckets": {
+          "In Range": {
+            "n": 269,
+            "total_pnl": 218597,
+            "mean_pnl": 813,
+            "win_rate": 72.1,
+            "std": 4716,
+            "max_loss": -20976,
+            "max_win": 17316,
+            "sharpe": 0.17
+          },
+          "Out Range": {
+            "n": 144,
+            "total_pnl": 200287,
+            "mean_pnl": 1391,
+            "win_rate": 75.7,
+            "std": 3715,
+            "max_loss": -17325,
+            "max_win": 9828,
+            "sharpe": 0.37
+          }
+        },
+        "comparisons": [
+          {
+            "best": "Out Range",
+            "worst": "In Range",
+            "t_stat": 1.369,
+            "p_value": 0.172,
+            "significant_10": false,
+            "significant_05": false
+          }
+        ]
+      },
+      "Credit/Wing %": {
+        "buckets": {
+          "Credit 25-35%": {
+            "n": 93,
+            "total_pnl": 27819,
+            "mean_pnl": 299,
+            "win_rate": 68.8,
+            "std": 5710,
+            "max_loss": -20976,
+            "max_win": 9204,
+            "sharpe": 0.05
+          },
+          "Credit 35-45%": {
+            "n": 29,
+            "total_pnl": -3690,
+            "mean_pnl": -127,
+            "win_rate": 58.6,
+            "std": 4951,
+            "max_loss": -11352,
+            "max_win": 10792,
+            "sharpe": -0.03
+          },
+          "Credit<25%": {
+            "n": 382,
+            "total_pnl": 446740,
+            "mean_pnl": 1169,
+            "win_rate": 73.8,
+            "std": 3658,
+            "max_loss": -17630,
+            "max_win": 9138,
+            "sharpe": 0.32
+          },
+          "Credit>45%": {
+            "n": 13,
+            "total_pnl": 35182,
+            "mean_pnl": 2706,
+            "win_rate": 76.9,
+            "std": 6758,
+            "max_loss": -8695,
+            "max_win": 17316,
+            "sharpe": 0.4
+          }
+        },
+        "comparisons": [
+          {
+            "best": "Credit>45%",
+            "worst": "Credit 35-45%",
+            "t_stat": 1.357,
+            "p_value": 0.1914,
+            "significant_10": false,
+            "significant_05": false
+          }
+        ]
+      },
+      "RV Level": {
+        "buckets": {
+          "RV 12-18": {
+            "n": 133,
+            "total_pnl": 193172,
+            "mean_pnl": 1452,
+            "win_rate": 75.2,
+            "std": 4012,
+            "max_loss": -13440,
+            "max_win": 10792,
+            "sharpe": 0.36
+          },
+          "RV 8-12": {
+            "n": 143,
+            "total_pnl": 204037,
+            "mean_pnl": 1427,
+            "win_rate": 75.5,
+            "std": 3701,
+            "max_loss": -16668,
+            "max_win": 9828,
+            "sharpe": 0.39
+          },
+          "RV<8": {
+            "n": 55,
+            "total_pnl": 37719,
+            "mean_pnl": 686,
+            "win_rate": 74.5,
+            "std": 5664,
+            "max_loss": -18270,
+            "max_win": 17316,
+            "sharpe": 0.12
+          },
+          "RV>18": {
+            "n": 82,
+            "total_pnl": -16044,
+            "mean_pnl": -196,
+            "win_rate": 65.9,
+            "std": 4952,
+            "max_loss": -20976,
+            "max_win": 6894,
+            "sharpe": -0.04
+          }
+        },
+        "comparisons": [
+          {
+            "best": "RV 12-18",
+            "worst": "RV>18",
+            "t_stat": 2.543,
+            "p_value": 0.012,
+            "significant_10": true,
+            "significant_05": true
+          }
+        ]
+      },
+      "Prior Day Range": {
+        "buckets": {
+          "DayRng 0.3-0.6%": {
+            "n": 82,
+            "total_pnl": 63869,
+            "mean_pnl": 779,
+            "win_rate": 70.7,
+            "std": 4888,
+            "max_loss": -18270,
+            "max_win": 17316,
+            "sharpe": 0.16
+          },
+          "DayRng 0.6-1.0%": {
+            "n": 145,
+            "total_pnl": 137457,
+            "mean_pnl": 948,
+            "win_rate": 71.7,
+            "std": 4358,
+            "max_loss": -17630,
+            "max_win": 9828,
+            "sharpe": 0.22
+          },
+          "DayRng<0.3%": {
+            "n": 4,
+            "total_pnl": 110,
+            "mean_pnl": 28,
+            "win_rate": 75.0,
+            "std": 4559,
+            "max_loss": -6780,
+            "max_win": 2835,
+            "sharpe": 0.01
+          },
+          "DayRng>1.0%": {
+            "n": 182,
+            "total_pnl": 217448,
+            "mean_pnl": 1195,
+            "win_rate": 75.8,
+            "std": 4216,
+            "max_loss": -20976,
+            "max_win": 10792,
+            "sharpe": 0.28
+          }
+        },
+        "comparisons": [
+          {
+            "best": "DayRng>1.0%",
+            "worst": "DayRng 0.3-0.6%",
+            "t_stat": 0.667,
+            "p_value": 0.506,
+            "significant_10": false,
+            "significant_05": false
+          }
+        ]
+      },
+      "VIX9D/VIX Ratio": {
+        "buckets": {
+          "V9D/V 0.85-0.95": {
+            "n": 151,
+            "total_pnl": 179096,
+            "mean_pnl": 1186,
+            "win_rate": 76.2,
+            "std": 4187,
+            "max_loss": -15126,
+            "max_win": 17316,
+            "sharpe": 0.28
+          },
+          "V9D/V 0.95-1.05": {
+            "n": 117,
+            "total_pnl": 158032,
+            "mean_pnl": 1351,
+            "win_rate": 77.8,
+            "std": 4507,
+            "max_loss": -20976,
+            "max_win": 10792,
+            "sharpe": 0.3
+          },
+          "V9D/V<0.85": {
+            "n": 99,
+            "total_pnl": 105072,
+            "mean_pnl": 1061,
+            "win_rate": 69.7,
+            "std": 3638,
+            "max_loss": -16668,
+            "max_win": 9828,
+            "sharpe": 0.29
+          },
+          "V9D/V>1.05": {
+            "n": 43,
+            "total_pnl": -24641,
+            "mean_pnl": -573,
+            "win_rate": 60.5,
+            "std": 6057,
+            "max_loss": -18270,
+            "max_win": 8490,
+            "sharpe": -0.09
+          }
+        },
+        "comparisons": [
+          {
+            "best": "V9D/V 0.95-1.05",
+            "worst": "V9D/V>1.05",
+            "t_stat": 1.899,
+            "p_value": 0.0624,
+            "significant_10": true,
+            "significant_05": false
+          }
+        ]
+      }
+    }
+  },
+  "Phoenix 75 Power Close": {
+    "name": "Phoenix 75 Power Close",
+    "n": 370,
+    "total_pnl": 1497248.0,
+    "factors": {
+      "VIX Level": {
+        "buckets": {
+          "VIX 14-17": {
+            "n": 127,
+            "total_pnl": 645100,
+            "mean_pnl": 5080,
+            "win_rate": 79.5,
+            "std": 8801,
+            "max_loss": -28496,
+            "max_win": 25852,
+            "sharpe": 0.58
+          },
+          "VIX 17-20": {
+            "n": 115,
+            "total_pnl": 639754,
+            "mean_pnl": 5563,
+            "win_rate": 79.1,
+            "std": 9425,
+            "max_loss": -32912,
+            "max_win": 32650,
+            "sharpe": 0.59
+          },
+          "VIX<14": {
+            "n": 24,
+            "total_pnl": 124234,
+            "mean_pnl": 5176,
+            "win_rate": 87.5,
+            "std": 6184,
+            "max_loss": -11330,
+            "max_win": 19008,
+            "sharpe": 0.84
+          },
+          "VIX>20": {
+            "n": 104,
+            "total_pnl": 88160,
+            "mean_pnl": 848,
+            "win_rate": 64.4,
+            "std": 5861,
+            "max_loss": -25472,
+            "max_win": 19527,
+            "sharpe": 0.14
+          }
+        },
+        "comparisons": [
+          {
+            "best": "VIX 17-20",
+            "worst": "VIX>20",
+            "t_stat": 4.49,
+            "p_value": 0.0,
+            "significant_10": true,
+            "significant_05": true
+          }
+        ]
+      },
+      "VP Ratio": {
+        "buckets": {
+          "VP 1.0-1.3": {
+            "n": 89,
+            "total_pnl": 386269,
+            "mean_pnl": 4340,
+            "win_rate": 75.3,
+            "std": 9634,
+            "max_loss": -32912,
+            "max_win": 27240,
+            "sharpe": 0.45
+          },
+          "VP 1.3-1.7": {
+            "n": 82,
+            "total_pnl": 283588,
+            "mean_pnl": 3458,
+            "win_rate": 74.4,
+            "std": 8541,
+            "max_loss": -25762,
+            "max_win": 32650,
+            "sharpe": 0.4
+          },
+          "VP<1.0": {
+            "n": 51,
+            "total_pnl": 77176,
+            "mean_pnl": 1513,
+            "win_rate": 68.6,
+            "std": 6826,
+            "max_loss": -21994,
+            "max_win": 18194,
+            "sharpe": 0.22
+          },
+          "VP>1.7": {
+            "n": 78,
+            "total_pnl": 509783,
+            "mean_pnl": 6536,
+            "win_rate": 87.2,
+            "std": 7516,
+            "max_loss": -21551,
+            "max_win": 22379,
+            "sharpe": 0.87
+          }
+        },
+        "comparisons": [
+          {
+            "best": "VP>1.7",
+            "worst": "VP<1.0",
+            "t_stat": 3.924,
+            "p_value": 0.0001,
+            "significant_10": true,
+            "significant_05": true
+          }
+        ]
+      },
+      "Gap Direction": {
+        "buckets": {
+          "Gap DOWN": {
+            "n": 78,
+            "total_pnl": 322833,
+            "mean_pnl": 4139,
+            "win_rate": 78.2,
+            "std": 8714,
+            "max_loss": -25472,
+            "max_win": 25852,
+            "sharpe": 0.47
+          },
+          "Gap FLAT": {
+            "n": 146,
+            "total_pnl": 549483,
+            "mean_pnl": 3764,
+            "win_rate": 70.5,
+            "std": 8828,
+            "max_loss": -32912,
+            "max_win": 32650,
+            "sharpe": 0.43
+          },
+          "Gap UP": {
+            "n": 87,
+            "total_pnl": 358334,
+            "mean_pnl": 4119,
+            "win_rate": 82.8,
+            "std": 8064,
+            "max_loss": -25762,
+            "max_win": 22379,
+            "sharpe": 0.51
+          }
+        },
+        "comparisons": [
+          {
+            "best": "Gap DOWN",
+            "worst": "Gap FLAT",
+            "t_stat": 0.306,
+            "p_value": 0.7602,
+            "significant_10": false,
+            "significant_05": false
+          }
+        ]
+      },
+      "Day of Week": {
+        "buckets": {
+          "Friday": {
+            "n": 72,
+            "total_pnl": 295488,
+            "mean_pnl": 4104,
+            "win_rate": 75.0,
+            "std": 7895,
+            "max_loss": -21551,
+            "max_win": 27240,
+            "sharpe": 0.52
+          },
+          "Monday": {
+            "n": 59,
+            "total_pnl": 253644,
+            "mean_pnl": 4299,
+            "win_rate": 79.7,
+            "std": 8650,
+            "max_loss": -25472,
+            "max_win": 19527,
+            "sharpe": 0.5
+          },
+          "Thursday": {
+            "n": 74,
+            "total_pnl": 242070,
+            "mean_pnl": 3271,
+            "win_rate": 71.6,
+            "std": 6703,
+            "max_loss": -11506,
+            "max_win": 26068,
+            "sharpe": 0.49
+          },
+          "Tuesday": {
+            "n": 71,
+            "total_pnl": 302260,
+            "mean_pnl": 4257,
+            "win_rate": 71.8,
+            "std": 8503,
+            "max_loss": -25762,
+            "max_win": 22747,
+            "sharpe": 0.5
+          },
+          "Wednesday": {
+            "n": 94,
+            "total_pnl": 403786,
+            "mean_pnl": 4296,
+            "win_rate": 79.8,
+            "std": 9636,
+            "max_loss": -32912,
+            "max_win": 32650,
+            "sharpe": 0.45
+          }
+        },
+        "comparisons": [
+          {
+            "best": "Monday",
+            "worst": "Thursday",
+            "t_stat": 0.751,
+            "p_value": 0.4546,
+            "significant_10": false,
+            "significant_05": false
+          }
+        ]
+      },
+      "RV Slope": {
+        "buckets": {
+          "FALLING": {
+            "n": 99,
+            "total_pnl": 372528,
+            "mean_pnl": 3763,
+            "win_rate": 71.7,
+            "std": 8573,
+            "max_loss": -25762,
+            "max_win": 20033,
+            "sharpe": 0.44
+          },
+          "RISING": {
+            "n": 58,
+            "total_pnl": 349053,
+            "mean_pnl": 6018,
+            "win_rate": 84.5,
+            "std": 7343,
+            "max_loss": -9729,
+            "max_win": 22747,
+            "sharpe": 0.82
+          },
+          "STABLE": {
+            "n": 143,
+            "total_pnl": 535235,
+            "mean_pnl": 3743,
+            "win_rate": 77.6,
+            "std": 8833,
+            "max_loss": -32912,
+            "max_win": 32650,
+            "sharpe": 0.42
+          }
+        },
+        "comparisons": [
+          {
+            "best": "RISING",
+            "worst": "STABLE",
+            "t_stat": 1.873,
+            "p_value": 0.0633,
+            "significant_10": true,
+            "significant_05": false
+          }
+        ]
+      },
+      "Term Structure": {
+        "buckets": {
+          "CONTANGO": {
+            "n": 144,
+            "total_pnl": 603832,
+            "mean_pnl": 4193,
+            "win_rate": 77.8,
+            "std": 8310,
+            "max_loss": -32912,
+            "max_win": 22379,
+            "sharpe": 0.5
+          },
+          "FLAT": {
+            "n": 107,
+            "total_pnl": 603496,
+            "mean_pnl": 5640,
+            "win_rate": 82.2,
+            "std": 8773,
+            "max_loss": -25762,
+            "max_win": 32650,
+            "sharpe": 0.64
+          },
+          "INVERTED": {
+            "n": 49,
+            "total_pnl": 49488,
+            "mean_pnl": 1010,
+            "win_rate": 63.3,
+            "std": 7695,
+            "max_loss": -28496,
+            "max_win": 18766,
+            "sharpe": 0.13
+          }
+        },
+        "comparisons": [
+          {
+            "best": "FLAT",
+            "worst": "INVERTED",
+            "t_stat": 3.335,
+            "p_value": 0.0012,
+            "significant_10": true,
+            "significant_05": true
+          }
+        ]
+      },
+      "Prior Day Dir": {
+        "buckets": {
+          "DOWN": {
+            "n": 132,
+            "total_pnl": 461705,
+            "mean_pnl": 3498,
+            "win_rate": 78.0,
+            "std": 8308,
+            "max_loss": -28496,
+            "max_win": 27240,
+            "sharpe": 0.42
+          },
+          "FLAT": {
+            "n": 37,
+            "total_pnl": 180978,
+            "mean_pnl": 4891,
+            "win_rate": 70.3,
+            "std": 9660,
+            "max_loss": -16700,
+            "max_win": 32650,
+            "sharpe": 0.51
+          },
+          "UP": {
+            "n": 131,
+            "total_pnl": 614133,
+            "mean_pnl": 4688,
+            "win_rate": 77.9,
+            "std": 8358,
+            "max_loss": -32912,
+            "max_win": 25852,
+            "sharpe": 0.56
+          }
+        },
+        "comparisons": [
+          {
+            "best": "FLAT",
+            "worst": "DOWN",
+            "t_stat": 0.799,
+            "p_value": 0.4281,
+            "significant_10": false,
+            "significant_05": false
+          }
+        ]
+      },
+      "5d Return": {
+        "buckets": {
+          "5d -0.5 to 0.5%": {
+            "n": 65,
+            "total_pnl": 281404,
+            "mean_pnl": 4329,
+            "win_rate": 76.9,
+            "std": 8904,
+            "max_loss": -16700,
+            "max_win": 32650,
+            "sharpe": 0.49
+          },
+          "5d 0.5-1.5%": {
+            "n": 75,
+            "total_pnl": 310721,
+            "mean_pnl": 4143,
+            "win_rate": 76.0,
+            "std": 8540,
+            "max_loss": -21551,
+            "max_win": 26068,
+            "sharpe": 0.49
+          },
+          "5d<-0.5%": {
+            "n": 101,
+            "total_pnl": 257834,
+            "mean_pnl": 2553,
+            "win_rate": 72.3,
+            "std": 8844,
+            "max_loss": -32912,
+            "max_win": 27240,
+            "sharpe": 0.29
+          },
+          "5d>1.5%": {
+            "n": 59,
+            "total_pnl": 406857,
+            "mean_pnl": 6896,
+            "win_rate": 86.4,
+            "std": 6695,
+            "max_loss": -2496,
+            "max_win": 22379,
+            "sharpe": 1.03
+          }
+        },
+        "comparisons": [
+          {
+            "best": "5d>1.5%",
+            "worst": "5d<-0.5%",
+            "t_stat": 3.507,
+            "p_value": 0.0006,
+            "significant_10": true,
+            "significant_05": true
+          }
+        ]
+      },
+      "Prior Day |Ret|": {
+        "buckets": {
+          "|1d| 0.3-0.7%": {
+            "n": 86,
+            "total_pnl": 205071,
+            "mean_pnl": 2385,
+            "win_rate": 69.8,
+            "std": 8097,
+            "max_loss": -32912,
+            "max_win": 22379,
+            "sharpe": 0.29
+          },
+          "|1d| 0.7-1.2%": {
+            "n": 65,
+            "total_pnl": 279335,
+            "mean_pnl": 4297,
+            "win_rate": 75.4,
+            "std": 8100,
+            "max_loss": -21551,
+            "max_win": 25852,
+            "sharpe": 0.53
+          },
+          "|1d|<0.3%": {
+            "n": 100,
+            "total_pnl": 625575,
+            "mean_pnl": 6256,
+            "win_rate": 85.0,
+            "std": 9010,
+            "max_loss": -25762,
+            "max_win": 32650,
+            "sharpe": 0.69
+          },
+          "|1d|>1.2%": {
+            "n": 49,
+            "total_pnl": 146835,
+            "mean_pnl": 2997,
+            "win_rate": 75.5,
+            "std": 7920,
+            "max_loss": -28496,
+            "max_win": 20856,
+            "sharpe": 0.38
+          }
+        },
+        "comparisons": [
+          {
+            "best": "|1d|<0.3%",
+            "worst": "|1d| 0.3-0.7%",
+            "t_stat": 3.086,
+            "p_value": 0.0023,
+            "significant_10": true,
+            "significant_05": true
+          }
+        ]
+      },
+      "In Prior Wk Range": {
+        "buckets": {
+          "In Range": {
+            "n": 190,
+            "total_pnl": 668951,
+            "mean_pnl": 3521,
+            "win_rate": 76.3,
+            "std": 8534,
+            "max_loss": -32912,
+            "max_win": 32650,
+            "sharpe": 0.41
+          },
+          "Out Range": {
+            "n": 110,
+            "total_pnl": 587865,
+            "mean_pnl": 5344,
+            "win_rate": 78.2,
+            "std": 8350,
+            "max_loss": -21994,
+            "max_win": 27240,
+            "sharpe": 0.64
+          }
+        },
+        "comparisons": [
+          {
+            "best": "Out Range",
+            "worst": "In Range",
+            "t_stat": 1.808,
+            "p_value": 0.0719,
+            "significant_10": true,
+            "significant_05": false
+          }
+        ]
+      },
+      "Credit/Wing %": {
+        "buckets": {
+          "Credit 25-35%": {
+            "n": 27,
+            "total_pnl": 93124,
+            "mean_pnl": 3449,
+            "win_rate": 74.1,
+            "std": 8702,
+            "max_loss": -21994,
+            "max_win": 26068,
+            "sharpe": 0.4
+          },
+          "Credit 35-45%": {
+            "n": 7,
+            "total_pnl": -12933,
+            "mean_pnl": -1848,
+            "win_rate": 71.4,
+            "std": 10591,
+            "max_loss": -25472,
+            "max_win": 4018,
+            "sharpe": -0.17
+          },
+          "Credit<25%": {
+            "n": 334,
+            "total_pnl": 1418124,
+            "mean_pnl": 4246,
+            "win_rate": 76.0,
+            "std": 8275,
+            "max_loss": -32912,
+            "max_win": 32650,
+            "sharpe": 0.51
+          },
+          "Credit>45%": {
+            "n": 2,
+            "total_pnl": -1067,
+            "mean_pnl": -534,
+            "win_rate": 50.0,
+            "std": 6650,
+            "max_loss": -5236,
+            "max_win": 4169,
+            "sharpe": -0.08
+          }
+        },
+        "comparisons": [
+          {
+            "best": "Credit<25%",
+            "worst": "Credit 35-45%",
+            "t_stat": 1.513,
+            "p_value": 0.1799,
+            "significant_10": false,
+            "significant_05": false
+          }
+        ]
+      },
+      "RV Level": {
+        "buckets": {
+          "RV 12-18": {
+            "n": 103,
+            "total_pnl": 455605,
+            "mean_pnl": 4423,
+            "win_rate": 76.7,
+            "std": 9758,
+            "max_loss": -32912,
+            "max_win": 27240,
+            "sharpe": 0.45
+          },
+          "RV 8-12": {
+            "n": 84,
+            "total_pnl": 421740,
+            "mean_pnl": 5021,
+            "win_rate": 79.8,
+            "std": 9106,
+            "max_loss": -25762,
+            "max_win": 32650,
+            "sharpe": 0.55
+          },
+          "RV<8": {
+            "n": 41,
+            "total_pnl": 300565,
+            "mean_pnl": 7331,
+            "win_rate": 90.2,
+            "std": 6338,
+            "max_loss": -11350,
+            "max_win": 17908,
+            "sharpe": 1.16
+          },
+          "RV>18": {
+            "n": 72,
+            "total_pnl": 78906,
+            "mean_pnl": 1096,
+            "win_rate": 66.7,
+            "std": 5616,
+            "max_loss": -21994,
+            "max_win": 13926,
+            "sharpe": 0.2
+          }
+        },
+        "comparisons": [
+          {
+            "best": "RV<8",
+            "worst": "RV>18",
+            "t_stat": 5.236,
+            "p_value": 0.0,
+            "significant_10": true,
+            "significant_05": true
+          }
+        ]
+      },
+      "Prior Day Range": {
+        "buckets": {
+          "DayRng 0.3-0.6%": {
+            "n": 60,
+            "total_pnl": 426286,
+            "mean_pnl": 7105,
+            "win_rate": 86.7,
+            "std": 9544,
+            "max_loss": -25762,
+            "max_win": 32650,
+            "sharpe": 0.74
+          },
+          "DayRng 0.6-1.0%": {
+            "n": 97,
+            "total_pnl": 449861,
+            "mean_pnl": 4638,
+            "win_rate": 82.5,
+            "std": 7317,
+            "max_loss": -21551,
+            "max_win": 20033,
+            "sharpe": 0.63
+          },
+          "DayRng<0.3%": {
+            "n": 4,
+            "total_pnl": 15807,
+            "mean_pnl": 3952,
+            "win_rate": 75.0,
+            "std": 5224,
+            "max_loss": -3014,
+            "max_win": 9030,
+            "sharpe": 0.76
+          },
+          "DayRng>1.0%": {
+            "n": 139,
+            "total_pnl": 364862,
+            "mean_pnl": 2625,
+            "win_rate": 69.1,
+            "std": 8568,
+            "max_loss": -32912,
+            "max_win": 27240,
+            "sharpe": 0.31
+          }
+        },
+        "comparisons": [
+          {
+            "best": "DayRng 0.3-0.6%",
+            "worst": "DayRng>1.0%",
+            "t_stat": 3.132,
+            "p_value": 0.0023,
+            "significant_10": true,
+            "significant_05": true
+          }
+        ]
+      },
+      "VIX9D/VIX Ratio": {
+        "buckets": {
+          "V9D/V 0.85-0.95": {
+            "n": 96,
+            "total_pnl": 474688,
+            "mean_pnl": 4945,
+            "win_rate": 80.2,
+            "std": 9015,
+            "max_loss": -32912,
+            "max_win": 32650,
+            "sharpe": 0.55
+          },
+          "V9D/V 0.95-1.05": {
+            "n": 87,
+            "total_pnl": 365978,
+            "mean_pnl": 4207,
+            "win_rate": 75.9,
+            "std": 9299,
+            "max_loss": -28496,
+            "max_win": 27240,
+            "sharpe": 0.45
+          },
+          "V9D/V<0.85": {
+            "n": 68,
+            "total_pnl": 311900,
+            "mean_pnl": 4587,
+            "win_rate": 80.9,
+            "std": 7133,
+            "max_loss": -13629,
+            "max_win": 19090,
+            "sharpe": 0.64
+          },
+          "V9D/V>1.05": {
+            "n": 43,
+            "total_pnl": 92923,
+            "mean_pnl": 2161,
+            "win_rate": 67.4,
+            "std": 7827,
+            "max_loss": -21994,
+            "max_win": 22747,
+            "sharpe": 0.28
+          }
+        },
+        "comparisons": [
+          {
+            "best": "V9D/V 0.85-0.95",
+            "worst": "V9D/V>1.05",
+            "t_stat": 1.847,
+            "p_value": 0.0679,
+            "significant_10": true,
+            "significant_05": false
+          }
+        ]
+      }
+    }
+  }
+}

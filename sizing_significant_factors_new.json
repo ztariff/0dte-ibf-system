@@ -1,0 +1,485 @@
+[
+  {
+    "strategy": "Firebird 60 Final Bell",
+    "factor": "VIX Level",
+    "best": "VIX<14",
+    "worst": "VIX>20",
+    "p_value": 0.0
+  },
+  {
+    "strategy": "Firebird 60 Final Bell",
+    "factor": "VP Ratio",
+    "best": "VP>1.7",
+    "worst": "VP<1.0",
+    "p_value": 0.037
+  },
+  {
+    "strategy": "Firebird 60 Final Bell",
+    "factor": "Prior Day Dir",
+    "best": "UP",
+    "worst": "DOWN",
+    "p_value": 0.0498
+  },
+  {
+    "strategy": "Firebird 60 Final Bell",
+    "factor": "5d Return",
+    "best": "5d>1.5%",
+    "worst": "5d<-0.5%",
+    "p_value": 0.0001
+  },
+  {
+    "strategy": "Firebird 60 Final Bell",
+    "factor": "Prior Day |Ret|",
+    "best": "|1d|<0.3%",
+    "worst": "|1d|>1.2%",
+    "p_value": 0.051
+  },
+  {
+    "strategy": "Firebird 60 Final Bell",
+    "factor": "Credit/Wing %",
+    "best": "Credit<25%",
+    "worst": "Credit 25-35%",
+    "p_value": 0.0532
+  },
+  {
+    "strategy": "Firebird 60 Final Bell",
+    "factor": "RV Level",
+    "best": "RV 8-12",
+    "worst": "RV>18",
+    "p_value": 0.0
+  },
+  {
+    "strategy": "Firebird 60 Final Bell",
+    "factor": "Prior Day Range",
+    "best": "DayRng<0.3%",
+    "worst": "DayRng>1.0%",
+    "p_value": 0.0613
+  },
+  {
+    "strategy": "Firebird 60 Last Hour",
+    "factor": "VIX Level",
+    "best": "VIX<14",
+    "worst": "VIX>20",
+    "p_value": 0.0034
+  },
+  {
+    "strategy": "Firebird 60 Last Hour",
+    "factor": "VP Ratio",
+    "best": "VP>1.7",
+    "worst": "VP<1.0",
+    "p_value": 0.0816
+  },
+  {
+    "strategy": "Firebird 60 Last Hour",
+    "factor": "Term Structure",
+    "best": "FLAT",
+    "worst": "INVERTED",
+    "p_value": 0.0295
+  },
+  {
+    "strategy": "Firebird 60 Last Hour",
+    "factor": "Prior Day Dir",
+    "best": "UP",
+    "worst": "DOWN",
+    "p_value": 0.0113
+  },
+  {
+    "strategy": "Firebird 60 Last Hour",
+    "factor": "5d Return",
+    "best": "5d>1.5%",
+    "worst": "5d<-0.5%",
+    "p_value": 0.0012
+  },
+  {
+    "strategy": "Firebird 60 Last Hour",
+    "factor": "Credit/Wing %",
+    "best": "Credit>45%",
+    "worst": "Credit 35-45%",
+    "p_value": 0.0992
+  },
+  {
+    "strategy": "Firebird 60 Last Hour",
+    "factor": "RV Level",
+    "best": "RV 8-12",
+    "worst": "RV>18",
+    "p_value": 0.0011
+  },
+  {
+    "strategy": "Firebird 60 Last Hour",
+    "factor": "VIX9D/VIX Ratio",
+    "best": "V9D/V 0.85-0.95",
+    "worst": "V9D/V>1.05",
+    "p_value": 0.0449
+  },
+  {
+    "strategy": "Firebird 60 Midday",
+    "factor": "VIX Level",
+    "best": "VIX<14",
+    "worst": "VIX>20",
+    "p_value": 0.0311
+  },
+  {
+    "strategy": "Firebird 60 Midday",
+    "factor": "VP Ratio",
+    "best": "VP 1.3-1.7",
+    "worst": "VP<1.0",
+    "p_value": 0.007
+  },
+  {
+    "strategy": "Firebird 60 Midday",
+    "factor": "Day of Week",
+    "best": "Monday",
+    "worst": "Wednesday",
+    "p_value": 0.0802
+  },
+  {
+    "strategy": "Firebird 60 Midday",
+    "factor": "RV Slope",
+    "best": "FALLING",
+    "worst": "STABLE",
+    "p_value": 0.0316
+  },
+  {
+    "strategy": "Firebird 60 Midday",
+    "factor": "Term Structure",
+    "best": "INVERTED",
+    "worst": "CONTANGO",
+    "p_value": 0.0507
+  },
+  {
+    "strategy": "Firebird 60 Midday",
+    "factor": "5d Return",
+    "best": "5d>1.5%",
+    "worst": "5d -0.5 to 0.5%",
+    "p_value": 0.0473
+  },
+  {
+    "strategy": "Firebird 60 Midday",
+    "factor": "RV Level",
+    "best": "RV 12-18",
+    "worst": "RV>18",
+    "p_value": 0.0144
+  },
+  {
+    "strategy": "Firebird 60 Midday",
+    "factor": "VIX9D/VIX Ratio",
+    "best": "V9D/V 0.95-1.05",
+    "worst": "V9D/V>1.05",
+    "p_value": 0.0194
+  },
+  {
+    "strategy": "Ironclad 35 Condor",
+    "factor": "Day of Week",
+    "best": "Wednesday",
+    "worst": "Tuesday",
+    "p_value": 0.0183
+  },
+  {
+    "strategy": "Ironclad 35 Condor",
+    "factor": "Term Structure",
+    "best": "INVERTED",
+    "worst": "CONTANGO",
+    "p_value": 0.0229
+  },
+  {
+    "strategy": "Ironclad 35 Condor",
+    "factor": "Credit/Wing %",
+    "best": "Credit 25-35%",
+    "worst": "Credit<25%",
+    "p_value": 0.0876
+  },
+  {
+    "strategy": "Ironclad 35 Condor",
+    "factor": "RV Level",
+    "best": "RV<8",
+    "worst": "RV 8-12",
+    "p_value": 0.0419
+  },
+  {
+    "strategy": "Ironclad 35 Condor",
+    "factor": "VIX9D/VIX Ratio",
+    "best": "V9D/V>1.05",
+    "worst": "V9D/V<0.85",
+    "p_value": 0.0006
+  },
+  {
+    "strategy": "Morning Decel Scalp",
+    "factor": "VIX Level",
+    "best": "VIX<14",
+    "worst": "VIX>20",
+    "p_value": 0.0069
+  },
+  {
+    "strategy": "Morning Decel Scalp",
+    "factor": "Term Structure",
+    "best": "FLAT",
+    "worst": "INVERTED",
+    "p_value": 0.0573
+  },
+  {
+    "strategy": "Morning Decel Scalp",
+    "factor": "5d Return",
+    "best": "5d>1.5%",
+    "worst": "5d<-0.5%",
+    "p_value": 0.0175
+  },
+  {
+    "strategy": "Morning Decel Scalp",
+    "factor": "Credit/Wing %",
+    "best": "Credit<25%",
+    "worst": "Credit>45%",
+    "p_value": 0.0018
+  },
+  {
+    "strategy": "Morning Decel Scalp",
+    "factor": "RV Level",
+    "best": "RV 8-12",
+    "worst": "RV>18",
+    "p_value": 0.0664
+  },
+  {
+    "strategy": "Morning Decel Scalp",
+    "factor": "Prior Day Range",
+    "best": "DayRng 0.6-1.0%",
+    "worst": "DayRng>1.0%",
+    "p_value": 0.0553
+  },
+  {
+    "strategy": "Morning Decel Scalp",
+    "factor": "VIX9D/VIX Ratio",
+    "best": "V9D/V 0.95-1.05",
+    "worst": "V9D/V>1.05",
+    "p_value": 0.0086
+  },
+  {
+    "strategy": "Phoenix 75 Afternoon",
+    "factor": "VP Ratio",
+    "best": "VP 1.0-1.3",
+    "worst": "VP<1.0",
+    "p_value": 0.0728
+  },
+  {
+    "strategy": "Phoenix 75 Afternoon",
+    "factor": "Gap Direction",
+    "best": "Gap DOWN",
+    "worst": "Gap FLAT",
+    "p_value": 0.0414
+  },
+  {
+    "strategy": "Phoenix 75 Afternoon",
+    "factor": "5d Return",
+    "best": "5d>1.5%",
+    "worst": "5d -0.5 to 0.5%",
+    "p_value": 0.013
+  },
+  {
+    "strategy": "Phoenix 75 Afternoon",
+    "factor": "RV Level",
+    "best": "RV 12-18",
+    "worst": "RV>18",
+    "p_value": 0.0257
+  },
+  {
+    "strategy": "Phoenix 75 Early Afternoon",
+    "factor": "VIX Level",
+    "best": "VIX 14-17",
+    "worst": "VIX>20",
+    "p_value": 0.0608
+  },
+  {
+    "strategy": "Phoenix 75 Early Afternoon",
+    "factor": "VP Ratio",
+    "best": "VP 1.3-1.7",
+    "worst": "VP<1.0",
+    "p_value": 0.0503
+  },
+  {
+    "strategy": "Phoenix 75 Early Afternoon",
+    "factor": "Day of Week",
+    "best": "Tuesday",
+    "worst": "Thursday",
+    "p_value": 0.0909
+  },
+  {
+    "strategy": "Phoenix 75 Early Afternoon",
+    "factor": "5d Return",
+    "best": "5d>1.5%",
+    "worst": "5d -0.5 to 0.5%",
+    "p_value": 0.0458
+  },
+  {
+    "strategy": "Phoenix 75 Early Afternoon",
+    "factor": "In Prior Wk Range",
+    "best": "Out Range",
+    "worst": "In Range",
+    "p_value": 0.0674
+  },
+  {
+    "strategy": "Phoenix 75 Last Hour",
+    "factor": "VIX Level",
+    "best": "VIX<14",
+    "worst": "VIX>20",
+    "p_value": 0.0495
+  },
+  {
+    "strategy": "Phoenix 75 Last Hour",
+    "factor": "VP Ratio",
+    "best": "VP 1.3-1.7",
+    "worst": "VP<1.0",
+    "p_value": 0.0345
+  },
+  {
+    "strategy": "Phoenix 75 Last Hour",
+    "factor": "Term Structure",
+    "best": "FLAT",
+    "worst": "INVERTED",
+    "p_value": 0.0621
+  },
+  {
+    "strategy": "Phoenix 75 Last Hour",
+    "factor": "Prior Day Dir",
+    "best": "UP",
+    "worst": "DOWN",
+    "p_value": 0.0253
+  },
+  {
+    "strategy": "Phoenix 75 Last Hour",
+    "factor": "5d Return",
+    "best": "5d>1.5%",
+    "worst": "5d<-0.5%",
+    "p_value": 0.0046
+  },
+  {
+    "strategy": "Phoenix 75 Last Hour",
+    "factor": "Prior Day |Ret|",
+    "best": "|1d|<0.3%",
+    "worst": "|1d| 0.3-0.7%",
+    "p_value": 0.0049
+  },
+  {
+    "strategy": "Phoenix 75 Last Hour",
+    "factor": "Credit/Wing %",
+    "best": "Credit 35-45%",
+    "worst": "Credit 25-35%",
+    "p_value": 0.0364
+  },
+  {
+    "strategy": "Phoenix 75 Last Hour",
+    "factor": "RV Level",
+    "best": "RV 8-12",
+    "worst": "RV>18",
+    "p_value": 0.0004
+  },
+  {
+    "strategy": "Phoenix 75 Last Hour",
+    "factor": "VIX9D/VIX Ratio",
+    "best": "V9D/V 0.85-0.95",
+    "worst": "V9D/V>1.05",
+    "p_value": 0.0768
+  },
+  {
+    "strategy": "Phoenix 75 Midday",
+    "factor": "VIX Level",
+    "best": "VIX<14",
+    "worst": "VIX>20",
+    "p_value": 0.0468
+  },
+  {
+    "strategy": "Phoenix 75 Midday",
+    "factor": "VP Ratio",
+    "best": "VP 1.3-1.7",
+    "worst": "VP<1.0",
+    "p_value": 0.0078
+  },
+  {
+    "strategy": "Phoenix 75 Midday",
+    "factor": "RV Slope",
+    "best": "FALLING",
+    "worst": "STABLE",
+    "p_value": 0.0242
+  },
+  {
+    "strategy": "Phoenix 75 Midday",
+    "factor": "RV Level",
+    "best": "RV 12-18",
+    "worst": "RV>18",
+    "p_value": 0.012
+  },
+  {
+    "strategy": "Phoenix 75 Midday",
+    "factor": "VIX9D/VIX Ratio",
+    "best": "V9D/V 0.95-1.05",
+    "worst": "V9D/V>1.05",
+    "p_value": 0.0624
+  },
+  {
+    "strategy": "Phoenix 75 Power Close",
+    "factor": "VIX Level",
+    "best": "VIX 17-20",
+    "worst": "VIX>20",
+    "p_value": 0.0
+  },
+  {
+    "strategy": "Phoenix 75 Power Close",
+    "factor": "VP Ratio",
+    "best": "VP>1.7",
+    "worst": "VP<1.0",
+    "p_value": 0.0001
+  },
+  {
+    "strategy": "Phoenix 75 Power Close",
+    "factor": "RV Slope",
+    "best": "RISING",
+    "worst": "STABLE",
+    "p_value": 0.0633
+  },
+  {
+    "strategy": "Phoenix 75 Power Close",
+    "factor": "Term Structure",
+    "best": "FLAT",
+    "worst": "INVERTED",
+    "p_value": 0.0012
+  },
+  {
+    "strategy": "Phoenix 75 Power Close",
+    "factor": "5d Return",
+    "best": "5d>1.5%",
+    "worst": "5d<-0.5%",
+    "p_value": 0.0006
+  },
+  {
+    "strategy": "Phoenix 75 Power Close",
+    "factor": "Prior Day |Ret|",
+    "best": "|1d|<0.3%",
+    "worst": "|1d| 0.3-0.7%",
+    "p_value": 0.0023
+  },
+  {
+    "strategy": "Phoenix 75 Power Close",
+    "factor": "In Prior Wk Range",
+    "best": "Out Range",
+    "worst": "In Range",
+    "p_value": 0.0719
+  },
+  {
+    "strategy": "Phoenix 75 Power Close",
+    "factor": "RV Level",
+    "best": "RV<8",
+    "worst": "RV>18",
+    "p_value": 0.0
+  },
+  {
+    "strategy": "Phoenix 75 Power Close",
+    "factor": "Prior Day Range",
+    "best": "DayRng 0.3-0.6%",
+    "worst": "DayRng>1.0%",
+    "p_value": 0.0023
+  },
+  {
+    "strategy": "Phoenix 75 Power Close",
+    "factor": "VIX9D/VIX Ratio",
+    "best": "V9D/V 0.85-0.95",
+    "worst": "V9D/V>1.05",
+    "p_value": 0.0679
+  }
+]

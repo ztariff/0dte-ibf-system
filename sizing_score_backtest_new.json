@@ -1,0 +1,186 @@
+{
+  "results": {
+    "Phoenix 75 Power Close": {
+      "n": 370,
+      "n_scored": 300,
+      "flat_total": 1497248.0,
+      "flat_dd": 35893.0,
+      "flat_r2d": 41.71420611261249,
+      "scored_total": 1176566.5,
+      "scored_dd": 35752.75,
+      "scored_r2d": 32.90841963205627,
+      "avg_mult": 0.6025,
+      "pnl_delta_pct": -21.418061670478103,
+      "dd_delta_pct": -0.3907447134538768
+    },
+    "Phoenix 75 Last Hour": {
+      "n": 410,
+      "n_scored": 323,
+      "flat_total": 1140694.0,
+      "flat_dd": 68551.0,
+      "flat_r2d": 16.64007818996076,
+      "scored_total": 916783.0,
+      "scored_dd": 50134.0,
+      "scored_r2d": 18.286651773247698,
+      "avg_mult": 0.5952012383900929,
+      "pnl_delta_pct": -19.629365982463305,
+      "dd_delta_pct": -26.86612886755846
+    },
+    "Phoenix 75 Midday": {
+      "n": 517,
+      "n_scored": 413,
+      "flat_total": 506051.0,
+      "flat_dd": 42313.0,
+      "flat_r2d": 11.959705055183987,
+      "scored_total": 399944.75,
+      "scored_dd": 22872.0,
+      "scored_r2d": 17.48621677159846,
+      "avg_mult": 0.5532687651331719,
+      "pnl_delta_pct": -20.967501299276158,
+      "dd_delta_pct": -45.94569044974357
+    },
+    "Phoenix 75 Early Afternoon": {
+      "n": 524,
+      "n_scored": 407,
+      "flat_total": 732857.0,
+      "flat_dd": 56666.0,
+      "flat_r2d": 12.932922740267532,
+      "scored_total": 590096.0,
+      "scored_dd": 55948.0,
+      "scored_r2d": 10.547222420819333,
+      "avg_mult": 0.5823095823095823,
+      "pnl_delta_pct": -19.480062276815257,
+      "dd_delta_pct": -1.26707373027918
+    },
+    "Phoenix 75 Afternoon": {
+      "n": 474,
+      "n_scored": 377,
+      "flat_total": 1020346.0,
+      "flat_dd": 85644.0,
+      "flat_r2d": 11.91380598757648,
+      "scored_total": 859564.25,
+      "scored_dd": 35116.5,
+      "scored_r2d": 24.477503452792845,
+      "avg_mult": 0.5848806366047745,
+      "pnl_delta_pct": -15.757571451252812,
+      "dd_delta_pct": -58.99712764466862
+    },
+    "Firebird 60 Final Bell": {
+      "n": 507,
+      "n_scored": 401,
+      "flat_total": 740030.0,
+      "flat_dd": 37992.0,
+      "flat_r2d": 19.47857443672352,
+      "scored_total": 647417.0,
+      "scored_dd": 29449.5,
+      "scored_r2d": 21.983972563201412,
+      "avg_mult": 0.6066084788029925,
+      "pnl_delta_pct": -12.514762915016957,
+      "dd_delta_pct": -22.484996841440303
+    },
+    "Firebird 60 Last Hour": {
+      "n": 669,
+      "n_scored": 491,
+      "flat_total": 1549715.0,
+      "flat_dd": 70059.0,
+      "flat_r2d": 22.120141594941405,
+      "scored_total": 1327978.25,
+      "scored_dd": 60657.75,
+      "scored_r2d": 21.89296915892858,
+      "avg_mult": 0.595213849287169,
+      "pnl_delta_pct": -14.308227641856726,
+      "dd_delta_pct": -13.419046803408555
+    },
+    "Firebird 60 Midday": {
+      "n": 714,
+      "n_scored": 527,
+      "flat_total": 556721.0,
+      "flat_dd": 61577.0,
+      "flat_r2d": 9.041054289751044,
+      "scored_total": 511500.75,
+      "scored_dd": 42505.0,
+      "scored_r2d": 12.033896012233855,
+      "avg_mult": 0.6024667931688804,
+      "pnl_delta_pct": -8.122605398395248,
+      "dd_delta_pct": -30.972603407116296
+    },
+    "Ironclad 35 Condor": {
+      "n": 525,
+      "n_scored": 403,
+      "flat_total": 308248.0,
+      "flat_dd": 24860.0,
+      "flat_r2d": 12.399356395816573,
+      "scored_total": 263878.5,
+      "scored_dd": 9567.0,
+      "scored_r2d": 27.582157416117905,
+      "avg_mult": 0.5849875930521092,
+      "pnl_delta_pct": -14.394091770262904,
+      "dd_delta_pct": -61.51649235720033
+    },
+    "Morning Decel Scalp": {
+      "n": 363,
+      "n_scored": 263,
+      "flat_total": 149918.0,
+      "flat_dd": 17874.0,
+      "flat_r2d": 8.387490209242475,
+      "scored_total": 126820.5,
+      "scored_dd": 8894.5,
+      "scored_r2d": 14.258305694530328,
+      "avg_mult": 0.5693916349809885,
+      "pnl_delta_pct": -15.406755693112235,
+      "dd_delta_pct": -50.237775539890336
+    }
+  },
+  "thresholds": {
+    "Phoenix 75 Power Close": [
+      -3,
+      3,
+      6
+    ],
+    "Phoenix 75 Last Hour": [
+      -2,
+      3,
+      6
+    ],
+    "Phoenix 75 Midday": [
+      0,
+      3,
+      4
+    ],
+    "Phoenix 75 Early Afternoon": [
+      -1,
+      1,
+      3
+    ],
+    "Phoenix 75 Afternoon": [
+      -1,
+      1,
+      2
+    ],
+    "Firebird 60 Final Bell": [
+      -2,
+      2,
+      5
+    ],
+    "Firebird 60 Last Hour": [
+      -1,
+      3,
+      6
+    ],
+    "Firebird 60 Midday": [
+      0,
+      3,
+      5
+    ],
+    "Ironclad 35 Condor": [
+      0,
+      1,
+      3
+    ],
+    "Morning Decel Scalp": [
+      -1,
+      2,
+      4
+    ]
+  }
+}
