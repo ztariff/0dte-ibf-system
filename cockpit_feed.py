@@ -1271,6 +1271,7 @@ def poll():
                             "matched": True,
                             "reason": f"PHOENIX {phx_fc} sig + VIX9D/VIX={ts_ratio:.3f}<1.0",
                             "risk_budget": rb, "half_size": False, "half_size_reason": None,
+                            "signal_credit": round(chain.get("credit", 0), 2),
                         }
                         print(f"  SIGNAL: {ver} — PHOENIX CLEAR matched ({phx_fc} sig, VIX9D/VIX={ts_ratio:.3f}) risk_budget=${rb:,}")
                     else:
@@ -1302,6 +1303,7 @@ def poll():
                             "matched": True,
                             "reason": f"PHOENIX {phx_fc} sig + VVIX={vvix_str}<100 at {entry_time_str}",
                             "risk_budget": 50000, "half_size": False, "half_size_reason": None,
+                            "signal_credit": round(chain.get("credit", 0), 2),
                         }
                         print(f"  SIGNAL: {ver} — AFTERNOON LOCK matched ({phx_fc} sig, VVIX={vvix_str}) risk_budget=$50,000")
                     else:
@@ -1324,6 +1326,7 @@ def poll():
                             "matched": True,
                             "reason": f"3-Laws: ret5d={ret5d:.2f}%>1 + VP={vp:.2f}<2 + Prior={prior_dir}≠FLAT",
                             "risk_budget": 50000, "half_size": False, "half_size_reason": None,
+                            "signal_credit": round(chain.get("credit", 0), 2),
                         }
                         print(f"  SIGNAL: {ver} — LATE SQUEEZE matched (ret5d={ret5d:.2f}%, VP={vp:.2f}, prior={prior_dir}) risk_budget=$50,000")
                     else:
@@ -1349,6 +1352,7 @@ def poll():
                 "half_size": er.get("half_size", False),
                 "half_size_reason": er.get("half_size_reason"),
                 "risk_budget": er.get("risk_budget", 0),
+                "signal_credit": er.get("signal_credit"),
             })
             if er["matched"]:
                 print(f"  {ver}: ACTIVE (locked at entry — {er['reason']})")
@@ -1395,6 +1399,7 @@ def poll():
 
                 scored_budget = int(vix_budget * sizing_mult)
                 grade = strat.get("grade", "")
+                signal_credit = chain.get("credit", 0)
                 _entry_regime[ver] = {
                     "matched": True,
                     "reason": f"Grade {grade} | VIX×{vix_mult:.2f} Score={sizing_score} ×{sizing_mult:.2f} → ${scored_budget:,}",
@@ -1404,8 +1409,9 @@ def poll():
                     "sizing_score": sizing_score,
                     "sizing_mult": sizing_mult,
                     "vix_mult": vix_mult,
+                    "signal_credit": round(signal_credit, 2),
                 }
-                print(f"  SIGNAL: {ver} — Grade {grade} | VIX×{vix_mult:.2f} Score={sizing_score} ×{sizing_mult:.2f} → ${scored_budget:,}")
+                print(f"  SIGNAL: {ver} — Grade {grade} | VIX×{vix_mult:.2f} Score={sizing_score} ×{sizing_mult:.2f} → ${scored_budget:,} (credit@signal={signal_credit:.2f})")
 
             er = _entry_regime[ver]
             signals.append({
@@ -1420,6 +1426,7 @@ def poll():
                 "sizing_score": er.get("sizing_score"),
                 "sizing_mult": er.get("sizing_mult"),
                 "vix_mult": er.get("vix_mult"),
+                "signal_credit": er.get("signal_credit"),
             })
             continue
 
@@ -1473,6 +1480,7 @@ def poll():
                     vp_cap_blocked = (ver == "v9" and filter_data.get("vp", 0) > 2.0)
                     if filt_pass and not vp_cap_blocked:
                         risk_budget = regime_budget_cockpit(ver, filter_data.get("vp", 1.5))
+                        signal_credit = chain.get("credit", 0)
                         _entry_regime[ver] = {
                             "matched": True,
                             "reason": f"Matched at {entry_time_str} — {regime_label} (VIX {vix:.1f})",
@@ -1481,6 +1489,7 @@ def poll():
                             "half_size": False,
                             "half_size_reason": None,
                             "risk_budget": risk_budget,
+                            "signal_credit": round(signal_credit, 2),
                         }
                         print(f"  SIGNAL: {ver} — matched at entry ({regime_label}, VIX {vix:.1f}) risk_budget=${risk_budget:,}")
                     elif vp_cap_blocked:
@@ -1517,6 +1526,7 @@ def poll():
             "half_size": entry_result.get("half_size", False),
             "half_size_reason": entry_result.get("half_size_reason"),
             "risk_budget": entry_result.get("risk_budget", 0),
+            "signal_credit": entry_result.get("signal_credit"),
         })
         if entry_result["matched"]:
             print(f"  {ver}: ACTIVE (locked at entry — {entry_result['reason']})")

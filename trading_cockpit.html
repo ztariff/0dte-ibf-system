@@ -554,8 +554,11 @@ function checkAlerts() {
         const ts = sig.mech.split('/')[1];
         let tsH, tsM;
         if (ts === 'close') { tsH=16; tsM=0; }
-        else if (ts === '1545') { tsH=15; tsM=45; }
-        else if (ts === '1530') { tsH=15; tsM=30; }
+        else if (/^\d{3,4}$/.test(ts)) {
+            // Generic HHMM or HMM parser: "1530" → 15:30, "1130" → 11:30
+            tsH = parseInt(ts.substring(0, ts.length - 2));
+            tsM = parseInt(ts.substring(ts.length - 2));
+        }
         else continue;
         const key = sig.ver + '_ts';
         const warnM = tsM >= 5 ? tsM - 5 : tsM + 55;
@@ -888,6 +891,36 @@ function renderDetail() {
         html += `</div>`;
     }
 
+    // ─── ENTRY TIME GATE (computed early for use in sizing panel + entry form) ───
+    let pastEntryTime = true;
+    if (sig.entry) {
+        const [entryH, entryM] = sig.entry.split(':').map(Number);
+        const {h: nowH, m: nowM} = etNow();
+        pastEntryTime = (nowH > entryH) || (nowH === entryH && nowM >= entryM);
+    }
+
+    // ─── TIME STOP EXPIRY GATE ───
+    let pastTimeStop = false;
+    if (sig.mech) {
+        const tsPart = sig.mech.split('/')[1];
+        if (tsPart && tsPart !== 'close') {
+            const tsH = parseInt(tsPart.substring(0, tsPart.length - 2));
+            const tsM = parseInt(tsPart.substring(tsPart.length - 2));
+            const {h: nowH, m: nowM} = etNow();
+            pastTimeStop = (nowH > tsH) || (nowH === tsH && nowM >= tsM);
+        }
+    }
+
+    // ─── CREDIT STALENESS GATE ───
+    let creditStale = false;
+    let creditDriftPct = 0;
+    const signalCredit = sig.signal_credit;
+    const liveCredit = c?.credit || 0;
+    if (signalCredit && signalCredit > 0 && liveCredit > 0 && sig.ver !== 'v3') {
+        creditDriftPct = Math.abs(liveCredit - signalCredit) / signalCredit * 100;
+        creditStale = creditDriftPct > 25;
+    }
+
     // ─── SIZING SCORE PANEL (new strategies only) ───
     if (sig.type === 'new_strategy' && sig.sizing_score != null) {
         const score = sig.sizing_score;
@@ -903,7 +936,13 @@ function renderDetail() {
         const scoringMLPerSpread = (ww - scoringCredit) * 100;
         const scoringContracts = scoringMLPerSpread > 0 ? Math.max(1, Math.floor(scoredBudget / scoringMLPerSpread)) : 1;
         const scoringTgtPrice = scoringCredit * (1 - tgtPct / 100);
-        html += `<div class="d-section" style="border:2px solid var(--green);background:rgba(34,197,94,0.06);">
+        const panelExpired = pastTimeStop && !hasActiveTrade;
+        const panelStale = creditStale && !hasActiveTrade && !pastTimeStop;
+        const panelColor = panelExpired ? 'var(--red)' : panelStale ? 'var(--amber)' : 'var(--green)';
+        const panelBg = panelExpired ? 'rgba(239,68,68,0.06)' : panelStale ? 'rgba(234,179,8,0.06)' : 'rgba(34,197,94,0.06)';
+        const panelLabel = panelExpired ? '<div style="text-align:center;font-size:14px;font-weight:bold;color:var(--red);margin-bottom:8px;">ENTRY WINDOW CLOSED</div>' : panelStale ? '<div style="text-align:center;font-size:14px;font-weight:bold;color:var(--amber);margin-bottom:8px;">ENTRY PRICE STALE — DO NOT ENTER</div>' : '';
+        html += `<div class="d-section" style="border:2px solid ${panelColor};background:${panelBg};${panelExpired||panelStale ? 'opacity:0.6;' : ''}">
+            ${panelLabel}
             <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;text-align:center;margin-bottom:12px;">
                 <div style="background:rgba(34,197,94,0.10);border:2px solid var(--green);border-radius:10px;padding:18px 10px;">
                     <div style="font-size:11px;color:var(--muted);margin-bottom:6px;text-transform:uppercase;letter-spacing:1px;">SELL THIS MANY</div>
@@ -982,14 +1021,8 @@ function renderDetail() {
         </div>`;
     }
 
-    // ─── ENTRY TIME GATE ───
-    // Don't show CONFIRM ENTRY before the strategy's scheduled entry time
-    let pastEntryTime = true;  // default true if no entry time specified
-    if (sig.entry) {
-        const [entryH, entryM] = sig.entry.split(':').map(Number);
-        const {h: nowH, m: nowM} = etNow();
-        pastEntryTime = (nowH > entryH) || (nowH === entryH && nowM >= entryM);
-    }
+    // ─── ENTRY TIME / TIME STOP / STALENESS UI BANNERS ───
+    // (Variables pastEntryTime, pastTimeStop, creditStale already computed above)
 
     if (!phxBlocked && !hasActiveTrade && sig.matched && !pastEntryTime && (t.status === 'waiting')) {
         html += `<div class="d-section" style="text-align:center;padding:24px;">
@@ -1001,6 +1034,28 @@ function renderDetail() {
         </div>`;
     }
 
+    if (!hasActiveTrade && sig.matched && pastEntryTime && pastTimeStop && (t.status === 'waiting')) {
+        html += `<div class="d-section" style="text-align:center;padding:24px;">
+            <div style="font-size:22px;font-weight:bold;color:var(--red);margin-bottom:8px;">ENTRY WINDOW CLOSED</div>
+            <div style="font-size:12px;color:var(--muted);line-height:1.6;">
+                Time stop is <strong style="color:var(--red);">${sig.mech.split('/')[1]}</strong> — past the exit deadline.<br>
+                Cannot enter a trade that would immediately need to be closed.
+            </div>
+        </div>`;
+    }
+
+    if (!hasActiveTrade && sig.matched && pastEntryTime && !pastTimeStop && creditStale && (t.status === 'waiting')) {
+        html += `<div class="d-section" style="text-align:center;padding:24px;border:2px solid var(--red);border-radius:8px;">
+            <div style="font-size:20px;font-weight:bold;color:var(--red);margin-bottom:8px;">ENTRY PRICE STALE</div>
+            <div style="font-size:13px;color:var(--muted);line-height:1.8;">
+                Credit at signal: <strong style="color:var(--cyan);">${signalCredit.toFixed(2)}</strong><br>
+                Current credit: <strong style="color:var(--red);">${liveCredit.toFixed(2)}</strong>
+                <span style="color:var(--red);">(${creditDriftPct.toFixed(0)}% drift)</span><br>
+                <span style="font-size:11px;">The butterfly price has moved significantly since the signal fired. Entry at this price no longer reflects the original edge.</span>
+            </div>
+        </div>`;
+    }
+
     // ─── GitHub Pages read-only banner ───
     if (IS_GITHUB_PAGES && !COCKPIT_BACKEND) {
         html += `<div style="background:rgba(99,102,241,0.12);border:1px solid rgba(99,102,241,0.4);border-radius:6px;padding:8px 14px;margin-bottom:8px;font-size:10px;color:#a5b4fc;">
@@ -1008,8 +1063,8 @@ function renderDetail() {
         </div>`;
     }
 
-    // ─── ENTRY FORM (only if signal matched AND past entry time AND no active trade) ───
-    if (HAS_BACKEND && !phxBlocked && !hasActiveTrade && sig.matched && pastEntryTime && (t.status === 'waiting' || t.status === 'alert')) {
+    // ─── ENTRY FORM (only if signal matched AND past entry time AND before time stop AND credit not stale AND no active trade) ───
+    if (HAS_BACKEND && !phxBlocked && !hasActiveTrade && sig.matched && pastEntryTime && !pastTimeStop && !creditStale && (t.status === 'waiting' || t.status === 'alert')) {
         // Auto-calculate position size from risk budget
         const rawDailyRisk = feedData.market?.daily_risk || 100000;
         const phxSizing = (sig.ver === 'v3' && feedData.phoenix?.sizing?.dollars) ? feedData.phoenix.sizing.dollars : 0;
