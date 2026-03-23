@@ -1,0 +1,55 @@
+name: spx_ibf_executor
+description: SPX 0DTE Iron Butterfly auto-executor. Enters at scheduled time, manages to profit target / time stop / loss stop / wing stop.
+language: python
+options:
+    deploy_time: "09:30:00"
+    pause_time: "16:15:00"
+    hibernate: true
+    low_latency: false
+    unload_on_restart: false
+    account: 14164
+    save_to_cloudquant: true
+parameters:
+    - name: contracts
+      type: int
+      default: "1"
+      description: Number of iron butterfly spreads to trade
+    - name: wing_width
+      type: int
+      default: "75"
+      description: Wing width in SPX points (0=auto-compute from VIX formula)
+    - name: profit_target_pct
+      type: float
+      default: "0.50"
+      description: Profit target as fraction of entry credit (0.50 = 50%)
+    - name: time_stop_et
+      type: string
+      default: "15:30"
+      description: Time stop in HH:MM Eastern - exit at this time if still open
+    - name: loss_stop_pct
+      type: float
+      default: "0.70"
+      description: P&L loss stop as fraction of max risk per spread (0 = disabled)
+    - name: use_wing_stop
+      type: bool
+      default: "true"
+      description: Exit immediately if SPX price breaches either wing strike
+alerts:
+    - name: ENTRY_FILLED
+      days_to_store: -1
+      fields:
+        - name: text
+          type: string
+          value: 'ENTRY_FILLED triggered'
+    - name: EXIT_FILLED
+      days_to_store: -1
+      fields:
+        - name: text
+          type: string
+          value: 'EXIT_FILLED triggered'
+    - name: STOP_TRIGGERED
+      days_to_store: -1
+      fields:
+        - name: text
+          type: string
+          value: 'STOP_TRIGGERED triggered'
