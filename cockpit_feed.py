@@ -1566,6 +1566,14 @@ def poll():
     state["signals"] = signals
     state["option_chain"] = chain
 
+    # ─── Today's closed trades (from live_trades.json) ───
+    try:
+        with open(LIVE_TRADES_PATH) as f:
+            all_live = json.load(f)
+        state["closed_trades_today"] = [t for t in all_live if t.get("date") == today_str]
+    except (FileNotFoundError, json.JSONDecodeError):
+        state["closed_trades_today"] = []
+
     # ─── PHOENIX v3 Signal Confluence (locked at 10:00 AM to match backtest) ───
     # The backtest evaluates all PHOENIX filters using 10:00 AM data frozen in the CSV.
     # VIX, VP, RV slope, and in_range are all snapshots at 10:00 AM — they never change

@@ -221,6 +221,7 @@
                 <span>SIGNALS <span id="sigCount">0</span></span>
                 <span style="font-size:9px;cursor:pointer;" onclick="toggleSound()" id="soundBtn">🔔 ON</span>
             </div>
+            <div id="closedPnlBanner"></div>
             <div class="sig-list" id="sigList"><div class="placeholder" style="height:200px;">Waiting for feed data...</div></div>
         </div>
         <div class="right-col">
@@ -428,6 +429,59 @@ function updateSignals() {
 
 function renderSignalList() {
     if (!feedData || !feedData.signals) return;
+
+    // ─── Closed trades + active trade P&L banner ───
+    const closedBanner = document.getElementById('closedPnlBanner');
+    const closedTrades = feedData.closed_trades_today || [];
+    const at_pnl = feedData.active_trade;
+    const hasLiveTrade = at_pnl && at_pnl.status === 'active';
+    const showPnlBanner = closedTrades.length > 0 || hasLiveTrade;
+    if (showPnlBanner && closedBanner) {
+        const closedPnl = closedTrades.reduce((s,t) => s + (t.pnl || 0), 0);
+        const livePnl = hasLiveTrade ? (at_pnl.total_pnl || 0) : 0;
+        const totalPnl = closedPnl + livePnl;
+        const wins = closedTrades.filter(t => t.pnl >= 0).length;
+        const losses = closedTrades.length - wins;
+        const pnlColor = totalPnl >= 0 ? 'var(--green)' : 'var(--red)';
+        const pnlSign = totalPnl >= 0 ? '+' : '';
+        let rows = closedTrades.map(t => {
+            const tColor = (t.pnl||0) >= 0 ? 'var(--green)' : 'var(--red)';
+            const sigMatch = feedData.signals.find(s => s.ver === t.ver);
+            const sColor = sigMatch ? sigMatch.color : 'var(--cyan)';
+            const name = sigMatch ? sigMatch.name : t.ver.toUpperCase();
+            return `<div style="display:flex;justify-content:space-between;align-items:center;padding:3px 0;font-size:11px;">
+                <span><span style="color:${sColor};font-weight:bold;">${name}</span> <span style="color:var(--muted);">${t.exit || ''} ${t.exit_time || ''}</span></span>
+                <span style="color:${tColor};font-weight:bold;">${(t.pnl||0)>=0?'+':''}$${(t.pnl||0).toLocaleString()}</span>
+            </div>`;
+        }).join('');
+        // Active trade row (if any)
+        let liveRow = '';
+        if (hasLiveTrade) {
+            const liveSig = feedData.signals.find(s => s.ver === at_pnl.ver);
+            const liveColor = livePnl >= 0 ? 'var(--green)' : 'var(--red)';
+            const liveName = liveSig ? liveSig.name : at_pnl.ver.toUpperCase();
+            const liveSColor = liveSig ? liveSig.color : 'var(--cyan)';
+            liveRow = `<div style="display:flex;justify-content:space-between;align-items:center;padding:3px 0;font-size:11px;border-top:1px dashed rgba(255,255,255,0.1);margin-top:2px;padding-top:5px;">
+                <span><span style="color:${liveSColor};font-weight:bold;">${liveName}</span> <span style="color:var(--amber);font-size:9px;">LIVE</span></span>
+                <span style="color:${liveColor};font-weight:bold;">${livePnl>=0?'+':''}$${livePnl.toLocaleString()}</span>
+            </div>`;
+        }
+        const tradeCount = closedTrades.length + (hasLiveTrade ? 1 : 0);
+        const summaryParts = [];
+        if (closedTrades.length > 0) summaryParts.push(`${wins}W ${losses}L closed`);
+        if (hasLiveTrade) summaryParts.push('1 live');
+        closedBanner.innerHTML = `<div style="background:rgba(${totalPnl>=0?'34,197,94':'239,68,68'},0.08);border:1px solid ${pnlColor};border-radius:8px;padding:10px 12px;margin-bottom:8px;">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
+                <span style="font-size:11px;font-weight:bold;color:var(--muted);text-transform:uppercase;letter-spacing:1px;">Today's P&L</span>
+                <span style="font-size:18px;font-weight:bold;color:${pnlColor};">${pnlSign}$${Math.abs(totalPnl).toLocaleString()}</span>
+            </div>
+            <div style="font-size:10px;color:var(--muted);margin-bottom:6px;">${summaryParts.join(' + ')} — ${tradeCount} trade${tradeCount>1?'s':''}</div>
+            ${rows}${liveRow}
+        </div>`;
+    } else if (closedBanner) {
+        closedBanner.innerHTML = '';
+    }
+
     const list = document.getElementById('sigList');
     const sigs = feedData.signals;
 
