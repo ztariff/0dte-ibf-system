@@ -713,7 +713,6 @@ function showWingBreachModal(at) {
         <div class="modal-actions">
             <button class="btn btn-lg" style="background:var(--red);color:white;font-weight:bold;" onclick="closeModal(); selected='${at.ver}'; renderSignalList(); renderDetail();">GO TO TRADE & EXIT</button>
         </div>`;
-    document.getElementById('modalBg').style.cssText += 'display:flex;';
     document.getElementById('modalBg').classList.add('show');
 }
 
@@ -800,7 +799,7 @@ function showEntryModal(sig) {
     document.getElementById('modalBg').classList.add('show');
     addLog(`ALERT: ${sig.name||sig.ver} entry signal — ATM ${atm} ±${ww}, credit ${c.credit?.toFixed(2)}`);
 }
-function closeModal() { document.getElementById('modalBg').classList.remove('show'); }
+function closeModal() { const m = document.getElementById('modalBg'); m.classList.remove('show'); m.style.display = ''; }
 
 // ══════════════════════════════════════════════════════════════
 // DETAIL PANEL
