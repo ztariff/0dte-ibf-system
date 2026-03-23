@@ -17,6 +17,15 @@ from datetime import datetime, timedelta
 import requests
 import numpy as np
 
+# Sizing score functions for new strategies
+try:
+    from sizing_scores import SCORE_FUNCTIONS, score_to_multiplier, SCORE_THRESHOLDS
+    _HAS_SIZING_SCORES = True
+except ImportError:
+    _HAS_SIZING_SCORES = False
+    SCORE_FUNCTIONS = {}
+    SCORE_THRESHOLDS = {}
+
 _DIR = os.path.dirname(os.path.abspath(__file__))
 CONFIG_PATH = os.path.join(_DIR, "cockpit_config.json")
 STATE_PATH = os.path.join(_DIR, "cockpit_state.json")
@@ -63,21 +72,12 @@ STRATEGIES = [
     {"ver":"v7","name":"FLAT-GAP FADE","regime":"LOW_FL_IN_GUP","entry":"10:00","mech":"40%/close/1T","filter":None,
      "desc":"FLAT-GAP FADE — Low VIX | Prior Day Flat | In Range | Gap Up","color":"#a855f7",
      "vix":[0,15],"pd":"FL","rng":"IN","gap":"GUP"},
-    {"ver":"v8","name":"STRESS SNAP","regime":"ELEV_UP_IN_GDN","entry":"10:30","mech":"40%/1530/1T","filter":None,
-     "desc":"STRESS SNAP — Elevated VIX | Prior Day Up | In Range | Gap Down","color":"#ef4444",
-     "vix":[20,25],"pd":"UP","rng":"IN","gap":"GDN"},
     {"ver":"v9","name":"BREAKOUT STALL","regime":"MID_UP_OT_GFL","entry":"10:00","mech":"70%/1545/1T","filter":"!RISING",
      "desc":"BREAKOUT STALL — Mid VIX | Prior Day Up | Outside Range | Flat Gap","color":"#eab308",
      "vix":[15,20],"pd":"UP","rng":"OT","gap":"GFL"},
-    {"ver":"v10","name":"BREAKDOWN PAUSE","regime":"MID_DN_OT_GFL","entry":"11:00","mech":"70%/1545/1T","filter":None,
-     "desc":"BREAKDOWN PAUSE — Mid VIX | Prior Day Down | Outside Range | Flat Gap","color":"#ec4899",
-     "vix":[15,20],"pd":"DN","rng":"OT","gap":"GFL"},
     {"ver":"v12","name":"BULL SQUEEZE","regime":"LOW_UP_OT_GUP","entry":"10:00","mech":"40%/close/1T","filter":"5dRet>1",
      "desc":"BULL SQUEEZE — Low VIX | Prior Day Up | Outside Range | Gap Up","color":"#f97316",
      "vix":[0,15],"pd":"UP","rng":"OT","gap":"GUP"},
-    {"ver":"v14","name":"ORDERLY DIP","regime":"MID_DN_IN_GDN","entry":"10:00","mech":"50%/close/1T","filter":"ScoreVol<18",
-     "desc":"ORDERLY DIP — Mid VIX | Prior Day Down | In Range | Gap Down","color":"#64748b",
-     "vix":[15,20],"pd":"DN","rng":"IN","gap":"GDN"},
     # ── New edges (N15/N17/N18) ──────────────────────────────────────────────
     {"ver":"n15","name":"PHOENIX CLEAR","regime":"PHOENIX_CLEAR","entry":"10:00","mech":"50%/close/1T","filter":"VIX9D/VIX<1.0",
      "desc":"PHOENIX CLEAR — PHOENIX + Normal Term Structure (VIX9D/VIX < 1.0)","color":"#22c55e",
@@ -88,6 +88,47 @@ STRATEGIES = [
     {"ver":"n18","name":"LATE SQUEEZE","regime":"LATE_SQUEEZE","entry":"14:00","mech":"50%/close/1T","filter":"5dRet>1+VP<2",
      "desc":"LATE SQUEEZE — 5dRet>1% + VP<2 + Prior≠FLAT | 14:00 Entry | ±10/±20 Iron Condor | $50K","color":"#0ea5e9",
      "type":"late_squeeze","vix":None,"pd":None,"rng":None,"gap":None},
+    # ── New Strategies (trade every day, sizing-score gated) ──────────────────
+    {"ver":"phx-pc","name":"PHX 75 POWER CLOSE","entry":"15:15","mech":"50%/1530/1T","filter":None,
+     "desc":"Phoenix 75 Power Close — Grade S ($150K) | 15:15 Entry | 50% target + 70% loss stop","color":"#8b5cf6",
+     "type":"new_strategy","risk_budget_base":150000,"grade":"S","score_key":"Phoenix 75 Power Close",
+     "vix":None,"pd":None,"rng":None,"gap":None},
+    {"ver":"phx-lh","name":"PHX 75 LAST HOUR","entry":"15:00","mech":"50%/1530/1T","filter":None,
+     "desc":"Phoenix 75 Last Hour — Grade A ($100K) | 15:00 Entry | 50% target + 50% loss stop","color":"#6366f1",
+     "type":"new_strategy","risk_budget_base":100000,"grade":"A","score_key":"Phoenix 75 Last Hour",
+     "vix":None,"pd":None,"rng":None,"gap":None},
+    {"ver":"fbd-lh","name":"FBD 60 LAST HOUR","entry":"15:00","mech":"50%/1530/1T","filter":None,
+     "desc":"Firebird 60 Last Hour — Grade A ($100K) | 15:00 Entry | 50% target + 50% loss stop","color":"#14b8a6",
+     "type":"new_strategy","risk_budget_base":100000,"grade":"A","score_key":"Firebird 60 Last Hour",
+     "vix":None,"pd":None,"rng":None,"gap":None},
+    {"ver":"phx-aft","name":"PHX 75 AFTERNOON","entry":"14:30","mech":"50%/1530/1T","filter":None,
+     "desc":"Phoenix 75 Afternoon — Grade B+ ($75K) | 14:30 Entry | 50% target + 50% loss stop","color":"#a855f7",
+     "type":"new_strategy","risk_budget_base":75000,"grade":"B+","score_key":"Phoenix 75 Afternoon",
+     "vix":None,"pd":None,"rng":None,"gap":None},
+    {"ver":"ic-35","name":"IRONCLAD 35","entry":"14:30","mech":"40%/1530/1T","filter":None,
+     "desc":"Ironclad 35 Condor — Grade B+ ($75K) | 14:30 Entry | 40% target + wing stop","color":"#10b981",
+     "type":"new_strategy","risk_budget_base":75000,"grade":"B+","score_key":"Ironclad 35 Condor",
+     "vix":None,"pd":None,"rng":None,"gap":None},
+    {"ver":"fbd-fb","name":"FBD 60 FINAL BELL","entry":"15:30","mech":"50%/1530/1T","filter":None,
+     "desc":"Firebird 60 Final Bell — Grade B+ ($75K) | 15:30 Entry | 50% target + wing stop","color":"#0ea5e9",
+     "type":"new_strategy","risk_budget_base":75000,"grade":"B+","score_key":"Firebird 60 Final Bell",
+     "vix":None,"pd":None,"rng":None,"gap":None},
+    {"ver":"phx-ea","name":"PHX 75 EARLY AFT","entry":"13:45","mech":"50%/1530/1T","filter":None,
+     "desc":"Phoenix 75 Early Afternoon — Grade B ($50K) | 13:45 Entry | 50% target + 50% loss stop","color":"#f59e0b",
+     "type":"new_strategy","risk_budget_base":50000,"grade":"B","score_key":"Phoenix 75 Early Afternoon",
+     "vix":None,"pd":None,"rng":None,"gap":None},
+    {"ver":"phx-md","name":"PHX 75 MIDDAY","entry":"14:00","mech":"50%/1530/1T","filter":None,
+     "desc":"Phoenix 75 Midday — Grade C+ ($35K) | 14:00 Entry | 50% target + 50% loss stop","color":"#ec4899",
+     "type":"new_strategy","risk_budget_base":35000,"grade":"C+","score_key":"Phoenix 75 Midday",
+     "vix":None,"pd":None,"rng":None,"gap":None},
+    {"ver":"fbd-md","name":"FBD 60 MIDDAY","entry":"14:00","mech":"50%/1530/1T","filter":None,
+     "desc":"Firebird 60 Midday — Grade C+ ($35K) | 14:00 Entry | 50% target + 70% loss stop","color":"#f97316",
+     "type":"new_strategy","risk_budget_base":35000,"grade":"C+","score_key":"Firebird 60 Midday",
+     "vix":None,"pd":None,"rng":None,"gap":None},
+    {"ver":"am-dec","name":"MORNING DECEL","entry":"10:30","mech":"30%/1130/1T","filter":"Decel<-0.05",
+     "desc":"Morning Decel Scalp — Grade C ($20K) | 10:30 Entry | 30% target + 11:30 time stop","color":"#64748b",
+     "type":"new_strategy","risk_budget_base":20000,"grade":"C","score_key":"Morning Decel Scalp",
+     "vix":None,"pd":None,"rng":None,"gap":None},
 ]
 
 TRANCHE_CONFIGS = {
@@ -99,10 +140,14 @@ TRANCHE_CONFIGS = {
 
 # ─── VP-scaled regime budget (matches backtest regime_budget()) ───
 REGIME_MAX_BUDGET = {
-    "v6":  75000, "v7":  100000, "v8":  50000, "v9":  75000,
-    "v10": 100000, "v12": 100000, "v14": 100000,
+    "v6":  75000, "v7":  100000, "v9":  75000,
+    "v12": 100000,
     # N15 uses tiered Phoenix sizing; N17/N18 are fixed $50K (set directly in signal matching)
     "n17": 50000, "n18": 50000,
+    # New strategies — base budgets (before VIX + scoring adjustments)
+    "phx-pc": 150000, "phx-lh": 100000, "fbd-lh": 100000,
+    "phx-aft": 75000, "ic-35": 75000, "fbd-fb": 75000,
+    "phx-ea": 50000, "phx-md": 35000, "fbd-md": 35000, "am-dec": 20000,
 }
 
 def regime_budget_cockpit(ver, vp):
@@ -118,6 +163,63 @@ def regime_budget_cockpit(ver, vp):
     elif vp <= 1.5: scale = 0.50
     else:           scale = 0.25
     return int(max_bud * scale)
+
+def vix_sizing_mult(vix_val):
+    """VIX-tiered sizing multiplier (matches generate_calendar_data.py)."""
+    if vix_val is None: return 1.0
+    if vix_val < 20: return 1.0
+    if vix_val < 25: return 0.5
+    return 0.25
+
+def build_scoring_context(vix_val, vp, ret5d, rv, rv_slope_label, prior, gap_pct, in_range, vix9d_val=None):
+    """Build scoring context dict for sizing_scores functions from live cockpit data."""
+    ctx = {}
+    ctx["vix"] = vix_val
+    ctx["vp_ratio"] = vp
+    ctx["prior_5d"] = ret5d
+    ctx["rv"] = rv
+    ctx["rv_slope"] = rv_slope_label
+
+    # Prior day info
+    prior_ret = prior.get("prior_return", 0) if prior else 0
+    prior_dir = prior.get("prior_direction", "FLAT") if prior else "FLAT"
+    ctx["prior_1d"] = prior_ret
+    ctx["prior_dir"] = prior_dir
+
+    # Prior day range (absolute return as %)
+    ctx["prior_day_range"] = abs(prior_ret) if prior_ret else None
+
+    # In prior week range
+    ctx["in_prior_week_range"] = in_range
+
+    # Gap
+    ctx["gap_pct"] = gap_pct
+
+    # Day of week
+    try:
+        from zoneinfo import ZoneInfo
+        now_et = datetime.now(ZoneInfo("America/New_York"))
+        ctx["dow"] = now_et.strftime("%A")
+    except Exception:
+        ctx["dow"] = ""
+
+    # Term structure from VIX9D/VIX
+    if vix9d_val is not None and vix_val is not None and vix_val > 0:
+        try:
+            ratio = float(vix9d_val) / vix_val
+            ctx["vix9d_vix_ratio"] = ratio
+            ctx["ts_label"] = "INVERTED" if ratio < 0.90 else ("CONTANGO" if ratio > 1.02 else "FLAT")
+        except Exception:
+            ctx["ts_label"] = ""
+            ctx["vix9d_vix_ratio"] = None
+    else:
+        ctx["ts_label"] = ""
+        ctx["vix9d_vix_ratio"] = None
+
+    # credit_wing_pct — not available in cockpit context (would need live option chain)
+    ctx["credit_wing_pct"] = None
+
+    return ctx
 
 # ─── Active Trade persistence ───
 def load_active_trade():
@@ -1252,7 +1354,76 @@ def poll():
                 print(f"  {ver}: ACTIVE (locked at entry — {er['reason']})")
             continue
 
-        # ── Standard regime-based matching (v6–v14) ──
+        # ── New strategies (trade every day, sizing-score gated) ──
+        if strat_type == "new_strategy":
+            if ver not in _entry_regime:
+                if et_str < entry_time_str:
+                    signals.append({
+                        **strat,
+                        "matched": False,
+                        "match_reason": f"Waiting for entry time ({entry_time_str} ET)",
+                        "regime_match": False,
+                        "filter_pass": False,
+                        "half_size": False,
+                        "half_size_reason": None,
+                        "risk_budget": 0,
+                        "sizing_score": None,
+                        "sizing_mult": None,
+                        "vix_mult": None,
+                    })
+                    continue
+
+                # At or past entry time — always matched, compute sizing
+                vix_mult = vix_sizing_mult(vix)
+                base_budget = strat.get("risk_budget_base", 50000)
+                vix_budget = int(base_budget * vix_mult)
+
+                # Compute sizing score
+                score_key = strat.get("score_key", "")
+                sizing_score = 0
+                sizing_mult = 1.0
+                if _HAS_SIZING_SCORES and score_key in SCORE_FUNCTIONS:
+                    vix9d_val = _daily_cache.get("vix9d")
+                    scoring_ctx = build_scoring_context(
+                        vix, vp, ret5d, full_rv, rv_slope_label,
+                        prior, gap_pct, in_range, vix9d_val
+                    )
+                    score_fn = SCORE_FUNCTIONS[score_key]
+                    if score_fn is not None:
+                        sizing_score = score_fn(scoring_ctx)
+                        sizing_mult = score_to_multiplier(sizing_score, score_key)
+
+                scored_budget = int(vix_budget * sizing_mult)
+                grade = strat.get("grade", "")
+                _entry_regime[ver] = {
+                    "matched": True,
+                    "reason": f"Grade {grade} | VIX×{vix_mult:.2f} Score={sizing_score} ×{sizing_mult:.2f} → ${scored_budget:,}",
+                    "risk_budget": scored_budget,
+                    "half_size": False,
+                    "half_size_reason": None,
+                    "sizing_score": sizing_score,
+                    "sizing_mult": sizing_mult,
+                    "vix_mult": vix_mult,
+                }
+                print(f"  SIGNAL: {ver} — Grade {grade} | VIX×{vix_mult:.2f} Score={sizing_score} ×{sizing_mult:.2f} → ${scored_budget:,}")
+
+            er = _entry_regime[ver]
+            signals.append({
+                **strat,
+                "matched": er["matched"],
+                "match_reason": er["reason"],
+                "regime_match": True,
+                "filter_pass": True,
+                "half_size": er.get("half_size", False),
+                "half_size_reason": er.get("half_size_reason"),
+                "risk_budget": er.get("risk_budget", 0),
+                "sizing_score": er.get("sizing_score"),
+                "sizing_mult": er.get("sizing_mult"),
+                "vix_mult": er.get("vix_mult"),
+            })
+            continue
+
+        # ── Standard regime-based matching (v6–v12) ──
         if ver not in _entry_regime:
             # Haven't checked this strategy yet today
             if et_str < entry_time_str:
@@ -1300,23 +1471,18 @@ def poll():
                     filt_pass = check_filter(strat["filter"], filter_data)
                     # V9 VP cap: skip when VP > 2.0 (backtest shows all 5 such days are losers)
                     vp_cap_blocked = (ver == "v9" and filter_data.get("vp", 0) > 2.0)
-                    # V10 half-size flag: when 5d return <= -1.5% use 50% budget
-                    v10_half_size = (ver == "v10" and ret5d <= -1.5)
                     if filt_pass and not vp_cap_blocked:
                         risk_budget = regime_budget_cockpit(ver, filter_data.get("vp", 1.5))
-                        if v10_half_size:
-                            risk_budget = risk_budget // 2
                         _entry_regime[ver] = {
                             "matched": True,
                             "reason": f"Matched at {entry_time_str} — {regime_label} (VIX {vix:.1f})",
                             "regime": regime_label,
                             "vix": vix,
-                            "half_size": v10_half_size,
-                            "half_size_reason": f"5d return {ret5d:.2f}% ≤ -1.5% — HALF SIZE" if v10_half_size else None,
+                            "half_size": False,
+                            "half_size_reason": None,
                             "risk_budget": risk_budget,
                         }
-                        size_note = " [HALF SIZE]" if v10_half_size else ""
-                        print(f"  SIGNAL: {ver} — matched at entry ({regime_label}, VIX {vix:.1f}){size_note} risk_budget=${risk_budget:,}")
+                        print(f"  SIGNAL: {ver} — matched at entry ({regime_label}, VIX {vix:.1f}) risk_budget=${risk_budget:,}")
                     elif vp_cap_blocked:
                         _entry_regime[ver] = {
                             "matched": False,

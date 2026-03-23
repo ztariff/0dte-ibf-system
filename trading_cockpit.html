@@ -431,16 +431,23 @@ function renderSignalList() {
     const list = document.getElementById('sigList');
     const sigs = feedData.signals;
 
-    // Sort: active trade first, then matched, then by version number
+    // Sort: active trade first, then matched, then by grade/priority
     const at_sort = feedData.active_trade;
     const activeVerSort = (at_sort && at_sort.status === 'active') ? at_sort.ver : null;
-    const verNum = v => parseInt(v.ver.replace('v',''));
+    // Priority: legacy (v3-v12, n15-n18) first, then new strategies by grade
+    const GRADE_ORDER = {'S':0,'A':1,'B+':2,'B':3,'C+':4,'C':5};
+    const VER_ORDER = {'v3':0,'v6':1,'v7':2,'v9':3,'v12':4,'n15':5,'n17':6,'n18':7};
+    function sortKey(sig) {
+        if (sig.ver in VER_ORDER) return VER_ORDER[sig.ver];
+        const g = sig.grade || 'C';
+        return 10 + (GRADE_ORDER[g] || 5);
+    }
     const sorted = [...sigs].sort((a,b) => {
         if (a.ver === activeVerSort && b.ver !== activeVerSort) return -1;
         if (b.ver === activeVerSort && a.ver !== activeVerSort) return 1;
         if (a.matched && !b.matched) return -1;
         if (!a.matched && b.matched) return 1;
-        return verNum(a) - verNum(b);
+        return sortKey(a) - sortKey(b);
     });
 
     const at = feedData.active_trade;
@@ -482,7 +489,7 @@ function renderSignalList() {
                 <span class="sig-status ${stsCls}">${stsLabel}</span>
             </div>
             <div class="sig-desc">${sig.desc}</div>
-            <div class="sig-meta">${sig.mech} | Entry ${sig.entry}${sig.filter ? ' | ' + sig.filter : ''}${sig.half_size ? ' | <span style="color:var(--amber);font-weight:bold;">⚡ HALF SIZE</span>' : ''}</div>
+            <div class="sig-meta">${sig.mech} | Entry ${sig.entry}${sig.filter ? ' | ' + sig.filter : ''}${sig.half_size ? ' | <span style="color:var(--amber);font-weight:bold;">⚡ HALF SIZE</span>' : ''}${sig.grade ? ' | <span style="color:var(--cyan);font-weight:bold;">'+sig.grade+'</span>' : ''}${sig.sizing_score != null ? ' | Score '+sig.sizing_score+' ×'+(sig.sizing_mult||1).toFixed(2) : ''}${sig.risk_budget > 0 ? ' | <span style="color:var(--green);">$'+(sig.risk_budget/1000).toFixed(0)+'K</span>' : ''}</div>
             ${pnlDisplay}
         </div>`;
     }).join('');
@@ -882,6 +889,50 @@ function renderDetail() {
         html += `</div>`;
     }
 
+    // ─── SIZING SCORE PANEL (new strategies only) ───
+    if (sig.type === 'new_strategy' && sig.sizing_score != null) {
+        const score = sig.sizing_score;
+        const mult = sig.sizing_mult || 1;
+        const vixM = sig.vix_mult || 1;
+        const baseBudget = sig.risk_budget_base || 50000;
+        const vixBudget = Math.round(baseBudget * vixM);
+        const scoredBudget = sig.risk_budget || Math.round(vixBudget * mult);
+        const multPct = Math.round(mult * 100);
+        const scoreColor = score >= 5 ? 'var(--green)' : score >= 0 ? 'var(--cyan)' : score >= -3 ? 'var(--amber)' : 'var(--red)';
+        html += `<div class="d-section">
+            <h3>Sizing Score <span style="float:right;font-size:13px;font-weight:bold;color:${scoreColor};">${score >= 0 ? '+' : ''}${score}</span></h3>
+            <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:8px 0;">
+                <div style="background:var(--bg);padding:8px;border-radius:6px;text-align:center;">
+                    <div style="font-size:8px;color:var(--muted);">GRADE</div>
+                    <div style="font-size:18px;font-weight:bold;color:${sig.grade==='S'?'var(--green)':sig.grade==='A'?'var(--cyan)':'var(--muted)'}">${sig.grade||'?'}</div>
+                </div>
+                <div style="background:var(--bg);padding:8px;border-radius:6px;text-align:center;">
+                    <div style="font-size:8px;color:var(--muted);">BASE</div>
+                    <div style="font-size:14px;font-weight:bold;">$${(baseBudget/1000).toFixed(0)}K</div>
+                </div>
+                <div style="background:var(--bg);padding:8px;border-radius:6px;text-align:center;">
+                    <div style="font-size:8px;color:var(--muted);">VIX MULT</div>
+                    <div style="font-size:14px;font-weight:bold;color:${vixM < 1 ? 'var(--amber)' : 'var(--green)'}">×${vixM.toFixed(2)}</div>
+                </div>
+                <div style="background:var(--bg);padding:8px;border-radius:6px;text-align:center;">
+                    <div style="font-size:8px;color:var(--muted);">SCORE MULT</div>
+                    <div style="font-size:14px;font-weight:bold;color:${scoreColor}">×${mult.toFixed(2)}</div>
+                </div>
+            </div>
+            <div style="display:flex;align-items:center;gap:8px;margin-top:8px;">
+                <div style="flex:1;height:6px;background:rgba(255,255,255,0.08);border-radius:3px;">
+                    <div style="height:100%;width:${multPct}%;background:${scoreColor};border-radius:3px;"></div>
+                </div>
+                <span style="font-size:12px;font-weight:bold;color:${scoreColor};">${multPct}%</span>
+            </div>
+            <div style="text-align:center;margin-top:8px;font-size:13px;">
+                <span style="color:var(--muted);">$${(baseBudget/1000).toFixed(0)}K</span>
+                <span style="color:var(--muted);"> × ${vixM.toFixed(2)} × ${mult.toFixed(2)} = </span>
+                <span style="color:var(--green);font-weight:bold;">$${scoredBudget.toLocaleString()}</span>
+            </div>
+        </div>`;
+    }
+
     // ─── ACTIVE TRADE BANNER (if viewing a different strategy while trade is open) ───
     const hasAnyActiveTrade = at && at.status === 'active';
     if (hasAnyActiveTrade && !hasActiveTrade) {
@@ -953,28 +1004,33 @@ function renderDetail() {
     // ─── ENTRY FORM (only if signal matched AND past entry time AND no active trade) ───
     if (HAS_BACKEND && !phxBlocked && !hasActiveTrade && sig.matched && pastEntryTime && (t.status === 'waiting' || t.status === 'alert')) {
         // Auto-calculate position size from risk budget
-        // For V3 (PHOENIX): use tiered sizing from confluence count, not raw daily_risk
-        // For non-V3: use VP-scaled risk_budget from backend (regime_budget_cockpit); V10 half-size already baked in
         const rawDailyRisk = feedData.market?.daily_risk || 100000;
         const phxSizing = (sig.ver === 'v3' && feedData.phoenix?.sizing?.dollars) ? feedData.phoenix.sizing.dollars : 0;
         const halfSize = sig.half_size || false;
-        // VP-scaled budget (already includes V10 half-size) — fallback to rawDailyRisk if not set
+        const isNewStrategy = sig.type === 'new_strategy';
+        // For new strategies: risk_budget already includes VIX + scoring adjustments
+        // For V3: use tiered Phoenix sizing
+        // For legacy: use VP-scaled risk_budget from backend
         const sigBudget = (sig.risk_budget && sig.risk_budget > 0) ? sig.risk_budget : rawDailyRisk;
         const dailyRisk = (sig.ver === 'v3' && phxSizing > 0) ? phxSizing : sigBudget;
         const phxPct = (sig.ver === 'v3' && feedData.phoenix?.sizing) ? feedData.phoenix.sizing.pct : 100;
-        // VP annotation for non-V3 budget label
-        const REGIME_MAX_BUDGET_JS = {v6:75000,v7:100000,v8:50000,v9:75000,v10:100000,v12:100000,v14:100000};
-        const curVP = feedData.market?.vp_ratio || 1.5;
-        const vpScale = curVP <= 1.0 ? 100 : curVP <= 1.2 ? 75 : curVP <= 1.5 ? 50 : 25;
-        const maxBudget = REGIME_MAX_BUDGET_JS[sig.ver] || 100000;
-        const vpNote = `VP ${curVP.toFixed(2)} → ${vpScale}% of $${(maxBudget/1000).toFixed(0)}K max`;
-
-        // Half-size warning banner for V10
-        if (halfSize) {
-            html += `<div style="background:rgba(245,158,11,0.15);border:1px solid var(--amber);border-radius:6px;padding:10px 14px;margin-bottom:8px;font-size:11px;">
-                <span style="color:var(--amber);font-weight:bold;">⚡ HALF SIZE — 5d return ${(feedData.market?.ret5d||0).toFixed(2)}% ≤ -1.5%</span><br>
-                <span style="color:var(--muted);">${sig.half_size_reason || 'Deep downtrend: trade half budget to reduce tail risk'}</span>
-            </div>`;
+        // Budget label
+        let budgetLabel, budgetNote;
+        if (sig.ver === 'v3') {
+            budgetLabel = 'PHOENIX Tiered Sizing';
+            budgetNote = `(${phxPct}% of $${rawDailyRisk.toLocaleString()})`;
+        } else if (isNewStrategy) {
+            budgetLabel = `Risk Budget (Grade ${sig.grade || '?'})`;
+            const scoreNote = sig.sizing_score != null ? `Score=${sig.sizing_score} ×${(sig.sizing_mult||1).toFixed(2)}` : '';
+            const vixNote = sig.vix_mult != null && sig.vix_mult < 1 ? ` VIX×${sig.vix_mult.toFixed(2)}` : '';
+            budgetNote = `(${scoreNote}${vixNote})`;
+        } else {
+            const REGIME_MAX_BUDGET_JS = {v6:75000,v7:100000,v9:75000,v12:100000};
+            const curVP = feedData.market?.vp_ratio || 1.5;
+            const vpScale = curVP <= 1.0 ? 100 : curVP <= 1.2 ? 75 : curVP <= 1.5 ? 50 : 25;
+            const maxBudget = REGIME_MAX_BUDGET_JS[sig.ver] || 100000;
+            budgetLabel = 'Risk Budget (VP-scaled)';
+            budgetNote = `(VP ${curVP.toFixed(2)} → ${vpScale}% of $${(maxBudget/1000).toFixed(0)}K max)`;
         }
         const credit = c.credit || 0;
         const nTranches = cfg.n || 1;
@@ -987,8 +1043,8 @@ function renderDetail() {
             <p style="font-size:10px;color:var(--amber);margin-bottom:8px;">This will LOCK the ATM strike at ${c.atm || '—'} for all tranches.</p>
             <div style="background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:10px 14px;margin-bottom:10px;font-size:11px;">
                 <div style="display:flex;justify-content:space-between;margin-bottom:4px;">
-                    <span style="color:var(--muted);">${sig.ver === 'v3' ? 'PHOENIX Tiered Sizing' : (halfSize ? 'Risk Budget (VP-scaled, HALF)' : 'Risk Budget (VP-scaled)')}</span>
-                    <span style="font-weight:bold;${halfSize ? 'color:var(--amber);' : ''}">$${dailyRisk.toLocaleString()}${sig.ver === 'v3' ? ` <span style="color:var(--cyan);font-size:10px;">(${phxPct}% of $${rawDailyRisk.toLocaleString()})</span>` : ` <span style="color:${halfSize ? 'var(--amber)' : 'var(--cyan)'};font-size:10px;">(${halfSize ? 'HALF × ' : ''}${vpNote})</span>`}</span>
+                    <span style="color:var(--muted);">${budgetLabel}</span>
+                    <span style="font-weight:bold;">$${dailyRisk.toLocaleString()} <span style="color:var(--cyan);font-size:10px;">${budgetNote}</span></span>
                 </div>
                 <div style="display:flex;justify-content:space-between;margin-bottom:4px;">
                     <span style="color:var(--muted);">Tranches</span>
