@@ -899,36 +899,44 @@ function renderDetail() {
         const scoredBudget = sig.risk_budget || Math.round(vixBudget * mult);
         const multPct = Math.round(mult * 100);
         const scoreColor = score >= 5 ? 'var(--green)' : score >= 0 ? 'var(--cyan)' : score >= -3 ? 'var(--amber)' : 'var(--red)';
-        html += `<div class="d-section">
-            <h3>Sizing Score <span style="float:right;font-size:13px;font-weight:bold;color:${scoreColor};">${score >= 0 ? '+' : ''}${score}</span></h3>
+        // Compute actual contract count from scored budget
+        const scoringCredit = hasActiveTrade ? at.entry_credit : (c.credit || 0);
+        const scoringMLPerSpread = (ww - scoringCredit) * 100;
+        const scoringContracts = scoringMLPerSpread > 0 ? Math.max(1, Math.floor(scoredBudget / scoringMLPerSpread)) : 1;
+        const scoringTgtPrice = scoringCredit * (1 - tgtPct / 100);
+        html += `<div class="d-section" style="border:2px solid var(--green);background:rgba(34,197,94,0.06);">
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;text-align:center;margin-bottom:12px;">
+                <div style="background:rgba(34,197,94,0.10);border:2px solid var(--green);border-radius:10px;padding:18px 10px;">
+                    <div style="font-size:11px;color:var(--muted);margin-bottom:6px;text-transform:uppercase;letter-spacing:1px;">SELL THIS MANY</div>
+                    <div style="font-size:48px;font-weight:bold;color:var(--green);line-height:1;">${scoringContracts}</div>
+                    <div style="font-size:13px;color:var(--green);margin-top:6px;">iron butterflies</div>
+                </div>
+                <div style="background:rgba(6,182,212,0.10);border:2px solid var(--cyan);border-radius:10px;padding:18px 10px;">
+                    <div style="font-size:11px;color:var(--muted);margin-bottom:6px;text-transform:uppercase;letter-spacing:1px;">BUY BACK AT</div>
+                    <div style="font-size:48px;font-weight:bold;color:var(--cyan);line-height:1;">${scoringTgtPrice.toFixed(2)}</div>
+                    <div style="font-size:13px;color:var(--cyan);margin-top:6px;">${tgtPct}% target debit</div>
+                </div>
+            </div>
             <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:8px 0;">
-                <div style="background:var(--bg);padding:8px;border-radius:6px;text-align:center;">
+                <div style="background:var(--bg);padding:6px;border-radius:6px;text-align:center;">
                     <div style="font-size:8px;color:var(--muted);">GRADE</div>
-                    <div style="font-size:18px;font-weight:bold;color:${sig.grade==='S'?'var(--green)':sig.grade==='A'?'var(--cyan)':'var(--muted)'}">${sig.grade||'?'}</div>
+                    <div style="font-size:16px;font-weight:bold;color:${sig.grade==='S'?'var(--green)':sig.grade==='A'?'var(--cyan)':'var(--muted)'}">${sig.grade||'?'}</div>
                 </div>
-                <div style="background:var(--bg);padding:8px;border-radius:6px;text-align:center;">
-                    <div style="font-size:8px;color:var(--muted);">BASE</div>
-                    <div style="font-size:14px;font-weight:bold;">$${(baseBudget/1000).toFixed(0)}K</div>
+                <div style="background:var(--bg);padding:6px;border-radius:6px;text-align:center;">
+                    <div style="font-size:8px;color:var(--muted);">BUDGET</div>
+                    <div style="font-size:16px;font-weight:bold;">$${scoredBudget.toLocaleString()}</div>
                 </div>
-                <div style="background:var(--bg);padding:8px;border-radius:6px;text-align:center;">
-                    <div style="font-size:8px;color:var(--muted);">VIX MULT</div>
-                    <div style="font-size:14px;font-weight:bold;color:${vixM < 1 ? 'var(--amber)' : 'var(--green)'}">×${vixM.toFixed(2)}</div>
+                <div style="background:var(--bg);padding:6px;border-radius:6px;text-align:center;">
+                    <div style="font-size:8px;color:var(--muted);">VIX</div>
+                    <div style="font-size:16px;font-weight:bold;color:${vixM < 1 ? 'var(--amber)' : 'var(--green)'}">×${vixM.toFixed(2)}</div>
                 </div>
-                <div style="background:var(--bg);padding:8px;border-radius:6px;text-align:center;">
-                    <div style="font-size:8px;color:var(--muted);">SCORE MULT</div>
-                    <div style="font-size:14px;font-weight:bold;color:${scoreColor}">×${mult.toFixed(2)}</div>
+                <div style="background:var(--bg);padding:6px;border-radius:6px;text-align:center;">
+                    <div style="font-size:8px;color:var(--muted);">SCORE ${score >= 0 ? '+' : ''}${score}</div>
+                    <div style="font-size:16px;font-weight:bold;color:${scoreColor}">×${mult.toFixed(2)}</div>
                 </div>
             </div>
-            <div style="display:flex;align-items:center;gap:8px;margin-top:8px;">
-                <div style="flex:1;height:6px;background:rgba(255,255,255,0.08);border-radius:3px;">
-                    <div style="height:100%;width:${multPct}%;background:${scoreColor};border-radius:3px;"></div>
-                </div>
-                <span style="font-size:12px;font-weight:bold;color:${scoreColor};">${multPct}%</span>
-            </div>
-            <div style="text-align:center;margin-top:8px;font-size:13px;">
-                <span style="color:var(--muted);">$${(baseBudget/1000).toFixed(0)}K</span>
-                <span style="color:var(--muted);"> × ${vixM.toFixed(2)} × ${mult.toFixed(2)} = </span>
-                <span style="color:var(--green);font-weight:bold;">$${scoredBudget.toLocaleString()}</span>
+            <div style="text-align:center;font-size:11px;color:var(--muted);margin-top:4px;">
+                $${(baseBudget/1000).toFixed(0)}K base × ${vixM.toFixed(2)} VIX × ${mult.toFixed(2)} score = $${scoredBudget.toLocaleString()} → <strong style="color:var(--green);">${scoringContracts} contracts</strong> ($${scoringMLPerSpread.toFixed(0)} max loss/spread)
             </div>
         </div>`;
     }
@@ -1042,19 +1050,16 @@ function renderDetail() {
 
         // ─── BIG ORDER BOX ───
         html += `<div class="d-section" style="border:2px solid var(--green);background:rgba(34,197,94,0.06);">
-            <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;text-align:center;">
-                <div style="background:rgba(34,197,94,0.10);border:2px solid var(--green);border-radius:10px;padding:16px 10px;">
-                    <div style="font-size:10px;color:var(--muted);margin-bottom:4px;text-transform:uppercase;letter-spacing:1px;">FILL THIS MANY</div>
-                    <div style="font-size:42px;font-weight:bold;color:var(--green);line-height:1;">${autoQty}</div>
-                    <div style="font-size:12px;color:var(--muted);margin-top:4px;">spreads @ ${credit.toFixed(2)} credit</div>
-                </div>
-                <div style="background:rgba(6,182,212,0.10);border:2px solid var(--cyan);border-radius:10px;padding:16px 10px;">
-                    <div style="font-size:10px;color:var(--muted);margin-bottom:4px;text-transform:uppercase;letter-spacing:1px;">COVER AT (${tgtPct}% TARGET)</div>
-                    <div style="font-size:42px;font-weight:bold;color:var(--cyan);line-height:1;">${tgtExitPrice.toFixed(2)}</div>
-                    <div style="font-size:12px;color:var(--muted);margin-top:4px;">spread value to buy back</div>
-                </div>
+            <div style="text-align:center;margin-bottom:10px;">
+                <div style="font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;">ENTRY ORDER — SELL TO OPEN</div>
+                <div style="font-size:18px;color:var(--green);margin-top:6px;">SELL <span style="font-size:48px;font-weight:bold;line-height:1;">${autoQty}</span> × Iron Butterfly @ <span style="font-size:32px;font-weight:bold;">${credit.toFixed(2)}</span> credit</div>
             </div>
-            <div style="text-align:center;margin-top:10px;font-size:11px;color:var(--muted);">
+            <div style="background:rgba(6,182,212,0.08);border:1px solid rgba(6,182,212,0.3);border-radius:8px;padding:10px;text-align:center;margin-bottom:10px;">
+                <div style="font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px;">THEN SET EXIT — BUY TO CLOSE AT</div>
+                <div style="font-size:36px;font-weight:bold;color:var(--cyan);margin:4px 0;">${tgtExitPrice.toFixed(2)} debit</div>
+                <div style="font-size:11px;color:var(--muted);">${tgtPct}% of ${credit.toFixed(2)} entry credit</div>
+            </div>
+            <div style="text-align:center;font-size:11px;color:var(--muted);">
                 Max risk: <strong style="color:var(--red);">$${(maxLossPerSpread * autoQty).toLocaleString()}</strong> (${autoQty} × $${maxLossPerSpread.toFixed(0)}/spread)
                 &nbsp;|&nbsp; Budget: <strong>$${dailyRisk.toLocaleString()}</strong> <span style="color:var(--cyan);font-size:10px;">${budgetNote}</span>
             </div>
@@ -1127,21 +1132,14 @@ function renderDetail() {
                 <div class="pnl-big" style="color:${totalPnl>=0?'var(--green)':'var(--red)'}">${totalPnl>=0?'+':''}$${totalPnl.toLocaleString()}</div>
                 <div class="pnl-sub">${pnlPct.toFixed(1)}% captured | Spread: ${sv.toFixed(2)} (entry avg: ${avgCredit.toFixed(2)}) | ${fillQty} spreads/tranche</div>
             </div>
-            <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:10px 0;">
-                <div style="background:rgba(34,197,94,0.08);border:1px solid rgba(34,197,94,0.3);border-radius:8px;padding:10px;text-align:center;">
-                    <div style="font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;">COVER AT (${tgtPct}% TARGET)</div>
-                    <div style="font-size:28px;font-weight:bold;color:var(--green);margin:4px 0;">${targetExitSV.toFixed(2)}</div>
-                    <div style="font-size:10px;color:var(--muted);">current spread: ${sv.toFixed(2)} ${sv <= targetExitSV ? '— TARGET HIT' : '— ' + ((sv - targetExitSV).toFixed(2)) + ' away'}</div>
-                </div>
-                <div style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);border-radius:8px;padding:10px;text-align:center;">
-                    <div style="font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;">POSITION SIZE</div>
-                    <div style="font-size:28px;font-weight:bold;color:var(--cyan);margin:4px 0;">${fillQty} spreads</div>
-                    <div style="font-size:10px;color:var(--muted);">max loss: $${Math.abs(maxLoss).toLocaleString()}</div>
-                </div>
+            <div style="background:rgba(34,197,94,0.08);border:2px solid var(--green);border-radius:10px;padding:14px;margin:12px 0;text-align:center;">
+                <div style="font-size:11px;color:var(--muted);margin-bottom:6px;text-transform:uppercase;letter-spacing:1px;">EXIT ORDER — BUY TO CLOSE</div>
+                <div style="font-size:16px;color:var(--green);margin-bottom:2px;">BUY ${fillQty} × Iron Butterfly @ <span style="font-size:32px;font-weight:bold;">${targetExitSV.toFixed(2)}</span> debit</div>
+                <div style="font-size:12px;color:var(--muted);margin-top:6px;">${sv <= targetExitSV ? '<span style="color:var(--green);font-weight:bold;">TARGET HIT — CLOSE NOW</span>' : 'current spread: ' + sv.toFixed(2) + ' — need ' + (sv - targetExitSV).toFixed(2) + ' more decay to hit ' + tgtPct + '% target'}</div>
             </div>
             <div class="prog-row">
                 <div class="prog-item">
-                    <div class="prog-lbl"><span>Target ${tgtPct}% (cover ≤ ${targetExitSV.toFixed(2)})</span><span style="color:var(--green)">${pnlPct.toFixed(1)}%</span></div>
+                    <div class="prog-lbl"><span>Target ${tgtPct}% — buy back ≤ ${targetExitSV.toFixed(2)}</span><span style="color:var(--green)">${pnlPct.toFixed(1)}%</span></div>
                     <div class="prog-bar"><div class="prog-fill" style="width:${tgtProg}%;background:var(--green)"></div></div>
                 </div>
                 <div class="prog-item">
