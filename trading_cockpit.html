@@ -1038,6 +1038,28 @@ function renderDetail() {
         const riskPerTranche = dailyRisk / nTranches;
         const autoQty = maxLossPerSpread > 0 ? Math.floor(riskPerTranche / maxLossPerSpread) : 10;
 
+        const tgtExitPrice = credit * (1 - tgtPct / 100);
+
+        // ─── BIG ORDER BOX ───
+        html += `<div class="d-section" style="border:2px solid var(--green);background:rgba(34,197,94,0.06);">
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;text-align:center;">
+                <div style="background:rgba(34,197,94,0.10);border:2px solid var(--green);border-radius:10px;padding:16px 10px;">
+                    <div style="font-size:10px;color:var(--muted);margin-bottom:4px;text-transform:uppercase;letter-spacing:1px;">FILL THIS MANY</div>
+                    <div style="font-size:42px;font-weight:bold;color:var(--green);line-height:1;">${autoQty}</div>
+                    <div style="font-size:12px;color:var(--muted);margin-top:4px;">spreads @ ${credit.toFixed(2)} credit</div>
+                </div>
+                <div style="background:rgba(6,182,212,0.10);border:2px solid var(--cyan);border-radius:10px;padding:16px 10px;">
+                    <div style="font-size:10px;color:var(--muted);margin-bottom:4px;text-transform:uppercase;letter-spacing:1px;">COVER AT (${tgtPct}% TARGET)</div>
+                    <div style="font-size:42px;font-weight:bold;color:var(--cyan);line-height:1;">${tgtExitPrice.toFixed(2)}</div>
+                    <div style="font-size:12px;color:var(--muted);margin-top:4px;">spread value to buy back</div>
+                </div>
+            </div>
+            <div style="text-align:center;margin-top:10px;font-size:11px;color:var(--muted);">
+                Max risk: <strong style="color:var(--red);">$${(maxLossPerSpread * autoQty).toLocaleString()}</strong> (${autoQty} × $${maxLossPerSpread.toFixed(0)}/spread)
+                &nbsp;|&nbsp; Budget: <strong>$${dailyRisk.toLocaleString()}</strong> <span style="color:var(--cyan);font-size:10px;">${budgetNote}</span>
+            </div>
+        </div>`;
+
         html += `<div class="d-section">
             <h3>Confirm Entry</h3>
             <p style="font-size:10px;color:var(--amber);margin-bottom:8px;">This will LOCK the ATM strike at ${c.atm || '—'} for all tranches.</p>
@@ -1047,16 +1069,8 @@ function renderDetail() {
                     <span style="font-weight:bold;">$${dailyRisk.toLocaleString()} <span style="color:var(--cyan);font-size:10px;">${budgetNote}</span></span>
                 </div>
                 <div style="display:flex;justify-content:space-between;margin-bottom:4px;">
-                    <span style="color:var(--muted);">Tranches</span>
-                    <span>${nTranches} → $${Math.round(riskPerTranche).toLocaleString()} per tranche</span>
-                </div>
-                <div style="display:flex;justify-content:space-between;margin-bottom:4px;">
                     <span style="color:var(--muted);">Max Loss / Spread</span>
                     <span>(${ww} − ${credit.toFixed(2)}) × 100 = <strong>$${maxLossPerSpread.toFixed(0)}</strong></span>
-                </div>
-                <div style="display:flex;justify-content:space-between;border-top:1px solid var(--border);padding-top:4px;margin-top:4px;">
-                    <span style="color:var(--cyan);font-weight:bold;">Spreads per Tranche</span>
-                    <span style="color:var(--green);font-weight:bold;font-size:14px;">${autoQty}</span>
                 </div>
             </div>
             <div class="entry-row">
@@ -1104,15 +1118,30 @@ function renderDetail() {
         const riskColor = riskUtil > 100 ? 'var(--red)' : riskUtil > 80 ? 'var(--amber)' : 'var(--green)';
         const projColor = projMaxLoss > dailyBudget ? 'var(--red)' : projMaxLoss > dailyBudget * 0.8 ? 'var(--amber)' : 'var(--green)';
 
+        const avgCredit = at.avg_credit || at.entry_credit || 0;
+        const targetExitSV = avgCredit * (1 - tgtPct / 100);
+
         html += `<div class="d-section">
             <h3>Live P&L</h3>
             <div class="pnl-hero">
                 <div class="pnl-big" style="color:${totalPnl>=0?'var(--green)':'var(--red)'}">${totalPnl>=0?'+':''}$${totalPnl.toLocaleString()}</div>
-                <div class="pnl-sub">${pnlPct.toFixed(1)}% captured | Spread: ${sv.toFixed(2)} (entry avg: ${(at.avg_credit||0).toFixed(2)}) | ${fillQty} spreads/tranche</div>
+                <div class="pnl-sub">${pnlPct.toFixed(1)}% captured | Spread: ${sv.toFixed(2)} (entry avg: ${avgCredit.toFixed(2)}) | ${fillQty} spreads/tranche</div>
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:10px 0;">
+                <div style="background:rgba(34,197,94,0.08);border:1px solid rgba(34,197,94,0.3);border-radius:8px;padding:10px;text-align:center;">
+                    <div style="font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;">COVER AT (${tgtPct}% TARGET)</div>
+                    <div style="font-size:28px;font-weight:bold;color:var(--green);margin:4px 0;">${targetExitSV.toFixed(2)}</div>
+                    <div style="font-size:10px;color:var(--muted);">current spread: ${sv.toFixed(2)} ${sv <= targetExitSV ? '— TARGET HIT' : '— ' + ((sv - targetExitSV).toFixed(2)) + ' away'}</div>
+                </div>
+                <div style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);border-radius:8px;padding:10px;text-align:center;">
+                    <div style="font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;">POSITION SIZE</div>
+                    <div style="font-size:28px;font-weight:bold;color:var(--cyan);margin:4px 0;">${fillQty} spreads</div>
+                    <div style="font-size:10px;color:var(--muted);">max loss: $${Math.abs(maxLoss).toLocaleString()}</div>
+                </div>
             </div>
             <div class="prog-row">
                 <div class="prog-item">
-                    <div class="prog-lbl"><span>Target ${tgtPct}%</span><span style="color:var(--green)">${pnlPct.toFixed(1)}%</span></div>
+                    <div class="prog-lbl"><span>Target ${tgtPct}% (cover ≤ ${targetExitSV.toFixed(2)})</span><span style="color:var(--green)">${pnlPct.toFixed(1)}%</span></div>
                     <div class="prog-bar"><div class="prog-fill" style="width:${tgtProg}%;background:var(--green)"></div></div>
                 </div>
                 <div class="prog-item">
