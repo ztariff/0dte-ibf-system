@@ -538,51 +538,6 @@ def score_ic35_condor(t):
     return s
 
 
-def score_morning_decel(t):
-    """Morning Decel Scalp — Credit%(p=.002), VIX(p=.007), V9D/V(p=.009),
-    5dRet(p=.018), DayRng(p=.055), TS(p=.057), RV(p=.066)."""
-    s = 0
-    # Credit/Wing %: <25% best, >45% worst (p=0.0018)
-    # Credit% is pre-computed as credit_wing_pct in the context
-    cwp = t.get("credit_wing_pct")
-    if cwp is not None:
-        if cwp < 0.25:   s += 2
-        elif cwp < 0.35: s += 0
-        elif cwp < 0.45: s -= 1
-        else:            s -= 2
-
-    # VIX Level: <14 best, >20 worst (p=0.0069)
-    vix = t.get("vix", 0) or 0
-    if vix < 14:         s += 2
-    elif 14 <= vix < 17: s += 1
-    elif 17 <= vix < 20: s += 0
-    elif vix >= 20:      s -= 2
-
-    # VIX9D/VIX: 0.95-1.05 best, >1.05 worst (p=0.0086)
-    v9d_ratio = t.get("vix9d_vix_ratio")
-    if v9d_ratio is not None:
-        if 0.95 <= v9d_ratio < 1.05: s += 2
-        elif 0.85 <= v9d_ratio < 0.95: s += 0
-        elif v9d_ratio >= 1.05:      s -= 2
-
-    # 5d Return: >1.5% best, <-0.5% worst (p=0.0175)
-    r5d = t.get("prior_5d", 0) or 0
-    if r5d > 1.5:        s += 1
-    elif 0.5 <= r5d:     s += 1
-    elif r5d < -0.5:     s -= 1
-
-    # Day Range: 0.6-1.0% best, >1.0% worst (p=0.0553)
-    pdr = t.get("prior_day_range")
-    if pdr is not None:
-        if 0.6 <= pdr < 1.0: s += 1
-        elif pdr > 1.0:      s -= 1
-
-    # Term Structure: FLAT best, INVERTED worst (p=0.0573)
-    ts = t.get("ts_label", "")
-    if ts == "FLAT":       s += 1
-    elif ts == "INVERTED": s -= 1
-    return s
-
 
 # ── Score function registry ────────────────────────────────────────
 
@@ -606,7 +561,6 @@ SCORE_FUNCTIONS = {
     "Firebird 60 Last Hour":    score_fb60_last_hour,
     "Firebird 60 Midday":       score_fb60_midday,
     "Ironclad 35 Condor":       score_ic35_condor,
-    "Morning Decel Scalp":      score_morning_decel,
 }
 
 # ── Per-strategy score thresholds ──────────────────────────────────
@@ -634,7 +588,6 @@ SCORE_THRESHOLDS = {
     "Firebird 60 Last Hour":       (-1, 3, 6),   # range [-9, 11]
     "Firebird 60 Midday":          (0, 3, 5),    # range [-8, 10]
     "Ironclad 35 Condor":          (0, 1, 3),    # range [-4, 6]
-    "Morning Decel Scalp":         (-1, 2, 4),   # range [-8, 9]
 }
 
 

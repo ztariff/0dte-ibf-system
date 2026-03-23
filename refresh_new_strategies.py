@@ -490,9 +490,6 @@ def run_strategies_on_dates(new_dates):
          lambda: [profit_target(0.50), loss_stop(0.50), time_stop('15:30')], None, None, 35000, "C+"),
         ("Firebird 60 Midday", "FBD-MD", "#f97316", ibf_factory(60), ["14:00"],
          lambda: [profit_target(0.50), loss_stop(0.70), time_stop('15:30')], None, None, 35000, "C+"),
-        ("Morning Decel Scalp", "AM-DEC", "#64748b", ibf_factory(75), ["10:30"],
-         lambda: [profit_target(0.30), time_stop('11:30')], None,
-         lambda d, t: (universe.spx_acceleration(d, t, 10) or 0) < -0.05, 20000, "C"),
     ]
 
     all_new_trades = []
@@ -742,7 +739,6 @@ def main():
         {"name": "Phoenix 75 Early Afternoon", "short": "PHX-EA", "color": "#f59e0b"},
         {"name": "Phoenix 75 Midday", "short": "PHX-MD", "color": "#ec4899"},
         {"name": "Firebird 60 Midday", "short": "FBD-MD", "color": "#f97316"},
-        {"name": "Morning Decel Scalp", "short": "AM-DEC", "color": "#64748b"},
     ]
 
     output = {

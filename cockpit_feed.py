@@ -125,10 +125,6 @@ STRATEGIES = [
      "desc":"Firebird 60 Midday — Grade C+ ($35K) | 14:00 Entry | 50% target + 70% loss stop","color":"#f97316",
      "type":"new_strategy","risk_budget_base":35000,"grade":"C+","score_key":"Firebird 60 Midday",
      "vix":None,"pd":None,"rng":None,"gap":None},
-    {"ver":"am-dec","name":"MORNING DECEL","entry":"10:30","mech":"30%/1130/1T","filter":"Decel<-0.05",
-     "desc":"Morning Decel Scalp — Grade C ($20K) | 10:30 Entry | 30% target + 11:30 time stop","color":"#64748b",
-     "type":"new_strategy","risk_budget_base":20000,"grade":"C","score_key":"Morning Decel Scalp",
-     "vix":None,"pd":None,"rng":None,"gap":None},
 ]
 
 TRANCHE_CONFIGS = {
@@ -147,7 +143,7 @@ REGIME_MAX_BUDGET = {
     # New strategies — base budgets (before VIX + scoring adjustments)
     "phx-pc": 150000, "phx-lh": 100000, "fbd-lh": 100000,
     "phx-aft": 75000, "ic-35": 75000, "fbd-fb": 75000,
-    "phx-ea": 50000, "phx-md": 35000, "fbd-md": 35000, "am-dec": 20000,
+    "phx-ea": 50000, "phx-md": 35000, "fbd-md": 35000,
 }
 
 def regime_budget_cockpit(ver, vp):
@@ -1948,7 +1944,7 @@ class QuietHandler(SimpleHTTPRequestHandler):
                         "PHX-PC": "phx_pc", "PHX-LH": "phx_lh", "FBD-LH": "fbd_lh",
                         "PHX-AFT": "phx_aft", "IC-35": "ic_35", "FBD-FB": "fbd_fb",
                         "PHX-EA": "phx_ea", "PHX-MD": "phx_md", "FBD-MD": "fbd_md",
-                        "AM-DEC": "am_dec",
+
                     }
                     new_trades_converted = []
                     for t in new_data.get("trades", []):
