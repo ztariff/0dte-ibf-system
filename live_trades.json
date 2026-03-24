@@ -1,0 +1,22 @@
+[
+  {
+    "date": "2026-03-23",
+    "ver": "phx-pc",
+    "pnl": -1143,
+    "qty": 1,
+    "exit": "CLOSE",
+    "risk_budget": 9375,
+    "pnl_ps": -11.43,
+    "is_win": false,
+    "entry_time": "19:15 ET",
+    "exit_time": "16:00 ET",
+    "wing_width": 80,
+    "entry_credit": 12.84,
+    "exit_sv": 24.27,
+    "vix": 25.6,
+    "vp_ratio": 1.67,
+    "atm": 6605,
+    "mech": "50%/1530/1T",
+    "live": true
+  }
+]
